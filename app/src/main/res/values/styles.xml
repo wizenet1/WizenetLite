@@ -1,0 +1,48 @@
+<!--<resources>-->
+
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="Theme.AppCompat">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <!--<item name="android:textColorPrimary">TITLE_COLOR_GOES_HERE</item>-->
+        <!--<item name="android:textColorSecondary">SUBTITLE_COLOR_GOES_HERE</item>-->
+    <!--</style>-->
+
+<!--</resources>-->
+<!--<resources>-->
+<!--<style name="AppTheme" parent="android:Theme.Light"/>-->
+
+<!--</resources>-->
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/customActionBar</item>
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="@android:style/Theme.Holo.Light" />
+    <style name="AppTheme.PopupOverlay" parent="@android:style/Theme.Holo.Light" />
+    <style name="customActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#E94E1B</item>
+    </style>
+
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+</resources>

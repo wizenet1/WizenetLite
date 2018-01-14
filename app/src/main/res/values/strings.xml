@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wizenet</string>
+    <string name="fa_icon_mobile">&#xf3a2;</string>
+    <string name="fa_icon_contacts">&#xf419;</string>
+    <string name="fa_icon_reminder">&#xf402;</string>
+    <string name="fa_icon_toolbox">&#xf27b;</string>
+    <string name="fa_icon_settings">&#xf2f7;</string>
+    <string name="fa_icon_masofon">&#xf421;</string>
+    <string name="fa_icon_call">&#xf2d2;</string>
+    <string name="fa_icon_mail">&#xf2eb;</string>
+    <string name="fa_icon_sms">&#xf3b2;</string>
+    <string name="fa_icon_scanner">&#xf346;</string>
+    <string name="fa_icon_customers_contacts">&#xf2d9;</string>
+    <string name="fa_icon_cart">&#xf370;</string>
+    <string name="fa_icon_order">&#xf137;</string>
+    <string name="fa_icon_download">&#xf41f;</string>
+    <string name="fa_icon_edit">&#xf2bf;</string>
+    <string name="fa_icon_location">&#xf456;</string>
+    <string name="fa_icon_sign">&#xf417;</string>
+    <string name="fa_icon_car">&#xf36f;</string>
+    <string name="fa_icon_play">&#xf215;</string>
+    <string name="fa_icon_stop">&#xf24f;</string>
+    <string name="fa_icon_telephone">&#xf4b8;</string>
+    <string name="fa_icon_asterisk">&#xf314;</string>
+    <string name="fa_icon_headphones">&#xf140;</string>
+    <string name="fa_icon_codepen">&#xf4dc;</string>
+    <string name="fa_icon_clock">&#xf402;</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_save_location">SaveLocationActivity</string>
+
+    <string-array name="brew_array">
+        <item>Cappuccino</item>
+        <item>Espresso</item>
+        <item>Mocha</item>
+        <item>Caffè Americano</item>
+        <item>Cafe Zorro</item>
+    </string-array>
+    <string name="title_activity_customers">CustomersActivity</string>
+    <string name="title_activity_pre_main">PreMainActivity</string>
+    <string name="filter">filter</string>
+    <string name="main_menu">main menu</string>
+    <string name="main_frag">main frag</string>
+    <string name="Control_Panel">Control Panel</string>
+    <string name="contactus">contact us</string>
+    <string name="messages">messages</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

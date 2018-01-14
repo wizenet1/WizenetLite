@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Control Panel"
+            android:gravity="center"
+            android:id="@+id/customer_name"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:gravity="center"
+            android:text="service running blabla:"
+            android:textSize="8pt"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+
+
+            android:id="@+id/key_text1"
+            android:layout_weight="0.5" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/running_id"
+            android:layout_weight="0.5" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:gravity="center"
+            android:text="GPS"
+            android:textSize="8pt"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+
+
+            android:id="@+id/key_text"
+            android:layout_weight="0.5" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/checkBox2"
+            android:layout_weight="0.5" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/placeHolderFragment"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+        <ListView
+
+            android:id="@+id/panel_control_list"
+            android:layout_width="fill_parent"
+            android:layout_height="480dp"
+            android:fastScrollEnabled="true"
+            tools:listitem="@layout/panel_control"
+
+            android:choiceMode="singleChoice">
+        </ListView>
+    </LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:visibility="invisible"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal" >-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/key_et_id"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.33"-->
+    <!--android:hint="key" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/value_et_id"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.33"-->
+    <!--android:hint="value" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/add_btn_id"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.33"-->
+    <!--android:text="Add" />-->
+    <!--</LinearLayout>-->
+
+
+</LinearLayout>

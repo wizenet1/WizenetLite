@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtcallid"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/wizenetColor"
+            android:gravity="center_vertical"
+            android:text="קריאה: 12345" />
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/txtcreatedate"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="1900-01-01" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginRight="20dp"
+            android:id="@+id/txtcname"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.7"
+            android:textDirection="rtl"
+            android:gravity="center_vertical"
+            android:text="wizenet" />
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="7dp"
+            android:background="@drawable/btn_circle2"
+            android:id="@+id/sign"
+            android:gravity="center"
+            android:text="@string/fa_icon_sign"/>
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_circle2"
+            android:id="@+id/telephone"
+            android:gravity="center"
+            android:text="@string/fa_icon_telephone"/>
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/mobile"
+            android:textColor="@color/wizenetColor"
+            android:gravity="center"
+            android:background="@drawable/btn_circle2"
+            android:text="@string/fa_icon_mobile"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:id="@+id/txtsubject"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.99"
+            android:gravity="center_vertical"
+            android:text="hello"
+            android:textDirection="rtl"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:id="@+id/assigmentlayout"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="משובץ ל:" />
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/txtcallstarttime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="1900-01-01"
+            />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightGray"
+
+        ></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginRight="20dp"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+
+                android:layout_marginLeft="2pt"
+                android:layout_marginTop="5dp"
+                android:text="@string/fa_icon_location" />
+
+            <TextView
+                android:id="@+id/txtccity"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginRight="3dp"
+                android:gravity="center"
+                android:text="עיר" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:visibility="gone"
+                android:id="@+id/asterisk"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/fa_icon_asterisk"/>
+            <TextView
+                android:id="@+id/txtstatusname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="13dp"
+                android:textColor="@color/wizenetColor"
+                android:text="סטטוס"
+                android:textStyle="bold"/>
+            >
+            <!--android:layout_marginTop="14dp"-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/whiteColor"
+                android:id="@+id/edit"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_border"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8pt"
+
+                android:text="לפרטים נוספים"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    >
+
+    <!--<ImageView-->
+        <!--android:id="@+id/grid_image"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp">-->
+    <!--</ImageView>-->
+
+    <TextView
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:id="@+id/grid_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="15dp" >
+    </TextView>
+
+</LinearLayout>

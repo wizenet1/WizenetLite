@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:id="@+id/menu_fragment">
+
+
+
+        <LinearLayout
+
+            android:orientation="horizontal"
+            android:id="@+id/menu_layout_id"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:textAlignment="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15pt"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/menu_divuah_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="דיווח" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/menu_widget_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/id1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_below="@id/id1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="barcode scan"
+                    android:layout_weight="1"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/id2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_below="@id/id2"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QR scan"
+                    android:textSize="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/id3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_below="@id/id3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="כניסה לoffline"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:id="@+id/menu_widget_id2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/idsynccustomers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_below="@id/idsynccustomers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sync Customers"
+                    android:layout_weight="1"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/iddeleteproducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_below="@id/iddeleteproducts"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="delete products db"
+                    android:textSize="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/idsyncproducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_cart" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_below="@id/idsyncproducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sync prodcts"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:id="@+id/menu_widget_id3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/btn_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_order" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_order"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="שדר הזמנות ידנית"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <LinearLayout
+
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/iddeleteclientproducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_scanner" />
+                <TextView
+                    android:layout_below="@id/iddeleteclientproducts"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="delete client products"
+                    android:textSize="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/idsyncclientproducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_cart" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_below="@id/id3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sync client prodcts"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

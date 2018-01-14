@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/menu_fragment"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:id="@+id/menu_layout_id"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="15pt"
+            android:id="@+id/tv_username"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/menu_widget_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/id2"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:text="@string/fa_icon_contacts" />
+            <TextView
+                android:id="@+id/id2_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="לקוחות/אנשי קשר"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/id1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_reminder" />
+                <TextView
+                    android:id="@+id/id1_text"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_below="@id/id1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="מובייל"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="0.33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/id3"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="@string/fa_icon_reminder" />
+                <TextView
+                    android:id="@+id/id3_text"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_below="@id/id3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="תזכורות"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/menu_widget_id2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id9"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="@string/fa_icon_masofon" />
+            <TextView
+                android:id="@+id/id9_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="כלים"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:text="@string/fa_icon_mobile" />
+            <TextView
+                android:id="@+id/id8_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="הגדרות"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:text="@string/fa_icon_headphones" />
+
+            <TextView
+
+
+                android:id="@+id/id7_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/id7"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="רשימת קריאות"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/menu_widget_id3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:text="@string/fa_icon_masofon" />
+            <TextView
+                android:id="@+id/id4_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מסופון"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:text="@string/fa_icon_settings" />
+            <TextView
+                android:id="@+id/id5_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="הגדרות"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/id6"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="@string/fa_icon_toolbox" />
+            <TextView
+                android:id="@+id/id6_text"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_below="@id/id6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="כלים"
+                android:textSize="15dp"
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/stam_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <EditText
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/myEditText2"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/menu_customers_id"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button
+
+            android:id="@+id/mapid"
+            android:text="מפה"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="רשימת לקוחות"
+            android:id="@+id/customers"/>
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:id="@+id/menu_layout_id2"
+        android:gravity="right|bottom"
+        android:layout_marginBottom="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+
+        >
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/checkBox3" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
+</ScrollView>

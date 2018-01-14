@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.Activities">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/face"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.Activities.LoginActivity" />
+        <activity android:name="com.Activities.MenuActivity" />
+        <activity android:name="com.Activities.CustomersActivity" />
+        <activity android:name="com.Activities.ControlPanelActivity" />
+        <activity android:name="com.Activities.SettingsActivity" />
+        <activity android:name="com.Activities.MessageActivity" />
+        <activity android:name="com.Activities.ActivityCallDetails"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.Activities.ActivityCalls"
+            android:windowSoftInputMode="stateHidden"/>
+        <receiver android:name="com.Alarm_Receiver" />
+        <receiver android:name="com.Alarm_Receiver_Text_File" />
+        <receiver android:name="com.Alarm_Receiver_sync_client_products" />
+
+        <activity android:name="com.Activities.MenuOfflineActivity" />
+        <activity android:name="com.Activities.ScannerActivity" />
+        <activity android:name="com.Activities.ActivityWebView" />
+    </application>
+
+</manifest>
