@@ -73,68 +73,68 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
 
-        id1 = (TextView) v.findViewById(R.id.id1);
-        id2 = (TextView) v.findViewById(R.id.id2);
-        id3 = (TextView) v.findViewById(R.id.id3);
-        id4 = (TextView) v.findViewById(R.id.id4);
-        id5 = (TextView) v.findViewById(R.id.id5);
-        id6 = (TextView) v.findViewById(R.id.id6);
-        id7 = (TextView) v.findViewById(R.id.id7);
-        id8 = (TextView) v.findViewById(R.id.id8);
-        id9 = (TextView) v.findViewById(R.id.id9);
-        id1_text = (TextView) v.findViewById(R.id.id1_text);
-        id2_text = (TextView) v.findViewById(R.id.id2_text);
-        id3_text = (TextView) v.findViewById(R.id.id3_text);
-        id4_text = (TextView) v.findViewById(R.id.id4_text);
-        id5_text = (TextView) v.findViewById(R.id.id5_text);
-        id6_text = (TextView) v.findViewById(R.id.id6_text);
-        id7_text = (TextView) v.findViewById(R.id.id7_text);
-        id8_text = (TextView) v.findViewById(R.id.id8_text);
-        id9_text = (TextView) v.findViewById(R.id.id9_text);
-
-
-        id1.setBackgroundResource(R.drawable.btn_circle);
-        id2.setBackgroundResource(R.drawable.btn_circle);
-        id3.setBackgroundResource(R.drawable.btn_circle);
-        id4.setBackgroundResource(R.drawable.btn_circle);
-        id5.setBackgroundResource(R.drawable.btn_circle);
-        id6.setBackgroundResource(R.drawable.btn_circle);
-        id7.setBackgroundResource(R.drawable.btn_circle);
-        id8.setBackgroundResource(R.drawable.btn_circle);
-        id9.setBackgroundResource(R.drawable.btn_circle);
-
-
-
-        id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id3.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id5.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id6.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id7.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id8.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id9.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-
-        id1.setTextSize(60);
-
-        id1_text.setText("משימות");
-        id2.setTextSize(60);
-        id2_text.setText("לקוחות אישיים");
-        id3.setTextSize(60);
-        id3_text.setText("דיווח");
-        id4.setTextSize(60);
-        id4_text.setText("אופליין");
-        id5.setTextSize(60);
-        id5_text.setText("הגדרות");
-        id6.setTextSize(60);
-        id6_text.setText("כלים");
-        id6.setTextSize(60);
-        id6_text.setText("");
-        id7.setTextSize(60);
-        id8.setTextSize(60);
-        id8_text.setText("מובייל");
-        id9.setTextSize(60);
-        id9_text.setText("מסופון");
+//        id1 = (TextView) v.findViewById(R.id.id1); TODO removed the ionicons for now since they are not needed
+//        id2 = (TextView) v.findViewById(R.id.id2);
+//        id3 = (TextView) v.findViewById(R.id.id3);
+//        id4 = (TextView) v.findViewById(R.id.id4);
+//        id5 = (TextView) v.findViewById(R.id.id5);
+//        id6 = (TextView) v.findViewById(R.id.id6);
+//        id7 = (TextView) v.findViewById(R.id.id7);
+//        id8 = (TextView) v.findViewById(R.id.id8);
+//        id9 = (TextView) v.findViewById(R.id.id9);
+//        id1_text = (TextView) v.findViewById(R.id.id1_text);
+//        id2_text = (TextView) v.findViewById(R.id.id2_text);
+//        id3_text = (TextView) v.findViewById(R.id.id3_text);
+//        id4_text = (TextView) v.findViewById(R.id.id4_text);
+//        id5_text = (TextView) v.findViewById(R.id.id5_text);
+//        id6_text = (TextView) v.findViewById(R.id.id6_text);
+//        id7_text = (TextView) v.findViewById(R.id.id7_text);
+//        id8_text = (TextView) v.findViewById(R.id.id8_text);
+//        id9_text = (TextView) v.findViewById(R.id.id9_text);
+//
+//
+//        id1.setBackgroundResource(R.drawable.btn_circle);
+//        id2.setBackgroundResource(R.drawable.btn_circle);
+//        id3.setBackgroundResource(R.drawable.btn_circle);
+//        id4.setBackgroundResource(R.drawable.btn_circle);
+//        id5.setBackgroundResource(R.drawable.btn_circle);
+//        id6.setBackgroundResource(R.drawable.btn_circle);
+//        id7.setBackgroundResource(R.drawable.btn_circle);
+//        id8.setBackgroundResource(R.drawable.btn_circle);
+//        id9.setBackgroundResource(R.drawable.btn_circle);
+//
+//
+//
+//        id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id3.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id5.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id6.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id7.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id8.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//        id9.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+//
+//        id1.setTextSize(60);
+//
+//        id1_text.setText("משימות");
+//        id2.setTextSize(60);
+//        id2_text.setText("לקוחות אישיים");
+//        id3.setTextSize(60);
+//        id3_text.setText("דיווח");
+//        id4.setTextSize(60);
+//        id4_text.setText("אופליין");
+//        id5.setTextSize(60);
+//        id5_text.setText("הגדרות");
+//        id6.setTextSize(60);
+//        id6_text.setText("כלים");
+//        id6.setTextSize(60);
+//        id6_text.setText("");
+//        id7.setTextSize(60);
+//        id8.setTextSize(60);
+//        id8_text.setText("מובייל");
+//        id9.setTextSize(60);
+//        id9_text.setText("מסופון");
 
         int len = 0;
         int count = 0;
@@ -280,17 +280,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //            }
 //        });
 
-        mapid = (Button) v.findViewById(R.id.mapid) ;
+//        mapid = (Button) v.findViewById(R.id.mapid) ; TODO add uncomment if needed
+//
+//        //btn2 = (Button) v.findViewById(R.id.customers) ;
+//        tv_username = (TextView) v.findViewById(R.id.tv_username);
+//        cb = (CheckBox) v.findViewById(R.id.checkBox3);
+//        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")){
+//            cb.setChecked(true);
+//            cb.setText("GPS");
+//        }else{
+//            cb.setVisibility(View.GONE);
+//        }
 
-        //btn2 = (Button) v.findViewById(R.id.customers) ;
-        tv_username = (TextView) v.findViewById(R.id.tv_username);
-        cb = (CheckBox) v.findViewById(R.id.checkBox3);
-        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")){
-            cb.setChecked(true);
-            cb.setText("GPS");
-        }else{
-            cb.setVisibility(View.GONE);
-        }
+
+
 //        try{
 //            Bundle bundle = getArguments();
 //            String mDocNum = bundle.getString("DocNum");

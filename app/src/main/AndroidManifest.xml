@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -30,16 +30,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.Activities.LoginActivity" />
-        <activity android:name="com.Activities.MenuActivity" />
+        <activity
+            android:name="com.Activities.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.Activities.MenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name="com.Activities.CustomersActivity" />
         <activity android:name="com.Activities.ControlPanelActivity" />
         <activity android:name="com.Activities.SettingsActivity" />
         <activity android:name="com.Activities.MessageActivity" />
-        <activity android:name="com.Activities.ActivityCallDetails"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.Activities.ActivityCalls"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name="com.Activities.ActivityCallDetails"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.Activities.ActivityCalls"
+            android:windowSoftInputMode="stateHidden" />
+
         <receiver android:name="com.Alarm_Receiver" />
         <receiver android:name="com.Alarm_Receiver_Text_File" />
         <receiver android:name="com.Alarm_Receiver_sync_client_products" />

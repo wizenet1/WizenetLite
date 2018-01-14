@@ -77,24 +77,24 @@ public class LoginActivity extends FragmentActivity {
 
 
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayUseLogoEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-
-        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.top_bar, null); // layout which contains your button.
-
-        actionBar.setCustomView(customNav, lp1);
-        Button iv = (Button) customNav.findViewById(R.id.back);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
-            }
-        });
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayUseLogoEnabled(false);
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(false);
+//
+//        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+//        View customNav = LayoutInflater.from(this).inflate(R.layout.top_bar, null); // layout which contains your button.
+//
+//        actionBar.setCustomView(customNav, lp1);
+//        Button iv = (Button) customNav.findViewById(R.id.back);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         if (flag){
             Toast.makeText(getApplicationContext(),"internet valid", Toast.LENGTH_LONG).show();
@@ -105,9 +105,9 @@ public class LoginActivity extends FragmentActivity {
             goToOfflineFragment();
         }
 
-        view_url = (TextView) findViewById(R.id.button4);
+        //view_url = (TextView) findViewById(R.id.button4); TODO add later if needed
         sign_in = (TextView) findViewById(R.id.sign_in_button);
-        reset = (TextView) findViewById(R.id.reset_button);
+        //reset = (TextView) findViewById(R.id.reset_button); TODO add later if needed
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
         try{
@@ -160,18 +160,18 @@ public class LoginActivity extends FragmentActivity {
                 }
             }
         });
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        view_url.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), db.getValueByKey("URL").toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+//        reset.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
+//        view_url.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getApplicationContext(), db.getValueByKey("URL").toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
         }catch(Exception e){
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
