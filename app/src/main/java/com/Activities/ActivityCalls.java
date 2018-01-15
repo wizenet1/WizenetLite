@@ -44,6 +44,7 @@ public class ActivityCalls extends FragmentActivity {
     private TextWatcher mSearchTw;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         ctx = this;

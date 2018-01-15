@@ -75,36 +75,13 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
-        //Initilize buttons
-//        ImageView id_calls = (ImageView) findViewById(R.id.id_calls);
-//        ImageView id_customers = (ImageView) findViewById(R.id.id_customers);
-//
-//
-//        id_calls.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), ActivityCalls.class);
-//                startActivity(intent);
-//            }
-//        });
-//        id_customers.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentCustomer fragment = new FragmentCustomer();
-//                FragmentManager fm = getSupportFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.menu_fragment, fragment);
-//                transaction.commit();
-////                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-////                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-////                FragmentCustomer frag = new FragmentCustomer();
-////                ft.replace(R.id.menu_fragment,frag,"FragmentCustomer");
-////                //tv.setVisibility(TextView.GONE);
-////                ft.addToBackStack("FragmentCustomer");
-////                ft.commit();
-//
-//            }
-//        });
+        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+            @Override
+            public void onResult(String str) {
+
+            }
+        });
+
         goToMenuFragment();
 
 

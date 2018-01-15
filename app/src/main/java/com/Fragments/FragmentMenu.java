@@ -71,14 +71,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         View v = inflater.inflate(R.layout.menu_fragment, null);
 
         ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
+        ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
+
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
        // icon_manager = new Icon_Manager();
         //helper = new Helper();
-        try{
+
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("mytag","doron 555");
                     FragmentManager fragmentManager2 = getFragmentManager();
                     FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
                     FragmentCustomer fragment2 = new FragmentCustomer();
@@ -86,13 +87,23 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                     fragmentTransaction2.hide(FragmentMenu.this);
                     fragmentTransaction2.add(R.id.container, fragment2);
                     fragmentTransaction2.commit();
-                    //helper.goTocustomers(getContext());
                 }
             });
+       try{
+           id_calls.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+//                   Intent intent = new Intent(getContext(), ActivityCalls.class);
+//                   startActivity(intent);
+                   Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                   startActivity(intent);
+               }
+           });
+       }catch (Exception ex){
 
-        }catch (Exception ex){
-            Log.e("mytag",ex.getMessage());
-        }
+           Log.e("mytag",ex.getMessage());
+       }
+
 
 //        int len = 0;
 //        int count = 0;

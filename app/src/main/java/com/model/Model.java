@@ -666,7 +666,7 @@ public interface get_mgnet_client_items_Listener{
                                 jarray= j.getJSONArray("Calls");
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.e("MYTAG",e.getMessage());
+                                Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage());
                                 return "";
                             }
                             for (int i = 0; i < jarray.length(); i++) {
@@ -898,7 +898,7 @@ public interface get_mgnet_client_items_Listener{
                             jarray= j.getJSONArray("Wz_Call_Statuses");
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("MYTAG",e.getMessage());
+                            Log.e("MYTAG"," CallStatuses "+e.getMessage().toString());
                             return "";
                         }
                         for (int i = 0; i < jarray.length(); i++) {
