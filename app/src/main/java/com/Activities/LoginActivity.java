@@ -146,6 +146,8 @@ public class LoginActivity extends FragmentActivity {
                                     }
                                     db.updateValue("username",memail);
                                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    Log.e("mytag","arrived almost");
                                     startActivity(intent);
                                 }else {
                                     Toast.makeText(getApplicationContext(), "username or password incorrect", Toast.LENGTH_LONG).show();

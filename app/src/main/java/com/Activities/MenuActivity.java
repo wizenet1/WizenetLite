@@ -1,5 +1,6 @@
 package com.Activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,10 +20,13 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +35,7 @@ import android.widget.Toast;
 import com.Alarm_Receiver_Text_File;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
+import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.GPSTracker;
 import com.Helper;
@@ -59,80 +65,97 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("mytag","arrived to here");
         setContentView(R.layout.activity_menu);
-        myEditText5 = (EditText) findViewById(R.id.myEditText);
 
+        getCallStatuses();
+
+        //setHasOptionsMenu(false);
+
+        db = DatabaseHelper.getInstance(getApplicationContext());
+        manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
+        initilize();
+        //Initilize buttons
+//        ImageView id_calls = (ImageView) findViewById(R.id.id_calls);
+//        ImageView id_customers = (ImageView) findViewById(R.id.id_customers);
+//
+//
+//        id_calls.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), ActivityCalls.class);
+//                startActivity(intent);
+//            }
+//        });
+//        id_customers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentCustomer fragment = new FragmentCustomer();
+//                FragmentManager fm = getSupportFragmentManager();
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                transaction.replace(R.id.menu_fragment, fragment);
+//                transaction.commit();
+////                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+////                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+////                FragmentCustomer frag = new FragmentCustomer();
+////                ft.replace(R.id.menu_fragment,frag,"FragmentCustomer");
+////                //tv.setVisibility(TextView.GONE);
+////                ft.addToBackStack("FragmentCustomer");
+////                ft.commit();
+//
+//            }
+//        });
+        goToMenuFragment();
+
+
+
+    }
+    private void initilize(){
+        try{
+
+
+            if (db.getValueByKey("BACKGROUND").equals("1")) {
+                Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+                if (alarmRunning == false) {
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    // TODO: 05/09/2016  just note the time is every 5 minutes
+                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
+                }
+            }
+            //################################
+            // FILE_TEXT
+            //################################
+            if (db.getValueByKey("BACKGROUND").equals("1")) {
+                startService_text();
+                Log.e("MYTAG","thread started");
+            }else{
+                stopService_text();
+            }
+
+
+            if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && (db.getValueByKey("GPS").equals("1"))){
+                startRepeatingTask();
+            }else if((!manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) && (db.getValueByKey("GPS").equals("1"))) {
+                stopRepeatingTask();
+                Toast.makeText(getApplicationContext(), "gps not available", Toast.LENGTH_LONG).show();
+                db.updateValue("GPS", "0");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            Log.e("mytag",ex.getMessage());
+        }
+    }
+    private void getCallStatuses(){
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
 
             }
         });
-        //setHasOptionsMenu(false);
-
-        db = DatabaseHelper.getInstance(getApplicationContext());
-        manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
-
-        this.context = this;
-        if (db.getValueByKey("BACKGROUND").equals("1")) {
-            Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver.class);
-            boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-            if (alarmRunning == false) {
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                // TODO: 05/09/2016  just note the time is every 5 minutes
-                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
-            }
-        }
-        //################################
-            // FILE_TEXT
-        //################################
-        if (db.getValueByKey("BACKGROUND").equals("1")) {
-            startService_text();
-            Log.e("MYTAG","thread started");
-        }else{
-            stopService_text();
-        }
-
-
-        if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && (db.getValueByKey("GPS").equals("1"))){
-            startRepeatingTask();
-        }else if((!manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) && (db.getValueByKey("GPS").equals("1"))) {
-            stopRepeatingTask();
-            Toast.makeText(getApplicationContext(), "gps not available", Toast.LENGTH_LONG).show();
-            db.updateValue("GPS", "0");
-        }
-
-        setContentView(R.layout.activity_menu);
-        goToMenuFragment();
-//        try{
-//            Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
-//                @Override
-//                public void onResult(String str) {
-//                    //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
-//                    //strBundle = str;
-//                    helper.writeTextToFile2(str);
-//                }
-//            });
-//        }catch(Exception ex){
-//            Toast.makeText(getApplication(),"Clients:"+ ex.toString(), Toast.LENGTH_SHORT).show();
-//        }
-//        try{
-//            Model.getInstance().Async_Get_Clients_Contacts_Listener(helper.getMacAddr(), new Model.Call_getClientsContactsListener() {
-//                @Override
-//                public void onResult(String str) {
-//                    //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
-//                    //strBundle = str;
-//                    helper.writeTextToSpecificFile("","contacts.txt",str);
-//                }
-//            });
-//        }catch(Exception ex){
-//            Toast.makeText(getApplication(),"contacts:"+ ex.toString(), Toast.LENGTH_SHORT).show();
-//        }
-
-
     }
-public void myFunc(){
+    public void myFunc(){
     // CLEAR BACK STACK.
         final FragmentManager fragmentManager = getSupportFragmentManager();
         while (fragmentManager.getBackStackEntryCount() ==1) {
@@ -208,11 +231,6 @@ public void myFunc(){
 
     @Override
     public void onBackPressed() {
-
-
-
-
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(R.id.container);
         Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));

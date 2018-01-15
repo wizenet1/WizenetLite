@@ -1,5 +1,6 @@
 package com.Fragments;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,8 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +67,24 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
         Helper helper = new Helper();
         String mac = helper.getMacAddr();
 
+//        ActionBar actionBar = getActivity().getActionBar();
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayUseLogoEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(true);
+//        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+//        View customNav = LayoutInflater.from(getContext()).inflate(R.layout.top_bar_back, null); // layout which contains your button.
+//
+//        actionBar.setCustomView(customNav, lp1);
+//        Button iv = (Button) customNav.findViewById(R.id.back);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //finish();
+//                //Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
+//            }
+//        });
         data2.clear();
         for (Ccustomer c : getCustomerList()){
             data2.add(c);
@@ -109,10 +130,35 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
         mSearchEdt.addTextChangedListener(mSearchTw);
         return v;
     };
+
 //     for(Datapoint d : dataPointList){
 //        if(d.getName() != null && d.getName().contains(search))
 //        //something here
 //    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    getFragmentManager().popBackStack();
+                    // handle back button's click listener
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     private Ccustomer[] getCustomerList(){
         Helper helper = new Helper();
         myString=helper.readTextFromFileCustomers();

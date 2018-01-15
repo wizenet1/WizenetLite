@@ -1,5 +1,6 @@
 package com.Fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,216 +67,155 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        context = this.getContext();
+        //context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, null);
-        db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-        icon_manager = new Icon_Manager();
-        helper = new Helper();
 
-        setUsername();
-
-
-
-//        id1 = (TextView) v.findViewById(R.id.id1); TODO removed the ionicons for now since they are not needed
-//        id2 = (TextView) v.findViewById(R.id.id2);
-//        id3 = (TextView) v.findViewById(R.id.id3);
-//        id4 = (TextView) v.findViewById(R.id.id4);
-//        id5 = (TextView) v.findViewById(R.id.id5);
-//        id6 = (TextView) v.findViewById(R.id.id6);
-//        id7 = (TextView) v.findViewById(R.id.id7);
-//        id8 = (TextView) v.findViewById(R.id.id8);
-//        id9 = (TextView) v.findViewById(R.id.id9);
-//        id1_text = (TextView) v.findViewById(R.id.id1_text);
-//        id2_text = (TextView) v.findViewById(R.id.id2_text);
-//        id3_text = (TextView) v.findViewById(R.id.id3_text);
-//        id4_text = (TextView) v.findViewById(R.id.id4_text);
-//        id5_text = (TextView) v.findViewById(R.id.id5_text);
-//        id6_text = (TextView) v.findViewById(R.id.id6_text);
-//        id7_text = (TextView) v.findViewById(R.id.id7_text);
-//        id8_text = (TextView) v.findViewById(R.id.id8_text);
-//        id9_text = (TextView) v.findViewById(R.id.id9_text);
-//
-//
-//        id1.setBackgroundResource(R.drawable.btn_circle);
-//        id2.setBackgroundResource(R.drawable.btn_circle);
-//        id3.setBackgroundResource(R.drawable.btn_circle);
-//        id4.setBackgroundResource(R.drawable.btn_circle);
-//        id5.setBackgroundResource(R.drawable.btn_circle);
-//        id6.setBackgroundResource(R.drawable.btn_circle);
-//        id7.setBackgroundResource(R.drawable.btn_circle);
-//        id8.setBackgroundResource(R.drawable.btn_circle);
-//        id9.setBackgroundResource(R.drawable.btn_circle);
-//
-//
-//
-//        id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id3.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id5.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id6.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id7.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id8.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        id9.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//
-//        id1.setTextSize(60);
-//
-//        id1_text.setText("משימות");
-//        id2.setTextSize(60);
-//        id2_text.setText("לקוחות אישיים");
-//        id3.setTextSize(60);
-//        id3_text.setText("דיווח");
-//        id4.setTextSize(60);
-//        id4_text.setText("אופליין");
-//        id5.setTextSize(60);
-//        id5_text.setText("הגדרות");
-//        id6.setTextSize(60);
-//        id6_text.setText("כלים");
-//        id6.setTextSize(60);
-//        id6_text.setText("");
-//        id7.setTextSize(60);
-//        id8.setTextSize(60);
-//        id8_text.setText("מובייל");
-//        id9.setTextSize(60);
-//        id9_text.setText("מסופון");
-
-        int len = 0;
-        int count = 0;
+        ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
+        //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+       // icon_manager = new Icon_Manager();
+        //helper = new Helper();
         try{
-            // ---------client products first time ------------
-            //-------------------------------------------------
-            List<String> listCIDS = new ArrayList<String>();
-            listCIDS=helper.getCIDSlist();
-            len = listCIDS.size();
-            //-------------------------------------------------
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-            File[] list = myFile.listFiles();
-            if (list.length == 0) {
-                len = 0;
-            }else
-                {
-                for (File f: list){
-                    String name = f.getName();
-                    if (name.endsWith(".txt"))
-                        count++;
+            id_customers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("mytag","doron 555");
+                    FragmentManager fragmentManager2 = getFragmentManager();
+                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                    FragmentCustomer fragment2 = new FragmentCustomer();
+                    fragmentTransaction2.addToBackStack("xyz");
+                    fragmentTransaction2.hide(FragmentMenu.this);
+                    fragmentTransaction2.add(R.id.container, fragment2);
+                    fragmentTransaction2.commit();
+                    //helper.goTocustomers(getContext());
                 }
-            }
+            });
 
         }catch (Exception ex){
-
-        }
-        // continue to sync products if he back to app.
-        if (count == 0) {
-            //Log.e("chkchk","doron1");
-            //helper.deleteProductsFiles();
-            helper.startService_sync_products(getContext());
-        }
-        if ((len != count) && (len != 0)) {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-            if (myFile.exists()){
-                //helper.deleteProductsFiles();
-                //Log.e("chkchk","doron2");
-                helper.startService_sync_products(getContext());
-
-                Toast.makeText(getContext(), "products sync run in the background", Toast.LENGTH_LONG).show();
-            }
+            Log.e("mytag",ex.getMessage());
         }
 
-        if (db.getValueByKey("CLIENT_SYNC_PRODUCTS").toString().equals("1")){
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
-            if (db.mgnet_items_isEmpty("all") || (!myFile.exists())){
-                AlertDialogAllFirstTime();
-            }
-            // ---------ALL products first time ------------
-            syncCustomersFirstTime();
-
-            chkUpdateProducts();
-        }
+//        int len = 0;
+//        int count = 0;
+//        try{
+//            // ---------client products first time ------------
+//            //-------------------------------------------------
+//            List<String> listCIDS = new ArrayList<String>();
+//            listCIDS=helper.getCIDSlist();
+//            len = listCIDS.size();
+//            //-------------------------------------------------
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+//            File[] list = myFile.listFiles();
+//            if (list.length == 0) {
+//                len = 0;
+//            }else
+//                {
+//                for (File f: list){
+//                    String name = f.getName();
+//                    if (name.endsWith(".txt"))
+//                        count++;
+//                }
+//            }
+//
+//        }catch (Exception ex){
+//
+//        }
+//        // continue to sync products if he back to app.
+//        if (count == 0) {
+//            //Log.e("chkchk","doron1");
+//            //helper.deleteProductsFiles();
+//            helper.startService_sync_products(getContext());
+//        }
+//        if ((len != count) && (len != 0)) {
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
+//            if (myFile.exists()){
+//                //helper.deleteProductsFiles();
+//                //Log.e("chkchk","doron2");
+//                helper.startService_sync_products(getContext());
+//
+//                Toast.makeText(getContext(), "products sync run in the background", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//
+//        if (db.getValueByKey("CLIENT_SYNC_PRODUCTS").toString().equals("1")){
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
+//            if (db.mgnet_items_isEmpty("all") || (!myFile.exists())){
+//                //AlertDialogAllFirstTime();
+//            }
+//            // ---------ALL products first time ------------
+//            //syncCustomersFirstTime();
+//
+//            //chkUpdateProducts();
+//        }
 
 
 
 
         //id7.setTextSize(60);
-        id1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.goToMessagesFragment(context);
-                }
-        //}
-        });
-        id2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.goTocustomers(context);
-            }
-        });
-        id3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {helper.goToLoginReportFragment(context);}});
-        id4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.goToOfflineMenuFragment(context);
-            }
-        });
-        id5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.goToCPFragment(context);
-            }
-        });
-        id5.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                //helper.goToCPFragment2(context);
-                //Toast.makeText(getActivity().getApplicationContext(),"w2" , Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-         id6.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 helper.goToToolsFragment(context);
-             }
-         });
-        id7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityCalls.class);
-                startActivity(intent);
+//        id1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                helper.goToMessagesFragment(context);
+//                }
+//        //}
+//        });
+//        id2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                helper.goTocustomers(context);
+//            }
+//        });
+//        id3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {helper.goToLoginReportFragment(context);}});
+//        id4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                helper.goToOfflineMenuFragment(context);
+//            }
+//        });
+//        id5.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                helper.goToCPFragment(context);
+//            }
+//        });
+//        id5.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                //helper.goToCPFragment2(context);
+//                //Toast.makeText(getActivity().getApplicationContext(),"w2" , Toast.LENGTH_LONG).show();
+//                return true;
+//            }
+//        });
+//         id6.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View v) {
+//                 helper.goToToolsFragment(context);
+//             }
+//         });
+//        id7.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, ActivityCalls.class);
+//                startActivity(intent);
+            //}
+        //});
 
-//                Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-//                    @Override
-//                    public void onResult(String str) {
+//        id8.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 //
-//                    }
-//                });
-//                Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
-//                    @Override
-//                    public void onResult(String str) {
-//                        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-//                        //helper.goToCallsFragment(context);
-//
-//                    }
-//                });
-
-            }
-        });
-        id8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String url = db.getInstance(getActivity().getApplicationContext()).getValueByKey("URL").toString();
-                if(url.equals("")) {
-                    Toast.makeText(getActivity().getApplicationContext(),"wrong url" , Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Uri uri = Uri.parse(url + "/mobile"); // missing 'http://' will cause crashed
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                }
-            }
-        });
+//                String url = db.getInstance(getActivity().getApplicationContext()).getValueByKey("URL").toString();
+//                if(url.equals("")) {
+//                    Toast.makeText(getActivity().getApplicationContext(),"wrong url" , Toast.LENGTH_LONG).show();
+//                }
+//                else{
+//                    Uri uri = Uri.parse(url + "/mobile"); // missing 'http://' will cause crashed
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 //        id7.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -304,30 +247,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
 
-        cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(cb.isChecked()){
-                    DatabaseHelper.getInstance(getContext()).updateValue("GPS","0");
-                    ((MenuActivity)getActivity()).stopRepeatingTask();
-                    cb.setVisibility(View.GONE);
-                }
-
-            }
-        });
-        mapid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToMapFragment();
-            }
-        });
-
-
-
-//        btn2.setOnClickListener(new View.OnClickListener() {
+//        cb.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onClick(View v) {
-//                goTocustomers();
+//            public void onClick(View view) {
+//                if(cb.isChecked()){
+//                    DatabaseHelper.getInstance(getContext()).updateValue("GPS","0");
+//                    ((MenuActivity)getActivity()).stopRepeatingTask();
+//                    cb.setVisibility(View.GONE);
+//                }
+//
 //            }
 //        });
 
@@ -615,12 +543,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     @Override
     public void onResume() {
         super.onResume();
-        setUsername();
-        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")) {
-            cb.setChecked(true);
-            cb.setText("GPS");
-            cb.setVisibility(View.VISIBLE);
-        }
+        //setUsername();
+//        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")) {
+//            cb.setChecked(true);
+//            cb.setText("GPS");
+//            cb.setVisibility(View.VISIBLE);
+//        }
 
 //        try{
 //            myEditText2.setText(((MenuActivity)getActivity()).getMyString());

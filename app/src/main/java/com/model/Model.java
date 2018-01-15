@@ -636,20 +636,17 @@ public interface get_mgnet_client_items_Listener{
 
             @Override
             protected String doInBackground(String... params) {
-                Log.e("mytag","arrived here");
                 // USER_ClientsResponse
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Calls_List(macAddress,CallStatusID);
                 try{
                     String myResponse = response;
-                    Log.e("mytag","arrived here2");
 
                     myResponse = myResponse.replaceAll("Wz_Calls_ListResponse", "");
                     myResponse = myResponse.replaceAll("Wz_Calls_ListResult=", "Calls:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
 
-                    Log.e("mytag",myResponse);
 
                     boolean flag = false;
                     helper.deleteFile("calls.txt");
@@ -661,7 +658,6 @@ public interface get_mgnet_client_items_Listener{
                             List<Call> ret = new ArrayList<Call>();
                             String strJson = "";
                             strJson = helper.readTextFromFile3("calls.txt");
-                        Log.e("mytaf",strJson);
                             DatabaseHelper.getInstance(context).deleteAllCalls();
                             JSONObject j = null;
                             JSONArray jarray = null;
