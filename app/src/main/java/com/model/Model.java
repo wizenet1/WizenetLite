@@ -942,6 +942,42 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+
+    //region Wz_Forgot
+    public interface Wz_Forgot_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_Forgot_Listener(final String macAddress,final String Email, final Wz_Forgot_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+            @Override
+            protected String doInBackground(String... params) {
+                // USER_ClientsResponse
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                String response = cs.Wz_Forgot(macAddress,Email);
+                try{
+                    String myResponse = response;
+
+                    myResponse = myResponse.replaceAll("Wz_ForgotResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_ForgotResult=", "");
+                    myResponse = myResponse.replaceAll("\\{","");
+                    myResponse = myResponse.replaceAll("\\}","");
+                    myResponse = myResponse.replaceAll(";", "");
+                    myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    return myResponse.toString();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+                //goToCustomersFragment(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
 }
 
 

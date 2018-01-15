@@ -46,7 +46,7 @@ public class CallSoap {
     public  final String Wz_Call_getTime = "Wz_Call_getTime";
     public  final String Wz_Call_Update = "Wz_Call_Update";
     public  final String Wz_Call_Statuses = "Wz_Call_Statuses";
-
+    public  final String Wz_Forgot = "Wz_Forgot";
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
     //#############SOAP ACTION######################
@@ -61,6 +61,7 @@ public class CallSoap {
     public final String ORDER_getMgnetClientItemsList_SOAP_ACTION9 = "http://tempuri.org/PRODUCTS_CLIENTS_ITEMS_LIST";
     public final String CALLS_List_SOAP_ACTION10 = "http://tempuri.org/CALLS_List";
 
+
     //new functions
     public final String Wz_Login_SOAP_ACTION = "http://tempuri.org/Wz_Login";
     public final String Wz_Calls_List_SOAP_ACTION = "http://tempuri.org/Wz_Calls_List";
@@ -68,7 +69,7 @@ public class CallSoap {
     public  final String Wz_Call_getTime_SOAP_ACTION = "http://tempuri.org/Wz_Call_getTime";
     public  final String Wz_Call_Update_SOAP_ACTION = "http://tempuri.org/Wz_Call_Update";
     public  final String Wz_Call_Statuses_SOAP_ACTION = "http://tempuri.org/Wz_Call_Statuses";
-
+    public  final String Wz_Forgot_SOAP_ACTION = "http://tempuri.org/Wz_Forgot";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
 
@@ -504,7 +505,32 @@ public String Wz_Call_Update(String mac_address,int CallID,int CallStatusID,Stri
 
     }
 //endregion
+//region Wz_Forgot
+public String Wz_Forgot(String mac_address,String Email)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_Forgot);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    request.addProperty("Email",Email);
 
+
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_Forgot_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+
+}
+    //endregion
     public String readTextFromFile() {
         String ret = "";
 

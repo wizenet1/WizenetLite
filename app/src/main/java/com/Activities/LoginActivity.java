@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -104,7 +105,8 @@ public class LoginActivity extends FragmentActivity {
             Toast.makeText(getApplicationContext(),"internet invalid", Toast.LENGTH_LONG).show();
             goToOfflineFragment();
         }
-
+        final CheckBox login_checkbox_remember = (CheckBox) findViewById(R.id.login_checkbox_remember);
+        TextView login_forgotPassword = (TextView) findViewById(R.id.login_forgotPassword);
         //view_url = (TextView) findViewById(R.id.button4); TODO add later if needed
         sign_in = (TextView) findViewById(R.id.sign_in_button);
         //reset = (TextView) findViewById(R.id.reset_button); TODO add later if needed
@@ -115,7 +117,21 @@ public class LoginActivity extends FragmentActivity {
                 email.setText(db.getValueByKey("username").toString());
             }
 
-
+            login_forgotPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
+                        @Override
+                        public void onResult(String str) {
+                            if (str.equals("0")){
+                                Toast.makeText(getApplicationContext(), "נשלח בהצלחה", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "כתובת לא נמצאה", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            });
 
 
 
@@ -144,7 +160,11 @@ public class LoginActivity extends FragmentActivity {
                                     if (!db.getValueByKey("username").toString().equals(memail)) {
                                         helper.deleteAllFiles();
                                     }
-                                    db.updateValue("username",memail);
+                                    if (login_checkbox_remember.isChecked()){
+                                        db.updateValue("username",memail);
+                                    }
+
+
                                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     Log.e("mytag","arrived almost");
