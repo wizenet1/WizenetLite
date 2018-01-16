@@ -189,11 +189,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         }
     };
 
-
-
-
-
-
     public void goToMenuFragment(){
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
@@ -210,7 +205,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(R.id.container);
-        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
+        Log.e("Mytag", String.valueOf(fm.getBackStackEntryCount()));
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         Fragment topFragment = fragmentManager.findFragmentById(R.id.container);

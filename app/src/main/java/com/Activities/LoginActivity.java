@@ -106,33 +106,46 @@ public class LoginActivity extends FragmentActivity {
             goToOfflineFragment();
         }
         final CheckBox login_checkbox_remember = (CheckBox) findViewById(R.id.login_checkbox_remember);
+        login_checkbox_remember.setChecked(true);
         TextView login_forgotPassword = (TextView) findViewById(R.id.login_forgotPassword);
-        //view_url = (TextView) findViewById(R.id.button4); TODO add later if needed
+        TextView update_url = (TextView) findViewById(R.id.update_url);
         sign_in = (TextView) findViewById(R.id.sign_in_button);
-        //reset = (TextView) findViewById(R.id.reset_button); TODO add later if needed
+
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
         try{
-            if(!db.getValueByKey("username").equals("")){
-                email.setText(db.getValueByKey("username").toString());
-            }
+        if(!db.getValueByKey("username").equals("")){
+            email.setText(db.getValueByKey("username").toString());
+        }
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
-            login_forgotPassword.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
-                        @Override
-                        public void onResult(String str) {
-                            if (str.equals("0")){
-                                Toast.makeText(getApplicationContext(), "נשלח בהצלחה", Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(getApplicationContext(), "כתובת לא נמצאה", Toast.LENGTH_LONG).show();
-                            }
+        }
+
+
+
+
+        login_forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        if (str.equals("0")){
+                            Toast.makeText(getApplicationContext(), "נשלח בהצלחה", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "כתובת לא נמצאה", Toast.LENGTH_LONG).show();
                         }
-                    });
-                }
-            });
-
+                    }
+                });
+            }
+        });
+        update_url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         sign_in.setOnClickListener(new View.OnClickListener() {
@@ -156,18 +169,14 @@ public class LoginActivity extends FragmentActivity {
                                 }else if(str.equals("1")){
                                     //chk if is not the same user,
                                     //if is not the same user - delete files because they not belong him.
-                                    Log.e("MYTAG","db:" +db.getValueByKey("username").toString()+ " memail:" + memail);
                                     if (!db.getValueByKey("username").toString().equals(memail)) {
                                         helper.deleteAllFiles();
                                     }
                                     if (login_checkbox_remember.isChecked()){
                                         db.updateValue("username",memail);
                                     }
-
-
                                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    Log.e("mytag","arrived almost");
                                     startActivity(intent);
                                 }else {
                                     Toast.makeText(getApplicationContext(), "username or password incorrect", Toast.LENGTH_LONG).show();
@@ -182,22 +191,7 @@ public class LoginActivity extends FragmentActivity {
                 }
             }
         });
-//        reset.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
-//        view_url.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(), db.getValueByKey("URL").toString(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
-        }
     }
     public void goToOfflineFragment(){
         //Bundle bundle=new Bundle();
@@ -219,19 +213,6 @@ public class LoginActivity extends FragmentActivity {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-
-
-    //###################################
-    //get mac address
-    //###################################
-//    public String getMacAddress() {
-//        WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        WifiInfo info = manager.getConnectionInfo();
-//        String address = info.getMacAddress();
-//        return address;
-//    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -239,66 +220,13 @@ public class LoginActivity extends FragmentActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.add:
-//                //add the function to perform here
-//                return (true);
-            //case R.id.action_filter:
-            //add the function to perform here
-            // return (true);
-//            case R.id.about:
-//                //add the function to perform here
-//                return (true);
+
         }
         return (super.onOptionsItemSelected(item));
     }
-//    public static String getAdressMacByInterface(){
-//        try {
-//            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-//            for (NetworkInterface nif : all) {
-//                if (nif.getName().equalsIgnoreCase("wlan0")) {
-//                    byte[] macBytes = nif.getHardwareAddress();
-//                    if (macBytes == null) {
-//                        return "";
-//                    }
-//
-//                    StringBuilder res1 = new StringBuilder();
-//                    for (byte b : macBytes) {
-//                        res1.append(String.format("%02X:",b));
-//                    }
-//
-//                    if (res1.length() > 0) {
-//                        res1.deleteCharAt(res1.length() - 1);
-//                    }
-//                    return res1.toString();
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
-//        }
-//        return null;
-//    }
-//    private static String getAddressMacByFile(WifiManager wifiMan) throws Exception {
-//        String ret;
-//        int wifiState = wifiMan.getWifiState();
-//
-//        wifiMan.setWifiEnabled(true);
-//        File fl = new File(fileAddressMac);
-//        FileInputStream fin = new FileInputStream(fl);
-//        ret = convertStreamToString(fin);
-//        fin.close();
-//
-//        boolean enabled = WifiManager.WIFI_STATE_ENABLED == wifiState;
-//        wifiMan.setWifiEnabled(enabled);
-//        return ret;
-//    }
-//    static String convertStreamToString(java.io.InputStream is) {
-//        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-//        return s.hasNext() ? s.next() : "";
-//    }
+
 
 }
