@@ -211,14 +211,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         Fragment topFragment = fragmentManager.findFragmentById(R.id.container);
 
         if(fm.getBackStackEntryCount() == 2){
-            if(!topFragment.getTag().equals("FragmentMenu")){
+            //if(!topFragment.getTag().equals("xyz")){
                 Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
 
                 fm.popBackStack();
                 //goToMenuFragment();
-            }else{
-                finish();
-            }
+            //}else{
+            //    finish();
+            //}
             //fm.popBackStack();
         }else if (fm.getBackStackEntryCount()==1){
             Log.e("mytag","fm.getBackStackEntryCount())==1:"+String.valueOf(fm.getBackStackEntryCount()));

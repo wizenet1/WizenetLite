@@ -3,6 +3,7 @@ package com.Fragments;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -72,6 +73,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
+        ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
+        ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
+        ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
+
 
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
        // icon_manager = new Icon_Manager();
@@ -80,21 +85,53 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentManager fragmentManager2 = getFragmentManager();
-                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-                    FragmentCustomer fragment2 = new FragmentCustomer();
-                    fragmentTransaction2.addToBackStack("xyz");
-                    fragmentTransaction2.hide(FragmentMenu.this);
-                    fragmentTransaction2.add(R.id.container, fragment2);
-                    fragmentTransaction2.commit();
+                    //FragmentManager fragManager = getFragmentManager();
+                    android.support.v4.app.FragmentManager fm = getFragmentManager();
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentCustomer frag = new FragmentCustomer();
+                    ft.replace(R.id.container,frag,"FragmentMenu");
+                    ft.addToBackStack("FragmentMenu");
+                    ft.commit();
+
+//                    FragmentManager fragmentManager2 = getFragmentManager();
+//                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+//                    FragmentCustomer fragment2 = new FragmentCustomer();
+//                    fragmentTransaction2.addToBackStack("xyz");
+//                    fragmentTransaction2.hide(FragmentMenu.this);
+//                    fragmentTransaction2.add(R.id.container, fragment2);
+//                    fragmentTransaction2.commit();
                 }
             });
+        id_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager2 = getFragmentManager();
+                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                FragmentMenuOffline fragment2 = new FragmentMenuOffline();
+                fragmentTransaction2.addToBackStack("xyz");
+                fragmentTransaction2.hide(FragmentMenu.this);
+                fragmentTransaction2.add(R.id.container, fragment2);
+                fragmentTransaction2.commit();
+            }
+        });
+        id_preferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager2 = getFragmentManager();
+                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                ControlPanelFragment fragment2 = new ControlPanelFragment();
+                fragmentTransaction2.addToBackStack("xyz");
+                fragmentTransaction2.hide(FragmentMenu.this);
+                fragmentTransaction2.add(R.id.container, fragment2);
+                fragmentTransaction2.commit();
+            }
+        });
+
+
        try{
            id_calls.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-//                   Intent intent = new Intent(getContext(), ActivityCalls.class);
-//                   startActivity(intent);
                    Intent intent = new Intent(getActivity(), ActivityCalls.class);
                    startActivity(intent);
                }
@@ -103,6 +140,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
            Log.e("mytag",ex.getMessage());
        }
+
 
 
 //        int len = 0;

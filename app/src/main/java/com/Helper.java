@@ -17,6 +17,8 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -743,6 +745,8 @@ public class Helper {
 
 
 //endregion
+
+
 
     public void goToCPFragment(Context context){
 
