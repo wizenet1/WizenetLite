@@ -68,20 +68,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         Log.e("mytag","arrived to here");
         setContentView(R.layout.activity_menu);
 
-        getCallStatuses();
+
 
         //setHasOptionsMenu(false);
 
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-            @Override
-            public void onResult(String str) {
-
-            }
-        });
-
+        getCallStatuses();
         goToMenuFragment();
 
 

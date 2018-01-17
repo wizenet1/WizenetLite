@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -220,6 +221,59 @@ public class Helper {
             // Toast.makeText(getActivity(), "network is Not available", Toast.LENGTH_SHORT).show();
         }
     }
+    public boolean createDir(Context c,String strDir){
+        File myDir = new File(c.getCacheDir(), strDir);
+        if (!myDir.exists()){
+            myDir.mkdir();
+            return true;
+        }
+            return false;
+    }
+
+    public boolean writeTextToFileInternal(Context c,String str){
+            OutputStreamWriter outputStreamWriter = null;
+        try {
+            outputStreamWriter = new OutputStreamWriter(c.openFileOutput("myurl.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(str);
+            outputStreamWriter.close();
+            Toast.makeText(c, "File saved successfully!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public String reatTextFileInternal(Context c,String filetxt){
+
+        String ret = "";
+        try {
+
+            FileInputStream fIn = new FileInputStream(filetxt);
+            BufferedReader myReader = new BufferedReader(
+                    new InputStreamReader(fIn));
+            String aDataRow = "";
+            String aBuffer = "";
+            while ((aDataRow = myReader.readLine()) != null) {
+                aBuffer += aDataRow;
+            }
+            ret = aBuffer.toString().trim();
+            myReader.close();
+           // Log.e()
+            return ret;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
     //###################################
     //WRITE URL TO FILE
     //###################################
@@ -242,6 +296,7 @@ public class Helper {
 //            e.printStackTrace();
 //            return false;
 //        }
+
         // get the path to sdcard
         String myUrl;
         if(myurlParameter.length()>0){
