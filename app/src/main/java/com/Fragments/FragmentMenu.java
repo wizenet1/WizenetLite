@@ -69,7 +69,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         //context = this.getContext();
-        View v = inflater.inflate(R.layout.menu_fragment, null);
+        View v = inflater.inflate(R.layout.menu_fragment, container, false);
 
         ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
