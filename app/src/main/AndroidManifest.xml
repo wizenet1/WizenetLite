@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,14 +18,13 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/face"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.Activities.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,29 +32,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.Activities.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.Activities.MenuActivity"
+            android:name=".MenuActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.Activities.CustomersActivity" />
-        <activity android:name="com.Activities.ControlPanelActivity" />
-        <activity android:name="com.Activities.SettingsActivity" />
-        <activity android:name="com.Activities.MessageActivity" />
+        <activity android:name=".CustomersActivity" />
+        <activity android:name=".ControlPanelActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".MessageActivity" />
         <activity
-            android:name="com.Activities.ActivityCallDetails"
+            android:name=".ActivityCallDetails"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.Activities.ActivityCalls"
+            android:name=".ActivityCalls"
             android:windowSoftInputMode="stateHidden" />
 
         <receiver android:name="com.Alarm_Receiver" />
         <receiver android:name="com.Alarm_Receiver_Text_File" />
         <receiver android:name="com.Alarm_Receiver_sync_client_products" />
+        <receiver
+            android:name="com.receivers.PhoneCallHandler"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
 
-        <activity android:name="com.Activities.MenuOfflineActivity" />
-        <activity android:name="com.Activities.ScannerActivity" />
-        <activity android:name="com.Activities.ActivityWebView" />
+        <activity android:name=".MenuOfflineActivity" />
+        <activity android:name=".ScannerActivity" />
+        <activity android:name=".ActivityWebView" />
+        <activity android:name=".IncomingCallScreenActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"/>
     </application>
 
 </manifest>
