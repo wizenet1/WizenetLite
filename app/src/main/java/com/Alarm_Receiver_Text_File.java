@@ -100,7 +100,7 @@ Helper helper;
                         @Override
                         public void onResult(String str) {
                             Toast.makeText(_context, str, Toast.LENGTH_LONG).show();
-                            //File file = new File(selectedFilePath);
+                            //File_ file = new File_(selectedFilePath);
                             if (str.trim().equals("1")){
                                 deleteFile(file);
                             }
@@ -129,7 +129,7 @@ Helper helper;
 //    public void writeTextToFile(String param){
 //
 //        FileWriter f;
-//        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
+//        File_ file = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
 //        try {
 //            f = new FileWriter(file,true);
 //            if(!file.exists()) {

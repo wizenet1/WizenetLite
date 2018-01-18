@@ -585,7 +585,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             myOutWriter.write(myUrl);
             myOutWriter.close();
             fOut.close();
-            //Toast.makeText(getApplicationContext(), "File Created", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "File_ Created", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

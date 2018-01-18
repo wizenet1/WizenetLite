@@ -34,10 +34,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,6 +54,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import static com.Activities.MainActivity.ctx;
 import static java.security.AccessController.getContext;
 
 /**
@@ -78,10 +81,10 @@ public class Helper {
         DatabaseHelper.getInstance(ctx).addControlPanel("CLIENTS_PRODUCTS_UPDATE",formatted);
 
         Toast.makeText(ctx,"url does not exists", Toast.LENGTH_SHORT).show();
-        File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
+//        File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/");
+//        if (!dir.exists()) {
+//            dir.mkdir();
+//        }
     }
 
     public String getcurrentDateString(){
@@ -94,89 +97,87 @@ public class Helper {
     //region sync all products with conditions
     public void ALLProductsSync (final Context ctx){
         if (isNetworkAvailable(ctx)) {
-
+            final File_ f = new File_();
             Model.getInstance().Async_Get_mgnet_items_Listener(getMacAddr(), new Model.get_mgnet_items_Listener() {
                 @Override
                 public void onResult(String str) {
                     DatabaseHelper db;
                     db = DatabaseHelper.getInstance(ctx);
-                    try{
-                        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
-                        if(myFile.exists())
-                            myFile.delete();
-                        Log.e("MYTAG","succied to delete from productss.txt");
-                    }catch(Exception e){
-
-                    }
-                    writeTextToSpecificFile("","productss.txt", str);
-                    try{
-                        db.delete_from_mgnet_items("all");
-                        Log.e("MYTAG","succied to delete from mgnet_items");
-                    }catch(Exception e){
-                        Log.e("MYTAG",e.getMessage());
-                    }
-                    if (db.mgnet_items_isEmpty("all")) {
-                        //Toast.makeText(getActivity(), "נא להמתין כחצי דקה", Toast.LENGTH_LONG).show();
-
-                        List<Order> responseList = new ArrayList<Order>();
-                        try {
-                            String strJson = readTextFromFile3("productss.txt");
-                            strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
-                            strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
-                            JSONObject j = null;
-                            JSONArray jarray = null;
-                            j = null;
-                            jarray = null;
-                            try {
-                                j = new JSONObject(strJson);
-                                jarray = j.getJSONArray("Orders");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                    Boolean flag = true;
+                    flag = f.deleteFile(ctx,"productss.txt");
+                    if (flag == true){
+                        f.writeTextToFileInternal(ctx,"productss.txt", str);
+                        flag = db.delete_from_mgnet_items("all"); //true if success to delete
+                        if (flag == true){
+                            flag = writeProductsItems();
+                            if (flag==true){
+                                Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
                             }
-
-                            for (int i = 0; i < jarray.length(); i++) {
-                                final JSONObject e;
-                                String name = "";
-                                try {
-                                    e = jarray.getJSONObject(i);
-                                    db.add_mgnet_items(
-                                            e.getString("Pname"),
-                                            e.getString("Pmakat"),
-                                            e.getString("Pprice"),
-                                            e.getString("Poprice"),"all");
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                            }
-
-
-
-                            writeTextToSpecificFile("","log.txt","פריטים התווספו בהצלחה" + getcurrentDateString());
-                            //Toast.makeText(getActivity(), "פריטים התווספו בהצלחה", Toast.LENGTH_LONG).show();
-
-                        } catch (Exception e) {
-                            writeTextToSpecificFile("","log.txt", e.getMessage().toString()+getcurrentDateString().toString());
-                            //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        writeTextToSpecificFile("","log.txt",  "הפריטים כבר סונכרנו"+getcurrentDateString().toString());
-
-                        //Toast.makeText(getActivity(), "הפריטים כבר סונכרנו", Toast.LENGTH_LONG).show();
-
                     }
-
-                    //tv.setText(str);
                     Log.e("myTag", str);
                 }
             });
         } else {
-            writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
+            //writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
 
-            // Toast.makeText(getActivity(), "network is Not available", Toast.LENGTH_SHORT).show();
+             Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public boolean writeProductsItems(){
+        DatabaseHelper db = DatabaseHelper.getInstance(ctx);
+        if (db.mgnet_items_isEmpty("all")) {
+            try {
+                String strJson = readTextFromFile3("productss.txt");
+                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
+                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
+                JSONObject j = null;
+                JSONArray jarray = null;
+                j = null;
+                jarray = null;
+                try {
+                    j = new JSONObject(strJson);
+                    jarray = j.getJSONArray("Orders");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                for (int i = 0; i < jarray.length(); i++) {
+                    final JSONObject e;
+                    String name = "";
+                    try {
+                        e = jarray.getJSONObject(i);
+                        db.add_mgnet_items(
+                                e.getString("Pname"),
+                                e.getString("Pmakat"),
+                                e.getString("Pprice"),
+                                e.getString("Poprice"),"all");
+
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                        return false;
+                    }
+
+                }
+                return true;
+                //writeTextToSpecificFile("","log.txt","פריטים התווספו בהצלחה" + getcurrentDateString());
+                //Toast.makeText(getActivity(), "פריטים התווספו בהצלחה", Toast.LENGTH_LONG).show();
+
+            } catch (Exception e) {
+                //writeTextToSpecificFile("","log.txt", e.getMessage().toString()+getcurrentDateString().toString());
+                //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            //writeTextToSpecificFile("","log.txt",  "הפריטים כבר סונכרנו"+getcurrentDateString().toString());
+
+            Toast.makeText(ctx, "הפריטים כבר סונכרנו", Toast.LENGTH_LONG).show();
+            return false;
+
+        }
+        return true;
+    }
     //endregion
 
 
@@ -204,122 +205,61 @@ public class Helper {
     // this function call the web service and then write it into text file each cid have been sent.
     //*/
     public void CLIENTProductsSync (final Context ctx,final String cid){
-        if (isNetworkAvailable(ctx)) {
 
+        if (isNetworkAvailable(ctx)) {
+            final File_ f = new File_();
             Model.getInstance().Async_Get_mgnet_client_items_Listener(getMacAddr(),cid, new Model.get_mgnet_client_items_Listener() {
                 @Override
                 public void onResult(String str) {
 
-                    writeTextToSpecificFile("client_products","pl_" + cid +".txt", str);
-
+                    //writeTextToSpecificFile("client_products","pl_" + cid +".txt", str);
+                    f.writeTextToFileWithSubDirectory(ctx,"client_products","pl_" + cid +".txt", str);
                     Log.e("myTag", str);
                 }
             });
         } else {
-            writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
+            //writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
 
-            // Toast.makeText(getActivity(), "network is Not available", Toast.LENGTH_SHORT).show();
+             Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
         }
     }
-    public boolean createDir(Context c,String strDir){
-        File myDir = new File(c.getCacheDir(), strDir);
-        if (!myDir.exists()){
-            myDir.mkdir();
-            return true;
-        }
-            return false;
+
+    public File makeAndGetProfileDirectory(Context c, String profileName) {
+        // determine the profile directory
+        File profileDirectory = new File(c.getFilesDir(), profileName);
+        File file = c.getFileStreamPath("wizenet");
+        Log.e("mytag","exist?:"+ String.valueOf(file.exists()));
+        // creates the directory if not present yet
+        profileDirectory.mkdir();
+
+        return profileDirectory;
     }
 
-    public boolean writeTextToFileInternal(Context c,String str){
-            OutputStreamWriter outputStreamWriter = null;
-        try {
-            outputStreamWriter = new OutputStreamWriter(c.openFileOutput("myurl.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(str);
-            outputStreamWriter.close();
-            Toast.makeText(c, "File saved successfully!", Toast.LENGTH_LONG).show();
-            return true;
+
+    public void wrtieFileOnInternalStorage(Context mcoContext,String sFileName, String sBody){
+        File file = new File(mcoContext.getFilesDir(),"mydir");
+        if(!file.exists()){
+            file.mkdir();
         }
-        catch (FileNotFoundException e) {
+
+        try{
+            File gpxfile = new File(file, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(sBody);
+            writer.flush();
+            writer.close();
+            Log.e("mytag"," success!~ ");
+
+        }catch (Exception e){
+            Log.e("mytag"," sdfsdfsdfd"+ e.getMessage());
             e.printStackTrace();
-            return false;
 
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
         }
     }
-    public String reatTextFileInternal(Context c,String filetxt){
-
-        String ret = "";
-        try {
-
-            FileInputStream fIn = new FileInputStream(filetxt);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-           // Log.e()
-            return ret;
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
 
-    //###################################
-    //WRITE URL TO FILE
-    //###################################
-    public boolean writeTextToFile(String myurlParameter){
-//fOR INTERNAL STORAGE
-//        OutputStreamWriter outputStreamWriter = null;
-//        try {
-//            outputStreamWriter = new OutputStreamWriter(openFileOutput("myurl.txt", Context.MODE_PRIVATE));
-//            outputStreamWriter.write(URL);
-//            outputStreamWriter.close();
-//            Toast.makeText(getApplicationContext(), "seccess", Toast.LENGTH_LONG).show();
-//
-//        }
-//        catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//            return false;
-//
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
 
-        // get the path to sdcard
-        String myUrl;
-        if(myurlParameter.length()>0){
-            myUrl = myurlParameter;
-        }else{
-            myUrl = null;//DEMOURL;
-        }
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/myurl.txt");
-
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-            myOutWriter.write(myUrl);
-            myOutWriter.close();
-            fOut.close();
-            //Toast.makeText(getApplicationContext(), "File Created", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 
     /**
      * //this function get all cid string array from the json file
@@ -371,8 +311,10 @@ public class Helper {
         Log.e("MYTAG","chk: "+sdt);
         String isNetwork = "";
         if (isNetworkAvailable(ctx)){
-            String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
-            File myDirectory = new File(path);
+            //String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
+            File myDirectory = null;//new File(path);
+            File_ f = new File_();
+            myDirectory = f.retSubDir(ctx,"offline");
             traverse(myDirectory,ctx);
         }else{
             isNetwork = " nop Network";
@@ -410,101 +352,94 @@ public class Helper {
     //endregion
 
 
-    /**
-     * every client has  products are belong to him as the system suggest.
-     * here we write the file we get from web service - the created file is client products.
-     * this function can be fit any sub directory.
-     * @param subDirectory
-     * @param fileandsuffix
-     * @param input
-     * @return
-     */
-    public boolean writeTextToClientDirectory(String subDirectory,String fileandsuffix,String input){
-
-        // get the path to sdcard
-        String myInput;
-        if(input.length()>0){
-            myInput = input;
-        }else{
-            myInput = null;//DEMOURL;
-        }
-        //create subdirectory if needed
-        if (!subDirectory.equals("")){ //check if exist
-            File mySubDirectory = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+subDirectory);
-            if(!mySubDirectory.exists()) {
-                mySubDirectory.mkdir();
-            }
-        }
-        String mySub = subDirectory+"/";
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-            myOutWriter.write(myInput);
-            myOutWriter.close();
-            fOut.close();
-            //Toast.makeText(getApplicationContext(), "File Created", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-    public boolean deleteFile(String file){
-        boolean flag = false;
-        try{
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/" + file);
-            if(myFile.exists()){
-                myFile.delete();
-                flag = true;
-                Log.e("MYTAG","file is deleted");
-            }
 
 
-
-        }catch(Exception e){
-
-        }
-        return flag;
-    }
-    public boolean writeTextToSpecificFile(String subDirectory,String fileandsuffix,String input){
-
-        // get the path to sdcard
-        String myInput;
-        if(input.length()>0){
-            myInput = input;
-        }else{
-            myInput = null;//DEMOURL;
-        }
-        //create subdirectory if needed
-        if (!subDirectory.equals("")){ //check if exist
-            File mySubDirectory = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+subDirectory);
-            if(!mySubDirectory.exists()) {
-                mySubDirectory.mkdir();
-            }
-        }
-        String mySub = subDirectory+"/";
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
-            Log.e("mytag",Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-            myOutWriter.write(myInput);
-            myOutWriter.close();
-            fOut.close();
-            Log.e("MYTAG","success to write file");
-            //Toast.makeText(getApplicationContext(), "File Created", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            Log.e("MYTAG",e.getMessage());
-            return false;
-        }
-        return true;
-    }
+//    public boolean writeTextToClientDirectory(String subDirectory,String fileandsuffix,String input){
+//
+//        // get the path to sdcard
+//        String myInput;
+//        if(input.length()>0){
+//            myInput = input;
+//        }else{
+//            myInput = null;//DEMOURL;
+//        }
+//        //create subdirectory if needed
+//        if (!subDirectory.equals("")){ //check if exist
+//            File mySubDirectory = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+subDirectory);
+//            if(!mySubDirectory.exists()) {
+//                mySubDirectory.mkdir();
+//            }
+//        }
+//        String mySub = subDirectory+"/";
+//        try {
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
+//            myFile.createNewFile();
+//            FileOutputStream fOut = new FileOutputStream(myFile);
+//            OutputStreamWriter myOutWriter =
+//                    new OutputStreamWriter(fOut);
+//            myOutWriter.write(myInput);
+//            myOutWriter.close();
+//            fOut.close();
+//            //Toast.makeText(getApplicationContext(), "File_ Created", Toast.LENGTH_LONG).show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
+//    public boolean deleteFile(String file){
+//        boolean flag = false;
+//        try{
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/" + file);
+//            if(myFile.exists()){
+//                myFile.delete();
+//                flag = true;
+//                Log.e("MYTAG","file is deleted");
+//            }
+//
+//
+//
+//        }catch(Exception e){
+//
+//        }
+//        return flag;
+//    }
+//    public boolean writeTextToSpecificFile(String subDirectory,String fileandsuffix,String input){
+//
+//        // get the path to sdcard
+//        String myInput;
+//        if(input.length()>0){
+//            myInput = input;
+//        }else{
+//            myInput = null;//DEMOURL;
+//        }
+//        //create subdirectory if needed
+//        if (!subDirectory.equals("")){ //check if exist
+//            File mySubDirectory = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+subDirectory);
+//            if(!mySubDirectory.exists()) {
+//                mySubDirectory.mkdir();
+//            }
+//        }
+//        String mySub = subDirectory+"/";
+//        try {
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
+//            Log.e("mytag",Environment.getExternalStorageDirectory().getPath()+"/wizenet/"+mySub+fileandsuffix);
+//            myFile.createNewFile();
+//            FileOutputStream fOut = new FileOutputStream(myFile);
+//            OutputStreamWriter myOutWriter =
+//                    new OutputStreamWriter(fOut);
+//            myOutWriter.write(myInput);
+//            myOutWriter.close();
+//            fOut.close();
+//            Log.e("MYTAG","success to write file");
+//            //Toast.makeText(getApplicationContext(), "File_ Created", Toast.LENGTH_LONG).show();
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//            Log.e("MYTAG",e.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
 
     public boolean writeTextToFile2(String myurlParameter){
 
@@ -525,7 +460,7 @@ public class Helper {
             myOutWriter.write(myUrl);
             myOutWriter.close();
             fOut.close();
-            //Toast.makeText(getApplicationContext(), "File Created", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "File_ Created", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

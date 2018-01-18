@@ -26,11 +26,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 
 import java.io.File;
 
 public class MainActivity extends Activity {
+
+
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     //public final String DEMOURL = "http://main.wizenet.co.il/webservices/freelance.asmx";//default
@@ -52,18 +56,29 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         this.context = this;
         boolean flag = isNetworkAvailable(context);
+        File_ file = new File_();
+        file.createWizenetDir(ctx);
+
 
         helper = new Helper();
-        db = DatabaseHelper.getInstance(getApplicationContext());
-        ctx=this.context;
 
 
-        try{
-            //db.getInstance(getApplicationContext()).addMessage(new Message("e","e","e","www.wizenet.co.il","e","e","e"));
-        }catch (Exception e){
-            Log.e("myTag",e.toString());
-        }
-        url = (EditText) findViewById(R.id.edittext);
+//        helper.createDir(context,"wizenet");
+//        helper.makeAndGetProfileDirectory(context,"wizenet");
+//        helper.writeTextToFileInternal(context,"/test.txt","bla bla");
+//        Log.e("myTag",helper.readTextFileInternal(context,"test.txt"));
+//        helper.readTextFileInternal(context,"test.txt");
+
+        //helper.writeTextToFileInternal(context,"test.txt","111111111111111111");
+        //-----------READ--------------------
+        //res =helper.readFromFileInternal(context,"test.txt");
+        //Log.e("mytag",res);
+        //-----------------------------------
+
+        //helper.readTextFileInternal(context,"test.txt");
+        //helper.wrtieFileOnInternalStorage(context,"test.txt","test");
+
+
 
         File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/");
         if (!dir.exists()) {

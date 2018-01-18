@@ -117,7 +117,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
 //                String isNetwork = "";
 //                if (helper.isNetworkAvailable(getContext())){
 //                    String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
-//                    File myDirectory = new File(path);
+//                    File_ myDirectory = new File_(path);
 //                    traverse(myDirectory);
 //                }else{
 //                    isNetwork = " nop Network";

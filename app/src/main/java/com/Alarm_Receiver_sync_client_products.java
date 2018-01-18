@@ -77,7 +77,7 @@ Helper helper;
 //    public void writeTextToFile(String param){
 //
 //        FileWriter f;
-//        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
+//        File_ file = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
 //        try {
 //            f = new FileWriter(file,true);
 //            if(!file.exists()) {

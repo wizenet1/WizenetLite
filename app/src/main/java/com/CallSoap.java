@@ -570,7 +570,7 @@ public String Wz_Forgot(String mac_address,String Email)
 
 
 //        } catch (FileNotFoundException e) {
-//            Log.e(TAG, "File not found: " + e.toString());
+//            Log.e(TAG, "File_ not found: " + e.toString());
 //            return false;
 //        } catch (IOException e) {
 //            Log.e(TAG, "Can not read file: " + e.toString());

@@ -152,13 +152,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //            listCIDS=helper.getCIDSlist();
 //            len = listCIDS.size();
 //            //-------------------------------------------------
-//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-//            File[] list = myFile.listFiles();
+//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+//            File_[] list = myFile.listFiles();
 //            if (list.length == 0) {
 //                len = 0;
 //            }else
 //                {
-//                for (File f: list){
+//                for (File_ f: list){
 //                    String name = f.getName();
 //                    if (name.endsWith(".txt"))
 //                        count++;
@@ -175,7 +175,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //            helper.startService_sync_products(getContext());
 //        }
 //        if ((len != count) && (len != 0)) {
-//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
+//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
 //            if (myFile.exists()){
 //                //helper.deleteProductsFiles();
 //                //Log.e("chkchk","doron2");
@@ -186,7 +186,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //        }
 //
 //        if (db.getValueByKey("CLIENT_SYNC_PRODUCTS").toString().equals("1")){
-//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
+//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
 //            if (db.mgnet_items_isEmpty("all") || (!myFile.exists())){
 //                //AlertDialogAllFirstTime();
 //            }
@@ -329,6 +329,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                                 public void onResult(String str) {
                                     //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
                                     //strBundle = str;
+
                                     helper.writeTextToFile2(str);
                                 }
                             });
