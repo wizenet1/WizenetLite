@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.Activities.R;
 import com.Classes.Ccustomer;
+import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 
@@ -139,7 +140,9 @@ public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
 //
     public Ccustomer[] getCustomersFromJson3(){
         Helper helper = new Helper();
-        myString=helper.readTextFromFile3("contacts.txt");
+        File_ f = new File_();
+
+        //myString=helper.readTextFromFile3("contacts.txt");
         Ccustomer[] customersList = new Ccustomer[0];
         JSONObject j = null;
         try {

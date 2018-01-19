@@ -33,7 +33,7 @@ public class File_ {
 
     public boolean createWizenetDir(Context c){
         File file;
-        file = new File(c.getFilesDir().getAbsolutePath() + java.io.File.separator + "/wizenet/");
+        file = new File(c.getFilesDir().getAbsolutePath() + File.separator + "/wizenet/");
         boolean success = true;
         if(!(file.exists())) {
             try {
@@ -154,7 +154,50 @@ public class File_ {
             return retBuf.toString();
         }
     }
+    public String readFromCurrentFileInternal(Context c,File currFile) {
+        File file = currFile;
+        //file = new java.io.File(c.getFilesDir().getAbsolutePath() + java.io.File.separator + "/wizenet/" + txtfile);
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        StringBuffer retBuf = new StringBuffer();
+
+        try {
+            if (fileInputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                String lineData = bufferedReader.readLine();
+                while (lineData != null) {
+                    retBuf.append(lineData);
+                    lineData = bufferedReader.readLine();
+                }
+            }
+        }catch(IOException ex)
+        {
+            Log.e("mytag", ex.getMessage(), ex);
+        }finally
+        {
+            return retBuf.toString();
+        }
+    }
+    public String readFromFileWithSubDirectory(Context c,String subDirectory,String txtfile){
+        String ret = "";
+        ret = readFromFileInternal(c,subDirectory + "/" + txtfile);
+        return ret;
+    }
     public boolean writeTextToFileWithSubDirectory(Context c,String subDirectory,String txtfile,String str){
         Boolean flag =null;
         createSubDirectory(c,subDirectory);

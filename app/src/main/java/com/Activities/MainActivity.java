@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         this.context = this;
         boolean flag = isNetworkAvailable(context);
         File_ file = new File_();
-        file.createWizenetDir(ctx);
+        file.createWizenetDir(getApplicationContext());
 
 
         helper = new Helper();

@@ -37,7 +37,7 @@ public class ScannerActivity extends Activity {
 
         List<String> responseList = new ArrayList<String>();
 
-        strJson = helper.readTextFromFileCustomers();
+        //strJson = helper.readTextFromFileCustomers();
         JSONObject j = null;
         JSONArray jarray = null;
         try {

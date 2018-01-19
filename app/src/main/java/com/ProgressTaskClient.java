@@ -49,12 +49,13 @@ Helper helper;
 
     @Override
     protected String doInBackground(final String... args) {
+        final File_ f = new File_();
         Log.e("MYTAG","hello");
         List<String> listCIDS = new ArrayList<String>();
         listCIDS=helper.getCIDSlist();
         String rr = "";
         int i=0;
-        for (String c: listCIDS) {
+        for (final String c: listCIDS) {
             final String cc = c;
             File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products/"+"pl_" + cc +".txt");
             if(myFile.exists())
@@ -63,7 +64,8 @@ Helper helper;
                     @Override
                     public void onResult(String str) {
                         Log.e("MYTAG","pl_" + cc +".txt ---" +str);
-                        helper.writeTextToClientDirectory("client_products","pl_" + cc +".txt", str);
+                        f.writeTextToFileWithSubDirectory(context,"client_products","pl_" + cc +".txt", str);
+                        //helper.writeTextToClientDirectory("client_products","pl_" + cc +".txt", str);
                     };
                     ;});
                 i++;

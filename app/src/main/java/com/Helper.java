@@ -121,7 +121,7 @@ public class Helper {
         } else {
             //writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
 
-             Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -129,7 +129,8 @@ public class Helper {
         DatabaseHelper db = DatabaseHelper.getInstance(ctx);
         if (db.mgnet_items_isEmpty("all")) {
             try {
-                String strJson = readTextFromFile3("productss.txt");
+                File_ f = new File_();
+                String strJson = f.readFromFileInternal(ctx,"productss.txt");
                 strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
                 strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
                 JSONObject j = null;
@@ -220,7 +221,7 @@ public class Helper {
         } else {
             //writeTextToSpecificFile("","log.txt",  "network is Not available"+getcurrentDateString().toString());
 
-             Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, "network is Not available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -268,7 +269,9 @@ public class Helper {
     public List<String> getCIDSlist(){
         List<String> ret = new ArrayList<String>();
         String strJson = "";
-        strJson = readTextFromFileCustomers();
+        File_ f = new File_();
+        strJson = f.readFromFileInternal(ctx,"customers.txt");
+        //strJson = readTextFromFileCustomers();
         JSONObject j = null;
         JSONArray jarray = null;
         try {
@@ -319,7 +322,7 @@ public class Helper {
         }else{
             isNetwork = " nop Network";
         }
-        writeTextToFileORDER(sdt + isNetwork);
+        //writeTextToFileORDER(sdt + isNetwork);
     }
 
     /**
@@ -328,15 +331,18 @@ public class Helper {
      * @param ctx
      */
     public void traverse (File dir, final Context ctx) {
+        File_ f = new File_();
         if (dir.exists()) {
             File[] files = dir.listFiles();
             for (int i = 0; i < files.length; ++i) {
+
                 File file = files[i];
                 if (file.isDirectory()) {
                     //traverse(file);
                 } else {
                     String fileContect = "";
-                    fileContect = readTextFromFile(file);
+                    //fileContect = readTextFromFile(file);
+                    fileContect = f.readFromCurrentFileInternal(ctx,file);
                     Model.getInstance().Async_CREATE_OFFLINE_Listener(getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override
                         public void onResult(String str) {
@@ -484,36 +490,16 @@ public class Helper {
     //###################################
     //READ URL FROM FILE
     //###################################
-    public String readTextFromFile() {
-        String ret = "";
 
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/myurl.txt");
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
 
     /**
      * delete files from products directory
      */
     public void deleteAllFiles() {
+        File_ f = new File_();
         try{
-            File dir = new File(Environment.getExternalStorageDirectory()+"/wizenet/client_products");
+
+            File dir = f.retSubDir(ctx,"client_products");//= new File(Environment.getExternalStorageDirectory()+"/wizenet/client_products");
             if (dir.isDirectory())
             {
                 String[] children = dir.list();
@@ -526,16 +512,18 @@ public class Helper {
             Log.e("MYTAG","failed to delete");
         }
         try{
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
-            if(myFile.exists())
-                myFile.delete();
+            //File myFile =
+            f.deleteFile(ctx,"productss.txt");//new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
+            //if(myFile.exists())
+            //myFile.delete();
         }catch(Exception e){
 
         }
         try{
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-            if(myFile.exists())
-                myFile.delete();
+            f.deleteFile(ctx,"customers.txt");
+            //File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
+            //if(myFile.exists())
+            //    myFile.delete();
         }catch(Exception e){
 
         }
@@ -545,168 +533,58 @@ public class Helper {
      * get json text from file/ read the file
      * @return
      */
-    public String readTextFromFileCustomers() {
-        String ret = "";
+//    public String readTextFromFileCustomers() {
+//        String ret = "";
+//
+//        try {
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
+//            FileInputStream fIn = new FileInputStream(myFile);
+//            BufferedReader myReader = new BufferedReader(
+//                    new InputStreamReader(fIn));
+//            String aDataRow = "";
+//            String aBuffer = "";
+//            while ((aDataRow = myReader.readLine()) != null) {
+//                aBuffer += aDataRow;
+//            }
+//            ret = aBuffer.toString().trim();
+//            myReader.close();
+//            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return ret;
+//    }
 
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
+//    public void writeTextToFileORDER(String param){
+//
+//        FileWriter f;
+//        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
+//        try {
+//            f = new FileWriter(file,true);
+//            if(!file.exists()) {
+//                file.createNewFile();
+//            }
+//            f.write("\r\n"+param);
+//            f.flush();
+//            f.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            Log.e("myTag",e.toString());
+//        }
+//    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
-    public String readTextFromFile3(String preffixNsuffix) {
-        String ret = "";
-
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/" +preffixNsuffix);
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
-    public void writeTextToFileORDER(String param){
-
-        FileWriter f;
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
-        try {
-            f = new FileWriter(file,true);
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-            f.write("\r\n"+param);
-            f.flush();
-            f.close();
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.e("myTag",e.toString());
-        }
-    }
-    public String readTextFromFile(File file) {
-        String ret = "";
-
-        try {
-            File myFile = file;
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
     //Android 6.0 : Access to mac address from WifiManager forbidden
     private static final String marshmallowMacAddress = "02:00:00:00:00:00";
     private static final String fileAddressMac = "/sys/class/net/wlan0/address";
 
-    public static String recupAdresseMAC(WifiManager wifiMan) {
-        WifiInfo wifiInf = wifiMan.getConnectionInfo();
 
-        if(wifiInf.getMacAddress().equals(marshmallowMacAddress)){
-            String ret = null;
-            try {
-                ret= getAdressMacByInterface();
-                if (ret != null){
-                    return ret;
-                } else {
-                    ret = getAddressMacByFile(wifiMan);
-                    return ret;
-                }
-            } catch (IOException e) {
-                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC");
-            } catch (Exception e) {
-                Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
-            }
-        } else{
-            return wifiInf.getMacAddress();
-        }
-        return marshmallowMacAddress;
-    }
 //region get mac address functions
 
-    public static String getAdressMacByInterface(){
-        try {
-            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface nif : all) {
-                if (nif.getName().equalsIgnoreCase("wlan0")) {
-                    byte[] macBytes = nif.getHardwareAddress();
-                    if (macBytes == null) {
-                        return "";
-                    }
 
-                    StringBuilder res1 = new StringBuilder();
-                    for (byte b : macBytes) {
-                        res1.append(String.format("%02X:",b));
-                    }
 
-                    if (res1.length() > 0) {
-                        res1.deleteCharAt(res1.length() - 1);
-                    }
-                    return res1.toString();
-                }
-            }
 
-        } catch (Exception e) {
-            Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
-        }
-        return null;
-    }
-
-    private static String getAddressMacByFile(WifiManager wifiMan) throws Exception {
-        String ret;
-        int wifiState = wifiMan.getWifiState();
-
-        wifiMan.setWifiEnabled(true);
-        File fl = new File(fileAddressMac);
-        FileInputStream fin = new FileInputStream(fl);
-        ret = convertStreamToString(fin);
-        fin.close();
-
-        boolean enabled = WifiManager.WIFI_STATE_ENABLED == wifiState;
-        wifiMan.setWifiEnabled(enabled);
-        return ret;
-    }
-
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
     public static String getMacAddr() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -738,6 +616,82 @@ public class Helper {
 
 
 
+
+    public void goToOfflineMenuFragment(Context context){
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentMenuOffline frag = new FragmentMenuOffline();
+        ft.replace(R.id.container,frag,"FragmentMenuOffline");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentMenuOffline");
+        ft.commit();
+    }
+    public boolean isNetworkAvailable(Context mContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    //###################################
+    //EXTRACT CUSTOMERS FROM JSON
+    //###################################
+
+    /**
+     * iterate over json file (text file) and extract the json to an objects
+     * @param json
+     * @return
+     */
+    //region get customers objects from json file
+    public Ccustomer[] getCustomersFromJson2(String json){
+        Ccustomer[] customersList = new Ccustomer[0];
+        JSONObject j = null;
+        try {
+            j = new JSONObject(json);
+            //get the array [...] in json
+            JSONArray jarray = j.getJSONArray("Customers");
+            customersList = new Ccustomer[jarray.length()];
+            //customersList = new Ccustomer[jarray.length()];
+
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject object = jarray.getJSONObject(i);
+                String fname = jarray.getJSONObject(i).getString("Cfname");
+                String lname = jarray.getJSONObject(i).getString("Clname");
+                String email = jarray.getJSONObject(i).getString("Cemail");
+                String phone = jarray.getJSONObject(i).getString("Cphone");
+                String cell = jarray.getJSONObject(i).getString("Ccell");
+                String ccompany = jarray.getJSONObject(i).getString("Ccompany");
+                String cid = jarray.getJSONObject(i).getString("CID");
+                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany,cid);
+                customersList[i] = c;
+            }
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        return customersList;
+    }
+
+
+    //endregion
+
+    public void goToLoginReportFragment(Context context){
+
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentLoginReport frag = new FragmentLoginReport();
+        ft.replace(R.id.container,frag,"FragmentLoginReport");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentLoginReport");
+        ft.commit();
+    }
+    public void goTocustomers(Context context){
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentCustomer frag = new FragmentCustomer();
+        ft.replace(R.id.container,frag,"FragmentCustomer");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentCustomer");
+        ft.commit();
+    }
     public void goToCPFragment(Context context){
 
         //mydb.getInstance(getApplicationContext());
@@ -811,133 +765,6 @@ public class Helper {
         ft.addToBackStack("FragmentMessage");
         ft.commit();
     }
-    public void goToOfflineMenuFragment(Context context){
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentMenuOffline frag = new FragmentMenuOffline();
-        ft.replace(R.id.container,frag,"FragmentMenuOffline");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentMenuOffline");
-        ft.commit();
-    }
-    public boolean isNetworkAvailable(Context mContext) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-    //###################################
-    //EXTRACT CUSTOMERS FROM JSON
-    //###################################
 
-    /**
-     * iterate over json file (text file) and extract the json to an objects
-     * @param json
-     * @return
-     */
-    //region get customers objects from json file
-
-    public Ccustomer[] getCustomersFromJson(String json){
-        Ccustomer[] customersList = new Ccustomer[0];
-        JSONObject j = null;
-        try {
-            j = new JSONObject(json);
-            //get the array [...] in json
-            JSONArray jarray = j.getJSONArray("Customers");
-            customersList = new Ccustomer[jarray.length()];
-            //customersList = new Ccustomer[jarray.length()];
-
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject object = jarray.getJSONObject(i);
-                String fname = jarray.getJSONObject(i).getString("Cfname");
-                String lname = jarray.getJSONObject(i).getString("Clname");
-                String email = jarray.getJSONObject(i).getString("Cemail");
-                String phone = jarray.getJSONObject(i).getString("Cphone");
-                String cell = jarray.getJSONObject(i).getString("Ccell");
-                String ccompany = jarray.getJSONObject(i).getString("Ccompany");
-                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany);
-                customersList[i] = c;
-            }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        return customersList;
-    }
-    public Ccustomer[] getCustomersFromJson2(String json){
-        Ccustomer[] customersList = new Ccustomer[0];
-        JSONObject j = null;
-        try {
-            j = new JSONObject(json);
-            //get the array [...] in json
-            JSONArray jarray = j.getJSONArray("Customers");
-            customersList = new Ccustomer[jarray.length()];
-            //customersList = new Ccustomer[jarray.length()];
-
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject object = jarray.getJSONObject(i);
-                String fname = jarray.getJSONObject(i).getString("Cfname");
-                String lname = jarray.getJSONObject(i).getString("Clname");
-                String email = jarray.getJSONObject(i).getString("Cemail");
-                String phone = jarray.getJSONObject(i).getString("Cphone");
-                String cell = jarray.getJSONObject(i).getString("Ccell");
-                String ccompany = jarray.getJSONObject(i).getString("Ccompany");
-                String cid = jarray.getJSONObject(i).getString("CID");
-                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany,cid);
-                customersList[i] = c;
-            }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        return customersList;
-    }
-    public Ccustomer[] getCustomersFromJson3(String json){
-        Ccustomer[] customersList = new Ccustomer[0];
-        JSONObject j = null;
-        try {
-            j = new JSONObject(json);
-            //get the array [...] in json
-            JSONArray jarray = j.getJSONArray("Customers");
-            customersList = new Ccustomer[jarray.length()];
-            //customersList = new Ccustomer[jarray.length()];
-
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject object = jarray.getJSONObject(i);
-                String fname = jarray.getJSONObject(i).getString("Cfname");
-                String lname = jarray.getJSONObject(i).getString("Clname");
-                String email = jarray.getJSONObject(i).getString("Cemail");
-                String phone = jarray.getJSONObject(i).getString("Cphone");
-                String cell = jarray.getJSONObject(i).getString("Ccell");
-                String ccompany = jarray.getJSONObject(i).getString("Ccompany");
-                String cid = jarray.getJSONObject(i).getString("CID");
-                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany,cid);
-                customersList[i] = c;
-            }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        return customersList;
-    }
-
-    //endregion
-
-    public void goToLoginReportFragment(Context context){
-
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentLoginReport frag = new FragmentLoginReport();
-        ft.replace(R.id.container,frag,"FragmentLoginReport");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentLoginReport");
-        ft.commit();
-    }
-    public void goTocustomers(Context context){
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentCustomer frag = new FragmentCustomer();
-        ft.replace(R.id.container,frag,"FragmentCustomer");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentCustomer");
-        ft.commit();
-    }
 
 }

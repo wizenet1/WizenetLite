@@ -61,7 +61,7 @@ Helper helper;
         }else{
             isNetwork = " on Network";
         }
-        helper.writeTextToFileORDER(sdt + isNetwork);
+        //helper.writeTextToFileORDER(sdt + isNetwork);
 
 
 //        Model.getInstance().AsyncReminder(helper.getMacAddr(), new Model.ReminderListener() {
@@ -94,8 +94,10 @@ Helper helper;
                 if (file.isDirectory()) {
                     //traverse(file);
                 } else {
+                    File_ f = new File_();
                     String fileContect = "";
-                    fileContect = helper.readTextFromFile(file);
+                    fileContect = f.readFromCurrentFileInternal(_context,file);
+                    //fileContect = helper.readTextFromFile(file);
                     Model.getInstance().Async_CREATE_OFFLINE_Listener(helper.getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override
                         public void onResult(String str) {

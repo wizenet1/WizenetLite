@@ -24,6 +24,7 @@ import com.Activities.R;
 import com.Activities.ScannerActivity;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 import com.model.Model;
@@ -143,7 +144,9 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
                     Model.getInstance().Async_Get_Clients_Contacts_Listener(helper.getMacAddr(), new Model.Call_getClientsContactsListener() {
                         @Override
                         public void onResult(String str) {
-                            helper.writeTextToSpecificFile("","customers.txt",str);
+                            File_ f = new File_();
+                            f.writeTextToFileInternal(getContext(),"customers.txt",str);
+                            //helper.writeTextToSpecificFile("","customers.txt",str);
                             Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
                             //tv.setText(str);
                             //Log.e("myTag",str);

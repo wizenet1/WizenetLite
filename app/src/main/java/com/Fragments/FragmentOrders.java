@@ -32,6 +32,7 @@ import com.Adapters.CustomersAdapter;
 import com.Alarm_Receiver_sync_client_products;
 import com.Classes.Order;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.Adapters.NamesAdapter;
 import com.Adapters.OrdersAdapter;
@@ -77,9 +78,11 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
     EditText comments_id,lblPoprice;
     //EditText customer_search;
     String myBundle= "";
+    File_ f;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_orders, null);
+        f = new File_();
         _CID = "0";
         helper = new Helper();
         lblPoprice= (EditText) v.findViewById(R.id.lblPoprice);
@@ -96,8 +99,9 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 
 
         List<String> responseList2 = new ArrayList<String>();
-
-        strJson = helper.readTextFromFileCustomers();
+File_ f = new File_();
+        //strJson = helper.readTextFromFileCustomers();
+        strJson = f.readFromFileInternal(getContext(),"customers.txt");
         JSONObject j = null;
         JSONArray jarray = null;
         try {
@@ -147,7 +151,9 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 
         if (DatabaseHelper.getInstance(getContext()).mgnet_items_isEmpty("all")){
             try{
-                strJson = helper.readTextFromFile3("productss.txt");
+
+                //strJson = helper.readTextFromFile3("productss.txt");
+                strJson = f.readFromFileInternal(getContext(),"productss.txt");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
 
@@ -478,7 +484,9 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
     protected List<Order> getClientOrderList(String strInputCID){
         List<Order> responseList = new ArrayList<>();
         String strJson = "";
-        strJson = helper.readTextFromFile3("client_products/pl_"+ strInputCID +".txt");
+        //strJson = helper.readTextFromFile3("client_products/pl_"+ strInputCID +".txt");
+        strJson =  f.readFromFileWithSubDirectory(getContext(),"client_products","pl_"+ strInputCID +".txt");
+
         strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
         strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
         JSONObject j = null;

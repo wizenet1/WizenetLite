@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.Classes.Order;
 import com.Activities.R;
@@ -21,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.Activities.MainActivity.ctx;
 
 /**
  * Created by WIZE02 on 23/05/2017.
@@ -140,7 +143,9 @@ public class OrdersAdapter extends ArrayAdapter<String> {
         protected List<Order> getOrderList(String strInputCID){
             List<Order> responseList = new ArrayList<>();
             String strJson = "";
-            strJson = helper.readTextFromFile3("/client_products/pl_"+ strInputCID +".txt");
+            File_ f = new File_();
+            strJson = f.readFromFileWithSubDirectory(ctx,"client_products","pl_"+ strInputCID +".txt");
+            //strJson = helper.readTextFromFile3("/client_products/pl_"+ strInputCID +".txt");
             strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
             strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
             JSONObject j = null;

@@ -25,6 +25,7 @@ import com.Activities.R;
 import com.CallSoap;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 import com.ProgressTaskAll;
@@ -127,8 +128,10 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                     Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
                         @Override
                         public void onResult(String str) {
+                            File_ f = new File_();
+                            f.writeTextToFileInternal(context,"customers.txt",str);
+                            //helper.writeTextToSpecificFile("","customers.txt",str);
 
-                            helper.writeTextToSpecificFile("","customers.txt",str);
                             Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -329,6 +332,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
 
         @Override
         protected String doInBackground(final String... args) {
+            File_ f = new File_();
             Log.e("MYTAG","hello");
             List<String> listCIDS = new ArrayList<String>();
             listCIDS=helper.getCIDSlist();
@@ -347,7 +351,8 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                         myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResponse", "");
                         myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResult=", "Orders:");
                         myResponse = myResponse.replaceAll(";", "");
-                        helper.writeTextToClientDirectory("client_products","pl_" + cc +".txt", myResponse);
+                        f.writeTextToFileWithSubDirectory(getContext(),"client_products","pl_" + cc +".txt", myResponse);
+                        //helper.writeTextToClientDirectory("client_products","pl_" + cc +".txt", myResponse);
                         Log.e("MYTAG","pl_" + cc +".txt ---" +myResponse);
                     }catch(Exception ex){
                         Log.e("MYTAG",ex.getMessage());

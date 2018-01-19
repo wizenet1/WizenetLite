@@ -311,44 +311,45 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         return v;
     }
-    public void syncCustomersFirstTime(){
-        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-        if (!myFile.exists()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("אנשי קשר לא קיימים");
-            builder.setMessage("האם תרצה לסנכרן אנשי קשר?");
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int ii) {
-                    if (helper.isNetworkAvailable(getContext())){
-                        Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
-
-
-                            Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
-                                @Override
-                                public void onResult(String str) {
-                                    //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
-                                    //strBundle = str;
-
-                                    helper.writeTextToFile2(str);
-                                }
-                            });
-                    }else{
-                        Toast.makeText(getActivity(),"network is Not available",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int ii) {
-                            dialog.dismiss();
-                        }
-                    }
-            );
-            builder.show();
-        }
-
-    }
+//    public void syncCustomersFirstTime(){
+//
+//        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
+//        if (!myFile.exists()){
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setTitle("אנשי קשר לא קיימים");
+//            builder.setMessage("האם תרצה לסנכרן אנשי קשר?");
+//            builder.setIcon(android.R.drawable.ic_dialog_alert);
+//            builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int ii) {
+//                    if (helper.isNetworkAvailable(getContext())){
+//                        Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
+//
+//
+//                            Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
+//                                @Override
+//                                public void onResult(String str) {
+//                                    //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
+//                                    //strBundle = str;
+//
+//                                    helper.writeTextToFile2(str);
+//                                }
+//                            });
+//                    }else{
+//                        Toast.makeText(getActivity(),"network is Not available",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+//                    {
+//                        public void onClick(DialogInterface dialog, int ii) {
+//                            dialog.dismiss();
+//                        }
+//                    }
+//            );
+//            builder.show();
+//        }
+//
+//    }
     protected void AlertDialogAllFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת כל המוצרים");

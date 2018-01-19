@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 import com.Classes.Ccustomer;
+import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 import com.model.Model;
@@ -161,7 +162,9 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
     }
     private Ccustomer[] getCustomerList(){
         Helper helper = new Helper();
-        myString=helper.readTextFromFileCustomers();
+        File_ f = new File_();
+        myString = f.readFromFileInternal(getContext(),"customers.txt");
+        //myString=helper.readTextFromFileCustomers();
         JSONObject j = null;
         int length = 0;
         Ccustomer[] ccustomers ;//= new Ccustomer[5];
