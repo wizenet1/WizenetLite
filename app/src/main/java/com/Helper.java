@@ -113,8 +113,8 @@ public class Helper {
                             if (flag==true){
                                 Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
                             }
-                        }
-                    }
+                        }else{Log.e("myTag", "deleted from db");}
+                    }else{Log.e("myTag", "deleted file productss");}
                     Log.e("myTag", str);
                 }
             });
@@ -126,11 +126,14 @@ public class Helper {
     }
 
     public boolean writeProductsItems(){
+        Log.e("myTag", "arrived here");
         DatabaseHelper db = DatabaseHelper.getInstance(ctx);
         if (db.mgnet_items_isEmpty("all")) {
             try {
                 File_ f = new File_();
                 String strJson = f.readFromFileInternal(ctx,"productss.txt");
+                Log.e("mytag","*strJson*: " + strJson);
+
                 strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
                 strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
                 JSONObject j = null;

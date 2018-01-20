@@ -58,25 +58,12 @@ public class MainActivity extends Activity {
         boolean flag = isNetworkAvailable(context);
         File_ file = new File_();
         file.createWizenetDir(getApplicationContext());
-
+        url = (EditText) findViewById(R.id.edittext) ;
 
         helper = new Helper();
 
 
-//        helper.createDir(context,"wizenet");
-//        helper.makeAndGetProfileDirectory(context,"wizenet");
-//        helper.writeTextToFileInternal(context,"/test.txt","bla bla");
-//        Log.e("myTag",helper.readTextFileInternal(context,"test.txt"));
-//        helper.readTextFileInternal(context,"test.txt");
 
-        //helper.writeTextToFileInternal(context,"test.txt","111111111111111111");
-        //-----------READ--------------------
-        //res =helper.readFromFileInternal(context,"test.txt");
-        //Log.e("mytag",res);
-        //-----------------------------------
-
-        //helper.readTextFileInternal(context,"test.txt");
-        //helper.wrtieFileOnInternalStorage(context,"test.txt","test");
 
 
 
@@ -108,7 +95,7 @@ public class MainActivity extends Activity {
         });
 
 
-        if(!db.getValueByKey("URL").equals("")){
+        if(!DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").equals("")){
             //Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 
             if (flag){
