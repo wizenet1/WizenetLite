@@ -18,7 +18,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +28,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Adapters.SideNavigationMenuAdapter;
+import com.Adapters.SideNavigationMenuAdapter;
 import com.DatabaseHelper;
 import com.Helper;
 import com.Icon_Manager;
@@ -66,10 +71,29 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     DatabaseHelper db;
     Icon_Manager icon_manager;
     Context context;
+    private DrawerLayout drawerLayout;
+    private ListView sideNavigationListView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         //context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
+
+        //The drawer layout which covers the entire fragment.
+        this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
+
+        //THe list of items which are displayed in the side navigation menu.
+        this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
+
+        //Add the side navigation menu adapter.
+        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getContext());
+        sideNavigationListView.setAdapter(sideNavMenuAdapter);
+
+        //Top menu bar options image.
+        ImageView menuBarOptionsImg = (ImageView) v.findViewById(R.id.menu_bar_options);
+
+        //Side navigation menu options image.
+        ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
 
         ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
@@ -81,6 +105,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
        // icon_manager = new Icon_Manager();
         //helper = new Helper();
+
+        menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMenuBarOptionsClick(view);
+            }
+        });
+
+        sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSideNavOptionsClick(view);
+            }
+        });
 
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -311,6 +349,25 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         return v;
     }
+
+    /**
+     * Opens the side navigation menu from the left.
+     * @param view view
+     */
+    public void onMenuBarOptionsClick(View view){
+
+        this.drawerLayout.openDrawer(Gravity.START);
+    }
+
+    /**
+     * Closes the side navigation menu.
+     * @param view view
+     */
+    public void onSideNavOptionsClick(View view){
+
+        this.drawerLayout.closeDrawer(Gravity.START);
+    }
+
 //    public void syncCustomersFirstTime(){
 //
 //        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
@@ -350,6 +407,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //        }
 //
 //    }
+
     protected void AlertDialogAllFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת כל המוצרים");
