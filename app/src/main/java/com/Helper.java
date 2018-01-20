@@ -12,10 +12,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -588,6 +590,7 @@ public class Helper {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getMacAddr() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
