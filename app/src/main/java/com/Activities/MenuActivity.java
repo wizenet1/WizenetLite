@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 
 import com.Alarm_Receiver_Text_File;
+import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
 import com.Fragments.FragmentCustomer;
@@ -40,13 +41,19 @@ import com.Fragments.FragmentMenu;
 import com.GPSTracker;
 import com.Helper;
 import com.model.Model;
+import com.nex3z.notificationbadge.NotificationBadge;
 //import com.google.zxing.integration.android.IntentIntegrator;
 //import com.google.zxing.integration.android.IntentResult;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuActivity extends FragmentActivity implements LocationListener {
     EditText myEditText5;
@@ -56,6 +63,11 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     GPSTracker gps;
     String s_longtitude = "";
     String s_latitude = "";
+
+    // Alert badge. At the moment is static but in future will be dynamic.
+    Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
+    int homepageCount = 1;
+
     private Context context;
     LocationManager manager = null;
     //ImageButton btn1, settingsBtn, btnMikum, control_db_id;
@@ -65,22 +77,69 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.e("mytag","arrived to here");
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.nav_bar);
 
+        // Initialize all the badges.
+        this.initializeBadgeDictionary();
 
+        // Set the alert of homepage to 1.
+        this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
+        getCallStatuses();
 
         //setHasOptionsMenu(false);
 
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
-        getCallStatuses();
+        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+            @Override
+            public void onResult(String str) {
+
+            }
+        });
+
         goToMenuFragment();
 
-
-
     }
+
+    /**
+     * Initializes all the badges in the action bar and main menu.
+     */
+    private void initializeBadgeDictionary() {
+
+        // Set all the badges objects.
+        for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
+
+            View currentObject;
+            switch (alert){
+                case badge_homepage:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_homepage));
+                    break;
+                case badge_clients:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_clients));
+                    break;
+                case badge_messages:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_messages));
+                    break;
+                case badge_arrows:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_arrows));
+                    break;
+                case badge_help:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_help));
+                    break;
+
+            }
+
+        }
+    }
+
     private void initilize(){
         try{
 
