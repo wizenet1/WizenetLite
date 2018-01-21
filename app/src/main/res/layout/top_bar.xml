@@ -41,4 +41,11 @@
         android:id="@+id/wizenet_face"
         android:layout_alignParentRight="true"
         android:src="@drawable/face"/>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        layout="@layout/nav_bar"
+        android:id="@+id/nav_bar"
+        android:layout_below="@id/wizenet_face" />
 </RelativeLayout>

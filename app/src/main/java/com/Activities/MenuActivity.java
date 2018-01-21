@@ -79,6 +79,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         super.onCreate(savedInstanceState);
 
         Log.e("mytag","arrived to here");
+        
         setContentView(R.layout.nav_bar);
 
         // Initialize all the badges.

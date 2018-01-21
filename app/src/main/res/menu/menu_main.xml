@@ -2,16 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/top_bar"
+        android:actionLayout="@layout/top_bar"
+        android:title="top_bar"
+        app:showAsAction="always" />
 
 </menu>
-<!--<item-->
-<!--android:id="@+id/top_bar"-->
-<!--android:title="top_bar"-->
-<!--app:showAsAction="ifRoom"-->
-<!--android:actionLayout="@layout/top_bar">-->
-<!--</item>-->
-<!--<item-->
-<!--android:id="@+id/action_search"-->
-<!--android:icon="@drawable/magnifying_glass"-->
-<!--android:title="sds"-->
-<!--app:showAsAction="ifRoom|collapseActionView" />-->

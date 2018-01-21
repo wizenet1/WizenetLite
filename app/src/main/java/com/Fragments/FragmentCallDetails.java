@@ -53,7 +53,7 @@ public class FragmentCallDetails extends Fragment {
     LinearLayout assigmentlayout;
     DatabaseHelper db;
     int statusID;
-    String statusName ;
+    String statusName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
