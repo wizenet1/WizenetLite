@@ -163,8 +163,9 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
     private Ccustomer[] getCustomerList(){
         Helper helper = new Helper();
         File_ f = new File_();
-        myString = f.readFromFileInternal(getContext(),"customers.txt");
-        //myString=helper.readTextFromFileCustomers();
+        //myString = f.readFromFileInternal(getContext(),"customers.txt");
+        myString = f.readFromFileExternal(getContext(),"customers.txt");
+        Log.e("mytag",myString);
         JSONObject j = null;
         int length = 0;
         Ccustomer[] ccustomers ;//= new Ccustomer[5];

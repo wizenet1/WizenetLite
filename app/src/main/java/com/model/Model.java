@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -628,7 +629,7 @@ public interface get_mgnet_client_items_Listener{
     public interface Wz_Calls_List_Listener{
         public void onResult(String str);
     }
-    public void Async_Wz_Calls_List_Listener(final String macAddress,final int CallStatusID, final  Wz_Calls_List_Listener listener) {
+    public void Async_Wz_Calls_List_Listener(final Context ctx,final String macAddress,final int CallStatusID, final  Wz_Calls_List_Listener listener) {
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
             //###################################
@@ -638,9 +639,11 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
-                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(ctx).getValueByKey("URL"));
                 String response = cs.Wz_Calls_List(macAddress,CallStatusID);
                 try{
+                    Log.e("mytag","arrived here async");
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_Calls_ListResponse", "");
@@ -651,17 +654,21 @@ public interface get_mgnet_client_items_Listener{
 
                     boolean flag = false;
                     File_ f = new File_();
-                    f.deleteFile(context,"calls.txt");
-                   // helper.deleteFile("calls.txt");
-                    DatabaseHelper.getInstance(context).deleteAllCalls();
-                    flag = f.writeTextToFileInternal(context,"calls.txt",myResponse);
+                    f.deleteFileExternal(ctx,"calls.txt");
+
+                    DatabaseHelper.getInstance(ctx).deleteAllCalls();
+
+                    //flag = f.writeTextToFileInternal(ctx,"calls.txt",myResponse);
+                    flag = f.writeTextToFileExternal(ctx,"calls.txt",myResponse);
+
                     //flag =helper.writeTextToSpecificFile("","calls.txt",myResponse);
                     Log.e("mytag", String.valueOf(flag));
                     if (flag == true){
                         //public List<String> getCIDSlist(){
                             List<Call> ret = new ArrayList<Call>();
                             String strJson = "";
-                            strJson = f.readFromFileInternal(context,"calls.txt");
+                            strJson=f.readFromFileExternal(context,"calls.txt");
+                            //strJson = f.readFromFileInternal(context,"calls.txt");
                             //strJson = helper.readTextFromFile3("calls.txt");
                             DatabaseHelper.getInstance(context).deleteAllCalls();
                             JSONObject j = null;
@@ -751,6 +758,8 @@ public interface get_mgnet_client_items_Listener{
 
                     return "1";//myResponse.toString();
                 }catch(Exception e){
+                    Log.e("mytag","error:" + e.getMessage().toString());
+
                     return "nothing? "+e.getMessage();
                 }
             }
@@ -889,14 +898,14 @@ public interface get_mgnet_client_items_Listener{
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
 File_ f = new File_();
                     boolean flag = false;
-                    f.deleteFile(context,"CallStatuses.txt");
+                    f.deleteFileExternal(context,"CallStatuses.txt");
                     //helper.deleteFile("CallStatuses.txt");
                     DatabaseHelper.getInstance(context).deleteAllCalls();
-                    flag = f.writeTextToFileInternal(context,"CallStatuses.txt",myResponse);
+                    flag = f.writeTextToFileExternal(context,"CallStatuses.txt",myResponse);
                     //flag =helper.writeTextToSpecificFile("","CallStatuses.txt",myResponse);
                     if (flag == true){
                         String strJson = "";
-                        strJson = f.readFromFileInternal(context,"CallStatuses.txt");
+                        strJson = f.readFromFileExternal(context,"CallStatuses.txt");
                         //strJson = helper.readTextFromFile3("CallStatuses.txt");
                         DatabaseHelper.getInstance(context).deleteCallStatuses();
                         JSONObject j = null;

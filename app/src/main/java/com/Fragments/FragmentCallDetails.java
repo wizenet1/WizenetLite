@@ -282,57 +282,57 @@ public class FragmentCallDetails extends Fragment {
                 }
             }
         });
-
-        btnupdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
-                        txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
-                    @Override
-                    public void onResult(String str) {
-                        try {
-                            JSONObject j = null;
-                            j = new JSONObject(str);
-                            Log.e("MYTAG",str);
-                            //get the array [...] in json
-                            JSONArray jarray = j.getJSONArray("Wz_Call_Update");
-                            String status = jarray.getJSONObject(0).getString("Status");
-                            if (status.equals("0")){
-                                Toast.makeText(getActivity(),"successfully updated", Toast.LENGTH_LONG).show();
-                                getActivity().getSupportFragmentManager().popBackStack();
-                                Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-                                    @Override
-                                    public void onResult(String str) {
-
-                                    }
-                                });
-                                Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
-                                    @Override
-                                    public void onResult(String str) {
-                                        //Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-                                        //helper.goToCallsFragment(getContext());
-                                        android.support.v4.app.FragmentManager fm = ((FragmentActivity)getContext()).getSupportFragmentManager();
-                                        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                                        FragmentCalls frag = new FragmentCalls();
-                                        ft.replace(R.id.container,frag,"FragmentCallDetails");
-                                        //tv.setVisibility(TextView.GONE);
-                                        ft.addToBackStack("FragmentCalls");
-                                        ft.commit();
-                                    }
-                                });
+//
+//        btnupdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
+//                        txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
+//                    @Override
+//                    public void onResult(String str) {
+//                        try {
+//                            JSONObject j = null;
+//                            j = new JSONObject(str);
+//                            Log.e("MYTAG",str);
+//                            //get the array [...] in json
+//                            JSONArray jarray = j.getJSONArray("Wz_Call_Update");
+//                            String status = jarray.getJSONObject(0).getString("Status");
+//                            if (status.equals("0")){
+//                                Toast.makeText(getActivity(),"successfully updated", Toast.LENGTH_LONG).show();
+//                                getActivity().getSupportFragmentManager().popBackStack();
+//                                Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+//                                    @Override
+//                                    public void onResult(String str) {
+//
+//                                    }
+//                                });
+//                                Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+//                                    @Override
+//                                    public void onResult(String str) {
+//                                        //Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+//                                        //helper.goToCallsFragment(getContext());
+//                                        android.support.v4.app.FragmentManager fm = ((FragmentActivity)getContext()).getSupportFragmentManager();
+//                                        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+//                                        FragmentCalls frag = new FragmentCalls();
+//                                        ft.replace(R.id.container,frag,"FragmentCallDetails");
+//                                        //tv.setVisibility(TextView.GONE);
+//                                        ft.addToBackStack("FragmentCalls");
+//                                        ft.commit();
+//                                    }
+//                                });
                                 //DatabaseHelper.getInstance(getContext()).updateSpecificValueInTable("mgnet_calls","CallID",callid,"StatusName",statusName);
                                 //DatabaseHelper.getInstance(getContext()).updateSpecificValueInTable("mgnet_calls","CallID",callid,"StatusID",String.valueOf(statusID));
-                            }else{
-                                Toast.makeText(getActivity(),"Error", Toast.LENGTH_LONG).show();
-                            }
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-            }
-        });
+                        //    }else{
+//                                Toast.makeText(getActivity(),"Error", Toast.LENGTH_LONG).show();
+//                            }
+//
+//                        } catch (JSONException e1) {
+//                            e1.printStackTrace();
+//                        }
+//                    }
+       //         });
+       //     }
+       // });
 
         return v;
     }

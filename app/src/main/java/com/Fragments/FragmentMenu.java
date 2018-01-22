@@ -76,7 +76,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        //context = this.getContext();
+        context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
 
         //The drawer layout which covers the entire fragment.

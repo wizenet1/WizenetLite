@@ -54,9 +54,10 @@ public class ActivityCalls extends FragmentActivity {
 
 
 
-        Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
             @Override
             public void onResult(String str) {
+                Log.e("mytag","arrived here");
 
                 //Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
                 //helper.goToCallsFragment(context);
@@ -139,7 +140,7 @@ public class ActivityCalls extends FragmentActivity {
     }
     public  void change(){
 
-        Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
             @Override
             public void onResult(String str) {
                 ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList());
