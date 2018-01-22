@@ -73,7 +73,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     Context context;
     private DrawerLayout drawerLayout;
     private ListView sideNavigationListView;
-
+    TextView menu_bar_welcome_txt;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
@@ -91,6 +91,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         //Top menu bar options image.
         ImageView menuBarOptionsImg = (ImageView) v.findViewById(R.id.menu_bar_options);
+        menu_bar_welcome_txt = (TextView) v.findViewById(R.id.menu_bar_welcome_txt);
+        //menu_bar_welcome_txt.setText(((MenuActivity)getActivity()).setName());
+        Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
+            @Override
+            public void onResult(String str) {
+                menu_bar_welcome_txt.setText(str);
+            }
+        });
 
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
@@ -181,171 +189,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
 
-//        int len = 0;
-//        int count = 0;
-//        try{
-//            // ---------client products first time ------------
-//            //-------------------------------------------------
-//            List<String> listCIDS = new ArrayList<String>();
-//            listCIDS=helper.getCIDSlist();
-//            len = listCIDS.size();
-//            //-------------------------------------------------
-//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-//            File_[] list = myFile.listFiles();
-//            if (list.length == 0) {
-//                len = 0;
-//            }else
-//                {
-//                for (File_ f: list){
-//                    String name = f.getName();
-//                    if (name.endsWith(".txt"))
-//                        count++;
-//                }
-//            }
-//
-//        }catch (Exception ex){
-//
-//        }
-//        // continue to sync products if he back to app.
-//        if (count == 0) {
-//            //Log.e("chkchk","doron1");
-//            //helper.deleteProductsFiles();
-//            helper.startService_sync_products(getContext());
-//        }
-//        if ((len != count) && (len != 0)) {
-//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-//            if (myFile.exists()){
-//                //helper.deleteProductsFiles();
-//                //Log.e("chkchk","doron2");
-//                helper.startService_sync_products(getContext());
-//
-//                Toast.makeText(getContext(), "products sync run in the background", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//
-//        if (db.getValueByKey("CLIENT_SYNC_PRODUCTS").toString().equals("1")){
-//            File_ myFile = new File_(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
-//            if (db.mgnet_items_isEmpty("all") || (!myFile.exists())){
-//                //AlertDialogAllFirstTime();
-//            }
-//            // ---------ALL products first time ------------
-//            //syncCustomersFirstTime();
-//
-//            //chkUpdateProducts();
-//        }
-
-
-
-
-        //id7.setTextSize(60);
-//        id1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                helper.goToMessagesFragment(context);
-//                }
-//        //}
-//        });
-//        id2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                helper.goTocustomers(context);
-//            }
-//        });
-//        id3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {helper.goToLoginReportFragment(context);}});
-//        id4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                helper.goToOfflineMenuFragment(context);
-//            }
-//        });
-//        id5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                helper.goToCPFragment(context);
-//            }
-//        });
-//        id5.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                //helper.goToCPFragment2(context);
-//                //Toast.makeText(getActivity().getApplicationContext(),"w2" , Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        });
-//         id6.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View v) {
-//                 helper.goToToolsFragment(context);
-//             }
-//         });
-//        id7.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ActivityCalls.class);
-//                startActivity(intent);
-            //}
-        //});
-
-//        id8.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                String url = db.getInstance(getActivity().getApplicationContext()).getValueByKey("URL").toString();
-//                if(url.equals("")) {
-//                    Toast.makeText(getActivity().getApplicationContext(),"wrong url" , Toast.LENGTH_LONG).show();
-//                }
-//                else{
-//                    Uri uri = Uri.parse(url + "/mobile"); // missing 'http://' will cause crashed
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                    startActivity(intent);
-//                }
-//            }
-//        });
-//        id7.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                helper.goToOfflineMenuFragment(context);
-//            }
-//        });
-
-//        mapid = (Button) v.findViewById(R.id.mapid) ; TODO add uncomment if needed
-//
-//        //btn2 = (Button) v.findViewById(R.id.customers) ;
-//        tv_username = (TextView) v.findViewById(R.id.tv_username);
-//        cb = (CheckBox) v.findViewById(R.id.checkBox3);
-//        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")){
-//            cb.setChecked(true);
-//            cb.setText("GPS");
-//        }else{
-//            cb.setVisibility(View.GONE);
-//        }
-
-
-
-//        try{
-//            Bundle bundle = getArguments();
-//            String mDocNum = bundle.getString("DocNum");
-//            myEditText2.setText(mDocNum);
-//        }catch (Exception ex){
-//            Toast.makeText(getActivity(),ex.toString(),Toast.LENGTH_SHORT).show();
-//        }
-
-
-
-//        cb.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(cb.isChecked()){
-//                    DatabaseHelper.getInstance(getContext()).updateValue("GPS","0");
-//                    ((MenuActivity)getActivity()).stopRepeatingTask();
-//                    cb.setVisibility(View.GONE);
-//                }
-//
-//            }
-//        });
-
 
         return v;
     }
@@ -368,45 +211,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         this.drawerLayout.closeDrawer(Gravity.START);
     }
 
-//    public void syncCustomersFirstTime(){
-//
-//        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-//        if (!myFile.exists()){
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//            builder.setTitle("אנשי קשר לא קיימים");
-//            builder.setMessage("האם תרצה לסנכרן אנשי קשר?");
-//            builder.setIcon(android.R.drawable.ic_dialog_alert);
-//            builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int ii) {
-//                    if (helper.isNetworkAvailable(getContext())){
-//                        Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
-//
-//
-//                            Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
-//                                @Override
-//                                public void onResult(String str) {
-//                                    //Toast.makeText(getApplication(), str.toString(), Toast.LENGTH_SHORT).show();
-//                                    //strBundle = str;
-//
-//                                    helper.writeTextToFile2(str);
-//                                }
-//                            });
-//                    }else{
-//                        Toast.makeText(getActivity(),"network is Not available",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-//            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-//                    {
-//                        public void onClick(DialogInterface dialog, int ii) {
-//                            dialog.dismiss();
-//                        }
-//                    }
-//            );
-//            builder.show();
-//        }
-//
-//    }
 
     protected void AlertDialogAllFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

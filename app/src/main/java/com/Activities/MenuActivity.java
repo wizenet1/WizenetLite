@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.Alarm_Receiver_Text_File;
 //import com.AlertBadgeEnum;
+import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
 import com.Fragments.FragmentCustomer;
@@ -65,7 +66,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     String s_latitude = "";
 
     // Alert badge. At the moment is static but in future will be dynamic.
-   // Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
+    Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
     int homepageCount = 1;
 
     private Context context;
@@ -82,7 +83,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         setContentView(R.layout.activity_menu);
 
         // Initialize all the badges.
-        //this.initializeBadgeDictionary();
+       // this.initializeBadgeDictionary();
 
         // Set the alert of homepage to 1.
         //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
@@ -107,38 +108,38 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     /**
      * Initializes all the badges in the action bar and main menu.
      */
-//    private void initializeBadgeDictionary() {
-//
-//        // Set all the badges objects.
-//        for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
-//
-//            View currentObject;
-//            switch (alert){
-//                case badge_homepage:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)findViewById(R.id.badge_homepage));
-//                    break;
-//                case badge_clients:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)findViewById(R.id.badge_clients));
-//                    break;
-//                case badge_messages:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)findViewById(R.id.badge_messages));
-//                    break;
-//                case badge_arrows:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)findViewById(R.id.badge_arrows));
-//                    break;
-//                case badge_help:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)findViewById(R.id.badge_help));
-//                    break;
-//
-//            }
-//
-//        }
-//    }
+    private void initializeBadgeDictionary() {
+
+        // Set all the badges objects.
+        for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
+
+            View currentObject;
+            switch (alert){
+                case badge_homepage:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_homepage));
+                    break;
+                case badge_clients:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_clients));
+                    break;
+                case badge_messages:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_messages));
+                    break;
+                case badge_arrows:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_arrows));
+                    break;
+                case badge_help:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)findViewById(R.id.badge_help));
+                    break;
+
+            }
+
+        }
+    }
 
     private void initilize(){
         try{
@@ -530,6 +531,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("myTag",e.toString());
         }
     }
+
+
 }
 
 
