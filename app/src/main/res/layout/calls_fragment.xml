@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout
     android:layoutDirection="ltr"
 
@@ -21,20 +24,37 @@
             android:background="@drawable/gradient"
             android:id="@+id/customer_name"
             android:textSize="20dp"/>
+        fa_icon_paper
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:background="@drawable/gradient"
         android:layout_width="fill_parent"
+        android:gravity="right"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_circle2"
+            android:layout_gravity="left"
+            android:id="@+id/telephone"
+
+            android:gravity="center"
+            android:text="@string/fa_icon_telephone"/>
         <EditText
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="חיפוש"
-            android:gravity="center"
+            android:gravity="right"
+            android:layout_weight="0.8"
             android:id="@+id/mSearchEdt"
             android:textSize="20sp"/>
+
     </LinearLayout>
+
     <LinearLayout
 
         android:layout_width="fill_parent"
@@ -56,3 +76,4 @@
 
 
 </LinearLayout>
+</ScrollView>

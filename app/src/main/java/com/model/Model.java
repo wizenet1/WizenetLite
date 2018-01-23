@@ -340,7 +340,7 @@ public class Model {
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
                 JSONObject j = null;
-                String myStr="";
+                String myStr=result;
                 String fname,lname;
                 try {
                     j = new JSONObject(result);
@@ -348,6 +348,10 @@ public class Model {
                     JSONArray jarray = j.getJSONArray("DetailsResult");
                     fname = jarray.getJSONObject(0).getString("Cfname");
                     lname = jarray.getJSONObject(0).getString("Clname");
+                    if(!DatabaseHelper.getInstance(context).getValueByKey("CID").equals(jarray.getJSONObject(0).getString("CID"))){
+                        DatabaseHelper.getInstance(context).updateValue("CID",jarray.getJSONObject(0).getString("CID"));
+                    }
+
                     myStr = fname+" "+lname;
                     //myStr=(jarray.getJSONObject(0).getString("Cfname"));//.concat(" ");//1 or 0
                     //myStr.concat(jarray.getJSONObject(0).getString("Clname"));//
@@ -355,6 +359,7 @@ public class Model {
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
+
 
 
                 listener.onResult(myStr);//result);

@@ -78,7 +78,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
-
+        Icon_Manager icon_manager = new Icon_Manager();
+        TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
+        menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
         this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
 
@@ -111,7 +114,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-       // icon_manager = new Icon_Manager();
+
         //helper = new Helper();
 
         menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {

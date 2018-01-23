@@ -66,7 +66,10 @@ public class Helper {
     public Helper() {
     }
 
+
     public void addInitialfirst(Context ctx){
+        DatabaseHelper.getInstance(ctx).addControlPanel("CID","");
+        DatabaseHelper.getInstance(ctx).addControlPanel("dropHTTP","http://");
         DatabaseHelper.getInstance(ctx).addControlPanel("username","");
         DatabaseHelper.getInstance(ctx).addControlPanel("BACKGROUND","1");
         DatabaseHelper.getInstance(ctx).addControlPanel("GPS","0");

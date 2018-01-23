@@ -81,11 +81,11 @@ public class ActivityCallDetails extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.call_details);
         db = DatabaseHelper.getInstance(this);
-        LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
+        final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        //if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            //Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            //startActivity(intent);
+        //}
         final GPSTracker gps = new GPSTracker(this);
         helper = new Helper();
         db = DatabaseHelper.getInstance(this);
@@ -97,9 +97,6 @@ public class ActivityCallDetails extends FragmentActivity {
         call = new Call();
         call = db.getCallDetailsByCallID(Integer.valueOf(callid));
 
-        mobile = (TextView) findViewById(R.id.mobile);
-        sign = (TextView) findViewById(R.id.sign);
-        location = (TextView) findViewById(R.id.location);
 
         btnupdate = (Button) findViewById(R.id.btnupdate);
         assigmentlayout = (LinearLayout) findViewById(R.id.assigmentlayout);
@@ -122,7 +119,7 @@ public class ActivityCallDetails extends FragmentActivity {
         txtorigin.setText(isContainNull(call.getOriginName().trim()));
         txtpriority.setText(isContainNull(call.getPriorityID().trim()));
         LinearLayout layout_comment = (LinearLayout) findViewById(R.id.layout_comment);
-        Button calltime = (Button) findViewById(R.id.calltime);
+        TextView calltime = (TextView) findViewById(R.id.calltime);
 
         if ((call.getCcomments().toLowerCase().contains("null") || call.getCcomments().toLowerCase().trim().equals(""))) {
             layout_comment.setVisibility(View.GONE);
@@ -148,6 +145,17 @@ public class ActivityCallDetails extends FragmentActivity {
         id2.setBackgroundResource(R.drawable.btn_circle4);
         id3.setBackgroundResource(R.drawable.btn_circle4);
 
+        id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        id3.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+
+        id1.setTextSize(40);
+        id1_text.setText("נסיעה");
+        id2.setTextSize(40);
+        id2_text.setText("עבודה");
+        id3.setTextSize(40);
+        id3_text.setText("סיום");
+
         TextView ccompany_telephone = (TextView) findViewById(R.id.ccompany_telephone);
         TextView ccompany_mobile = (TextView) findViewById(R.id.ccompany_mobile);
         TextView contct_telephone = (TextView) findViewById(R.id.contct_telephone);
@@ -157,32 +165,51 @@ public class ActivityCallDetails extends FragmentActivity {
         ccompany_mobile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
         contct_telephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
         contct_mobile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        parts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
 
         ccompany_telephone.setTextSize(30);
         ccompany_mobile.setTextSize(30);
         contct_telephone.setTextSize(30);
         contct_mobile.setTextSize(30);
-
-
-
-
-        id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        id3.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        //---------------------------------------
+        TextView customerfiles = (TextView) findViewById(R.id.customerfiles);
+        TextView customercase = (TextView) findViewById(R.id.customercase);
+        TextView history = (TextView) findViewById(R.id.history);
+        TextView callfiles = (TextView) findViewById(R.id.callfiles);
+        mobile = (TextView) findViewById(R.id.mobile);
+        sign = (TextView) findViewById(R.id.sign);
+        location = (TextView) findViewById(R.id.location);
 
         txtcallid.setText(callid);
 
+        customerfiles.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        customercase.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        history.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        callfiles.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
         mobile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        mobile.setTextSize(30);
         sign.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        sign.setTextSize(40);
         location.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        location.setTextSize(30);
         parts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        parts.setTextSize(40);
         calltime.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
-        calltime.setTextSize(40);
+
+//        customerfiles.setBackgroundResource(R.drawable.btn_circle2);
+//        customercase.setBackgroundResource(R.drawable.btn_circle2);
+//        history.setBackgroundResource(R.drawable.btn_circle2);
+//        callfiles.setBackgroundResource(R.drawable.btn_circle2);
+//        mobile.setBackgroundResource(R.drawable.btn_circle2);
+//        sign.setBackgroundResource(R.drawable.btn_circle2);
+//        parts.setBackgroundResource(R.drawable.btn_circle2);
+//        calltime.setBackgroundResource(R.drawable.btn_circle2);
+        customerfiles.setTextSize(30);
+        customercase.setTextSize(30);
+        history.setTextSize(30);
+        callfiles.setTextSize(30);
+        mobile.setTextSize(30);
+        sign.setTextSize(30);
+        location.setTextSize(30);
+        parts.setTextSize(30);
+
+
+        calltime.setTextSize(30);
         if ((call.getCallStartTime() + "-" + call.getCallEndTime()).equals("null-null")) {
             assigmentlayout.setVisibility(View.GONE);
         } else {
@@ -249,16 +276,14 @@ public class ActivityCallDetails extends FragmentActivity {
                 }
             }
         });
-        id1.setTextSize(40);
-        id1_text.setText("נסיעה");
-        id2.setTextSize(40);
-        id2_text.setText("עבודה");
-        id3.setTextSize(40);
-        id3_text.setText("סיום");
+
 
         id1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Toast.makeText(getApplicationContext(), "gps לא מופעל", Toast.LENGTH_LONG).show();
+                }
                 if (id1.getCurrentTextColor() == Color.parseColor("#E94E1B") == true) {
                     Toast.makeText(getApplicationContext(), "הינך במצב נסיעה", Toast.LENGTH_LONG).show();
                 } else {
@@ -281,6 +306,9 @@ public class ActivityCallDetails extends FragmentActivity {
         id2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Toast.makeText(getApplicationContext(), "gps לא מופעל", Toast.LENGTH_LONG).show();
+                }
                 if (id2.getCurrentTextColor() == Color.parseColor("#E94E1B") == true) {
                     Toast.makeText(getApplicationContext(), "הינך במצב עבודה", Toast.LENGTH_LONG).show();
                 } else {

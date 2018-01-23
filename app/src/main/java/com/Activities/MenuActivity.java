@@ -64,10 +64,10 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     GPSTracker gps;
     String s_longtitude = "";
     String s_latitude = "";
-
+    Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary;
     // Alert badge. At the moment is static but in future will be dynamic.
-    Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
     int homepageCount = 1;
+    int customerCount = 2;
 
     private Context context;
     LocationManager manager = null;
@@ -81,10 +81,12 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         Log.e("mytag","arrived to here");
         setContentView(R.layout.activity_menu);
+        //alertBadgeDictionary= new HashMap<AlertBadgeEnum, NotificationBadge>();
+
+        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_clients).setNumber(this.customerCount);
 
         // Initialize all the badges.
-       // this.initializeBadgeDictionary();
-
+        //this.initializeBadgeDictionary();
         // Set the alert of homepage to 1.
         //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         getCallStatuses();

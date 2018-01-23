@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,10 +122,14 @@ public class ActivityWebView extends FragmentActivity {
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                     + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + "";
                 break;
+            case "mycalls" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/mobile/control.aspx?control=modulesService/myCalls";
+                break;
             default:
                 //setContentView(R.layout.default);
         }
-
+        Log.e("mytag","technicianid:" + technicianid);
         String cookieString = "CID=" + String.valueOf(technicianid) + "; path=/";
         CookieManager.getInstance().setCookie(url, cookieString);
         mWebview .loadUrl(url);//"http://www.google.com");

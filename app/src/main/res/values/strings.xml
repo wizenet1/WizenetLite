@@ -26,6 +26,15 @@
     <string name="fa_icon_headphones">&#xf140;</string>
     <string name="fa_icon_codepen">&#xf4dc;</string>
     <string name="fa_icon_clock">&#xf402;</string>
+    <string name="fa_icon_paper">&#xf471;</string>
+    <string name="fa_icon_paperclip">&#xf20f;</string>
+    <string name="fa_icon_list">&#xf453;</string>
+    <string name="fa_icon_briefcase">&#xf3ee;</string>
+    <string name="fa_icon_folder">&#xf434;</string>
+    <string name="fa_icon_contact">&#xf419;</string>
+
+
+
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
