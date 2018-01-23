@@ -82,6 +82,9 @@ public class ActivityCallDetails extends FragmentActivity {
         setContentView(R.layout.call_details);
         db = DatabaseHelper.getInstance(this);
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(getApplicationContext(), "gps לא מופעל", Toast.LENGTH_LONG).show();
+        }
         //if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             //startActivity(intent);
@@ -344,13 +347,6 @@ public class ActivityCallDetails extends FragmentActivity {
                     callIntent.setData(Uri.parse("tel:" + call.getCcell()));//String.valueOf(callsArrayList.get(pos).getCallID())
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
                     getApplicationContext().startActivity(callIntent);
@@ -363,75 +359,48 @@ public class ActivityCallDetails extends FragmentActivity {
         });
         //final WebView  mWebview  = new WebView(this);
         //final Activity activity = this;
+        customercase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCustomerCase();
+            }
+        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToHistory();
+            }
+        });
+        callfiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCallFiles();
+            }
+        });
+
+
         calltime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///iframe.aspx?control=/modulesServices/CallRepHistory&CallID=46713&class=tdCallRepHistory&mobile=True
-                Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
-                Bundle b = new Bundle();
-                b.putInt("callid", call.getCallID());
-                b.putInt("cid", call.getCID());
-                b.putInt("technicianid", call.getTechnicianID());
-                b.putString("action","calltime");
-                intent.putExtras(b);
-                startActivity(intent);
+                goToCalltime();
             }
         });
         parts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                    Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
-                    Bundle b = new Bundle();
-                    b.putInt("callid", call.getCallID());
-                    b.putInt("cid", call.getCID());
-                    b.putInt("technicianid", call.getTechnicianID());
-                    b.putString("action","callparts");
-                    intent.putExtras(b);
-                    startActivity(intent);
-                }
-                catch ( ActivityNotFoundException ex  )
-                {
-                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                goToParts();
             }
         });
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                    String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
-
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(browserIntent);
-                    //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
-                }
-                catch ( ActivityNotFoundException ex  )
-                {
-                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
+               goToSign();
             }
         });
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                    // Launch Waze to look for Hawaii:
-                    String url = "waze://?q=" + call.getCaddress() + " " + call.getCcity();
-                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getApplicationContext().startActivity( intent );
-                }
-                catch ( ActivityNotFoundException ex  )
-                {
-                    // If Waze is not installed, open it in Google Play:
-                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
-                    getApplicationContext().startActivity(intent);
-                }
+             goToWaze();
             }
         });
 
@@ -465,6 +434,100 @@ public class ActivityCallDetails extends FragmentActivity {
         });
 
     }
+
+      private void goToCustomerCase(){
+          Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+          Bundle b = new Bundle();
+          b.putInt("callid", call.getCallID());
+          b.putInt("cid", call.getCID());
+          b.putInt("technicianid", call.getTechnicianID());
+          b.putString("action","customercase");
+          intent.putExtras(b);
+          startActivity(intent);
+      }
+      private void goToHistory(){
+          Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+          Bundle b = new Bundle();
+          b.putInt("callid", call.getCallID());
+          b.putInt("cid", call.getCID());
+          b.putInt("technicianid", call.getTechnicianID());
+          b.putString("action","history");
+          intent.putExtras(b);
+          startActivity(intent);
+      }
+      private void goToCallFiles(){
+          String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                  + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(call.getCallID()) + "&class=CallsFiles_appCell&mobile=True";
+
+          Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+          startActivity(browserIntent);
+//          Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+//          Bundle b = new Bundle();
+//          b.putInt("callid", call.getCallID());
+//          b.putInt("cid", call.getCID());
+//          b.putInt("technicianid", call.getTechnicianID());
+//          b.putString("action","callfiles");
+//          intent.putExtras(b);
+//          startActivity(intent);
+      }
+
+    private void goToCalltime(){
+        Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+        Bundle b = new Bundle();
+        b.putInt("callid", call.getCallID());
+        b.putInt("cid", call.getCID());
+        b.putInt("technicianid", call.getTechnicianID());
+        b.putString("action","calltime");
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+    private void goToWaze(){
+        try
+        {
+            String url = "waze://?q=" + call.getCaddress() + " " + call.getCcity();
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity( intent );
+        }
+        catch ( ActivityNotFoundException ex  )
+        {
+            // If Waze is not installed, open it in Google Play:
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+            getApplicationContext().startActivity(intent);
+        }
+    }
+    private void goToParts(){
+        try
+        {
+            Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+            Bundle b = new Bundle();
+            b.putInt("callid", call.getCallID());
+            b.putInt("cid", call.getCID());
+            b.putInt("technicianid", call.getTechnicianID());
+            b.putString("action","callparts");
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        catch ( ActivityNotFoundException ex  )
+        {
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+    private void goToSign(){
+        try
+        {
+            String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+            //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
+        }
+        catch ( ActivityNotFoundException ex  )
+        {
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void Async(int callid,String action,String latitude,String longtitude) {
         Model.getInstance().Async_Wz_Call_setTime_Listener(helper.getMacAddr(), Integer.valueOf(callid), action,latitude,longtitude, new Model.Wz_Call_setTime_Listener() {
             @Override

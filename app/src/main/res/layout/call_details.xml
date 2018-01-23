@@ -420,36 +420,36 @@
 
 
 
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:layoutDirection="rtl"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-            <TextView
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="right"-->
+            <!--android:layoutDirection="rtl"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
+            <!--<TextView-->
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="10pt"
-                android:text="עיר:"
-                android:layout_weight="0.3"
-                android:layout_gravity="right"
-                />
-            <TextView
-                android:layout_weight="0.7"
-                android:textAlignment="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="10pt"
-                android:id="@+id/txtccity"
-                android:text="עיר"
-                android:layout_gravity="center_horizontal" />
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textSize="10pt"-->
+                <!--android:text="עיר:"-->
+                <!--android:layout_weight="0.3"-->
+                <!--android:layout_gravity="right"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:layout_weight="0.7"-->
+                <!--android:textAlignment="center"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textSize="10pt"-->
+                <!--android:id="@+id/txtccity"-->
+                <!--android:text="עיר"-->
+                <!--android:layout_gravity="center_horizontal" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
         <LinearLayout
             android:id="@+id/assigmentlayout"
             android:orientation="horizontal"
@@ -488,10 +488,12 @@
 
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -510,8 +512,8 @@
             android:orientation="vertical"
             android:layout_weight="0.14">
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/btn_circle5"
 
                 android:id="@+id/customercase"
@@ -527,9 +529,9 @@
 
             <TextView
                 android:id="@+id/history"
-                android:layout_width="35dp"
+                android:layout_width="40dp"
 
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:background="@drawable/btn_circle5"
                 android:gravity="center"
                 android:text="@string/fa_icon_list" />
@@ -540,8 +542,8 @@
             android:orientation="vertical"
             android:layout_weight="0.14">
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
 
                 android:id="@+id/callfiles"
                 android:background="@drawable/btn_circle5"
@@ -554,8 +556,8 @@
             android:orientation="vertical"
             android:layout_weight="0.14">
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
 
                 android:id="@+id/parts"
                 android:gravity="center"
@@ -568,8 +570,8 @@
             android:orientation="vertical"
             android:layout_weight="0.14">
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/calltime"
                 android:gravity="center"
                 android:background="@drawable/btn_circle5"
@@ -582,9 +584,8 @@
             android:layout_weight="0.14">
             <TextView
                 android:id="@+id/sign"
-                android:layout_width="35dp"
-
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/btn_circle5"
                 android:gravity="center"
                 android:text="@string/fa_icon_sign" />

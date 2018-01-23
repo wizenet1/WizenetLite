@@ -126,6 +126,18 @@ public class ActivityWebView extends FragmentActivity {
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         + "/mobile/control.aspx?control=modulesService/myCalls";
                 break;
+            case "callfiles" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True";
+                break;
+            case "history" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True";
+                break;
+            case "customercase" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/";
+                break;
             default:
                 //setContentView(R.layout.default);
         }

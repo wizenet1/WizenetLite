@@ -138,7 +138,7 @@ lblcallhistory.setOnClickListener(new View.OnClickListener() {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
 
 //        ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList());
 //        callsAdapter = new CallsAdapter(arrlistofOptions,ctx);
