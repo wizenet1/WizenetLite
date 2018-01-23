@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/app_bar"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    // Button row.
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        style="@android:style/ButtonBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#D84626"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/homepage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_image"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#D84626"
+            android:src="@drawable/home" />
+
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badge_homepage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignTop="@+id/homepage"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginTop="-8dp"
+            android:layout_toRightOf="@+id/homepage"
+            app:badgeBackground="@drawable/badge_bg_with_shadow"
+            app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
+
+        <ImageButton
+            android:id="@+id/clients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_image"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/homepage"
+            android:layout_weight="1"
+            android:background="#D84626"
+            android:src="@drawable/client" />
+
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badge_clients"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignTop="@+id/homepage"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginTop="-8dp"
+            android:layout_toRightOf="@+id/homepage"
+            app:badgeBackground="@drawable/badge_bg_with_shadow"
+            app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
+
+        <ImageButton
+            android:id="@+id/messages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_image"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/clients"
+            android:layout_weight="1"
+            android:background="#D84626"
+            android:src="@drawable/message" />
+
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badge_messages"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignTop="@+id/homepage"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginTop="-8dp"
+            android:layout_toRightOf="@+id/homepage"
+            app:badgeBackground="@drawable/badge_bg_with_shadow"
+            app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
+
+        <ImageButton
+            android:id="@+id/arrows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_image"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/messages"
+            android:layout_weight="1"
+            android:background="#D84626"
+            android:src="@drawable/arrows" />
+
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badge_arrows"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignTop="@+id/homepage"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginTop="-8dp"
+            android:layout_toRightOf="@+id/homepage"
+            app:badgeBackground="@drawable/badge_bg_with_shadow"
+            app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
+
+        <ImageButton
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_image"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/arrows"
+            android:layout_weight="1"
+            android:background="#D84626"
+            android:src="@drawable/help" />
+
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badge_help"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignTop="@+id/homepage"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginTop="-8dp"
+            android:layout_toRightOf="@+id/homepage"
+            app:badgeBackground="@drawable/badge_bg_with_shadow"
+            app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        android:layout_below="@+id/search_bar">
+    </RelativeLayout>
+</RelativeLayout>
