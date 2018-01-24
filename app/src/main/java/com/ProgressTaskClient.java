@@ -55,6 +55,10 @@ Helper helper;
         listCIDS=helper.getCIDSlist();
         String rr = "";
         int i=0;
+        if (!f.isSubDirectoryExist(context,"client_products") == true){
+            f.createSubDirectory(context,"client_products");
+        }
+
         for (final String c: listCIDS) {
             final String cc = c;
             File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products/"+"pl_" + cc +".txt");

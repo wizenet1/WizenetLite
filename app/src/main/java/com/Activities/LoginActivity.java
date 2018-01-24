@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -108,6 +109,7 @@ public class LoginActivity extends FragmentActivity {
         login_checkbox_remember.setChecked(true);
         TextView login_forgotPassword = (TextView) findViewById(R.id.login_forgotPassword);
         TextView update_url = (TextView) findViewById(R.id.update_url);
+        update_url.setPaintFlags(update_url.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         sign_in = (TextView) findViewById(R.id.sign_in_button);
 
         email = (EditText) findViewById(R.id.email);
@@ -120,9 +122,6 @@ public class LoginActivity extends FragmentActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
         }
-
-
-
 
         login_forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override

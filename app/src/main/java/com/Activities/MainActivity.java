@@ -63,8 +63,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         this.context = this;
         boolean flag = isNetworkAvailable(context);
-        File_ file = new File_();
-        file.createWizenetDir(getApplicationContext());
+        File_ f = new File_();
+        f.createWizenetDir(getApplicationContext());
         url = (EditText) findViewById(R.id.edittext) ;
 
         helper = new Helper();
@@ -95,12 +95,18 @@ public class MainActivity extends Activity {
 
 
 
+//        if (!f.isSubDirectoryExist(context,"client_products") == true){
+//            f.createSubDirectory(context,"client_products");
+//        }
 
         File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/");
         if (!dir.exists()) {
             dir.mkdir();
         }
-
+        File dir1 = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/client_products/");
+        if (!dir1.exists()) {
+            dir1.mkdir();
+        }
         if(!DatabaseHelper.getInstance(getApplicationContext()).verification("URL")) {
             helper.addInitialfirst(this.context );
         }else{
@@ -116,6 +122,11 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String urlString = httpDropSelected+url.getText().toString().trim().toLowerCase();
+                //check if is the same url, if isn't, do not auto login
+                if (!DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").equals(urlString)){
+                    DatabaseHelper.getInstance(getApplicationContext()).updateValue("AUTO_LOGIN","0");
+                }
+
                 DatabaseHelper.getInstance(getApplicationContext()).updateValue("dropHTTP",httpDropSelected);
                 DatabaseHelper.getInstance(getApplicationContext()).updateValue("URL",urlString);
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

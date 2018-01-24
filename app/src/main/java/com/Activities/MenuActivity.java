@@ -92,18 +92,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         getCallStatuses();
 
         //setHasOptionsMenu(false);
-
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
-
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-            @Override
-            public void onResult(String str) {
-
-            }
-        });
-
         goToMenuFragment();
 
     }
@@ -289,6 +280,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             //fm.popBackStack();
         }else if (fm.getBackStackEntryCount()==1){
             Log.e("mytag","fm.getBackStackEntryCount())==1:"+String.valueOf(fm.getBackStackEntryCount()));
+            finish();
             //AlertDialoLogOut();
             //alertDialogExit();
         }else{

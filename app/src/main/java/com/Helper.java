@@ -104,6 +104,7 @@ public class Helper {
     public void ALLProductsSync (final Context ctx){
         if (isNetworkAvailable(ctx)) {
             final File_ f = new File_();
+
             Model.getInstance().Async_Get_mgnet_items_Listener(getMacAddr(), new Model.get_mgnet_items_Listener() {
                 @Override
                 public void onResult(String str) {
@@ -207,9 +208,13 @@ public class Helper {
 //        alarmManager.cancel(sender);
 //    }
     public void startService_sync_products(Context ctx){
+        try{
+
+        }catch(Exception ex){
+
+        }
         Intent alarm = new Intent(ctx, Alarm_Receiver_sync_client_products.class);
         boolean alarmRunning = (PendingIntent.getBroadcast(ctx, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-
         if(alarmRunning == false) {
             Log.e("mytag","Alarm is running.");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ctx, 0, alarm, 0);
