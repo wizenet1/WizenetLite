@@ -49,7 +49,15 @@ public class File_ {
         }
         return file;
     }
-
+    public boolean isSubDirectoryExist(Context c,String subDirectory){
+        File file;
+        boolean flag = false;
+        file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator  +"wizenet/"+subDirectory + "/");
+        if(file.exists()) {
+                flag = true;
+        }
+        return flag;
+    }
     public boolean createWizenetDir(Context c){
         File file;
         file = new File(c.getFilesDir().getAbsolutePath() + File.separator + "/wizenet/");
@@ -65,13 +73,11 @@ public class File_ {
         }else{
             success = false;
         }
-
-
         return success;
     }
     public boolean createSubDirectory(Context c,String SubName){
         File file;
-        file = new File(c.getFilesDir().getAbsolutePath() + File.separator + "/" + SubName + "/");
+        file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator  +"wizenet/"+SubName + "/");
         boolean success = true;
 
         if(!(file.exists())) {
@@ -333,13 +339,15 @@ public class File_ {
 
     public String readFromFileWithSubDirectory(Context c,String subDirectory,String txtfile){
         String ret = "";
-        ret = readFromFileInternal(c,subDirectory + "/" + txtfile);
+        ret = readFromFileExternal(c,subDirectory + "/" + txtfile);
         return ret;
     }
     public boolean writeTextToFileWithSubDirectory(Context c,String subDirectory,String txtfile,String str){
         Boolean flag =null;
         createSubDirectory(c,subDirectory);
-        flag =writeTextToFileInternal(c,"/"+subDirectory+"/"+txtfile,str);
+        flag =writeTextToFileExternal(c,"/"+subDirectory+"/"+txtfile,str);
+
+        //flag =writeTextToFileInternal(c,"/"+subDirectory+"/"+txtfile,str);
         return flag;
     }
 

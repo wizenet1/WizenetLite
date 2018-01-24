@@ -29,6 +29,7 @@ import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 import com.ProgressTaskAll;
+import com.ProgressTaskClient;
 import com.model.Model;
 
 import java.io.File;
@@ -169,12 +170,24 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                 File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
                 File[] list = myFile.listFiles();
                 int count = 0;
-                for (File f: list){
-                    String name = f.getName();
-                    if (name.endsWith(".txt"))
-                        count++;
+                try{
+                    for (File f: list){
+                        String name = f.getName();
+                        if (name.endsWith(".txt"))
+                            count++;
+                    }
+                }catch(Exception ex){
+
                 }
-                AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
+                if (count == 0){
+                    Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();
+                    new ProgressTaskClient(getContext()).execute();
+                }else{
+                    AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
+
+                }
+
+
 
 
 

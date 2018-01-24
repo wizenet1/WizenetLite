@@ -901,10 +901,10 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
-File_ f = new File_();
+                    File_ f = new File_();
                     boolean flag = false;
                     f.deleteFileExternal(context,"CallStatuses.txt");
-                    //helper.deleteFile("CallStatuses.txt");
+
                     DatabaseHelper.getInstance(context).deleteAllCalls();
                     flag = f.writeTextToFileExternal(context,"CallStatuses.txt",myResponse);
                     //flag =helper.writeTextToSpecificFile("","CallStatuses.txt",myResponse);
@@ -919,6 +919,7 @@ File_ f = new File_();
                             j = new JSONObject(strJson);
                             jarray= j.getJSONArray("Wz_Call_Statuses");
                         } catch (JSONException e) {
+                            helper.LogPrintExStackTrace(e);
                             e.printStackTrace();
                             Log.e("MYTAG"," CallStatuses "+e.getMessage().toString());
                             return "";

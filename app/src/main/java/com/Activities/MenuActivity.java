@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 
 import com.Alarm_Receiver_Text_File;
+//import com.AlertBadgeEnum;
 import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
@@ -67,6 +68,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     // Alert badge. At the moment is static but in future will be dynamic.
     Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
     int homepageCount = 1;
+    int customerCount = 2;
 
     private Context context;
     LocationManager manager = null;
@@ -85,6 +87,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         // Initialize all the badges.
         this.initializeBadgeDictionary();
 
+        //this.initializeBadgeDictionary();
         // Set the alert of homepage to 1.
         this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         getCallStatuses();
@@ -94,13 +97,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-            @Override
-            public void onResult(String str) {
-
-            }
-        });
-
         goToMenuFragment();
 
     }
@@ -146,18 +142,22 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
     private void initilize(){
         try{
-
-
-            if (db.getValueByKey("BACKGROUND").equals("1")) {
-                Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver.class);
-                boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-                if (alarmRunning == false) {
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    // TODO: 05/09/2016  just note the time is every 5 minutes
-                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
+            try{
+                if (db.getValueByKey("BACKGROUND").equals("1")) {
+                    Intent alarm = new Intent(MenuActivity.this, Alarm_Receiver.class);
+                    boolean alarmRunning = (PendingIntent.getBroadcast(MenuActivity.this, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+                    if (alarmRunning == false) {
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        // TODO: 05/09/2016  just note the time is every 5 minutes
+                        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
+                    }
                 }
+            }catch (Exception ex){
+                helper.LogPrintExStackTrace(ex);
             }
+
+
             //################################
             // FILE_TEXT
             //################################
@@ -169,6 +169,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
 
 
+
             if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && (db.getValueByKey("GPS").equals("1"))){
                 startRepeatingTask();
             }else if((!manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) && (db.getValueByKey("GPS").equals("1"))) {
@@ -178,6 +179,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
         }catch (Exception ex){
             ex.printStackTrace();
+            helper.LogPrintExStackTrace(ex);
             Log.e("mytag",ex.getMessage());
         }
     }
@@ -190,15 +192,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         });
     }
     public void myFunc(){
-        // CLEAR BACK STACK.
+    // CLEAR BACK STACK.
         final FragmentManager fragmentManager = getSupportFragmentManager();
         while (fragmentManager.getBackStackEntryCount() ==1) {
             fragmentManager.popBackStackImmediate();
 
-        }
-        //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        //((YourActivityClassName)getActivity()).yourPublicMethod();
     }
+    //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    //((YourActivityClassName)getActivity()).yourPublicMethod();
+}
     private void stopService_text(){
         Intent intent = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
         PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
@@ -206,17 +208,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         alarmManager.cancel(sender);
     }
     private void startService_text(){
-        Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
-        boolean alarmRunning = (PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-        if(alarmRunning == false) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            // TODO: 05/09/2016  just note the time is every 5 minutes
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),240000, pendingIntent);
+        try{
+            Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
+            boolean alarmRunning = (PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+            if(alarmRunning == false) {
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                // TODO: 05/09/2016  just note the time is every 5 minutes
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),240000, pendingIntent);
+            }
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
         }
+
     }
-
-
 
     Runnable mHandlerTask = new Runnable() {
         @Override
@@ -269,17 +274,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         if(fm.getBackStackEntryCount() == 2){
             //if(!topFragment.getTag().equals("xyz")){
-            Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
 
-            fm.popBackStack();
-            //goToMenuFragment();
+                Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
+
+                fm.popBackStack();
+                //goToMenuFragment();
             //}else{
             //    finish();
             //}
             //fm.popBackStack();
         }else if (fm.getBackStackEntryCount()==1){
             Log.e("mytag","fm.getBackStackEntryCount())==1:"+String.valueOf(fm.getBackStackEntryCount()));
-            alertDialogExit();
+            finish();
+            //AlertDialoLogOut();
+            //alertDialogExit();
         }else{
             Log.e("mytag","fm.getBackStackEntryCount()else:"+String.valueOf(fm.getBackStackEntryCount()));
             fm.popBackStack();
@@ -308,7 +316,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
         Log.w("MainActivity", "onResume");
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
-        //goToMenuFragment();
+            //goToMenuFragment();
         //}
     }
 
@@ -325,7 +333,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            goToLinkFragment("bla");
 //        }
 
-        // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
+       // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
     }
 
 
@@ -397,13 +405,47 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //                break;
 //            case R.id.BarCode:
 
-            //getSupportFragmentManager().beginTransaction().
-            //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
-            // break;
+                //getSupportFragmentManager().beginTransaction().
+                //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
+               // break;
         }
         return (super.onOptionsItemSelected(item));
     }
+    public  String toString(StackTraceElement[] stackTraceElements) {
+        if (stackTraceElements == null)
+            return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (StackTraceElement element : stackTraceElements)
+            stringBuilder.append(element.toString()).append("\n");
+        return stringBuilder.toString();
+    }
+    protected void AlertDialoLogOut(){
+        try{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setTitle("יציאה");
+            builder.setMessage("האם ברצונך לצאת?");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int ii) {
+//                int pid = android.os.Process.myPid();
+//                android.os.Process.killProcess(pid);
+                }
+            });
+            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int ii) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
 
+            builder.show();
+        }catch (Exception e){
+            Log.e("mytag",e.getMessage());
+            Log.e("mytag",toString(e.getStackTrace()));
+        }
+
+    }
 
 
     public void alertDialog(String content){
@@ -421,23 +463,23 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //alertDialog.setIcon(R.drawable.btn_login);
 
         //alertDialog.setPositiveButton("YES",
-        // new DialogInterface.OnClickListener() {
-        //    public void onClick(DialogInterface dialog, int which) {
-        //password = input.getText().toString();
-        //if (password.compareTo("") == 0) {
-        //    if (pass.equals(password)) {
-        //        Toast.makeText(getApplicationContext(),
-        //                "Password Matched", Toast.LENGTH_SHORT).show();
-        //        Intent myIntent1 = new Intent(view.getContext(),
-        //                Show.class);
-        //       startActivityForResult(myIntent1, 0);
-        //    } else {
-        //        Toast.makeText(getApplicationContext(),
-        //               "Wrong Password!", Toast.LENGTH_SHORT).show();
-        //   }
-        //}
-        //}
-        // });
+               // new DialogInterface.OnClickListener() {
+                //    public void onClick(DialogInterface dialog, int which) {
+                        //password = input.getText().toString();
+                        //if (password.compareTo("") == 0) {
+                        //    if (pass.equals(password)) {
+                        //        Toast.makeText(getApplicationContext(),
+                        //                "Password Matched", Toast.LENGTH_SHORT).show();
+                        //        Intent myIntent1 = new Intent(view.getContext(),
+                        //                Show.class);
+                        //       startActivityForResult(myIntent1, 0);
+                        //    } else {
+                        //        Toast.makeText(getApplicationContext(),
+                         //               "Wrong Password!", Toast.LENGTH_SHORT).show();
+                         //   }
+                        //}
+                    //}
+               // });
 
         alertDialog.setNegativeButton("סגור",
                 new DialogInterface.OnClickListener() {
@@ -534,6 +576,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("myTag",e.toString());
         }
     }
+
+
 }
 
 
