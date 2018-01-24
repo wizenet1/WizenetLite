@@ -79,7 +79,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         super.onCreate(savedInstanceState);
 
         Log.e("mytag","arrived to here");
-        
+
         setContentView(R.layout.nav_bar);
 
         // Initialize all the badges.
@@ -187,15 +187,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         });
     }
     public void myFunc(){
-    // CLEAR BACK STACK.
+        // CLEAR BACK STACK.
         final FragmentManager fragmentManager = getSupportFragmentManager();
         while (fragmentManager.getBackStackEntryCount() ==1) {
             fragmentManager.popBackStackImmediate();
 
+        }
+        //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        //((YourActivityClassName)getActivity()).yourPublicMethod();
     }
-    //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    //((YourActivityClassName)getActivity()).yourPublicMethod();
-}
     private void stopService_text(){
         Intent intent = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
         PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
@@ -266,10 +266,10 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         if(fm.getBackStackEntryCount() == 2){
             //if(!topFragment.getTag().equals("xyz")){
-                Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
+            Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
 
-                fm.popBackStack();
-                //goToMenuFragment();
+            fm.popBackStack();
+            //goToMenuFragment();
             //}else{
             //    finish();
             //}
@@ -305,7 +305,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
         Log.w("MainActivity", "onResume");
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
-            //goToMenuFragment();
+        //goToMenuFragment();
         //}
     }
 
@@ -322,7 +322,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            goToLinkFragment("bla");
 //        }
 
-       // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
+        // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
     }
 
 
@@ -394,9 +394,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //                break;
 //            case R.id.BarCode:
 
-                //getSupportFragmentManager().beginTransaction().
-                //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
-               // break;
+            //getSupportFragmentManager().beginTransaction().
+            //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
+            // break;
         }
         return (super.onOptionsItemSelected(item));
     }
@@ -418,23 +418,23 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //alertDialog.setIcon(R.drawable.btn_login);
 
         //alertDialog.setPositiveButton("YES",
-               // new DialogInterface.OnClickListener() {
-                //    public void onClick(DialogInterface dialog, int which) {
-                        //password = input.getText().toString();
-                        //if (password.compareTo("") == 0) {
-                        //    if (pass.equals(password)) {
-                        //        Toast.makeText(getApplicationContext(),
-                        //                "Password Matched", Toast.LENGTH_SHORT).show();
-                        //        Intent myIntent1 = new Intent(view.getContext(),
-                        //                Show.class);
-                        //       startActivityForResult(myIntent1, 0);
-                        //    } else {
-                        //        Toast.makeText(getApplicationContext(),
-                         //               "Wrong Password!", Toast.LENGTH_SHORT).show();
-                         //   }
-                        //}
-                    //}
-               // });
+        // new DialogInterface.OnClickListener() {
+        //    public void onClick(DialogInterface dialog, int which) {
+        //password = input.getText().toString();
+        //if (password.compareTo("") == 0) {
+        //    if (pass.equals(password)) {
+        //        Toast.makeText(getApplicationContext(),
+        //                "Password Matched", Toast.LENGTH_SHORT).show();
+        //        Intent myIntent1 = new Intent(view.getContext(),
+        //                Show.class);
+        //       startActivityForResult(myIntent1, 0);
+        //    } else {
+        //        Toast.makeText(getApplicationContext(),
+        //               "Wrong Password!", Toast.LENGTH_SHORT).show();
+        //   }
+        //}
+        //}
+        // });
 
         alertDialog.setNegativeButton("סגור",
                 new DialogInterface.OnClickListener() {
