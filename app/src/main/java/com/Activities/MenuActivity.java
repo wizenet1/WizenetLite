@@ -96,6 +96,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
+
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
@@ -145,18 +146,22 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
     private void initilize(){
         try{
-
-
-            if (db.getValueByKey("BACKGROUND").equals("1")) {
-                Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver.class);
-                boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-                if (alarmRunning == false) {
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    // TODO: 05/09/2016  just note the time is every 5 minutes
-                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
+            try{
+                if (db.getValueByKey("BACKGROUND").equals("1")) {
+                    Intent alarm = new Intent(MenuActivity.this, Alarm_Receiver.class);
+                    boolean alarmRunning = (PendingIntent.getBroadcast(MenuActivity.this, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+                    if (alarmRunning == false) {
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        // TODO: 05/09/2016  just note the time is every 5 minutes
+                        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
+                    }
                 }
+            }catch (Exception ex){
+                helper.LogPrintExStackTrace(ex);
             }
+
+
             //################################
             // FILE_TEXT
             //################################
@@ -168,6 +173,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
 
 
+
             if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && (db.getValueByKey("GPS").equals("1"))){
                 startRepeatingTask();
             }else if((!manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) && (db.getValueByKey("GPS").equals("1"))) {
@@ -177,6 +183,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
         }catch (Exception ex){
             ex.printStackTrace();
+            helper.LogPrintExStackTrace(ex);
             Log.e("mytag",ex.getMessage());
         }
     }
@@ -205,17 +212,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         alarmManager.cancel(sender);
     }
     private void startService_text(){
-        Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
-        boolean alarmRunning = (PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-        if(alarmRunning == false) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            // TODO: 05/09/2016  just note the time is every 5 minutes
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),240000, pendingIntent);
+        try{
+            Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
+            boolean alarmRunning = (PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+            if(alarmRunning == false) {
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                // TODO: 05/09/2016  just note the time is every 5 minutes
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),240000, pendingIntent);
+            }
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
         }
+
     }
-
-
 
     Runnable mHandlerTask = new Runnable() {
         @Override
@@ -404,7 +414,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         }
         return (super.onOptionsItemSelected(item));
     }
-    public static String toString(StackTraceElement[] stackTraceElements) {
+    public  String toString(StackTraceElement[] stackTraceElements) {
         if (stackTraceElements == null)
             return "";
         StringBuilder stringBuilder = new StringBuilder();

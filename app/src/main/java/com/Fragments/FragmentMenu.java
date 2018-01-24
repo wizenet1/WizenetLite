@@ -134,19 +134,33 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   helper.goTocustomers(context);
+                    //FragmentManager fragManager = getFragmentManager();
+                    android.support.v4.app.FragmentManager fm = getFragmentManager();
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentCustomer frag = new FragmentCustomer();
+                    ft.replace(R.id.container,frag,"FragmentMenu");
+                    ft.addToBackStack("FragmentMenu");
+                    ft.commit();
+
+
                 }
             });
         id_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager2 = getFragmentManager();
-                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-                FragmentMenuOffline fragment2 = new FragmentMenuOffline();
-                fragmentTransaction2.addToBackStack("xyz");
-                fragmentTransaction2.hide(FragmentMenu.this);
-                fragmentTransaction2.add(R.id.container, fragment2);
-                fragmentTransaction2.commit();
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMenuOffline frag = new FragmentMenuOffline();
+                ft.replace(R.id.container,frag,"FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+//                FragmentManager fragmentManager2 = getFragmentManager();
+//                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+//                FragmentMenuOffline fragment2 = new FragmentMenuOffline();
+//                fragmentTransaction2.addToBackStack("xyz");
+//                fragmentTransaction2.hide(FragmentMenu.this);
+//                fragmentTransaction2.add(R.id.container, fragment2);
+//                fragmentTransaction2.commit();
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {

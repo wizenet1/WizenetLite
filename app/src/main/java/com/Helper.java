@@ -741,6 +741,18 @@ public class Helper {
         ft.addToBackStack("FragmentMessage");
         ft.commit();
     }
+    public void LogPrintExStackTrace(Exception e){
+        Log.e("mytag",e.getMessage());
+        Log.e("mytag",toString(e.getStackTrace()));
+    }
+    public  String toString(StackTraceElement[] stackTraceElements) {
+        if (stackTraceElements == null)
+            return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (StackTraceElement element : stackTraceElements)
+            stringBuilder.append(element.toString()).append("\n");
+        return stringBuilder.toString();
+    }
 
 
 }
