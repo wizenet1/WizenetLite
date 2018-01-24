@@ -105,7 +105,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
-
+        ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
         ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
         ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
@@ -145,6 +145,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
                 }
             });
+        id_tools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FragmentManager fragManager = getFragmentManager();
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentTools frag = new FragmentTools();
+                ft.replace(R.id.container,frag,"FragmentTools");
+                ft.addToBackStack("FragmentTools");
+                ft.commit();
+
+
+            }
+        });
         id_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

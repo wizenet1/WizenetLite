@@ -54,22 +54,23 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
     EditText myEditText2;
     //BarCodeActivity barCodeActivity;
     Helper helper;
-    TextView id1,id2,id3,id4,id5,id6,idsyncproducts,btn_order,iddeleteproducts,iddeleteclientproducts,idsyncclientproducts;
+    TextView id1,id2,id3,id4,id5,id6,idsyncproducts,btn_order,iddeleteproducts,iddeleteclientproducts,idsyncclientproducts,lbldivuah;
     DatabaseHelper db;
     Icon_Manager icon_manager;
     private ProgressDialog working_dialog;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tools, null);
         db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         icon_manager = new Icon_Manager();
         helper = new Helper();
         iddeleteproducts = (TextView) v.findViewById(R.id.iddeleteproducts);
+        lbldivuah = (TextView) v.findViewById(R.id.lbldivuah);
         id1 = (TextView) v.findViewById(R.id.id1);
         id2 = (TextView) v.findViewById(R.id.id2);
-        id3 = (TextView) v.findViewById(R.id.id3);//ENTRANCE TO OFFLINE
+        //id3 = (TextView) v.findViewById(R.id.id3);//ENTRANCE TO OFFLINE
         id4 = (TextView) v.findViewById(R.id.idsynccustomers);
         id5 = (TextView) v.findViewById(R.id.id5);
         btn_order= (TextView) v.findViewById(R.id.btn_order);
@@ -89,7 +90,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
 
         id1.setTextSize(60);
         id2.setTextSize(60);
-        id3.setTextSize(60);
+        lbldivuah.setTextSize(60);
         id4.setTextSize(60);
         btn_order.setTextSize(60);
         idsyncproducts.setTextSize(60);
@@ -127,11 +128,12 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
             }
         });
 
-        id3.setOnClickListener(new View.OnClickListener() {
+        lbldivuah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //goTocustomers();
-                helper.goToOfflineMenuFragment(getContext());
+               // helper.goToOfflineMenuFragment(getContext());
+                helper.goToLoginReportFragment(getContext());
             }
         });
 

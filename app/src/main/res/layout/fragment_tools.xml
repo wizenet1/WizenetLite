@@ -31,7 +31,7 @@
 
         <LinearLayout
             android:visibility="gone"
-            android:id="@+id/menu_divuah_id"
+            android:id="@+id/report_id"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -103,13 +103,13 @@
                     android:gravity="center"/>
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_weight="0.33"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/id3"
+                    android:id="@+id/lbldivuah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -117,14 +117,14 @@
                     android:layout_gravity="center"
                     android:textSize="15dp"
                     android:gravity="center"
-                    android:text="@string/fa_icon_scanner" />
+                    android:text="@string/fa_icon_contact" />
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:layout_below="@id/id3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="כניסה לoffline"
+                    android:text="דיווח"
                     android:textSize="15dp"
                     android:gravity="center"/>
             </LinearLayout>
