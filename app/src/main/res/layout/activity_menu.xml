@@ -8,6 +8,7 @@
 
     android:background="#FFFFFF"
     tools:context="com.Activities.MenuActivity"
+
     android:id="@+id/container">
 
 

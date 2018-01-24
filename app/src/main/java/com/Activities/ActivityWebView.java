@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,10 +122,26 @@ public class ActivityWebView extends FragmentActivity {
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                     + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + "";
                 break;
+            case "mycalls" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/mobile/control.aspx?control=modulesService/myCalls";
+                break;
+            case "callfiles" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True";
+                break;
+            case "history" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True";
+                break;
+            case "customercase" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
+                break;
             default:
                 //setContentView(R.layout.default);
         }
-
+        Log.e("mytag","technicianid:" + technicianid);
         String cookieString = "CID=" + String.valueOf(technicianid) + "; path=/";
         CookieManager.getInstance().setCookie(url, cookieString);
         mWebview .loadUrl(url);//"http://www.google.com");

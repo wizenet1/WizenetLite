@@ -129,7 +129,9 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                         @Override
                         public void onResult(String str) {
                             File_ f = new File_();
-                            f.writeTextToFileInternal(context,"customers.txt",str);
+                            f.writeTextToFileExternal(context,"customers.txt",str);
+
+                            //f.writeTextToFileInternal(context,"customers.txt",str);
                             //helper.writeTextToSpecificFile("","customers.txt",str);
 
                             Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
@@ -181,7 +183,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         id5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+                Model.getInstance().Async_Wz_Calls_List_Listener(context,helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
                     @Override
                     public void onResult(String str) {
                         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
@@ -207,6 +209,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         });
         return v;
     }
+
 //    protected void AlertDialogClient(){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //        builder.setTitle("סנכרון מוצרי לקוח");

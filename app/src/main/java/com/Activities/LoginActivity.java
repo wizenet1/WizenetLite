@@ -74,10 +74,9 @@ public class LoginActivity extends FragmentActivity {
         helper= new Helper();
         setContentView(R.layout.activity_login);
         boolean flag = helper.isNetworkAvailable(ctx);
-
-
-
-
+        if (db.getValueByKey("AUTO_LOGIN").equals("1")){
+            goToMenu();
+        }
 //        ActionBar actionBar = getActionBar();
 //        actionBar.setDisplayShowTitleEnabled(false);
 //        actionBar.setDisplayUseLogoEnabled(false);
@@ -131,6 +130,7 @@ public class LoginActivity extends FragmentActivity {
                 Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
                     @Override
                     public void onResult(String str) {
+                        Log.e("mytag",str.trim());
                         if (str.equals("0")){
                             Toast.makeText(getApplicationContext(), "נשלח בהצלחה", Toast.LENGTH_LONG).show();
                         }else{
@@ -174,10 +174,11 @@ public class LoginActivity extends FragmentActivity {
                                     }
                                     if (login_checkbox_remember.isChecked()){
                                         db.updateValue("username",memail);
+                                        db.updateValue("AUTO_LOGIN","1");
+
                                     }
-                                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+                                    goToMenu();
+
                                 }else {
                                     Toast.makeText(getApplicationContext(), "username or password incorrect", Toast.LENGTH_LONG).show();
                                 }
@@ -192,6 +193,11 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
+    }
+    private void goToMenu(){
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
     public void goToOfflineFragment(){
         //Bundle bundle=new Bundle();

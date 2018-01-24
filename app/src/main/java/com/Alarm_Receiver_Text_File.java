@@ -96,7 +96,7 @@ Helper helper;
                 } else {
                     File_ f = new File_();
                     String fileContect = "";
-                    fileContect = f.readFromCurrentFileInternal(_context,file);
+                    fileContect = f.readFromCurrentFileExternal(_context,file);
                     //fileContect = helper.readTextFromFile(file);
                     Model.getInstance().Async_CREATE_OFFLINE_Listener(helper.getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override

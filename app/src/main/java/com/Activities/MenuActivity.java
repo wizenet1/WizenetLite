@@ -80,7 +80,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         Log.e("mytag","arrived to here");
 
-        setContentView(R.layout.nav_bar);
+        setContentView(R.layout.top_bar);
 
         // Initialize all the badges.
         this.initializeBadgeDictionary();
@@ -113,27 +113,30 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         // Set all the badges objects.
         for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
 
-            View currentObject;
+            // Get nav_bar layout.
+            View myLayout = findViewById(R.id.nav_bar);
+
+            // Initialize the nav_bar badges.
             switch (alert){
                 case badge_homepage:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)findViewById(R.id.badge_homepage));
+                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_homepage));
                     break;
                 case badge_clients:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)findViewById(R.id.badge_clients));
+                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_clients));
                     break;
                 case badge_messages:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)findViewById(R.id.badge_messages));
+                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_messages));
                     break;
                 case badge_arrows:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)findViewById(R.id.badge_arrows));
+                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_arrows));
                     break;
                 case badge_help:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)findViewById(R.id.badge_help));
+                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_help));
                     break;
 
             }

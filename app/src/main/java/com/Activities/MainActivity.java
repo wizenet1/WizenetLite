@@ -20,16 +20,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.Classes.CallStatus;
 import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -49,6 +55,7 @@ public class MainActivity extends Activity {
     private Context context;
     DatabaseHelper db;
     public static Context ctx;
+    String httpDropSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,29 @@ public class MainActivity extends Activity {
 
         helper = new Helper();
 
+        Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
+        String[] items = new String[] { "http://", "https://" };
+        String s = "";
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dynamicSpinner.setAdapter(adapter);
+        int selectionPosition = adapter.getPosition(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("dropHTTP"));
 
+        dynamicSpinner.setSelection(selectionPosition);
+        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                httpDropSelected =(String) parent.getItemAtPosition(position);
+
+                Log.v("item", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+        //http://
 
 
 
@@ -75,7 +104,7 @@ public class MainActivity extends Activity {
         if(!DatabaseHelper.getInstance(getApplicationContext()).verification("URL")) {
             helper.addInitialfirst(this.context );
         }else{
-            url.setText(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL"));
+            url.setText(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").replace("https://","").replace("http://",""));
             //Toast.makeText(getBaseContext(),"url is exists", Toast.LENGTH_SHORT).show();
         }
         //if file does not exist
@@ -86,7 +115,8 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String urlString = url.getText().toString().trim().toLowerCase();
+                String urlString = httpDropSelected+url.getText().toString().trim().toLowerCase();
+                DatabaseHelper.getInstance(getApplicationContext()).updateValue("dropHTTP",httpDropSelected);
                 DatabaseHelper.getInstance(getApplicationContext()).updateValue("URL",urlString);
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);

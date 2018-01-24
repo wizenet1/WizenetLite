@@ -903,7 +903,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 e.printStackTrace();
             }
         }catch(Exception e){
-
+            Log.e("mytag",e.getMessage());
+            Log.e("mytag",e.getStackTrace().toString());
         }
 
         db.close();

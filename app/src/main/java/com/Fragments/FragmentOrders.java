@@ -101,7 +101,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         List<String> responseList2 = new ArrayList<String>();
 File_ f = new File_();
         //strJson = helper.readTextFromFileCustomers();
-        strJson = f.readFromFileInternal(getContext(),"customers.txt");
+        strJson = f.readFromFileExternal(getContext(),"customers.txt");
         JSONObject j = null;
         JSONArray jarray = null;
         try {
@@ -153,7 +153,7 @@ File_ f = new File_();
             try{
 
                 //strJson = helper.readTextFromFile3("productss.txt");
-                strJson = f.readFromFileInternal(getContext(),"productss.txt");
+                strJson = f.readFromFileExternal(getContext(),"productss.txt");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
 

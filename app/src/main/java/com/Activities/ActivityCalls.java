@@ -21,6 +21,7 @@ import com.Classes.Call;
 import com.DatabaseHelper;
 import com.Helper;
 import com.Adapters.CallsAdapter;
+import com.Icon_Manager;
 import com.model.Model;
 
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class ActivityCalls extends FragmentActivity {
 
     Helper helper ;
     Context ctx;
-
+TextView lblcount;
     DatabaseHelper db;
     ListView myList;
     LocationManager manager = null;
@@ -42,6 +43,7 @@ public class ActivityCalls extends FragmentActivity {
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
+    String s = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("mytag","fdgsaghgh");
@@ -51,12 +53,32 @@ public class ActivityCalls extends FragmentActivity {
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
         mSearchEdt = (EditText) findViewById(R.id.mSearchEdt);
+        lblcount = (TextView) findViewById(R.id.lblcount);
+        TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
+        Icon_Manager icon_manager = new Icon_Manager();
+        lblcallhistory.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        lblcallhistory.setTextSize(30);
+lblcallhistory.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+        Bundle b = new Bundle();
+        b.putInt("callid", 0);
+        b.putInt("cid", 0);
 
 
 
-        Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+        b.putInt("technicianid", Integer.valueOf(db.getValueByKey("CID")));
+        Log.e("mytag","cid="+db.getValueByKey("CID"));
+        b.putString("action","mycalls");
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+});
+        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
             @Override
             public void onResult(String str) {
+                Log.e("mytag","arrived here");
 
                 //Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
                 //helper.goToCallsFragment(context);
@@ -64,6 +86,7 @@ public class ActivityCalls extends FragmentActivity {
                 for (Call c : getCallsList()){
                     data2.add(c);
                 }
+                lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
                 myList = (ListView) findViewById(R.id.calls_list);
 
                 callsAdapter=new CallsAdapter(data2,getBaseContext());
@@ -71,11 +94,10 @@ public class ActivityCalls extends FragmentActivity {
             }
         });
 
-        //initUI
         Helper helper = new Helper();
         String mac = helper.getMacAddr();
 
-        //initList();
+
 
 
         mSearchTw=new TextWatcher() {
@@ -116,7 +138,7 @@ public class ActivityCalls extends FragmentActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
 
 //        ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList());
 //        callsAdapter = new CallsAdapter(arrlistofOptions,ctx);
@@ -139,7 +161,7 @@ public class ActivityCalls extends FragmentActivity {
     }
     public  void change(){
 
-        Model.getInstance().Async_Wz_Calls_List_Listener(helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
             @Override
             public void onResult(String str) {
                 ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList());
@@ -149,6 +171,7 @@ public class ActivityCalls extends FragmentActivity {
                 myList = (ListView) findViewById(R.id.calls_list);
                 myList.setAdapter(callsAdapter);
                 callsAdapter.notifyDataSetChanged();
+                lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
             }
         });
 

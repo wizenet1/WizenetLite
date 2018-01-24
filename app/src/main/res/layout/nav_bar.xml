@@ -127,11 +127,4 @@
             app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
 
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/container"
-        android:layout_below="@+id/search_bar">
-    </RelativeLayout>
 </RelativeLayout>

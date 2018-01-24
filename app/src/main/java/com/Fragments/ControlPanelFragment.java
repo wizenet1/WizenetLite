@@ -43,7 +43,7 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
     CustomAdapter adapter;
     List<ControlPanel> data2 = new ArrayList<ControlPanel>() ;
     String dataName;
-    CheckBox cb,running_cb,chk_sync_products;
+    CheckBox cb,running_cb,chk_sync_products,chk_remember;
     LocationManager manager = null;
 
     @Override
@@ -57,17 +57,19 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
         running_cb = (CheckBox) v.findViewById(R.id.running_id) ;
         db = DatabaseHelper.getInstance(getContext());
         chk_sync_products = (CheckBox) v.findViewById(R.id.chk_sync_products) ;
+        chk_remember = (CheckBox) v.findViewById(R.id.chk_remember) ;
 
 
         boolean isBackground = db.getValueByKey("BACKGROUND").equals("1");
         boolean isGPS = db.getValueByKey("GPS").equals("1");
         boolean isSyncProducts = db.getValueByKey("CLIENT_SYNC_PRODUCTS").equals("1");
+        boolean isRemember = db.getValueByKey("AUTO_LOGIN").equals("1");
+
 
         running_cb.setChecked(isBackground);
         cb.setChecked(isGPS);
         chk_sync_products.setChecked(isSyncProducts);
-
-
+        chk_remember.setChecked(isRemember);
 
 
         running_cb.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +82,6 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
                     Log.e("myTag","stop service");
                 }else{
                     startService();
-                   // Intent alarm = new Intent(getContext(), Alarm_Receiver.class);
-                    //boolean alarmRunning = (PendingIntent.getBroadcast(getContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-                    //if(alarmRunning == false) {
-//                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, alarm, 0);
-//                        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-//                    // TODO: 05/09/2016 interval time every X minutes
-//                        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
                     db.updateValue("BACKGROUND","1");
                     Log.e("myTag","start service");
                     Toast.makeText(getActivity(),"Start Service",Toast.LENGTH_LONG).show();
@@ -132,6 +127,20 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
                 }else{
                     db.getInstance(getContext()).updateValue("CLIENT_SYNC_PRODUCTS","0");
                     Toast.makeText(getActivity(), "updated", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+        chk_remember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_remember.isChecked() == true) {
+                    db.getInstance(getContext()).updateValue("AUTO_LOGIN","1");
+                    Toast.makeText(getActivity(), "auto login on", Toast.LENGTH_LONG).show();
+
+                }else{
+                    db.getInstance(getContext()).updateValue("AUTO_LOGIN","0");
+                    Toast.makeText(getActivity(), "auto login off", Toast.LENGTH_LONG).show();
 
                 }
             }

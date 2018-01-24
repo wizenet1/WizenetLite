@@ -66,7 +66,11 @@ public class Helper {
     public Helper() {
     }
 
+
     public void addInitialfirst(Context ctx){
+        DatabaseHelper.getInstance(ctx).addControlPanel("AUTO_LOGIN","0");
+        DatabaseHelper.getInstance(ctx).addControlPanel("CID","");
+        DatabaseHelper.getInstance(ctx).addControlPanel("dropHTTP","http://");
         DatabaseHelper.getInstance(ctx).addControlPanel("username","");
         DatabaseHelper.getInstance(ctx).addControlPanel("BACKGROUND","1");
         DatabaseHelper.getInstance(ctx).addControlPanel("GPS","0");
@@ -106,17 +110,26 @@ public class Helper {
                     DatabaseHelper db;
                     db = DatabaseHelper.getInstance(ctx);
                     Boolean flag = true;
-                    flag = f.deleteFile(ctx,"productss.txt");
-                    if (flag == true){
-                        f.writeTextToFileInternal(ctx,"productss.txt", str);
-                        flag = db.delete_from_mgnet_items("all"); //true if success to delete
-                        if (flag == true){
+                    flag = f.deleteFileExternal(ctx,"productss.txt");
+                    if (true){
+                        try{
+                            f.writeTextToFileExternal(ctx,"productss.txt", str);
+                            flag = db.delete_from_mgnet_items("all"); //true if success to delete
                             flag = writeProductsItems();
-                            if (flag==true){
-                                Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
-                            }
-                        }else{Log.e("myTag", "deleted from db");}
-                    }else{Log.e("myTag", "deleted file productss");}
+                            Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
+                        }catch (Exception e){
+                            Log.e("mytag","err del from db:" + e.getMessage());
+                        }
+
+
+                        //if (flag == true){
+
+                           // if (flag==true){
+
+                           // }
+                        //}else{Log.e("myTag", "deleted from db");}
+                    }
+                    //else{Log.e("myTag", "deleted file productss");}
                     Log.e("myTag", str);
                 }
             });
@@ -133,7 +146,7 @@ public class Helper {
         if (db.mgnet_items_isEmpty("all")) {
             try {
                 File_ f = new File_();
-                String strJson = f.readFromFileInternal(ctx,"productss.txt");
+                String strJson = f.readFromFileExternal(ctx,"productss.txt");
                 Log.e("mytag","*strJson*: " + strJson);
 
                 strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
@@ -275,7 +288,7 @@ public class Helper {
         List<String> ret = new ArrayList<String>();
         String strJson = "";
         File_ f = new File_();
-        strJson = f.readFromFileInternal(ctx,"customers.txt");
+        strJson = f.readFromFileExternal(ctx,"customers.txt");
         //strJson = readTextFromFileCustomers();
         JSONObject j = null;
         JSONArray jarray = null;
@@ -347,7 +360,7 @@ public class Helper {
                 } else {
                     String fileContect = "";
                     //fileContect = readTextFromFile(file);
-                    fileContect = f.readFromCurrentFileInternal(ctx,file);
+                    fileContect = f.readFromCurrentFileExternal(ctx,file);
                     Model.getInstance().Async_CREATE_OFFLINE_Listener(getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override
                         public void onResult(String str) {
@@ -518,14 +531,14 @@ public class Helper {
         }
         try{
             //File myFile =
-            f.deleteFile(ctx,"productss.txt");//new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
+            f.deleteFileExternal(ctx,"productss.txt");//new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/productss.txt");
             //if(myFile.exists())
             //myFile.delete();
         }catch(Exception e){
 
         }
         try{
-            f.deleteFile(ctx,"customers.txt");
+            f.deleteFileExternal(ctx,"customers.txt");
             //File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
             //if(myFile.exists())
             //    myFile.delete();
@@ -534,51 +547,7 @@ public class Helper {
         }
     }
 
-    /**
-     * get json text from file/ read the file
-     * @return
-     */
-//    public String readTextFromFileCustomers() {
-//        String ret = "";
-//
-//        try {
-//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/customers.txt");
-//            FileInputStream fIn = new FileInputStream(myFile);
-//            BufferedReader myReader = new BufferedReader(
-//                    new InputStreamReader(fIn));
-//            String aDataRow = "";
-//            String aBuffer = "";
-//            while ((aDataRow = myReader.readLine()) != null) {
-//                aBuffer += aDataRow;
-//            }
-//            ret = aBuffer.toString().trim();
-//            myReader.close();
-//            //Toast.makeText(getApplicationContext(), ret, Toast.LENGTH_LONG).show();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ret;
-//    }
 
-//    public void writeTextToFileORDER(String param){
-//
-//        FileWriter f;
-//        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/test_file_service.txt");
-//        try {
-//            f = new FileWriter(file,true);
-//            if(!file.exists()) {
-//                file.createNewFile();
-//            }
-//            f.write("\r\n"+param);
-//            f.flush();
-//            f.close();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            Log.e("myTag",e.toString());
-//        }
-//    }
 
     //Android 6.0 : Access to mac address from WifiManager forbidden
     private static final String marshmallowMacAddress = "02:00:00:00:00:00";
@@ -690,13 +659,14 @@ public class Helper {
         ft.commit();
     }
     public void goTocustomers(Context context){
+
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         FragmentCustomer frag = new FragmentCustomer();
-        ft.replace(R.id.container,frag,"FragmentCustomer");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentCustomer");
+        ft.replace(R.id.container,frag,"FragmentMenu");
+        ft.addToBackStack("FragmentMenu");
         ft.commit();
+
     }
     public void goToCPFragment(Context context){
 
@@ -770,6 +740,18 @@ public class Helper {
         //tv.setVisibility(TextView.GONE);
         ft.addToBackStack("FragmentMessage");
         ft.commit();
+    }
+    public void LogPrintExStackTrace(Exception e){
+        Log.e("mytag",e.getMessage());
+        Log.e("mytag",toString(e.getStackTrace()));
+    }
+    public  String toString(StackTraceElement[] stackTraceElements) {
+        if (stackTraceElements == null)
+            return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (StackTraceElement element : stackTraceElements)
+            stringBuilder.append(element.toString()).append("\n");
+        return stringBuilder.toString();
     }
 
 
