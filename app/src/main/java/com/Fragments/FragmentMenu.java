@@ -99,7 +99,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
             @Override
             public void onResult(String str) {
-                menu_bar_welcome_txt.setText(str);
+                menu_bar_welcome_txt.setText( " שלום " +str);
             }
         });
 
@@ -134,21 +134,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //FragmentManager fragManager = getFragmentManager();
-                    android.support.v4.app.FragmentManager fm = getFragmentManager();
-                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                    FragmentCustomer frag = new FragmentCustomer();
-                    ft.replace(R.id.container,frag,"FragmentMenu");
-                    ft.addToBackStack("FragmentMenu");
-                    ft.commit();
-
-//                    FragmentManager fragmentManager2 = getFragmentManager();
-//                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-//                    FragmentCustomer fragment2 = new FragmentCustomer();
-//                    fragmentTransaction2.addToBackStack("xyz");
-//                    fragmentTransaction2.hide(FragmentMenu.this);
-//                    fragmentTransaction2.add(R.id.container, fragment2);
-//                    fragmentTransaction2.commit();
+                   helper.goTocustomers(context);
                 }
             });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +181,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         return v;
     }
-
+//    FragmentManager fragmentManager2 = getFragmentManager();
+//    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+//    FragmentMenuOffline fragment2 = new FragmentMenuOffline();
+//                fragmentTransaction2.addToBackStack("xyz");
+//                fragmentTransaction2.hide(FragmentMenu.this);
+//                fragmentTransaction2.add(R.id.container, fragment2);
+//                fragmentTransaction2.commit();
     /**
      * Opens the side navigation menu from the left.
      * @param view view
@@ -213,6 +205,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         this.drawerLayout.closeDrawer(Gravity.START);
     }
+
+
 
 
     protected void AlertDialogAllFirstTime(){

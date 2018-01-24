@@ -407,6 +407,9 @@ public class ActivityCallDetails extends FragmentActivity {
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (statusID == -1){
+                    Async(Integer.valueOf(callid), "stop", "", "");
+                }
                 Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
                         txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
                             @Override
@@ -435,7 +438,7 @@ public class ActivityCallDetails extends FragmentActivity {
 
     }
 
-      private void goToCustomerCase(){
+    private void goToCustomerCase(){
           Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
           Bundle b = new Bundle();
           b.putInt("callid", call.getCallID());
@@ -445,7 +448,7 @@ public class ActivityCallDetails extends FragmentActivity {
           intent.putExtras(b);
           startActivity(intent);
       }
-      private void goToHistory(){
+    private void goToHistory(){
           Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
           Bundle b = new Bundle();
           b.putInt("callid", call.getCallID());
@@ -455,22 +458,12 @@ public class ActivityCallDetails extends FragmentActivity {
           intent.putExtras(b);
           startActivity(intent);
       }
-      private void goToCallFiles(){
+    private void goToCallFiles(){
           String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                   + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(call.getCallID()) + "&class=CallsFiles_appCell&mobile=True";
-
           Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
           startActivity(browserIntent);
-//          Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
-//          Bundle b = new Bundle();
-//          b.putInt("callid", call.getCallID());
-//          b.putInt("cid", call.getCID());
-//          b.putInt("technicianid", call.getTechnicianID());
-//          b.putString("action","callfiles");
-//          intent.putExtras(b);
-//          startActivity(intent);
       }
-
     private void goToCalltime(){
         Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
         Bundle b = new Bundle();

@@ -209,6 +209,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         });
         return v;
     }
+
 //    protected void AlertDialogClient(){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //        builder.setTitle("סנכרון מוצרי לקוח");

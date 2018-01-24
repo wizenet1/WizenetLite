@@ -68,6 +68,7 @@ public class Helper {
 
 
     public void addInitialfirst(Context ctx){
+        DatabaseHelper.getInstance(ctx).addControlPanel("AUTO_LOGIN","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("CID","");
         DatabaseHelper.getInstance(ctx).addControlPanel("dropHTTP","http://");
         DatabaseHelper.getInstance(ctx).addControlPanel("username","");
@@ -658,13 +659,14 @@ public class Helper {
         ft.commit();
     }
     public void goTocustomers(Context context){
+
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         FragmentCustomer frag = new FragmentCustomer();
-        ft.replace(R.id.container,frag,"FragmentCustomer");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentCustomer");
+        ft.replace(R.id.container,frag,"FragmentMenu");
+        ft.addToBackStack("FragmentMenu");
         ft.commit();
+
     }
     public void goToCPFragment(Context context){
 

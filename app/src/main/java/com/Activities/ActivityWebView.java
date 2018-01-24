@@ -136,7 +136,7 @@ public class ActivityWebView extends FragmentActivity {
                 break;
             case "customercase" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/";
+                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
                 break;
             default:
                 //setContentView(R.layout.default);

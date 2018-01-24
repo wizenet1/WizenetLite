@@ -985,7 +985,7 @@ File_ f = new File_();
                     myResponse = myResponse.replaceAll("\\}","");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
-                    return myResponse.toString();
+                    return myResponse.toString().trim();
                 }catch(Exception e){
                     return "nothing? "+e.getMessage();
                 }

@@ -268,6 +268,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         if(fm.getBackStackEntryCount() == 2){
             //if(!topFragment.getTag().equals("xyz")){
+
                 Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
 
                 fm.popBackStack();
@@ -278,7 +279,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             //fm.popBackStack();
         }else if (fm.getBackStackEntryCount()==1){
             Log.e("mytag","fm.getBackStackEntryCount())==1:"+String.valueOf(fm.getBackStackEntryCount()));
-            alertDialogExit();
+            //AlertDialoLogOut();
+            //alertDialogExit();
         }else{
             Log.e("mytag","fm.getBackStackEntryCount()else:"+String.valueOf(fm.getBackStackEntryCount()));
             fm.popBackStack();
@@ -402,7 +404,41 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         }
         return (super.onOptionsItemSelected(item));
     }
+    public static String toString(StackTraceElement[] stackTraceElements) {
+        if (stackTraceElements == null)
+            return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (StackTraceElement element : stackTraceElements)
+            stringBuilder.append(element.toString()).append("\n");
+        return stringBuilder.toString();
+    }
+    protected void AlertDialoLogOut(){
+        try{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setTitle("יציאה");
+            builder.setMessage("האם ברצונך לצאת?");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int ii) {
+//                int pid = android.os.Process.myPid();
+//                android.os.Process.killProcess(pid);
+                }
+            });
+            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int ii) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
 
+            builder.show();
+        }catch (Exception e){
+            Log.e("mytag",e.getMessage());
+            Log.e("mytag",toString(e.getStackTrace()));
+        }
+
+    }
 
 
     public void alertDialog(String content){
