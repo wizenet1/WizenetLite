@@ -410,7 +410,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="הנחש"
+                        android:text="דיווח"
                         android:textSize="15dp" />
                 </LinearLayout>
 

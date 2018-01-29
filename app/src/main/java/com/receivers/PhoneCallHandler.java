@@ -19,28 +19,29 @@ public class PhoneCallHandler extends PhoneCallReceiver {
         final Context context = ctx;
 
         //Open the incoming call screen.
-        Thread pageTimer = new Thread() {
-            public void run() {
-                try {
-                    sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    Intent i = new Intent();
-                    i.setClass(context, IncomingCallScreenActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    // i.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-                    i.putExtra("INCOMING_NUMBER", number);
-                    i.setAction(Intent.ACTION_MAIN);
-                    i.addCategory(Intent.CATEGORY_LAUNCHER);
-                    context.startActivity(i);
-                }
-            }
-        };
-        pageTimer.start();
+
+//        Thread pageTimer = new Thread() {
+//            public void run() {
+//                try {
+//                    sleep(1500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    Intent i = new Intent();
+//                    i.setClass(context, IncomingCallScreenActivity.class);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    // i.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+//                    i.putExtra("INCOMING_NUMBER", number);
+//                    i.setAction(Intent.ACTION_MAIN);
+//                    i.addCategory(Intent.CATEGORY_LAUNCHER);
+//                    context.startActivity(i);
+//                }
+//            }
+//        };
+//        pageTimer.start();
     }
 
     @Override

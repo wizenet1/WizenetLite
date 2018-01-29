@@ -423,8 +423,7 @@ public class ActivityCallDetails extends FragmentActivity {
                                     String status = jarray.getJSONObject(0).getString("Status");
                                     if (status.equals("0")){
                                         Toast.makeText(getApplicationContext(),"successfully updated", Toast.LENGTH_LONG).show();
-                                        //DatabaseHelper.getInstance(getContext()).updateSpecificValueInTable("mgnet_calls","CallID",callid,"StatusName",statusName);
-                                        //DatabaseHelper.getInstance(getContext()).updateSpecificValueInTable("mgnet_calls","CallID",callid,"StatusID",String.valueOf(statusID));
+                                        //txttechanswer.setText("");
                                     }else{
                                         Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_LONG).show();
                                     }
@@ -579,21 +578,21 @@ public class ActivityCallDetails extends FragmentActivity {
         }
         return (super.onOptionsItemSelected(item));
     }
-    private List<Call> getCallsList(){
-        JSONObject j = null;
-        int length = 0;
-
-        List<Call> calls = new ArrayList<Call>() ;
-        try {
-            calls= DatabaseHelper.getInstance(this).getCalls();
-            length = calls.size();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return calls;
-    }
+//    private List<Call> getCallsList(){
+//        JSONObject j = null;
+//        int length = 0;
+//
+//        List<Call> calls = new ArrayList<Call>() ;
+//        try {
+//            calls= DatabaseHelper.getInstance(this).getCalls("");
+//            length = calls.size();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        return calls;
+//    }
 
 
     public void AlertDialogWeb(String callid){

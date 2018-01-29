@@ -227,11 +227,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 //region CALLS
 
-    public List<Call> getCalls() {
+    public List<Call> getCalls(String sortby) {
         List<Call> callList = new ArrayList<Call>();
 // Select All Query
         String selectQuery ="";
             selectQuery = "SELECT * FROM mgnet_calls " ;
+        if (!sortby.trim().equals("")){
+            selectQuery+= " where 1=1 order by " + sortby + "";
+        }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 // looping through all rows and adding to list
@@ -996,6 +999,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         //db.execSQL("delete from "+ TABLE_CONTROL_PANEL);
         db.close();
     }
+
 
 }
 

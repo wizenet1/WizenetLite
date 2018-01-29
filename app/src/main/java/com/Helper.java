@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import com.Activities.R;
@@ -70,6 +71,7 @@ public class Helper {
     public void addInitialfirst(Context ctx){
         DatabaseHelper.getInstance(ctx).addControlPanel("AUTO_LOGIN","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("CID","");
+        DatabaseHelper.getInstance(ctx).addControlPanel("CtypeID","");
         DatabaseHelper.getInstance(ctx).addControlPanel("dropHTTP","http://");
         DatabaseHelper.getInstance(ctx).addControlPanel("username","");
         DatabaseHelper.getInstance(ctx).addControlPanel("BACKGROUND","1");
@@ -91,6 +93,29 @@ public class Helper {
 //        if (!dir.exists()) {
 //            dir.mkdir();
 //        }
+    }
+
+    public Pair<String, String> getJsonKeyValue (String jsonstr,String ws_name) {
+
+        JSONObject j = null;
+        String Status = null;
+        String Msg = null;
+        try {
+            j = new JSONObject(jsonstr);
+            //get the array [...] in json
+            JSONArray jarray = j.getJSONArray(ws_name);
+            Status = jarray.getJSONObject(0).getString("Status");
+            Msg = jarray.getJSONObject(0).getString("Msg");
+
+
+
+            //myStr=(jarray.getJSONObject(0).getString("Cfname"));//.concat(" ");//1 or 0
+            //myStr.concat(jarray.getJSONObject(0).getString("Clname"));//
+
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        return new Pair<>(Status, Msg);
     }
 
     public String getcurrentDateString(){

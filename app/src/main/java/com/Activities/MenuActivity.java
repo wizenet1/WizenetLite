@@ -82,15 +82,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         Log.e("mytag","arrived to here");
 
-        setContentView(R.layout.top_bar);
+        setContentView(R.layout.activity_menu);
 
         // Initialize all the badges.
-        this.initializeBadgeDictionary();
+        //this.initializeBadgeDictionary();
 
         //this.initializeBadgeDictionary();
         // Set the alert of homepage to 1.
-        this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
-        getCallStatuses();
+        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
+        //getCallStatuses();
 
         //setHasOptionsMenu(false);
 
@@ -183,14 +183,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("mytag",ex.getMessage());
         }
     }
-    private void getCallStatuses(){
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
-            @Override
-            public void onResult(String str) {
 
-            }
-        });
-    }
     public void myFunc(){
     // CLEAR BACK STACK.
         final FragmentManager fragmentManager = getSupportFragmentManager();

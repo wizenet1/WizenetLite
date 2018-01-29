@@ -138,12 +138,20 @@ public class ActivityWebView extends FragmentActivity {
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
                 break;
+            case "goToUserHistory" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport";
+                break;
             default:
                 //setContentView(R.layout.default);
         }
         Log.e("mytag","technicianid:" + technicianid);
         String cookieString = "CID=" + String.valueOf(technicianid) + "; path=/";
+        String cookieString2 = "CtypeID=" + DatabaseHelper.getInstance(getBaseContext()).getValueByKey("CtypeID") + "; path=/";
+
         CookieManager.getInstance().setCookie(url, cookieString);
+        CookieManager.getInstance().setCookie(url, cookieString2);
+
         mWebview .loadUrl(url);//"http://www.google.com");
         setContentView(mWebview );
 
@@ -219,7 +227,7 @@ public class ActivityWebView extends FragmentActivity {
 
         List<Call> calls = new ArrayList<Call>() ;
         try {
-            calls= DatabaseHelper.getInstance(this).getCalls();
+            calls= DatabaseHelper.getInstance(this).getCalls("");
             length = calls.size();
         } catch (Exception e) {
             e.printStackTrace();

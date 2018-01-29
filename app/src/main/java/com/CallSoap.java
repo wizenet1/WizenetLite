@@ -47,6 +47,8 @@ public class CallSoap {
     public  final String Wz_Call_Update = "Wz_Call_Update";
     public  final String Wz_Call_Statuses = "Wz_Call_Statuses";
     public  final String Wz_Forgot = "Wz_Forgot";
+    public  final String Wz_timeReport = "Wz_timeReport";
+    public  final String Wz_getState = "Wz_getState";
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
     //#############SOAP ACTION######################
@@ -70,6 +72,9 @@ public class CallSoap {
     public  final String Wz_Call_Update_SOAP_ACTION = "http://tempuri.org/Wz_Call_Update";
     public  final String Wz_Call_Statuses_SOAP_ACTION = "http://tempuri.org/Wz_Call_Statuses";
     public  final String Wz_Forgot_SOAP_ACTION = "http://tempuri.org/Wz_Forgot";
+    public  final String Wz_timeReport_SOAP_ACTION = "http://tempuri.org/Wz_timeReport";
+    public  final String Wz_getState_SOAP_ACTION = "http://tempuri.org/Wz_getState";
+
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
 
@@ -531,6 +536,60 @@ public String Wz_Forgot(String mac_address,String Email)
 
 }
     //endregion
+
+    //region Wz_timeReport
+    public String Wz_timeReport(String mac_address,String action,String latitude,String longtitude)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_timeReport);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+        request.addProperty("action",action);
+        request.addProperty("latitude",latitude);
+        request.addProperty("longtitude",longtitude);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_timeReport_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+
+    }
+    //endregion
+//region Wz_getState
+    public String Wz_getState(String mac_address)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_getState);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_getState_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+
+    }
+    //endregion
+
     public String readTextFromFile() {
         String ret = "";
 

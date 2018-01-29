@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.wizenet2.ManageActivity"
+    tools:context="com.Activities.MessageActivity"
     android:orientation="vertical">
     <LinearLayout
 
@@ -27,6 +27,24 @@
             android:padding="15dp"
             />
     </LinearLayout>
+    <LinearLayout
+
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="הסטוריית דיווח"
+            android:id="@+id/userhistory"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

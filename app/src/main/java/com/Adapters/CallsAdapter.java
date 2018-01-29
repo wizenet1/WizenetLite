@@ -220,7 +220,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         //#################    TEXTVIEW    ##########################
 
         txtsubject.setText(callsArrayList.get(pos).getSubject());
-        txtCreateDate.setText(callsArrayList.get(pos).getCreateDate().substring(0,9) + " | " + callsArrayList.get(pos).getCreateDate().substring(11,16));
+        txtCreateDate.setText(callsArrayList.get(pos).getCreateDate().substring(0,10) + " | " + callsArrayList.get(pos).getCreateDate().substring(11,16));
         txtcallid.setText("קריאה: " +String.valueOf(callsArrayList.get(pos).getCallID()));
         txtstatusname.setText(callsArrayList.get(pos).getStatusName());
         txtCcompany.setText(callsArrayList.get(pos).getCcompany());
@@ -269,7 +269,10 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
 
                 for(int i=0;i<filterList.size();i++)
                 {
-                    if(filterList.get(i).getSubject().contains(constraint)||String.valueOf(filterList.get(i).getCallID()).contains(constraint))
+                    if(filterList.get(i).getSubject().contains(constraint)||
+                            String.valueOf(filterList.get(i).getCallID()).contains(constraint)||
+                            String.valueOf(filterList.get(i).getCcompany()).contains(constraint)||
+                            String.valueOf(filterList.get(i).getCname()).contains(constraint))
                     {
                         Call p=new Call(
                                 filterList.get(i).getCallID(),
@@ -322,13 +325,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
                                 filterList.get(i).getContctCemail(),
                                 filterList.get(i).getCallParentID()
                         );
-                        //p= new Ccustomer()
-                        //filterList.get(i).getCreateDate()
-//                        filterList.get(i).getCcompany(),
-//                                filterList.get(i).getStatusName(),
-//                                filterList.get(i).getCaddress(),
-//                                filterList.get(i).getCcity(),
-//                                filterList.get(i).getContctCell()
+
                         filters.add(p);
                     }
                 }

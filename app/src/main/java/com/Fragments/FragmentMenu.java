@@ -79,6 +79,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
         Icon_Manager icon_manager = new Icon_Manager();
+        getCallStatuses();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
         menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         //menu_bar_profile.setTextSize(40);
@@ -111,6 +112,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
         ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
         ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
+        ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
 
 
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
@@ -157,6 +159,17 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.commit();
 
 
+            }
+        });
+        id_accounting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentLoginReport frag = new FragmentLoginReport();
+                ft.replace(R.id.container,frag,"FragmentLoginReport");
+                ft.addToBackStack("FragmentLoginReport");
+                ft.commit();
             }
         });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +221,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
         return v;
+    }
+    private void getCallStatuses(){
+        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+            @Override
+            public void onResult(String str) {
+
+            }
+        });
     }
 //    FragmentManager fragmentManager2 = getFragmentManager();
 //    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();

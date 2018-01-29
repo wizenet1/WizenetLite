@@ -32,23 +32,32 @@
 
                 >
 
-                <TextView
+                <!--<TextView-->
 
-                    android:id="@+id/customer_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:text="רשימת קריאות"
-                    android:textSize="20dp" />
+                    <!--android:id="@+id/customer_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="0.5"-->
+                    <!--android:text="רשימת קריאות"-->
+                    <!--android:textSize="20dp" -->
+                    <!---->
+                    <!--/>-->
                 <TextView
                     android:id="@+id/lblcount"
                     android:layout_weight="0.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="right"
 
                     android:text="יש לך x קריאות"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    />
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:textAlignment="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50" />
 
             </LinearLayout>
 

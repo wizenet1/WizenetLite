@@ -351,6 +351,9 @@ public class Model {
                     if(!DatabaseHelper.getInstance(context).getValueByKey("CID").equals(jarray.getJSONObject(0).getString("CID"))){
                         DatabaseHelper.getInstance(context).updateValue("CID",jarray.getJSONObject(0).getString("CID"));
                     }
+                    if(!DatabaseHelper.getInstance(context).getValueByKey("CtypeID").equals(jarray.getJSONObject(0).getString("CtypeID"))){
+                        DatabaseHelper.getInstance(context).updateValue("CtypeID",jarray.getJSONObject(0).getString("CtypeID"));
+                    }
 
                     myStr = fname+" "+lname;
                     //myStr=(jarray.getJSONObject(0).getString("Cfname"));//.concat(" ");//1 or 0
@@ -901,11 +904,12 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    Log.e("mytag","callstatuses: "+ myResponse);
                     File_ f = new File_();
                     boolean flag = false;
                     f.deleteFileExternal(context,"CallStatuses.txt");
-
                     DatabaseHelper.getInstance(context).deleteAllCalls();
+
                     flag = f.writeTextToFileExternal(context,"CallStatuses.txt",myResponse);
                     //flag =helper.writeTextToSpecificFile("","CallStatuses.txt",myResponse);
                     if (flag == true){
@@ -984,6 +988,72 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_ForgotResult=", "");
                     myResponse = myResponse.replaceAll("\\{","");
                     myResponse = myResponse.replaceAll("\\}","");
+                    myResponse = myResponse.replaceAll(";", "");
+                    myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    return myResponse.toString().trim();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+                //goToCustomersFragment(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+    // region Wz_timeReport
+    public interface Wz_timeReport_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_timeReport_Listener(final String macAddress,final String action,final String latitude,final String longtitude, final Wz_timeReport_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+            @Override
+            protected String doInBackground(String... params) {
+                // USER_ClientsResponse
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                String response = cs.Wz_timeReport(macAddress,action,latitude,longtitude);
+                try{
+                    String myResponse = response;
+
+                    myResponse = myResponse.replaceAll("Wz_timeReportResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_timeReportResult=", "Wz_timeReport:");
+                    myResponse = myResponse.replaceAll(";", "");
+                    myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    return myResponse.toString().trim();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+                //goToCustomersFragment(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+    // region Wz_getState
+    public interface Wz_getState_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_getState_Listener(final String macAddress,final Wz_getState_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+            @Override
+            protected String doInBackground(String... params) {
+                // USER_ClientsResponse
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                String response = cs.Wz_getState(macAddress);
+                try{
+                    String myResponse = response;
+
+                    myResponse = myResponse.replaceAll("Wz_getStateResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_getStateResult=", "Wz_getState:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
                     return myResponse.toString().trim();

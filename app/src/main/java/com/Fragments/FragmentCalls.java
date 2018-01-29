@@ -107,7 +107,7 @@ public class FragmentCalls extends android.support.v4.app.Fragment {
 
             List<Call> calls = new ArrayList<Call>() ;
             try {
-                calls= DatabaseHelper.getInstance(getContext()).getCalls();
+                calls= DatabaseHelper.getInstance(getContext()).getCalls("");
                 length = calls.size();
             } catch (Exception e) {
                 e.printStackTrace();
