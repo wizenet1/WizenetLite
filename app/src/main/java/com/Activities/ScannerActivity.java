@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.Helper;
 import com.Adapters.NamesAdapter;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 
 import org.json.JSONArray;
@@ -76,14 +77,14 @@ public class ScannerActivity extends Activity {
             public void onClick(View v) {
 
 
-//                IntentIntegrator integrator;
-//                integrator = new IntentIntegrator(activity);
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-//                integrator.setPrompt("צלם לרוחב");
-//                integrator.setCameraId(0);
-//                integrator.setBeepEnabled(false);
-//                integrator.setBarcodeImageEnabled(false);
-//                integrator.initiateScan();
+                IntentIntegrator integrator;
+                integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setPrompt("צלם לרוחב");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
             }
         });
         //set adapter into listStudent

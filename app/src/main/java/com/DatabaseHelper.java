@@ -165,7 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "Ccell"+ " TEXT, "
                         + "techColor"+ " TEXT, "
                         + "ContctCemail"+ " TEXT, "
-                        + "CallParentID"+ " TEXT "
+                        + "CallParentID"+ " TEXT, "
+                        + "state"+ " TEXT "
                         + ")";
         String CREATE_mgnet_items =
                 "CREATE TABLE " + "mgnet_items" + "("
@@ -289,13 +290,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex("Ccell")),
                 cursor.getString(cursor.getColumnIndex("techColor")),
                 cursor.getString(cursor.getColumnIndex("ContctCemail")),
-                cursor.getString(cursor.getColumnIndex("CallParentID"))
+                cursor.getString(cursor.getColumnIndex("CallParentID")),
+                cursor.getString(cursor.getColumnIndex("state"))
                 );
 // Adding contact to list
                 callList.add(c);
             } while (cursor.moveToNext());
         }
-        db.close();
+        cursor.close();
+        //db.close();
         return callList;
     }
 
@@ -387,11 +390,12 @@ public void addNewCall(Call call) {
                 values.put("techColor", call.getTechColor());
                 values.put("ContctCemail", call.getContctCemail());
                 values.put("CallParentID", call.getCallParentID());
+                values.put("state", call.getState().trim());
 
         // Inserting Row
         db.insert("mgnet_calls", null, values);
         // Closing database connection
-        db.close();
+        //db.close();
 
     }catch (Exception e){
         e.printStackTrace();
@@ -743,6 +747,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 call.setTechColor( (cursor.getString(cursor.getColumnIndex("techColor"))));
                 call.setContctCemail( (cursor.getString(cursor.getColumnIndex("ContctCemail"))));
                 call.setCallParentID( (cursor.getString(cursor.getColumnIndex("CallParentID"))));
+                call.setState( (cursor.getString(cursor.getColumnIndex("state"))));
+
             }
             return call;
         }

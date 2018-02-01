@@ -52,6 +52,7 @@ public class Call {
     String Ccell;
     String techColor;
     String ContctCemail;
+    String state;
 
     public int getCallID() {
         return CallID;
@@ -245,6 +246,13 @@ public class Call {
         return CallParentID;
     }
 
+    public String getState() {
+        return this.state;
+    }
+
+
+
+
     String CallParentID;
     public Call(){}
     public Call(Integer callID, Integer aid, Integer cid, String createDate, Integer statusID, String callPriority,
@@ -253,7 +261,7 @@ public class Call {
                 Integer callTypeID, String priorityID, String originName, String problemTypeName, String callTypeName, String cname, String cemail,
                 Integer contctCode, String callStartTime, String callEndTime, String ccompany, String clocation, Integer callOrder, String caddress,
                 String ccity, String ccomments, String cfname, String clname, String techName, String aname, String contctName, String contctAddress,
-                String contctCity, String contctCell, String contctPhone, String city, String ccell, String techColor, String contctCemail, String callParentID){
+                String contctCity, String contctCell, String contctPhone, String city, String ccell, String techColor, String contctCemail, String callParentID,String state){
         this.CallID = callID;
         this.callStartTime = callStartTime;
         this.callEndTime = callEndTime;
@@ -304,6 +312,7 @@ public class Call {
         this.Cname = cname;
         this.Cemail = cemail;
         this.contctCode = contctCode;
+        this.state = state;
     }
     public Call(int callID,String subject,String createDate,String ccompany,String statusName,String contctCell,String ccity,String caddress)
     {
@@ -317,7 +326,9 @@ public class Call {
         this.ContctCell = contctCell;
 
     }
-
+    public void setState(String state) {
+        this.state = state;
+    }
     public void setCallID(int callID) {
         CallID = callID;
     }

@@ -49,6 +49,8 @@ public class CallSoap {
     public  final String Wz_Forgot = "Wz_Forgot";
     public  final String Wz_timeReport = "Wz_timeReport";
     public  final String Wz_getState = "Wz_getState";
+    public  final String Wz_Update_Call_Field = "Wz_Update_Call_Field";
+
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
     //#############SOAP ACTION######################
@@ -74,6 +76,7 @@ public class CallSoap {
     public  final String Wz_Forgot_SOAP_ACTION = "http://tempuri.org/Wz_Forgot";
     public  final String Wz_timeReport_SOAP_ACTION = "http://tempuri.org/Wz_timeReport";
     public  final String Wz_getState_SOAP_ACTION = "http://tempuri.org/Wz_getState";
+    public  final String Wz_Update_Call_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Call_Field";
 
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
@@ -589,53 +592,34 @@ public String Wz_Forgot(String mac_address,String Email)
 
     }
     //endregion
+//region Wz_Update_Call_Field
+    public String Wz_Update_Call_Field(String mac_address,String callid,String field,String value)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_Update_Call_Field);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+        request.addProperty("callid",callid);
+        request.addProperty("field",field);
+        request.addProperty("value",value);
 
-    public String readTextFromFile() {
-        String ret = "";
 
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/myurl.txt");
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-            String aDataRow = "";
-            String aBuffer = "";
-            while ((aDataRow = myReader.readLine()) != null) {
-                aBuffer += aDataRow;
-            }
-            ret = aBuffer.toString().trim();
-            myReader.close();
-            //Toast.makeText(, ret, Toast.LENGTH_LONG).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_Update_Call_Field_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
         }
-//        try {
-//            InputStream inputStream = openFileInput("myurl.txt");
-//
-//            if (inputStream != null) {
-//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//                String receiveString = "";
-//                StringBuilder stringBuilder = new StringBuilder();
-//
-//                while ((receiveString = bufferedReader.readLine()) != null) {
-//                    stringBuilder.append(receiveString);
-//                }
-//
-//                inputStream.close();
-//                ret = stringBuilder.toString();
-//                Toast.makeText(getApplicationContext(), ret.toString(), Toast.LENGTH_LONG).show();
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
 
-
-//        } catch (FileNotFoundException e) {
-//            Log.e(TAG, "File_ not found: " + e.toString());
-//            return false;
-//        } catch (IOException e) {
-//            Log.e(TAG, "Can not read file: " + e.toString());
-//            return false;
-//        }
-        return ret;
     }
+    //endregion
+
 
 }

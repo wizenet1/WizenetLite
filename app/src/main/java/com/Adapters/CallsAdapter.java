@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +38,8 @@ import com.Fragments.*;
 
 import com.Helper;
 import com.Icon_Manager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -89,6 +93,9 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
             convertView=inflater.inflate(R.layout.call_item, null);
             convertView.getTag(pos);
         }
+        TextView stateid=(TextView) convertView.findViewById(R.id.stateid);
+        stateid.setTextColor(Color.parseColor("#32CD32"));
+
         TextView txtsubject=(TextView) convertView.findViewById(R.id.txtsubject);
         TextView txtCreateDate=(TextView) convertView.findViewById(R.id.txtcreatedate);
         TextView txtcallid=(TextView) convertView.findViewById(R.id.txtcallid);
@@ -97,6 +104,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         TextView txtCcity=(TextView) convertView.findViewById(R.id.txtccity);
         TextView txtCallStartTime=(TextView) convertView.findViewById(R.id.txtcallstarttime1);
         LinearLayout assigmentlayout=(LinearLayout) convertView.findViewById(R.id.assigmentlayout);
+
         TextView asterisk=(TextView) convertView.findViewById(R.id.asterisk);
         //###################### TELEPHONE #############################
         telephone= (TextView) convertView.findViewById(R.id.telephone);
@@ -105,6 +113,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         sign = (TextView) convertView.findViewById(R.id.sign);
         location = (TextView) convertView.findViewById(R.id.location);
 
+        //Log.e("mytag",callsArrayList.get(pos).getState().toString());
 //        mobile.setBackgroundResource(R.drawable.btn_circle2);
 //        telephone.setBackgroundResource(R.drawable.btn_circle2);
 //        sign.setBackgroundResource(R.drawable.btn_circle2);
@@ -120,6 +129,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         sign.setTextSize(30);
         location.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         location.setTextSize(30);
+
 
 
 
@@ -227,6 +237,29 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         txtCcity.setText(callsArrayList.get(pos).getCcity());
 
 
+        String type = callsArrayList.get(pos).getState().toString().trim();
+        if (!type.contains("null")){
+            stateid.setText(getType(type.trim()));
+        }else{
+            stateid.setText("");
+        }
+        stateid.setTypeface(stateid.getTypeface(), Typeface.BOLD);
+
+//        if (callsArrayList.get(pos).getState().contains("play")){
+//
+//        }else if(callsArrayList.get(pos).getState().contains("ride")){
+//            stateid.setText("@string/fa_icon_car");
+//        }else{
+//            stateid.setVisibility(View.GONE);
+//        }
+        TextView alert = (TextView) convertView.findViewById(R.id.alert);
+        alert.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        alert.setTextSize(30);
+        alert.setTextColor(Color.parseColor("#FF0000"));
+        if (!callsArrayList.get(pos).getPriorityID().toLowerCase().contains("h")){
+            alert.setVisibility(View.GONE);
+        }
+
         txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime());
         //if ((callsArrayList.get(pos).getCallStartTime().equals("null"))){
             if ((callsArrayList.get(pos).getCallStartTime().toLowerCase().contains("null"))){
@@ -241,6 +274,15 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
 
 
         return convertView;
+    }
+    private String getType(String type){
+        String ret = "";
+        if (type.contains("work")){
+            ret = "עבודה";
+        }else if(type.contains("ride")){
+            ret = "נסיעה";
+        }
+        return ret;
     }
     @Override
     public Filter getFilter() {
@@ -323,7 +365,8 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
                                 filterList.get(i).getCcell(),
                                 filterList.get(i).getTechColor(),
                                 filterList.get(i).getContctCemail(),
-                                filterList.get(i).getCallParentID()
+                                filterList.get(i).getCallParentID(),
+                                filterList.get(i).getState()
                         );
 
                         filters.add(p);

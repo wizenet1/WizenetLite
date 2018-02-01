@@ -78,7 +78,7 @@ Helper helper;
 
 
         };
-        Log.e("MYTAG","FINISHED!!");
+        Log.e("MYTAG","111FINISHED!!");
 
         //helper.ALLProductsSync(context);
         return "";

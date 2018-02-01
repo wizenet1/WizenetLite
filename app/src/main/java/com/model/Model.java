@@ -659,21 +659,14 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse= myResponse.replaceAll("\\<[^>]*>","");
 
-
                     boolean flag = false;
                     File_ f = new File_();
                     f.deleteFileExternal(ctx,"calls.txt");
-
-                    DatabaseHelper.getInstance(ctx).deleteAllCalls();
-
-                    //flag = f.writeTextToFileInternal(ctx,"calls.txt",myResponse);
                     flag = f.writeTextToFileExternal(ctx,"calls.txt",myResponse);
-
-                    //flag =helper.writeTextToSpecificFile("","calls.txt",myResponse);
                     Log.e("mytag", String.valueOf(flag));
                     if (flag == true){
                         //public List<String> getCIDSlist(){
-                            List<Call> ret = new ArrayList<Call>();
+                            //List<Call> ret = new ArrayList<Call>();
                             String strJson = "";
                             strJson=f.readFromFileExternal(context,"calls.txt");
                             //strJson = f.readFromFileInternal(context,"calls.txt");
@@ -689,6 +682,7 @@ public interface get_mgnet_client_items_Listener{
                                 Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage());
                                 return "";
                             }
+                            DatabaseHelper.getInstance(ctx).deleteAllCalls();
                             for (int i = 0; i < jarray.length(); i++) {
                                 final JSONObject e;
 
@@ -749,6 +743,8 @@ public interface get_mgnet_client_items_Listener{
                                     call.setTechColor(e.getString("techColor"));
                                      call.setContctCemail(e.getString("ContctCemail"));
                                      call.setCallParentID(e.getString("CallParentID"));
+                                    call.setState(e.getString("state"));
+
                                     DatabaseHelper.getInstance(context).addNewCall(call);
                                 } catch (JSONException e1) {
                                     e1.printStackTrace();
@@ -1071,6 +1067,39 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+    // region Wz_getState
+    public interface Wz_Update_Call_Field_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_Update_Call_Field_Listener(final String macAddress,final String callid,final String field,final String value,final Wz_Update_Call_Field_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+            @Override
+            protected String doInBackground(String... params) {
+                // USER_ClientsResponse
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                String response = cs.Wz_Update_Call_Field(macAddress,callid,field,value);
+                try{
+                    String myResponse = response;
+
+                    myResponse = myResponse.replaceAll("Wz_getStateResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_getStateResult=", "Wz_Update_Call_Field:");
+                    myResponse = myResponse.replaceAll(";", "");
+                    myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    return myResponse.toString().trim();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
 }
 
 

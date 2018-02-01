@@ -133,30 +133,23 @@ public class Helper {
             Model.getInstance().Async_Get_mgnet_items_Listener(getMacAddr(), new Model.get_mgnet_items_Listener() {
                 @Override
                 public void onResult(String str) {
+
                     DatabaseHelper db;
-                    db = DatabaseHelper.getInstance(ctx);
-                    Boolean flag = true;
-                    flag = f.deleteFileExternal(ctx,"productss.txt");
-                    if (true){
-                        try{
-                            f.writeTextToFileExternal(ctx,"productss.txt", str);
-                            flag = db.delete_from_mgnet_items("all"); //true if success to delete
-                            flag = writeProductsItems();
-                            Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
-                        }catch (Exception e){
-                            Log.e("mytag","err del from db:" + e.getMessage());
-                        }
-
-
-                        //if (flag == true){
-
-                           // if (flag==true){
-
-                           // }
-                        //}else{Log.e("myTag", "deleted from db");}
-                    }
+                    //db = DatabaseHelper.getInstance(ctx);
+                    //Boolean flag = true;
+                    //flag = f.deleteFileExternal(ctx,"productss.txt");
+//                    if (true){
+//                        try{
+//                            f.writeTextToFileExternal(ctx,"productss.txt", str);
+//                            flag = db.delete_from_mgnet_items("all"); //true if success to delete
+//                            flag = writeProductsItems();
+//                            Toast.makeText(ctx, "נוספו בהצלחה", Toast.LENGTH_LONG).show();
+//                        }catch (Exception e){
+//                            Log.e("mytag","err del from db:" + e.getMessage());
+//                        }
+//                    }
                     //else{Log.e("myTag", "deleted file productss");}
-                    Log.e("myTag", str);
+                    Log.e("myTag","str:" + str);
                 }
             });
         } else {
@@ -172,11 +165,14 @@ public class Helper {
         if (db.mgnet_items_isEmpty("all")) {
             try {
                 File_ f = new File_();
-                String strJson = f.readFromFileExternal(ctx,"productss.txt");
-                Log.e("mytag","*strJson*: " + strJson);
+                String strJson ="";
+                strJson += "{Orders:";
+                strJson += f.readFromFileExternal(ctx,"productss.txt");
+                strJson += "}";
 
-                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
-                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
+                Log.e("mytag","*strJson*: " + strJson);
+                //strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
+                //strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
                 JSONObject j = null;
                 JSONArray jarray = null;
                 j = null;

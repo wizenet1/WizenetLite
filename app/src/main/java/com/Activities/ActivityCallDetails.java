@@ -1,5 +1,7 @@
 package com.Activities;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.model.*;
 
 import android.Manifest;
@@ -13,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -75,6 +78,7 @@ public class ActivityCallDetails extends FragmentActivity {
     DatabaseHelper db;
     int statusID;
     String statusName;
+    EditText txt_internalsn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +117,9 @@ public class ActivityCallDetails extends FragmentActivity {
         txtcreatedate = (TextView) findViewById(R.id.txtcreatedate);
         txtcallstarttime = (TextView) findViewById(R.id.txtcallstarttime);
         txtccity = (TextView) findViewById(R.id.txt_ccity);
+
+
+
         txttechanswer = (EditText) findViewById(R.id.txttechanswer);
         parts = (TextView) findViewById(R.id.parts);
         //Toast.makeText(getApplication(),"getCallTypeName : " +call.getCallTypeName().trim(), Toast.LENGTH_LONG).show();
@@ -121,8 +128,23 @@ public class ActivityCallDetails extends FragmentActivity {
         txtsubject.setText(call.getSubject().trim());
         txtorigin.setText(isContainNull(call.getOriginName().trim()));
         txtpriority.setText(isContainNull(call.getPriorityID().trim()));
+        if (call.getPriorityID().toLowerCase().contains("h")){
+            txtpriority.setTextColor(Color.parseColor("#FF0000"));
+            txtpriority.setTypeface(txtpriority.getTypeface(), Typeface.BOLD);
+
+        }
         LinearLayout layout_comment = (LinearLayout) findViewById(R.id.layout_comment);
         TextView calltime = (TextView) findViewById(R.id.calltime);
+        LinearLayout layout_internalsn = (LinearLayout) findViewById(R.id.layout_internalsn);
+        txt_internalsn = (EditText) findViewById(R.id.txt_internalsn);
+
+        if ((call.getInternalSN().toLowerCase().contains("null") || call.getInternalSN().toLowerCase().trim().equals(""))) {
+            txt_internalsn.setText("");
+            //layout_internalsn.setVisibility(View.GONE);
+            //txt_internalsn.setVisibility(View.GONE);
+        } else {
+            txt_internalsn.setText(call.getInternalSN().trim());
+        }
 
         if ((call.getCcomments().toLowerCase().contains("null") || call.getCcomments().toLowerCase().trim().equals(""))) {
             layout_comment.setVisibility(View.GONE);
@@ -333,8 +355,14 @@ public class ActivityCallDetails extends FragmentActivity {
         id3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Async(Integer.valueOf(callid), "stop", "", "");
-                Toast.makeText(getApplicationContext(), "stop", Toast.LENGTH_LONG).show();
+                if (id1.getCurrentTextColor() == Color.parseColor("#E94E1B") == true &&
+                        id2.getCurrentTextColor() == Color.parseColor("#E94E1B") == true ) {
+                    Async(Integer.valueOf(callid), "stop", "", "");
+                    Toast.makeText(getApplicationContext(), "stop", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "אינך יכול לעצור במצב זה", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         mobile.setOnClickListener(new View.OnClickListener() {
@@ -410,6 +438,12 @@ public class ActivityCallDetails extends FragmentActivity {
                 if (statusID == -1){
                     Async(Integer.valueOf(callid), "stop", "", "");
                 }
+                Model.getInstance().Async_Wz_Update_Call_Field_Listener(helper.getMacAddr(), (callid), "internalSN", "'" + txt_internalsn.getText().toString() + "'", new Model.Wz_Update_Call_Field_Listener() {
+                    @Override
+                    public void onResult(String str) {
+
+                    }
+                });
                 Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
                         txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
                             @Override
@@ -423,6 +457,7 @@ public class ActivityCallDetails extends FragmentActivity {
                                     String status = jarray.getJSONObject(0).getString("Status");
                                     if (status.equals("0")){
                                         Toast.makeText(getApplicationContext(),"successfully updated", Toast.LENGTH_LONG).show();
+                                        finish();
                                         //txttechanswer.setText("");
                                     }else{
                                         Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_LONG).show();
@@ -434,8 +469,51 @@ public class ActivityCallDetails extends FragmentActivity {
                         });
             }
         });
+        final Activity  activity = this;
+        TextView sign1 = (TextView) findViewById(R.id.sign1);
+        sign1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        sign1.setTextSize(30);
+        //sign1.setVisibility(View.GONE);
+        sign1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                IntentIntegrator integrator;
+                integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setPrompt("צלם לרוחב");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
+
 
     }
+      @Override
+      protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+          super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Log.d("MainActivity", "Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                //goToMenuFragment();
+                Log.d("MainActivity", "Scanned");
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                txt_internalsn.setText(result.getContents());
+
+            }
+        } else {
+
+        }
+      }
+
+
 
     private void goToCustomerCase(){
           Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
@@ -458,6 +536,14 @@ public class ActivityCallDetails extends FragmentActivity {
           startActivity(intent);
       }
     private void goToCallFiles(){
+//        Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+//        Bundle b = new Bundle();
+//        b.putInt("callid", call.getCallID());
+//        b.putInt("cid", call.getCID());
+//        b.putInt("technicianid", call.getTechnicianID());
+//        b.putString("action","callfiles");
+//        intent.putExtras(b);
+//        startActivity(intent);
           String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                   + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(call.getCallID()) + "&class=CallsFiles_appCell&mobile=True";
           Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

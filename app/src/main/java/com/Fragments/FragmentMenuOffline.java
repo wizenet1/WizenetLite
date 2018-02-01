@@ -32,8 +32,14 @@ import com.ProgressTaskAll;
 import com.ProgressTaskClient;
 import com.model.Model;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +56,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
     Button btn,btn2,mapid;
     EditText myEditText2;
     //BarCodeActivity barCodeActivity;
+    private ProgressDialog pDialog;
     Helper helper;
     TextView id1,id2,id3,id4,id5,id6;
     TextView id1_text,id2_text,id3_text,id4_text,id5_text;
@@ -147,7 +154,15 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
                 if (db.mgnet_items_isEmpty("all")){
-                    new ProgressTaskAll(context).execute();
+                    //new ProgressTaskAll(context).execute();
+                    Model.getInstance().Async_Get_mgnet_items_Listener(helper.getMacAddr(), new Model.get_mgnet_items_Listener() {
+                        @Override
+                        public void onResult(String str) {
+                            Log.e("myTag","str:" + str);
+                            new ProgressTaskAll(getContext()).execute();
+                        }
+                    });
+
                 }else{
                     //Toast.makeText(getContext(), "רשימת כל המוצרים סונכרנו", Toast.LENGTH_LONG).show();
                     // GIVE AN POSSIBLE TO ADD,
@@ -222,6 +237,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         });
         return v;
     }
+
 
 //    protected void AlertDialogClient(){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,27 +14,51 @@
         android:layoutDirection="rtl"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtcallid"
-            android:textSize="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
-            android:textColor="@color/wizenetColor"
-            android:gravity="center_vertical"
-            android:text="קריאה: 12345" />
-
-        <TextView
-            android:layout_marginLeft="20dp"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/txtcreatedate"
-            android:layout_weight="0.5"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:id="@+id/txtcallid"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginRight="20dp"
+
+                android:gravity="center_vertical"
+                android:text="קריאה: 12345"
+                android:textColor="@color/wizenetColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/stateid"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textStyle="bold"
+                android:layout_marginRight="20dp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
             android:gravity="left"
-            android:text="1900-01-01" />
+
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="0.5">
+            <TextView
+                android:id="@+id/txtcreatedate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+
+                android:gravity="center_vertical"
+                android:text="1900-01-01" />
+        </LinearLayout>
+
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,41 +70,13 @@
             android:id="@+id/txtcname"
             android:textSize="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_weight="0.7"
             android:textDirection="rtl"
             android:gravity="center_vertical"
             android:text="wizenet" />
-        <TextView
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="7dp"
-            android:background="@drawable/btn_circle2"
-            android:id="@+id/sign"
-            android:gravity="center"
-            android:text="@string/fa_icon_sign"/>
-        <TextView
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="7dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_circle2"
-            android:id="@+id/telephone"
-            android:gravity="center"
-            android:text="@string/fa_icon_telephone"/>
 
-        <TextView
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/mobile"
-            android:textColor="@color/wizenetColor"
-            android:gravity="center"
-            android:background="@drawable/btn_circle2"
-            android:text="@string/fa_icon_mobile"/>
     </LinearLayout>
 
 
@@ -90,17 +86,17 @@
 
 
         <TextView
-            android:textStyle="bold"
-            android:layout_marginRight="20dp"
             android:id="@+id/txtsubject"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
             android:layout_weight="0.99"
             android:gravity="center_vertical"
             android:text="hello"
             android:textDirection="rtl"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -129,6 +125,79 @@
             android:gravity="left"
             android:text="1900-01-01"
             />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightGray"
+
+        ></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5">
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="7dp"
+                android:background="@drawable/btn_circle2"
+                android:id="@+id/sign"
+                android:gravity="center"
+                android:text="@string/fa_icon_sign"/>
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="20dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_circle2"
+                android:id="@+id/telephone"
+                android:gravity="center"
+                android:text="@string/fa_icon_telephone"/>
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+
+                android:id="@+id/mobile"
+                android:textColor="@color/wizenetColor"
+                android:gravity="center"
+                android:background="@drawable/btn_circle2"
+                android:text="@string/fa_icon_mobile"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textDirection="rtl"
+            android:layout_gravity="right"
+            android:weightSum="0.5">
+
+            <TextView
+                android:id="@+id/alert"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/btn_circle2"
+                android:gravity="center"
+                android:text="@string/fa_icon_alert"
+                android:textColor="@color/wizenetColor"
+                 />
+        </LinearLayout>
 
 
 

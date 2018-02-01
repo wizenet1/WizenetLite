@@ -10,13 +10,14 @@
 
 
     <LinearLayout
+        android:layout_marginBottom="20dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Messages"
+            android:text="רשימת תזכורות"
             android:gravity="center"
             android:id="@+id/customer_name"
             android:textSize="30sp"/>
@@ -33,13 +34,11 @@
         android:id="@+id/placeHolderFragment"
         android:scrollbarAlwaysDrawVerticalTrack="true">
         <ListView
-
             android:id="@+id/messages_list"
             android:layout_width="fill_parent"
             android:layout_height="480dp"
             android:fastScrollEnabled="true"
             tools:listitem="@layout/item_message"
-
             android:choiceMode="singleChoice">
         </ListView>
     </LinearLayout>

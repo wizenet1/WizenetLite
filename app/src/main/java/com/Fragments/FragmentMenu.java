@@ -113,7 +113,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
         ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
         ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
-
+        ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
 
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
@@ -181,13 +181,17 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
-//                FragmentManager fragmentManager2 = getFragmentManager();
-//                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-//                FragmentMenuOffline fragment2 = new FragmentMenuOffline();
-//                fragmentTransaction2.addToBackStack("xyz");
-//                fragmentTransaction2.hide(FragmentMenu.this);
-//                fragmentTransaction2.add(R.id.container, fragment2);
-//                fragmentTransaction2.commit();
+            }
+        });
+        id_missions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMessage frag = new FragmentMessage();
+                ft.replace(R.id.container,frag,"FragmentMessage");
+                ft.addToBackStack("FragmentMessage");
+                ft.commit();
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {

@@ -8,14 +8,18 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,8 +55,7 @@ TextView lblcount;
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
-    private  String ascOrDesc = "asc";
-    private  String sortState = "CallID";
+
 
     String s = "";
     @Override
@@ -67,20 +70,37 @@ TextView lblcount;
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
         Icon_Manager icon_manager = new Icon_Manager();
+        //-------------------------------------
+        //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
+        final Spinner spinner =(Spinner) findViewById(R.id.spinner);
+        String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓"};
+        spinner.setAdapter(new SpinnerAdapter(this, R.layout.simple_spinner_item, items));
 
-        final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
-        String[] items = new String[] { "מס' קריאה","מס' קריאה desc" ,"פתיחת קריאה", "Black Tea" };
-        List<CallStatus> statusList = new ArrayList<CallStatus>();
-        statusList = DatabaseHelper.getInstance(this).getCallStausList();
-        String[] items1 = new String[statusList.size()];
-        for (int i = 0; i < statusList.size(); i++) {
-            items1[i] = statusList.get(i).getCallStatusName();
-        }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dynamicSpinner.setAdapter(adapter);
-        int selectionPosition = adapter.getPosition("מס' קריאה");
-        dynamicSpinner.setSelection(selectionPosition);
+                //Log.e("mytag",(String) parent.getItemAtPosition(position));
+                String s=(String) parent.getItemAtPosition(position);
+                if (s.equals("מס' קריאה ↑")){
+                    getFilteredList("CallID asc");
+                }else if(s.equals("מס' קריאה ↓")){
+                    getFilteredList("CallID desc");
+                }else if(s.equals("פתיחת קריאה ↓")){
+                    getFilteredList("CreateDate desc");
+                }else if(s.equals("פתיחת קריאה ↑")){
+                    getFilteredList("CreateDate asc");
+                }else if(s.equals("עדיפות ↑")){
+                    getFilteredList("OriginName asc");
+                }else if(s.equals("עדיפות ↓")){
+                    getFilteredList("OriginName desc");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
 
 
 
@@ -124,70 +144,80 @@ TextView lblcount;
 
 
 
-        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                String s = "";
-                s=(String) parent.getItemAtPosition(position);
-                if (s.equals("מס' קריאה")){
-                    if (sortState.equals("CallID")){
-                        if ( ascOrDesc.equals("desc")){
-                            sortState = "CallID";
-                            ascOrDesc = "asc";
-                            getFilteredList("CallID asc");
-                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
-                        }else{
-                            sortState = "CallID";
-                            ascOrDesc = "desc";
-                            getFilteredList("CallID desc");
-                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
-                        }
-
-                    }
-                }else if(s.equals("מס' קריאה desc")){
-                    getFilteredList("CallID desc");
-
-                }else if(s.equals("פתיחת קריאה")){
-                    getFilteredList("CreateDate");
-                }
-                //comparatorCallsByCcompany
-
-                //s = String.valueOf(db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID());
-                //statusID = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID();
-                //statusName = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusName();
-                //Toast.makeText(getApplication(), "status: " + s, Toast.LENGTH_LONG).show();
-                //Log.v("item", (String) parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.e("mytag","no");
-                // TODO Auto-generated method stub
-            }
-        });
 
         mSearchTw=new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 callsAdapter.getFilter().filter(s);
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
+                int after) {
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
-
             }
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
+    }
+
+//region notinuse
+    //endregion
+
+    public class SpinnerAdapter extends ArrayAdapter<String>
+    {
+        String[] objects;
+        public SpinnerAdapter(Context context, int textViewResourceId, String[] objects)
+        {
+            super(context, textViewResourceId, objects);
+            this.objects=objects;
+        }
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent)
+        {
+            return getCustomView(position, convertView, parent);
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+        public View getCustomView(final int position, View convertView, ViewGroup parent)
+        {
+            LayoutInflater inflater=getLayoutInflater();
+            View row=inflater.inflate(R.layout.simple_spinner_item, parent, false);
+            final TextView label=(TextView)row.findViewById(R.id.tv_spinnervalue);
+            //final LinearLayout linearLayout = (LinearLayout)row.findViewById(R.id.spinner_layout);
+
+//            linearLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    String s=label.getText().toString();
+//                if (s.equals("מס' קריאה")){
+//                    if (sortState.equals("CallID")){
+//                        if ( ascOrDesc.equals("desc")){
+//                            sortState = "CallID";
+//                            ascOrDesc = "asc";
+//                            getFilteredList("CallID asc");
+//                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
+//                        }else{
+//                            sortState = "CallID";
+//                            ascOrDesc = "desc";
+//                            getFilteredList("CallID desc");
+//                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
+//                        }
+//
+//                    }
+//                }else if(s.equals("פתיחת קריאה")){
+//                    getFilteredList("CreateDate");
+//                }
+//                }
+//            });
+            label.setText(objects[position]);
+            return row;
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -200,8 +230,8 @@ TextView lblcount;
     protected void onRestart() {
         super.onRestart();
         //Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
-        Log.e("mytag","onRestart");
-        change();
+        //Log.e("mytag","onRestart");
+        //change();
     }
 
     @Override
