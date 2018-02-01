@@ -175,32 +175,34 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         id4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
 
                 //-------------------------------------------------
                 List<String> listCIDS = new ArrayList<String>();
                 listCIDS=helper.getCIDSlist();
+                getCusernamelist();
+                d
+                Model.getInstance().Async_Wz_Get_Client_Item_List_Listener(helper.getMacAddr(),)
                 int len = listCIDS.size();
                 //-------------------------------------------------
-                File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-                File[] list = myFile.listFiles();
-                int count = 0;
-                try{
-                    for (File f: list){
-                        String name = f.getName();
-                        if (name.endsWith(".txt"))
-                            count++;
-                    }
-                }catch(Exception ex){
-
-                }
-                if (count == 0){
-                    Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();
-                    new ProgressTaskClient(getContext()).execute();
-                }else{
-                    AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
-
-                }
+//                File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+//                File[] list = myFile.listFiles();
+//                int count = 0;
+//                try{
+//                    for (File f: list){
+//                        String name = f.getName();
+//                        if (name.endsWith(".txt"))
+//                            count++;
+//                    }
+//                }catch(Exception ex){
+//
+//                }
+//                if (count == 0){
+//                    Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();
+//                    new ProgressTaskClient(getContext()).execute();
+//                }else{
+//                    AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
+//
+//                }
 
 
 

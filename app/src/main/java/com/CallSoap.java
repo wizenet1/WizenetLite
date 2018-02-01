@@ -50,6 +50,8 @@ public class CallSoap {
     public  final String Wz_timeReport = "Wz_timeReport";
     public  final String Wz_getState = "Wz_getState";
     public  final String Wz_Update_Call_Field = "Wz_Update_Call_Field";
+    public  final String Wz_Get_Client_Item_List = "Wz_Get_Client_Item_List";
+
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -77,6 +79,7 @@ public class CallSoap {
     public  final String Wz_timeReport_SOAP_ACTION = "http://tempuri.org/Wz_timeReport";
     public  final String Wz_getState_SOAP_ACTION = "http://tempuri.org/Wz_getState";
     public  final String Wz_Update_Call_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Call_Field";
+    public  final String Wz_Get_Client_Item_List_SOAP_ACTION = "http://tempuri.org/Wz_Get_Client_Item_List";
 
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
@@ -621,5 +624,36 @@ public String Wz_Forgot(String mac_address,String Email)
     }
     //endregion
 
+    //region Wz_Get_Client_Item_List
+    public String Wz_Get_Client_Item_List(String mac_address,String cid)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_Get_Client_Item_List);//namespace , operation
+
+
+
+        request.addProperty("MACaddress",mac_address);
+
+        request.addProperty("CardCodes",cid);
+
+        request.addProperty("PcatID",-1);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_Get_Client_Item_List_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+
+    //endregion
 
 }

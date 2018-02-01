@@ -344,6 +344,40 @@ public class Helper {
         }
         return  ret;
     }
+    public String getCusernamelist(){
+        List<String> ret = new ArrayList<String>();
+        String strJson = "";
+        File_ f = new File_();
+        strJson = f.readFromFileExternal(ctx,"customers.txt");
+        //strJson = readTextFromFileCustomers();
+        JSONObject j = null;
+        JSONArray jarray = null;
+        try {
+            j = new JSONObject(strJson);
+            jarray= j.getJSONArray("Customers");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for (int i = 0; i < jarray.length(); i++) {
+                final JSONObject e;
+                String name = null;
+                try {
+                    e = jarray.getJSONObject(i);
+                    name = e.getString("Cusername");
+                    //name = e.getString("Ccompany")+'|'+e.getString("CID");
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                ret.add(name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  ret;
+    }
 
     /**
      * in wizenet app we create order, the order are have send to the web service,

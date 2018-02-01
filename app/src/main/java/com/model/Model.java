@@ -541,6 +541,7 @@ public interface get_mgnet_client_items_Listener{
     //endregion
 
 
+
     //region CREATE_OFFLINE
     public interface CREATE_OFFLINE_Listener{
         public void onResult(String str);
@@ -1099,6 +1100,45 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+
+
+    //region get_mgnet_client_item
+    public interface Wz_Get_Client_Item_List_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_Get_Client_Item_List_Listener(final String macAddress,final String cardCodes, final Wz_Get_Client_Item_List_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                //String response = cs.Call(mac_address, memail, mpass);
+
+                String response = cs.Wz_Get_Client_Item_List(macAddress,cardCodes);
+                String myResponse = response;
+                myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResponse", "");
+                myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResult=", "Orders:");
+                myResponse = myResponse.replaceAll(";", "");
+
+                return myResponse.toString();
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
 
 }
 
