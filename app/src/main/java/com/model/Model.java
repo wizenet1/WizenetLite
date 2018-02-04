@@ -1123,8 +1123,8 @@ public interface get_mgnet_client_items_Listener{
                 myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResponse", "");
                 myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResult=", "Orders:");
                 myResponse = myResponse.replaceAll(";", "");
-
-                return myResponse.toString();
+                return "";
+                //return myResponse.toString();
             }
             //###################################
             //active the fragment with json result by bundle

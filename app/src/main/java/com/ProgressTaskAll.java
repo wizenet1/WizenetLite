@@ -156,7 +156,7 @@ public class ProgressTaskAll extends AsyncTask<String, String, String> {
      * **/
     @Override
     protected void onPostExecute(String file_url) {
-        System.out.println("Downloaded");
+        //System.out.println("Downloaded");
 
         pDialog.dismiss();
     }

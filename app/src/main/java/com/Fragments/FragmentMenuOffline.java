@@ -179,35 +179,37 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                 //-------------------------------------------------
                 List<String> listCIDS = new ArrayList<String>();
                 listCIDS=helper.getCIDSlist();
-                getCusernamelist();
-                d
-                Model.getInstance().Async_Wz_Get_Client_Item_List_Listener(helper.getMacAddr(),)
+
                 int len = listCIDS.size();
-                //-------------------------------------------------
-//                File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-//                File[] list = myFile.listFiles();
-//                int count = 0;
-//                try{
-//                    for (File f: list){
-//                        String name = f.getName();
-//                        if (name.endsWith(".txt"))
-//                            count++;
-//                    }
-//                }catch(Exception ex){
+                File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+                File[] list = myFile.listFiles();
+                int count = 0;
+                try{
+                    for (File f: list){
+                        String name = f.getName();
+                        if (name.endsWith(".txt"))
+                            count++;
+                    }
+                }catch(Exception ex){
+
+                }
+                if (count == 0){
+                    Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();
+
+                    String cardCodes = helper.getCusernamelist();
+                    new ProgressTaskClient(context).execute();
+//                    Model.getInstance().Async_Wz_Get_Client_Item_List_Listener(helper.getMacAddr(), cardCodes, new Model.Wz_Get_Client_Item_List_Listener() {
+//                        @Override
+//                        public void onResult(String str) {
 //
-//                }
-//                if (count == 0){
-//                    Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();
-//                    new ProgressTaskClient(getContext()).execute();
-//                }else{
-//                    AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
-//
-//                }
+//                        }
+//                    });
 
+                }else{
+                    AlertDialogClientProducts(String.valueOf(len),String.valueOf(count));
 
-
-
-
+                }
+//-------------------------------------------------
             }
         });
         id5.setOnClickListener(new View.OnClickListener() {
@@ -277,9 +279,18 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int ii) {
-                        helper.deleteProductsFiles();
-                        helper.startService_sync_products(getContext());
-                        //new ProgressTaskClient1(context).execute();
+                        String cardCodes = helper.getCusernamelist();
+                helper.deleteProductsFiles();
+                new ProgressTaskClient(context).execute();
+//                        Model.getInstance().Async_Wz_Get_Client_Item_List_Listener(helper.getMacAddr(), cardCodes, new Model.Wz_Get_Client_Item_List_Listener() {
+//                            @Override
+//                            public void onResult(String str) {
+//                                Log.e("mytag","step 1");
+//
+//                                Log.e("mytag","step 2");
+//
+//                            }
+//                        });
             }
         });
         builder.setNegativeButton("לא", new DialogInterface.OnClickListener()

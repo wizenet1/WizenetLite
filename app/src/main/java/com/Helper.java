@@ -345,7 +345,7 @@ public class Helper {
         return  ret;
     }
     public String getCusernamelist(){
-        List<String> ret = new ArrayList<String>();
+        String ret = "";
         String strJson = "";
         File_ f = new File_();
         strJson = f.readFromFileExternal(ctx,"customers.txt");
@@ -371,12 +371,57 @@ public class Helper {
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
-                ret.add(name);
+                ret += name + ",";
             }
+            ret = ret.substring(0, ret.length() - 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return  ret;
+    }
+
+    public List<Order> getClientOrderList(String strInputCID,Context c){
+        File_ f = new File_();
+        List<Order> responseList = new ArrayList<>();
+        String strJson = "";
+        //strJson = helper.readTextFromFile3("client_products/pl_"+ strInputCID +".txt");
+        strJson += "{Orders:";
+        strJson +=  f.readFromFileWithSubDirectory(c,"client_products","pl_"+ strInputCID +".txt");
+        strJson +="}";
+
+        //strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
+        //strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
+        JSONObject j = null;
+        JSONArray jarray = null;
+        j = null;
+        jarray = null;
+        try {
+            j = new JSONObject(strJson);
+            jarray= j.getJSONArray("Orders");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        for (int i = 0; i < jarray.length(); i++) {
+            final JSONObject e;
+            //String name = "";
+            try {
+                e = jarray.getJSONObject(i);
+                //name = e.getString("Pname")+'|'+e.getString("Pmakat");
+                Order order = new Order(
+                        e.getString("Pname"),
+                        e.getString("Pmakat"),
+                        e.getString("Pprice"),
+                        e.getString("POprice"));
+                responseList.add(order);
+
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+                Log.e("MYTAG",e1.getMessage());
+            }
+
+        }
+        return responseList;
     }
 
     /**

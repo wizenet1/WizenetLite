@@ -110,15 +110,9 @@ public class OrdersAdapter extends ArrayAdapter<String> {
                     if (client_cid == "all"){
                         orderList = DatabaseHelper.getInstance(context).get_mgnet_items_by_Pname(constraint.toString(),client_cid);
                     }else{
-                        orderList = getOrderList(client_cid);
+                        orderList = helper.getClientOrderList(client_cid,context);
                     }
 
-                    //suggestions.add(names);
-//                    for (Order names : tempItems) {
-//                        if (names.getPname().toLowerCase().contains(constraint.toString().toLowerCase()) || constraint.toString().equals("  ")) {
-//                            suggestions.add(names);
-//                        }
-//                    }
                     for (Order names : orderList) {
                         if (names.getPname().toLowerCase().contains(constraint.toString().toLowerCase()) && constraint.toString().length() >=3){
                             suggestions.add(names);
@@ -140,46 +134,11 @@ public class OrdersAdapter extends ArrayAdapter<String> {
             return new FilterResults();
         }
 
-        protected List<Order> getOrderList(String strInputCID){
-            List<Order> responseList = new ArrayList<>();
-            String strJson = "";
-            File_ f = new File_();
-            strJson = f.readFromFileWithSubDirectory(ctx,"client_products","pl_"+ strInputCID +".txt");
-            //strJson = helper.readTextFromFile3("/client_products/pl_"+ strInputCID +".txt");
-            strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
-            strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
-            JSONObject j = null;
-            JSONArray jarray = null;
-            j = null;
-            jarray = null;
-            try {
-                j = new JSONObject(strJson);
-                jarray= j.getJSONArray("Orders");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("MYTAG",e.getMessage());
-            }
-            for (int i = 0; i < jarray.length(); i++) {
-                final JSONObject e;
-                String name = "";
-                try {
-                    e = jarray.getJSONObject(i);
-                    name = e.getString("Pname")+'|'+e.getString("Pmakat");
-                    Order order = new Order(
-                            e.getString("Pname"),
-                            e.getString("Pmakat"),
-                            e.getString("Pprice"),
-                            e.getString("POprice"));
-                    responseList.add(order);
 
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                    Log.e("MYTAG",e1.getMessage());
-                }
 
-            }
-            return responseList;
-        }
+
+
+
         protected float roundOff(String x, int position)
         {
             float f = Float.parseFloat(x);

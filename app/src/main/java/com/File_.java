@@ -81,12 +81,8 @@ public class File_ {
         boolean success = true;
 
         if(!(file.exists())) {
-            try {
-                file.createNewFile();
-                success = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            file.mkdirs();
+            success = true;
 
         }else{
             success = false;

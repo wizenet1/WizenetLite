@@ -99,33 +99,8 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 
 
         List<String> responseList2 = new ArrayList<String>();
-File_ f = new File_();
-        //strJson = helper.readTextFromFileCustomers();
-        strJson = f.readFromFileExternal(getContext(),"customers.txt");
-        JSONObject j = null;
-        JSONArray jarray = null;
-        try {
-            j = new JSONObject(strJson);
-            jarray= j.getJSONArray("Customers");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        responseList2 = getSpecialCustomerList();
 
-        try {
-            for (int i = 0; i < jarray.length(); i++) {
-                final JSONObject e;
-                String name = null;
-                try {
-                    e = jarray.getJSONObject(i);
-                    name = e.getString("Ccompany")+'|'+e.getString("CID")+"~"+e.getString("Cusername");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                responseList2.add(name);
-            }
-        } catch (Exception e){
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
 
         final AutoCompleteTextView textViewClients = (AutoCompleteTextView)
                 v.findViewById(R.id.auto_complete_id);
@@ -156,7 +131,8 @@ File_ f = new File_();
                 strJson = f.readFromFileExternal(getContext(),"productss.txt");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
                 strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
-
+                JSONObject j = null;
+                JSONArray jarray = null;
                 j = null;
                 jarray = null;
                 try {
@@ -196,7 +172,7 @@ File_ f = new File_();
         if (_CID == "0"){
             Log.e("MYTAG","is emptyyyyyyyyyyyyyyy");
         }else{
-            responseListClient =getClientOrderList(_CID);
+            //responseListClient =getClientOrderList(_CID);
             //responseListClient = DatabaseHelper.getInstance(getContext()).get_mgnet_items("client");
             Toast.makeText(getActivity(),"responseList size: "+ responseList.size(), Toast.LENGTH_LONG).show();
             Log.e("MYTAG","responseList size: "+ responseList.size());
@@ -283,7 +259,7 @@ File_ f = new File_();
                 Log.e("MYTAG","_CID : " + _CID);
             try{
                 List<Order> ordersListClient = new ArrayList<Order>();
-                ordersListClient =getClientOrderList(_Cusername);
+                ordersListClient =helper.getClientOrderList(_Cusername,getContext());
                 //Toast.makeText(getContext(),"_CID: " +_CID + "__Cusername: " +_Cusername, Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(),ordersListClient.toString(), Toast.LENGTH_LONG).show();
                 OrdersAdapter ordersAdapter2 = new OrdersAdapter(
@@ -430,7 +406,37 @@ File_ f = new File_();
         });
         return v;
     };
+    protected List<String> getSpecialCustomerList(){
+        List<String> ret = new ArrayList<String>();
+        File_ f = new File_();
+        //strJson = helper.readTextFromFileCustomers();
+        strJson = f.readFromFileExternal(getContext(),"customers.txt");
+        JSONObject j = null;
+        JSONArray jarray = null;
+        try {
+            j = new JSONObject(strJson);
+            jarray= j.getJSONArray("Customers");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        try {
+            for (int i = 0; i < jarray.length(); i++) {
+                final JSONObject e;
+                String name = null;
+                try {
+                    e = jarray.getJSONObject(i);
+                    name = e.getString("Ccompany")+'|'+e.getString("CID")+"~"+e.getString("Cusername");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                ret.add(name);
+            }
+        } catch (Exception e){
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return ret;
+    }
     protected void AlretIfNotFinishSync(){
         int len = 0;
         int count=0;
@@ -481,46 +487,7 @@ File_ f = new File_();
 
     }
 
-    protected List<Order> getClientOrderList(String strInputCID){
-        List<Order> responseList = new ArrayList<>();
-        String strJson = "";
-        //strJson = helper.readTextFromFile3("client_products/pl_"+ strInputCID +".txt");
-        strJson =  f.readFromFileWithSubDirectory(getContext(),"client_products","pl_"+ strInputCID +".txt");
 
-        strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
-        strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
-        JSONObject j = null;
-        JSONArray jarray = null;
-        j = null;
-        jarray = null;
-        try {
-            j = new JSONObject(strJson);
-            jarray= j.getJSONArray("Orders");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("MYTAG",e.getMessage());
-        }
-        for (int i = 0; i < jarray.length(); i++) {
-            final JSONObject e;
-            //String name = "";
-            try {
-                e = jarray.getJSONObject(i);
-                //name = e.getString("Pname")+'|'+e.getString("Pmakat");
-                Order order = new Order(
-                        e.getString("Pname"),
-                        e.getString("Pmakat"),
-                        e.getString("Pprice"),
-                        e.getString("POprice"));
-                responseList.add(order);
-
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-                Log.e("MYTAG",e1.getMessage());
-            }
-
-        }
-        return responseList;
-    }
     public void createOrder(String cid){
         JSONObject resultMain = new JSONObject();
         JSONArray resultHeader     = new JSONArray();
