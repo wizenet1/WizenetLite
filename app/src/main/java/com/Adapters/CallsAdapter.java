@@ -58,7 +58,7 @@ import java.util.ArrayList;
 public class CallsAdapter extends BaseAdapter implements Filterable {
     private Dialog WebDialog1;
     private WebView URL1;
-
+    TextView myccell,mycphone;
     Context c;
     TextView edit,mobile,sign,location,telephone,parts, goToSms,goToCustomers;
     Helper helper;
@@ -84,6 +84,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
     }
     @Override
     public View getView(final int pos, View convertView, ViewGroup parent) {
+
         helper = new Helper();
         Icon_Manager icon_manager;
         icon_manager = new Icon_Manager();
@@ -144,37 +145,65 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
                 intent.putExtra("EXTRA_SESSION_ID", String.valueOf(callsArrayList.get(pos).getCallID()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 c.startActivity(intent);
+            }
+        });
+        convertView.setTag(convertView.getId(),pos);
+        convertView.getTag(pos);
 
-
+        edit.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(c,"ccell:" + callsArrayList.get(pos).getCcell().replace("null","") +
+                        "\ncphone:" + callsArrayList.get(pos).getCphone().replace("null","")+
+                        "\ncontctCcell:" + callsArrayList.get(pos).getContctCell().replace("null","") +
+                        "\ncontctCphone:" + callsArrayList.get(pos).getContctPhone().replace("null","")
+                        , Toast.LENGTH_LONG).show();
+                return true;
             }
         });
         mobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (callsArrayList.get(pos).getCcell().trim().contains("null") || callsArrayList.get(pos).getCcell().trim().equals("") ){
+                String m = "";
+
+                if (!(callsArrayList.get(pos).getCcell().trim().contains("null")) && !(callsArrayList.get(pos).getCcell().trim().equals(""))){
+                    m = callsArrayList.get(pos).getCcell().trim();
+                }
+                if (!(callsArrayList.get(pos).getContctCell().trim().contains("null")) && !(callsArrayList.get(pos).getContctCell().trim().equals(""))){
+                    m =callsArrayList.get(pos).getContctCell().trim();
+                }
+
+                if (m.equals("") ){
                     Toast.makeText(c,"no cell", Toast.LENGTH_LONG).show();
                 }else{
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + callsArrayList.get(pos).getCcell()));//String.valueOf(callsArrayList.get(pos).getCallID())
+                    callIntent.setData(Uri.parse("tel:" + m));//String.valueOf(callsArrayList.get(pos).getCallID())
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity(callIntent);
                 }
-
-
             }
         });
+
+
         telephone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (callsArrayList.get(pos).getContctPhone().contains("null") || callsArrayList.get(pos).getContctPhone().trim().equals("")){
+                String m = "";
+
+                if (!(callsArrayList.get(pos).getCphone().trim().contains("null")) && !(callsArrayList.get(pos).getCphone().trim().equals(""))){
+                    m = callsArrayList.get(pos).getCphone().trim();
+                }
+                if (!(callsArrayList.get(pos).getContctPhone().trim().contains("null")) && !(callsArrayList.get(pos).getContctPhone().trim().equals(""))){
+                    m =callsArrayList.get(pos).getContctPhone().trim();
+                }
+                if (m.equals("") ){
                     Toast.makeText(c,"no phone", Toast.LENGTH_LONG).show();
                 }else{
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + callsArrayList.get(pos).getContctPhone()));//String.valueOf(callsArrayList.get(pos).getCallID())
+                    callIntent.setData(Uri.parse("tel:" + m));//String.valueOf(callsArrayList.get(pos).getCallID())
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity(callIntent);
                 }
-
             }
         });
 
@@ -194,16 +223,6 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
                 {
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
-//                try
-//                {
-//
-//
-//                    AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
-//                }
-//                catch ( ActivityNotFoundException ex  )
-//                {
-//                    Toast.makeText(c, ex.getMessage(), Toast.LENGTH_LONG).show();
-//                }
             }
         });
 
@@ -245,13 +264,6 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         }
         stateid.setTypeface(stateid.getTypeface(), Typeface.BOLD);
 
-//        if (callsArrayList.get(pos).getState().contains("play")){
-//
-//        }else if(callsArrayList.get(pos).getState().contains("ride")){
-//            stateid.setText("@string/fa_icon_car");
-//        }else{
-//            stateid.setVisibility(View.GONE);
-//        }
         TextView alert = (TextView) convertView.findViewById(R.id.alert);
         alert.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         alert.setTextSize(30);
@@ -261,20 +273,58 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         }
 
         txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime());
-        //if ((callsArrayList.get(pos).getCallStartTime().equals("null"))){
-            if ((callsArrayList.get(pos).getCallStartTime().toLowerCase().contains("null"))){
+        if ((callsArrayList.get(pos).getCallStartTime().toLowerCase().contains("null"))){
             assigmentlayout.setVisibility(View.GONE);
         }else{
             txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime().substring(0,10)+"  " +callsArrayList.get(pos).getCallStartTime().substring(11,16)+"-"+callsArrayList.get(pos).getCallEndTime().substring(11,16));;
             txtCallStartTime.setTextColor(Color.parseColor("#E94E1B"));
         }
 
-        convertView.setTag(convertView.getId(),pos);
-        convertView.getTag(pos);
+
 
 
         return convertView;
     }
+    public boolean isNumeric(String s) {
+        int len = s.length();
+        for (int i = 0; i < len; ++i) {
+            if (!isNumeric1(String.valueOf(s.charAt(i)))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public boolean isNumeric1(String s) {
+        return s.matches("[-+]?\\d*\\.?\\d+");
+    }
+    private String retCcell(String cell,String contctCell){
+        String ret = "";
+        //Log.e("mytag","contctCell.length():" + contctCell.length() + " contctCell.contains(null):" + contctCell.contains("null"));
+        //Log.e("mytag","cell.length():" + cell.length() + " cell.contains(null):" + cell.contains("null"));
+
+        if ((contctCell.length() > 0 && !(contctCell.contains("null")))){
+            return contctCell;
+        }
+        if ((cell.length() > 0 && !(cell.contains("null")))){
+            return cell;
+        }
+        return ret;
+    }
+
+    private String retCphone(String cphone,String contctcphone){
+        String ret = "";
+        //Log.e("mytag","contctcphone.length():" + contctcphone.length() + " contctcphone.contains(null):" + contctcphone.contains("null"));
+        //Log.e("mytag","cphone.length():" + cphone.length() + " cphone.contains(null):" + cphone.contains("null"));
+        if ((contctcphone.length() > 0 && !(contctcphone.contains("null")))){
+            return contctcphone;
+        }
+        if ((cphone.length() > 0 && !(cphone.contains("null")))){
+            return cphone;
+        }
+        return ret;
+    }
+
     private String getType(String type){
         String ret = "";
         if (type.contains("work")){

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -32,6 +33,11 @@ import com.Classes.CallStatus;
 import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
+import com.model.Model;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,7 +62,8 @@ public class MainActivity extends Activity {
     DatabaseHelper db;
     public static Context ctx;
     String httpDropSelected;
-
+    EditText txt_enter_code;
+    Spinner dynamicSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +73,10 @@ public class MainActivity extends Activity {
         File_ f = new File_();
         f.createWizenetDir(getApplicationContext());
         url = (EditText) findViewById(R.id.edittext) ;
-
+        txt_enter_code= (EditText) findViewById(R.id.txt_enter_code) ;
         helper = new Helper();
 
-        Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
+         dynamicSpinner = (Spinner) findViewById(R.id.spinner);
         String[] items = new String[] { "http://", "https://" };
         String s = "";
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -131,6 +138,48 @@ public class MainActivity extends Activity {
                 DatabaseHelper.getInstance(getApplicationContext()).updateValue("URL",urlString);
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+            }
+
+        });
+
+        Button button2 = (Button) findViewById(R.id.continuebutton2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Model.getInstance().Async_Wz_getUrl_Listener(helper.getMacAddr(), txt_enter_code.getText().toString(), new Model.Wz_getUrl_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        JSONObject j = null;
+                        try {
+                            j = new JSONObject(str);
+                            JSONArray jarray = j.getJSONArray("Wz_getUrl");
+                            String url = jarray.getJSONObject(0).getString("Status");
+
+                            if (url.contains("https")){
+                                DatabaseHelper.getInstance(getApplicationContext()).updateValue("dropHTTP","https://");
+                            }else{
+                                DatabaseHelper.getInstance(getApplicationContext()).updateValue("dropHTTP","http://");
+                            }
+
+                            Toast.makeText(getApplicationContext(),"url: " + url, Toast.LENGTH_LONG).show();
+                            if (url.length()>5){
+                                DatabaseHelper.getInstance(getApplicationContext()).updateValue("AUTO_LOGIN","0");
+                                DatabaseHelper.getInstance(getApplicationContext()).updateValue("URL",url);
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(getApplicationContext(),"an error has occurred", Toast.LENGTH_LONG).show();
+                            }
+
+
+                        } catch (JSONException e1) {
+                            helper.LogPrintExStackTrace(e1);
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
             }
 
         });
@@ -212,15 +261,36 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.w("MainActivity", "onResume");
+        Log.e("mytag", "MainActivity onResume");
+        url.setText(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").replace("https://","").replace("http://",""));
 
+        String[] items = new String[] { "http://", "https://" };
+        String s = "";
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dynamicSpinner.setAdapter(adapter);
+        int selectionPosition = adapter.getPosition(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("dropHTTP"));
 
+        dynamicSpinner.setSelection(selectionPosition);
+        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                httpDropSelected =(String) parent.getItemAtPosition(position);
+
+                Log.v("item", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w("MainActivity", "onPause");
+        Log.e("MainActivity", "onPause");
         //LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
     @Override

@@ -51,6 +51,7 @@ public class CallSoap {
     public  final String Wz_getState = "Wz_getState";
     public  final String Wz_Update_Call_Field = "Wz_Update_Call_Field";
     public  final String Wz_Get_Client_Item_List = "Wz_Get_Client_Item_List";
+    public  final String Wz_getUrl = "Wz_getUrl";
 
 
     //#############name space######################
@@ -80,6 +81,7 @@ public class CallSoap {
     public  final String Wz_getState_SOAP_ACTION = "http://tempuri.org/Wz_getState";
     public  final String Wz_Update_Call_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Call_Field";
     public  final String Wz_Get_Client_Item_List_SOAP_ACTION = "http://tempuri.org/Wz_Get_Client_Item_List";
+    public  final String Wz_getUrl_SOAP_ACTION = "http://tempuri.org/Wz_getUrl";
 
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
@@ -645,6 +647,37 @@ public String Wz_Forgot(String mac_address,String Email)
         try
         {
             httpTransport.call(Wz_Get_Client_Item_List_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+
+    //endregion
+    //region Wz_Get_Client_Item_List
+    public String Wz_getUrl(String mac_address,String msid)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_getUrl);//namespace , operation
+
+
+
+        request.addProperty("MACaddress",mac_address);
+
+        request.addProperty("msid",msid);
+
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE("http://main.wizenet.co.il/webservices/freelance.asmx");
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_getUrl_SOAP_ACTION, envelope);
             response = envelope.bodyIn;
         }
         catch (Exception exception)

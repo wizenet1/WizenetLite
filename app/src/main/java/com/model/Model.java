@@ -1139,7 +1139,42 @@ public interface get_mgnet_client_items_Listener{
     }
     //endregion
 
+    //region get_mgnet_client_item
+    public interface Wz_getUrl_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_getUrl_Listener(final String macAddress,final String msid, final Wz_getUrl_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                //String response = cs.Call(mac_address, memail, mpass);
+
+                String response = cs.Wz_getUrl(macAddress,msid);
+                String myResponse = response;
+                myResponse = myResponse.replaceAll("Wz_getUrlResponse", "");
+                myResponse = myResponse.replaceAll("Wz_getUrlResult=", "Wz_getUrl:");
+                myResponse = myResponse.replaceAll(";", "");
+                //return "";
+                return myResponse.toString();
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
 }
 
 
