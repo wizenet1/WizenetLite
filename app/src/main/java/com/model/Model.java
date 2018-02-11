@@ -1175,6 +1175,42 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+    //region Wz_retClientFavorites
+    public interface Wz_retClientFavorites_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_retClientFavorites_Listener(final String macAddress, final Wz_retClientFavorites_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                //String response = cs.Call(mac_address, memail, mpass);
+
+                String response = cs.Wz_retClientFavorites(macAddress);
+                String myResponse = response;
+                myResponse = myResponse.replaceAll("Wz_retClientFavoritesResponse", "");
+                myResponse = myResponse.replaceAll("Wz_retClientFavoritesResult=", "Wz_retClientFavorites:");
+                myResponse = myResponse.replaceAll(";", "");
+                //return "";
+                return myResponse.toString();
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
 }
 
 

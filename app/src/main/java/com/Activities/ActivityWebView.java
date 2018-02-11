@@ -60,13 +60,20 @@ public class ActivityWebView extends FragmentActivity {
         int cid = -1;
         int technicianid = -1;
         String action = "";
-
+        String specialurl = "";
         Bundle b = getIntent().getExtras();
         if(b != null){
             callid = b.getInt("callid");
             cid = b.getInt("cid");
             technicianid = b.getInt("technicianid");
             action = b.getString("action");
+            try{
+                specialurl =b.getString("specialurl");
+                Log.e("mytag","special url: "+specialurl);
+            }catch (Exception e){
+                Log.e("mytag","special url ex: " + e.getMessage());
+            }
+
         }
 
         ActionBar actionBar = getActionBar();
@@ -114,6 +121,11 @@ public class ActivityWebView extends FragmentActivity {
         });
         String url = "";
         switch(action) {
+            case "dynamic":
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        +"/"+ specialurl;
+                Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
+                break;
             case "calltime":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True";
@@ -146,7 +158,7 @@ public class ActivityWebView extends FragmentActivity {
                 //setContentView(R.layout.default);
         }
         Log.e("mytag","technicianid:" + technicianid);
-        String cookieString = "CID=" + String.valueOf(technicianid) + "; path=/";
+        String cookieString = "CID=" + DatabaseHelper.getInstance(getBaseContext()).getValueByKey("CtypeID") + "; path=/";
         String cookieString2 = "CtypeID=" + DatabaseHelper.getInstance(getBaseContext()).getValueByKey("CtypeID") + "; path=/";
 
         CookieManager.getInstance().setCookie(url, cookieString);

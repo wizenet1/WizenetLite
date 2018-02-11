@@ -118,7 +118,7 @@
             android:layout_marginBottom="8dp" />
 
         <EditText
-            android:visibility="invisible"
+            android:visibility="gone"
             android:id="@+id/menu_search"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
@@ -227,7 +227,8 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/menu_offers" />
+                        android:src="@drawable/menu_order1"
+                        />
 
                     <TextView
                         android:id="@+id/id3_text"
@@ -330,6 +331,91 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/menu_widget_id4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/id_masofon"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/menu_offers" />
+
+                    <TextView
+                        android:id="@+id/id10_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/id_masofon"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="מסופון"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/id_favorites"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/menu_offers" />
+
+                    <TextView
+                        android:id="@+id/id11_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/id_favorites"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="מועדפים"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/id_reporttime"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/menu_offers" />
+
+                    <TextView
+                        android:id="@+id/id12_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/id_reporttime"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="דיווח"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/menu_widget_id3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -410,7 +496,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="דיווח"
+                        android:text="הנהח"
                         android:textSize="15dp" />
                 </LinearLayout>
 
@@ -478,6 +564,7 @@
         </LinearLayout>
 
         <ImageView
+
             android:id="@+id/menu_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -492,6 +579,7 @@
             android:layout_marginBottom="8dp" />
 
         <ImageView
+
             android:id="@+id/bottom_rectangle"
             android:layout_width="300dp"
             android:layout_height="7dp"

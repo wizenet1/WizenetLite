@@ -113,8 +113,9 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
         ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
         ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
+        ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
         ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
-
+        ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -161,7 +162,23 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
             }
         });
-        id_accounting.setOnClickListener(new View.OnClickListener() {
+        id_favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FragmentManager fragManager = getFragmentManager();
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentFavorite frag = new FragmentFavorite();
+                ft.replace(R.id.container,frag,"FragmentFavorite");
+                ft.addToBackStack("FragmentFavorite");
+                ft.commit();
+
+
+            }
+        });
+
+
+        id_reporttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
