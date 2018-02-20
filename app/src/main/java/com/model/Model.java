@@ -354,7 +354,9 @@ public class Model {
                     if(!DatabaseHelper.getInstance(context).getValueByKey("CtypeID").equals(jarray.getJSONObject(0).getString("CtypeID"))){
                         DatabaseHelper.getInstance(context).updateValue("CtypeID",jarray.getJSONObject(0).getString("CtypeID"));
                     }
-
+                    if(!DatabaseHelper.getInstance(context).getValueByKey("Cfname").equals(fname+" "+lname)){
+                        DatabaseHelper.getInstance(context).updateValue("Cfname",fname+" "+lname);
+                    }
                     myStr = fname+" "+lname;
                     //myStr=(jarray.getJSONObject(0).getString("Cfname"));//.concat(" ");//1 or 0
                     //myStr.concat(jarray.getJSONObject(0).getString("Clname"));//
@@ -672,18 +674,19 @@ public interface get_mgnet_client_items_Listener{
                             strJson=f.readFromFileExternal(context,"calls.txt");
                             //strJson = f.readFromFileInternal(context,"calls.txt");
                             //strJson = helper.readTextFromFile3("calls.txt");
-                            DatabaseHelper.getInstance(context).deleteAllCalls();
+
                             JSONObject j = null;
                             JSONArray jarray = null;
                             try {
                                 j = new JSONObject(strJson);
                                 jarray= j.getJSONArray("Calls");
+                                DatabaseHelper.getInstance(ctx).deleteAllCalls();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage());
                                 return "";
                             }
-                            DatabaseHelper.getInstance(ctx).deleteAllCalls();
+
                             for (int i = 0; i < jarray.length(); i++) {
                                 final JSONObject e;
 
@@ -730,7 +733,8 @@ public interface get_mgnet_client_items_Listener{
                                      call.setCallOrder(e.getInt("callOrder"));
                                     call.setCaddress(e.getString("Caddress"));
                                   call.setCcity(e.getString("Ccity"));
-                                    call.setCcomments(e.getString("Ccomments"));
+                                    call.setCcomments(e.getString("comments"));
+                                    //Log.e("mytag","e.getString(Ccomments): " +e.getString("comments").toString());
                                     call.setCfname(e.getString("Cfname"));
                                      call.setClname(e.getString("Clname"));
                                      call.setTechName(e.getString("techName"));
@@ -891,6 +895,7 @@ public interface get_mgnet_client_items_Listener{
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
             @Override
             protected String doInBackground(String... params) {
+
                 // USER_ClientsResponse
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Call_Statuses(macAddress);
@@ -900,20 +905,20 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResponse", "");
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
-                    myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                    myResponse = myResponse.replaceAll("\\<[^>]*>","");
                     Log.e("mytag","callstatuses: "+ myResponse);
                     File_ f = new File_();
                     boolean flag = false;
-                    f.deleteFileExternal(context,"CallStatuses.txt");
-                    DatabaseHelper.getInstance(context).deleteAllCalls();
+                    if (helper.isJSONValid(myResponse)){
+                        f.deleteFileExternal(context,"CallStatuses.txt");
+                        DatabaseHelper.getInstance(context).deleteCallStatuses();
+                        flag = f.writeTextToFileExternal(context,"CallStatuses.txt",myResponse);
+                    }
 
-                    flag = f.writeTextToFileExternal(context,"CallStatuses.txt",myResponse);
-                    //flag =helper.writeTextToSpecificFile("","CallStatuses.txt",myResponse);
                     if (flag == true){
                         String strJson = "";
                         strJson = f.readFromFileExternal(context,"CallStatuses.txt");
-                        //strJson = helper.readTextFromFile3("CallStatuses.txt");
-                        DatabaseHelper.getInstance(context).deleteCallStatuses();
+
                         JSONObject j = null;
                         JSONArray jarray = null;
                         try {
@@ -1195,6 +1200,43 @@ public interface get_mgnet_client_items_Listener{
                 String myResponse = response;
                 myResponse = myResponse.replaceAll("Wz_retClientFavoritesResponse", "");
                 myResponse = myResponse.replaceAll("Wz_retClientFavoritesResult=", "Wz_retClientFavorites:");
+                myResponse = myResponse.replaceAll(";", "");
+                //return "";
+                return myResponse.toString();
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
+    //region Wz_retClientFavorites
+    public interface Wz_Send_Call_Offline_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_Send_Call_Offline_Listener(final String macAddress,final String jsonString, final Wz_Send_Call_Offline_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                //String response = cs.Call(mac_address, memail, mpass);
+
+                String response = cs.Wz_Send_Call_Offline(macAddress,jsonString);
+                String myResponse = response;
+                myResponse = myResponse.replaceAll("Wz_Send_Call_OfflineResponse", "");
+                myResponse = myResponse.replaceAll("Wz_Send_Call_OfflineResult=", "Wz_Send_Call_Offline:");
                 myResponse = myResponse.replaceAll(";", "");
                 //return "";
                 return myResponse.toString();

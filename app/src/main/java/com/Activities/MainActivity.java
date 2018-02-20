@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 
             }else{
                 Toast.makeText(getApplicationContext(),"internet invalid", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Menu.class);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);
             }
 

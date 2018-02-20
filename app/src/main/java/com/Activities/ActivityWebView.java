@@ -158,7 +158,7 @@ public class ActivityWebView extends FragmentActivity {
                 //setContentView(R.layout.default);
         }
         Log.e("mytag","technicianid:" + technicianid);
-        String cookieString = "CID=" + DatabaseHelper.getInstance(getBaseContext()).getValueByKey("CtypeID") + "; path=/";
+        String cookieString = "CID=" + technicianid + "; path=/";
         String cookieString2 = "CtypeID=" + DatabaseHelper.getInstance(getBaseContext()).getValueByKey("CtypeID") + "; path=/";
 
         CookieManager.getInstance().setCookie(url, cookieString);

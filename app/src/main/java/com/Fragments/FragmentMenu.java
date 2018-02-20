@@ -80,6 +80,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
         Icon_Manager icon_manager = new Icon_Manager();
         getCallStatuses();
+        helper = new Helper();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
         menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         //menu_bar_profile.setTextSize(40);
@@ -97,12 +98,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         ImageView menuBarOptionsImg = (ImageView) v.findViewById(R.id.menu_bar_options);
         menu_bar_welcome_txt = (TextView) v.findViewById(R.id.menu_bar_welcome_txt);
         //menu_bar_welcome_txt.setText(((MenuActivity)getActivity()).setName());
-        Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
-            @Override
-            public void onResult(String str) {
-                menu_bar_welcome_txt.setText( " שלום " +str);
-            }
-        });
+//        if (helper.isNetworkAvailable(context)){
+//            Log.e("mytag","isNetworkAvailable");
+//            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
+//                @Override
+//                public void onResult(String str) {
+//                    menu_bar_welcome_txt.setText( " שלום " +str);
+//                }
+//            });
+//        }else{
+//            Log.e("mytag","is not NetworkAvailable");
+//            menu_bar_welcome_txt.setText(DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
+//        }
+
+
 
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
@@ -523,18 +532,21 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     @Override
     public void onResume() {
         super.onResume();
-        //setUsername();
-//        if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")) {
-//            cb.setChecked(true);
-//            cb.setText("GPS");
-//            cb.setVisibility(View.VISIBLE);
-//        }
 
-//        try{
-//            myEditText2.setText(((MenuActivity)getActivity()).getMyString());
-//        }catch (Exception ex){
-//            Toast.makeText(getActivity(),ex.toString(),Toast.LENGTH_SHORT).show();
-//        }
+        if (helper.isNetworkAvailable(context)){
+            Log.e("mytag","isNetworkAvailable");
+            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
+                @Override
+                public void onResult(String str) {
+                    menu_bar_welcome_txt.setText( " שלום " +str);
+                }
+            });
+        }else{
+            Log.e("mytag","is not NetworkAvailable");
+            menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
+        }
+        //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
+
     }
     public String getEditText(){
         return myEditText2.getText().toString();

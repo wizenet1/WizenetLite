@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.Classes.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,18 +99,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + ")";
     //endregion   cal
     // callid=46707, CallStatsName = 3
-    public void updateSpecificValueInTable(String table,String primarykey,String primaryval,String fieldName,String fieldValue) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(fieldName, fieldValue);
-        //values.put(DESCRIPTION, "");
-        db.update(table, values, primarykey +"=" + primaryval, null);
-        db.close();
-    }
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        String CREATE_call_offline=
+                "CREATE TABLE " + "call_offline" + "("
+                        + "CallID" +  " INTEGER, "
+                        + "statusID"+  " INTEGER, "
+                        + "internalSN"+ " TEXT, "
+                        + "techAnswer"+ " TEXT "
+                        + ")";
         String CREATE_mgnet_calls=
                 "CREATE TABLE " + mgnet_calls + "("
                         + "CallID" +  " INTEGER, "
@@ -214,6 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MESSAGES_TABLE);
         db.execSQL(CREATE_mgnet_client_items);
         db.execSQL(CREATE_mgnet_calls);
+        db.execSQL(CREATE_call_offline);
         //db.execSQL("DROP TABLE "+TABLE_CONTROL_PANEL+" ");
 
     }
@@ -226,8 +229,125 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-//region CALLS
+   //region call_offline
+    public boolean add_call_offline(Call_offline co){
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CallID" , co.getCallID());
+            values.put("statusID", co.getStatusID());
+            values.put("internalSN", co.getInternalSN());
+            values.put("techAnswer", co.getTechAnswer().trim());
+            // Inserting Row
+            db.insert("call_offline", null, values);
+            // Closing database connection
+            //db.close();
+            flag = true;
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    public JSONArray getJsonResults()
+    {
 
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String searchQuery = "SELECT  * FROM " + "call_offline";
+        Cursor cursor = db.rawQuery(searchQuery, null );
+
+        JSONArray resultSet     = new JSONArray();
+
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                {
+                    try
+                    {
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+                    }
+                    catch( Exception e )
+                    {
+                        Log.d("TAG_NAME", e.getMessage()  );
+                    }
+                }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString() );
+        return resultSet;
+    }
+    public List<Call_offline> getCall_offline() {
+        List<Call_offline> callList = new ArrayList<Call_offline>();
+// Select All Query
+        String selectQuery ="";
+        selectQuery = "SELECT * FROM call_offline " ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+// looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Call_offline c= new Call_offline(
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallID"))),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))),
+                        cursor.getString(cursor.getColumnIndex("internalSN")),
+                        cursor.getString(cursor.getColumnIndex("techAnswer")));
+// Adding contact to list
+                callList.add(c);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        //db.close();
+        return callList;
+    }
+    public boolean deleteAllCall_offline() {
+        boolean flag = true;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            db.delete("Call_offline", null, null);
+            db.close();
+
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+
+    //endregion
+
+//region CALLS
+public void updateSpecificValueInTable2(String table,String primarykey,String primaryval,String fieldName,String fieldValue) {
+    try{
+        SQLiteDatabase db = this.getWritableDatabase();
+        String strSQL = "UPDATE " + table + " SET " + fieldName + " = " + fieldValue + " WHERE " + primarykey + " = "+ primaryval + "";
+        Log.e("mytag",strSQL);
+        db.execSQL(strSQL);
+        Log.e("mytag","success to update value2");
+    }catch (Exception e){
+        Log.e("mytag",e.getMessage());
+    }
+}
     public List<Call> getCalls(String sortby) {
         List<Call> callList = new ArrayList<Call>();
 // Select All Query
@@ -979,6 +1099,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         db.update(TABLE_CONTROL_PANEL, values, KEY + " = '"+key+"'", null);
         db.close();
     }
+
 
 
     public void resetURL(ControlPanel cp) {

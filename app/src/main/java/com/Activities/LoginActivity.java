@@ -103,7 +103,10 @@ public class LoginActivity extends FragmentActivity {
 
         }else{
             Toast.makeText(getApplicationContext(),"internet invalid", Toast.LENGTH_LONG).show();
-            goToOfflineFragment();
+           // try{
+           //     goToOfflineFragment();
+           // }
+
         }
         final CheckBox login_checkbox_remember = (CheckBox) findViewById(R.id.login_checkbox_remember);
         login_checkbox_remember.setChecked(true);

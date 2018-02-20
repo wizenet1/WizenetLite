@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.Classes.Call;
 import com.Classes.CallStatus;
+import com.Classes.Call_offline;
 import com.DatabaseHelper;
 import com.Helper;
 import com.Adapters.CallsAdapter;
@@ -73,7 +74,7 @@ TextView lblcount;
         //-------------------------------------
         //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);
-        String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓"};
+        String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓","עיר ↑","עיר ↓","חברה ↑","חברה ↓"};
         spinner.setAdapter(new SpinnerAdapter(this, R.layout.simple_spinner_item, items));
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -94,6 +95,14 @@ TextView lblcount;
                     getFilteredList("OriginName asc");
                 }else if(s.equals("עדיפות ↓")){
                     getFilteredList("OriginName desc");
+                }else if(s.equals("עיר ↑")){
+                    getFilteredList("Ccity asc");
+                }else if(s.equals("עיר ↓")){
+                    getFilteredList("Ccity desc");
+                }else if(s.equals("חברה ↑")){
+                    getFilteredList("Ccompany asc");
+                }else if(s.equals("חברה ↓")){
+                    getFilteredList("Ccompany desc");
                 }
             }
             @Override
@@ -120,24 +129,8 @@ TextView lblcount;
                 startActivity(intent);
             }
         });
-        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
-            @Override
-            public void onResult(String str) {
-                Log.e("mytag","arrived here");
 
-                //Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-                //helper.goToCallsFragment(context);
-                data2.clear();
-                for (Call c : getCallsList("")){
-                    data2.add(c);
-                }
-                lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
-                myList = (ListView) findViewById(R.id.calls_list);
 
-                callsAdapter=new CallsAdapter(data2,getBaseContext());
-                myList.setAdapter(callsAdapter);
-            }
-        });
 
         Helper helper = new Helper();
         String mac = helper.getMacAddr();
@@ -166,6 +159,19 @@ TextView lblcount;
 
 //region notinuse
     //endregion
+
+    private void init(){
+        data2.clear();
+        for (Call c : getCallsList("")){
+            Log.e("mytag",c.toString());
+            data2.add(c);
+        }
+        lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
+        myList = (ListView) findViewById(R.id.calls_list);
+
+        callsAdapter=new CallsAdapter(data2,getBaseContext());
+        myList.setAdapter(callsAdapter);
+    }
 
     public class SpinnerAdapter extends ArrayAdapter<String>
     {
@@ -238,25 +244,64 @@ TextView lblcount;
     protected void onResume() {
         super.onResume();
         Log.e("mytag","onResume");
-        //Toast.makeText(getBaseContext(),"onResume", Toast.LENGTH_SHORT).show();
+        //DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
+        ArrayList<Call_offline> arr_Call_offline = null;
+        try{
+             arr_Call_offline = new ArrayList<Call_offline>(DatabaseHelper.getInstance(ctx).getCall_offline());
+            for (Call_offline co:arr_Call_offline) {
+                Log.e("mytag","Call_offline: " + co.toString());
+            }
+            if (arr_Call_offline.size() > 0 ){
+                Log.e("mytag","json: " + DatabaseHelper.getInstance(ctx).getJsonResults());
 
-        change();
+            }
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
+            Log.e("mytag",e.getMessage());
+        }
+
+
+        init();
+        Log.e("mytag","onResume2");
+        if (helper.isNetworkAvailable(ctx)){
+            Log.e("mytag","size: " + arr_Call_offline.size());
+            if (arr_Call_offline.size()>0){
+                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        if (str.contains("0")){
+                            DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
+                            change();
+                        }
+                        Log.e("mytag","return:" +str);
+                    }
+                });
+            }else{
+                change();
+            }
+
+
+        }
     }
     public  void change(){
 
-        Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
-            @Override
-            public void onResult(String str) {
-                ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(""));
-                data2.clear();
-                data2.addAll(arrlistofOptions);
-                callsAdapter=new CallsAdapter(data2,getBaseContext());
-                myList = (ListView) findViewById(R.id.calls_list);
-                myList.setAdapter(callsAdapter);
-                callsAdapter.notifyDataSetChanged();
-                lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
-            }
-        });
+        if (helper.isNetworkAvailable(ctx)){
+            Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+                @Override
+                public void onResult(String str) {
+                    ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(""));
+                    data2.clear();
+                    data2.addAll(arrlistofOptions);
+                    callsAdapter=new CallsAdapter(data2,getBaseContext());
+                    myList = (ListView) findViewById(R.id.calls_list);
+                    myList.setAdapter(callsAdapter);
+                    callsAdapter.notifyDataSetChanged();
+                    lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
+                }
+            });
+        }else{
+            Toast.makeText(getBaseContext(),"אינטרנט לא זמין", Toast.LENGTH_SHORT).show();
+        }
     }
     public void getFilteredList(String orderby){
         ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(orderby));
@@ -285,15 +330,23 @@ TextView lblcount;
     }
 
     private List<Call> getCallsList(String sortby){
+        //Log.e("mytag","step 1");
         JSONObject j = null;
         int length = 0;
 
         List<Call> calls = new ArrayList<Call>() ;
         try {
-            calls= DatabaseHelper.getInstance(this).getCalls(sortby);
+            //Log.e("mytag","step 2");
+            calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
+            //Log.e("mytag","calls.size(): "+ String.valueOf(calls.size()));
+            //for (Call c: calls) {
+            //    Log.e("mytag",c.toString());
+            //}
+            //Log.e("mytag","step 3");
             length = calls.size();
         } catch (Exception e) {
             e.printStackTrace();
+            helper.LogPrintExStackTrace(e);
         }
 
         return calls;

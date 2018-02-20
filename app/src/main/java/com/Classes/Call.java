@@ -54,6 +54,9 @@ public class Call {
     String ContctCemail;
     String state;
 
+
+
+
     public int getCallID() {
         return CallID;
     }
@@ -313,6 +316,7 @@ public class Call {
         this.Cemail = cemail;
         this.contctCode = contctCode;
         this.state = state;
+
     }
     public Call(int callID,String subject,String createDate,String ccompany,String statusName,String contctCell,String ccity,String caddress)
     {
@@ -521,7 +525,7 @@ public class Call {
 
     @Override
     public String toString() {
-        return "\n[cfname:";//+this.cfname+"\nclname:"+this.clname + "\n,cemail:" + this.cemail+ "\n,cphone:" +
+        return "callid:"+this.getCallID()+ " status:"+this.getStatusName() ;
                 //this.cphone+ "\n,ccell:"+ this.ccell + "\n,ccompany:"+ this.ccompany +"]" ;
     }
 

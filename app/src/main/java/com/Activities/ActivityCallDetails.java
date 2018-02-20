@@ -1,5 +1,6 @@
 package com.Activities;
 
+import com.Classes.Call_offline;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.model.*;
@@ -133,7 +134,7 @@ public class ActivityCallDetails extends FragmentActivity {
             txtpriority.setTypeface(txtpriority.getTypeface(), Typeface.BOLD);
 
         }
-        LinearLayout layout_comment = (LinearLayout) findViewById(R.id.layout_comment);
+        //LinearLayout layout_comment = (LinearLayout) findViewById(R.id.layout_comment);
         TextView calltime = (TextView) findViewById(R.id.calltime);
         LinearLayout layout_internalsn = (LinearLayout) findViewById(R.id.layout_internalsn);
         txt_internalsn = (EditText) findViewById(R.id.txt_internalsn);
@@ -145,13 +146,14 @@ public class ActivityCallDetails extends FragmentActivity {
         } else {
             txt_internalsn.setText(call.getInternalSN().trim());
         }
-
-        if ((call.getCcomments().toLowerCase().contains("null") || call.getCcomments().toLowerCase().trim().equals(""))) {
-            layout_comment.setVisibility(View.GONE);
-            txtcomments.setVisibility(View.GONE);
-        } else {
-            txtcomments.setText(call.getCcomments().trim());
-        }
+        Log.e("mytag","ccomments:" + call.getCcomments().trim());
+        txtcomments.setText(call.getCcomments().trim());
+//        if ((call.getCcomments().toLowerCase().contains("null") || call.getCcomments().toLowerCase().trim().equals(""))) {
+//            //layout_comment.setVisibility(View.GONE);
+//            //txtcomments.setVisibility(View.GONE);
+//        } else {
+//            txtcomments.setText(call.getCcomments().trim());
+//        }
 
 
         txtcreatedate.setText(call.getCreateDate().trim());
@@ -438,13 +440,17 @@ public class ActivityCallDetails extends FragmentActivity {
                 if (statusID == -1){
                     Async(Integer.valueOf(callid), "stop", "", "");
                 }
-                Model.getInstance().Async_Wz_Update_Call_Field_Listener(helper.getMacAddr(), (callid), "internalSN", "'" + txt_internalsn.getText().toString() + "'", new Model.Wz_Update_Call_Field_Listener() {
-                    @Override
-                    public void onResult(String str) {
+                DatabaseHelper.getInstance(getApplicationContext()).updateSpecificValueInTable2("mgnet_calls","CallID",String.valueOf(callid),"statusID","'" +String.valueOf(statusID) + "'");
+                DatabaseHelper.getInstance(getApplicationContext()).updateSpecificValueInTable2("mgnet_calls","CallID",String.valueOf(callid),"statusName","'" +statusName + "'");
+                DatabaseHelper.getInstance(getApplicationContext()).updateSpecificValueInTable2("mgnet_calls","CallID",String.valueOf(callid),"internalSN","'" +txt_internalsn.getText().toString() + "'");
+                if (helper.isNetworkAvailable(getApplicationContext())){
+                    Model.getInstance().Async_Wz_Update_Call_Field_Listener(helper.getMacAddr(), (callid), "internalSN", "'" + txt_internalsn.getText().toString() + "'", new Model.Wz_Update_Call_Field_Listener() {
+                        @Override
+                        public void onResult(String str) {
 
-                    }
-                });
-                Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
+                        }
+                    });
+                    Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
                         txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
                             @Override
                             public void onResult(String str) {
@@ -467,6 +473,13 @@ public class ActivityCallDetails extends FragmentActivity {
                                 }
                             }
                         });
+                }else{
+                    Call_offline co = new Call_offline(Integer.valueOf(callid),statusID,txt_internalsn.getText().toString(),txttechanswer.getText().toString());
+                    DatabaseHelper.getInstance(getApplicationContext()).add_call_offline(co);
+                    //DatabaseHelper.getInstance(getApplicationContext()).updateSpecificValueInTable2("mgnet_calls","CallID",String.valueOf(callid),"offline","'1'");
+                    Toast.makeText(getApplicationContext(), "internet invalid", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
         final Activity  activity = this;

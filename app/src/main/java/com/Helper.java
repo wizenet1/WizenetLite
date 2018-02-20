@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -69,6 +70,7 @@ public class Helper {
 
 
     public void addInitialfirst(Context ctx){
+        DatabaseHelper.getInstance(ctx).addControlPanel("Cfname","");
         DatabaseHelper.getInstance(ctx).addControlPanel("AUTO_LOGIN","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("CID","");
         DatabaseHelper.getInstance(ctx).addControlPanel("CtypeID","");
@@ -95,6 +97,20 @@ public class Helper {
 //        }
     }
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
     public Pair<String, String> getJsonKeyValue (String jsonstr,String ws_name) {
 
         JSONObject j = null;
