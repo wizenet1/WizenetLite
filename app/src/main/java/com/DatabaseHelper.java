@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -228,6 +229,203 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public  boolean columnExistsInTable(String table, String columnToCheck) {
+        Cursor cursor = null;
+        SQLiteDatabase db = null;
+        try {
+             db = this.getReadableDatabase();
+            //query a row. don't acquire db lock
+            cursor = db.rawQuery("SELECT top 1 * FROM " + table + " LIMIT 0", null);
+
+            // getColumnIndex()  will return the index of the column
+            //in the table if it exists, otherwise it will return -1
+            if (cursor.getColumnIndex(columnToCheck) != -1) {
+                //great, the column exists
+                return true;
+            }else {
+                //sorry, the column does not exist
+                return false;
+            }
+
+        } catch (SQLiteException Exp) {
+            //Something went wrong with SQLite.
+            //If the table exists and your query was good,
+            //the problem is likely that the column doesn't exist in the table.
+            return false;
+        }
+    }
+    public boolean isTableExists(String tableName) {
+
+        try {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '"+tableName+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        }catch (Exception e){
+            Helper h = new Helper();
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return false;
+    }
+    public boolean createColumnToCalls(String column,boolean isTableExist){
+        String mgnet_calls = "mgnet_calls";
+        boolean flag = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_mgnet_calls=
+                    "CREATE TABLE " + mgnet_calls + "("
+                            + "CallID" +  " INTEGER, "
+                            + "AID"+  " INTEGER, "
+                            + "CID"+  " INTEGER, "
+                            + "CreateDate"+ " TEXT, "
+                            + "EndDate"+ " TEXT, "
+                            + "CallEmail"+ " TEXT, "
+                            + "statusID"+  " INTEGER, "
+                            + "CallPriority"+ " TEXT, "
+                            + "subject"+ " TEXT, "
+                            + "comments"+ " TEXT, "
+                            + "IsClose"+  " INTEGER, "
+                            + "IsRead"+  " INTEGER, "
+                            + "CallType"+ " TEXT, "
+                            + "CallReminderDate"+ " TEXT, "
+                            + "CallUpdate"+ " TEXT, "
+                            + "resolution"+ " TEXT, "
+                            + "cntrctDate"+ " TEXT, "
+                            + "TechnicianID"+  " INTEGER, "
+                            + "statusName"+ " TEXT, "
+                            + "PcatID"+  " INTEGER, "
+                            + "internalSN"+ " TEXT, "
+                            + "Pmakat"+ " TEXT, "
+                            + "Pname"+ " TEXT, "
+                            + "contractID"+ " TEXT, "
+                            + "Cphone"+ " TEXT, "
+                            + "OriginID"+  " INTEGER, "
+                            + "ProblemTypeID"+  " INTEGER, "
+                            + "CallTypeID"+  " INTEGER, "
+                            + "priorityID"+  " TEXT, "
+                            + "OriginName"+ " TEXT, "
+                            + "problemTypeName"+ " TEXT, "
+                            + "CallTypeName"+ " TEXT, "
+                            + "Cname"+ " TEXT, "
+                            + "Cemail"+ " TEXT, "
+                            + "contctCode"+  " INTEGER, "
+                            + "callStartTime"+ " TEXT, "
+                            + "callEndTime"+ " TEXT, "
+                            + "Ccompany"+ " TEXT, "
+                            + "Clocation"+ " TEXT, "
+                            + "callOrder"+  " INTEGER, "
+                            + "Caddress"+ " TEXT, "
+                            + "Ccity"+ " TEXT, "
+                            + "Ccomments"+ " TEXT, "
+                            + "Cfname"+ " TEXT, "
+                            + "Clname"+ " TEXT, "
+                            + "techName"+ " TEXT, "
+                            + "Aname"+ " TEXT, "
+                            + "ContctName"+ " TEXT, "
+                            + "ContctAddress"+ " TEXT, "
+                            + "ContctCity"+ " TEXT, "
+                            + "ContctCell"+ " TEXT, "
+                            + "ContctPhone"+ " TEXT, "
+                            + "Ccell"+ " TEXT, "
+                            + "techColor"+ " TEXT, "
+                            + "ContctCemail"+ " TEXT, "
+                            + "CallParentID"+ " TEXT, "
+                            + "state"+ " TEXT "
+                            + ")";
+            if (isTableExist){
+                db.execSQL("ALTER TABLE " + mgnet_calls + " RENAME TO " + mgnet_calls + "_old;");
+            }
+
+            db.execSQL(CREATE_mgnet_calls);
+            if (isTableExist){
+                db.execSQL("DROP TABLE " + mgnet_calls + "_old;");
+            }
+
+            if (!column.equals("")){
+                db.execSQL("ALTER TABLE " + mgnet_calls + " ADD COLUMN " + column + " TEXT;");
+            }
+
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
+    }
+    public boolean createColumnToCalls_Offline(String column,boolean isTableExist){
+        String call_offline = "call_offline";
+        boolean flag = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_call_offline=
+                    "CREATE TABLE " + "call_offline" + "("
+                            + "CallID" +  " INTEGER, "
+                            + "statusID"+  " INTEGER, "
+                            + "internalSN"+ " TEXT, "
+                            + "techAnswer"+ " TEXT "
+                            + ")";
+            if (isTableExist){
+                db.execSQL("ALTER TABLE " + call_offline + " RENAME TO " + call_offline + "_old;");
+            }
+
+            db.execSQL(CREATE_call_offline);
+            if (isTableExist) {
+                db.execSQL("DROP TABLE " + call_offline + "_old;");
+            }
+            if (!column.equals("")){
+                db.execSQL("ALTER TABLE " + call_offline + " ADD COLUMN " + column + " TEXT;");
+            }
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
+    }
+    public boolean createColumnToCP(String column,boolean isTableExist){
+        String ControlPanel = "ControlPanel";
+        boolean flag = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String CREATE_CP_TABLE =
+                    "CREATE TABLE " + TABLE_CONTROL_PANEL + "("
+                            + KEY +  " TEXT PRIMARY KEY,"
+                            + VALUE + " TEXT, "
+                            + DESCRIPTION + " TEXT "
+                            + ")";
+
+            if (isTableExist){
+                db.execSQL("ALTER TABLE " + ControlPanel + " RENAME TO " + ControlPanel + "_old;");
+            }
+
+            db.execSQL(CREATE_CP_TABLE);
+            if (isTableExist){
+                db.execSQL("DROP TABLE " + ControlPanel + "_old;");
+            }
+
+            if (!column.equals("")) {
+                db.execSQL("ALTER TABLE " + ControlPanel + " ADD COLUMN " + column + " TEXT;");
+            }
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
+    }
+
+
 
    //region call_offline
     public boolean add_call_offline(Call_offline co){
@@ -249,6 +447,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.e("MYTAG",e.getMessage());
         }
         return flag;
+    }
+    public JSONArray getJsonResultsStatuses()
+    {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String searchQuery = "SELECT  * FROM " + "CallStatus";
+        Cursor cursor = db.rawQuery(searchQuery, null );
+
+        JSONArray resultSet     = new JSONArray();
+
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                {
+                    try
+                    {
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+                    }
+                    catch( Exception e )
+                    {
+                        Log.d("TAG_NAME", e.getMessage()  );
+                    }
+                }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString() );
+        return resultSet;
     }
     public JSONArray getJsonResults()
     {

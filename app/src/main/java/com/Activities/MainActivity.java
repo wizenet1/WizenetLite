@@ -64,11 +64,48 @@ public class MainActivity extends Activity {
     String httpDropSelected;
     EditText txt_enter_code;
     Spinner dynamicSpinner;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.context = this;
+        ctx = this;
+        Button btnupdateversion = (Button) findViewById(R.id.btnupdateversion);
+        btnupdateversion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ///////////////////
+                //update db dynamiclly
+                Boolean isCallOfllineEsixts = DatabaseHelper.getInstance(ctx).isTableExists("call_offline") ? true : false;
+                Boolean isCallsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("mgnet_calls") ? true : false;
+                Boolean isControlPanelEsixts = DatabaseHelper.getInstance(ctx).isTableExists("ControlPanel") ? true : false;
+
+                if (!isCallOfllineEsixts)
+                    DatabaseHelper.getInstance(ctx).createColumnToCalls_Offline("",isCallOfllineEsixts);
+                if (!isCallsEsixts)
+                    DatabaseHelper.getInstance(ctx).createColumnToCalls("",isCallsEsixts);
+                if (!isControlPanelEsixts){
+                    DatabaseHelper.getInstance(ctx).createColumnToCP("",isControlPanelEsixts);
+                    helper.addInitialfirst(ctx);
+                }
+                Toast.makeText(getBaseContext(),"עודכן בהצלחה", Toast.LENGTH_SHORT).show();
+
+
+//                if (!DatabaseHelper.getInstance(ctx).columnExistsInTable("CallStatus","stam")){
+//                   Boolean flag = false;
+//                    flag = DatabaseHelper.getInstance(ctx).createColumnToCalls("stam");
+//                    if (flag == true){
+//                        Log.e("mytag","success");
+//                    }else{Log.e("mytag","failed");}
+//                    Log.e("mytag",DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString());
+//                }
+                ///////////////////
+            }
+        });
+
+
+
         boolean flag = isNetworkAvailable(context);
         File_ f = new File_();
         f.createWizenetDir(getApplicationContext());
@@ -204,6 +241,7 @@ public class MainActivity extends Activity {
 
         }
     }
+
     protected void checkPermissionForReadWriteStorage() {
 
         final int writeExternalStorage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
