@@ -199,20 +199,27 @@ public class LoginActivity extends FragmentActivity {
     private void goToMenu(){
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivityForResult(intent, 1);
         startActivity(intent);
     }
-    public void goToOfflineFragment(){
-        //Bundle bundle=new Bundle();
-        //bundle.putString("name", strBundle);
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentMenuOffline frag = new FragmentMenuOffline();
-        //frag.setArguments(bundle);
-        ft.replace(R.id.container,frag,"FragmentMenuOffline");
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Toast.makeText(getApplicationContext(), String.valueOf(requestCode), Toast.LENGTH_LONG).show();
+//        if (requestCode == 1) {
+//            if(resultCode == Activity.RESULT_OK){
+//                String result=data.getStringExtra("result");
+//                Toast.makeText(getApplicationContext(),result, Toast.LENGTH_LONG).show();
+//                if (result == "close"){
+//                    finish();
+//                }
+//            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                Toast.makeText(getApplicationContext(),"hello", Toast.LENGTH_LONG).show();
+//                //Write your code if there's no result
+//            }
+//        }
+//    }//onActivityResult
 
-        ft.addToBackStack("FragmentMenuOffline");
-        ft.commit();
-    }
 
     //###################################
 //CHECK EMAIL

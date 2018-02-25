@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
+import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.SideNavigationMenuAdapter;
@@ -125,6 +126,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
         ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
+        ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -230,6 +232,21 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 fragmentTransaction2.hide(FragmentMenu.this);
                 fragmentTransaction2.add(R.id.container, fragment2);
                 fragmentTransaction2.commit();
+            }
+        });
+        id_masofon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), ActivityWebView.class);
+                Bundle b = new Bundle();
+                b.putInt("callid", -1);
+                b.putInt("cid", -1);
+                b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
+                b.putString("action","masofon");
+                b.putString("specialurl", "");
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 

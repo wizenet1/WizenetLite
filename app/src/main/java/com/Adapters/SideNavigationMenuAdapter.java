@@ -1,6 +1,8 @@
 package com.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.Activities.ActivityCalls;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Helper;
 
@@ -94,6 +98,21 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
             case "הזמנות":
                 helper.goToOrdersFragment(context);
                 break;
+            case "קריאות":
+                Intent intent = new Intent(((Activity) context), ActivityCalls.class);
+                ((Activity) context).startActivity(intent);
+                break;
+            case "הודעות":
+                helper.goToMessagesFragment(context);
+                break;
+            case "הגדרות":
+                helper.goToCPFragment(context);
+                break;
+            case "עדכון מערכת":
+                //Intent returnIntent = new Intent();
+                //returnIntent.putExtra("result","close");
+                //((MenuActivity) context).setResult(Activity.RESULT_OK,returnIntent);
+                //((MenuActivity) context).finish();
 
             default:
                 //setContentView(R.layout.default);

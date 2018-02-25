@@ -123,37 +123,95 @@ public class ActivityWebView extends FragmentActivity {
         switch(action) {
             case "dynamic":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        +"/"+ specialurl;
-                Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
+                        +"/IN.aspx?url="+ specialurl.replace(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL"),"")
+                        +"&MACAddress=" + helper.getMacAddr();
+                //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
+                Log.e("mytag","url: " + url);
                 break;
             case "calltime":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True";
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "callparts":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                    + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + "";
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + ""
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "mycalls" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/mobile/control.aspx?control=modulesService/myCalls";
+                        +"/IN.aspx?url="
+                        + "/mobile/control.aspx?control=modulesService/myCalls"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "callfiles" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True";
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "history" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True";
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "customercase" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
             case "goToUserHistory" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport";
+                        +"/IN.aspx?url="
+                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
+            case "masofon" :
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        +"/IN.aspx?url="
+                        + "/AppMasofon/masofon?1=1"
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
                 break;
+
+//            case "calltime":
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True";
+//                break;
+//            case "callparts":
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                    + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + "";
+//                break;
+//            case "mycalls" :
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/mobile/control.aspx?control=modulesService/myCalls";
+//                break;
+//            case "callfiles" :
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True";
+//                break;
+//            case "history" :
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True";
+//                break;
+//            case "customercase" :
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
+//                break;
+//            case "goToUserHistory" :
+//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport";
+//                break;
             default:
                 //setContentView(R.layout.default);
         }

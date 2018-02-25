@@ -146,7 +146,7 @@ public class ActivityCallDetails extends FragmentActivity {
         } else {
             txt_internalsn.setText(call.getInternalSN().trim());
         }
-        Log.e("mytag","ccomments:" + call.getCcomments().trim());
+        //Log.e("mytag","ccomments:" + call.getCcomments().trim());
         txtcomments.setText(call.getCcomments().trim());
 //        if ((call.getCcomments().toLowerCase().contains("null") || call.getCcomments().toLowerCase().trim().equals(""))) {
 //            //layout_comment.setVisibility(View.GONE);

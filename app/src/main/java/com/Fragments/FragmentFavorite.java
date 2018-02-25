@@ -150,7 +150,7 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
                     Bundle b = new Bundle();
                     b.putInt("callid", -1);
                     b.putInt("cid", -1);
-                    b.putInt("technicianid", -1);
+                    b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
                     b.putString("action","dynamic");
                     b.putString("specialurl", f.getPageUrl());
                     intent.putExtras(b);

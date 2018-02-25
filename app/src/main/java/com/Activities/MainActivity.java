@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -71,7 +73,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         this.context = this;
         ctx = this;
-        Button btnupdateversion = (Button) findViewById(R.id.btnupdateversion);
+        TextView btnupdateversion = (TextView) findViewById(R.id.btnupdateversion);
+        btnupdateversion.setPaintFlags(btnupdateversion.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        TextView btndownloadversion = (TextView) findViewById(R.id.btndownloadversion);
+        btndownloadversion.setPaintFlags(btndownloadversion.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         btnupdateversion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,8 +95,6 @@ public class MainActivity extends Activity {
                     helper.addInitialfirst(ctx);
                 }
                 Toast.makeText(getBaseContext(),"עודכן בהצלחה", Toast.LENGTH_SHORT).show();
-
-
 //                if (!DatabaseHelper.getInstance(ctx).columnExistsInTable("CallStatus","stam")){
 //                   Boolean flag = false;
 //                    flag = DatabaseHelper.getInstance(ctx).createColumnToCalls("stam");
@@ -101,6 +104,15 @@ public class MainActivity extends Activity {
 //                    Log.e("mytag",DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString());
 //                }
                 ///////////////////
+            }
+        });
+        btndownloadversion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url =
+                         "http://main.wizenet.co.il/data/wizenet.apk";
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
             }
         });
 
