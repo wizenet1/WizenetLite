@@ -4,8 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -38,12 +36,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.NetworkInterface;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +44,7 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends FragmentActivity {
 
-    Helper helper;
+    Helper helper ;
     DatabaseHelper db;
 
     private static final String marshmallowMacAddress = "02:00:00:00:00:00";
@@ -67,7 +60,7 @@ public class LoginActivity extends FragmentActivity {
                     ")+"
     );
     String memail, mpass, mac_address;
-    private TextView sign_in, reset, view_url;
+    private TextView sign_in,reset,view_url;
     EditText email, pass;
     Button write, read;
     GPSTracker gps = null;
@@ -79,10 +72,10 @@ public class LoginActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         ctx = this;
         db = DatabaseHelper.getInstance(getApplicationContext());
-        helper = new Helper();
+        helper= new Helper();
         setContentView(R.layout.activity_login);
         boolean flag = helper.isNetworkAvailable(ctx);
-        if (db.getValueByKey("AUTO_LOGIN").equals("1")) {
+        if (db.getValueByKey("AUTO_LOGIN").equals("1")){
             goToMenu();
         }
 //        ActionBar actionBar = getActionBar();
@@ -104,15 +97,15 @@ public class LoginActivity extends FragmentActivity {
 //            }
 //        });
 
-        if (flag) {
-            Toast.makeText(getApplicationContext(), "internet valid", Toast.LENGTH_LONG).show();
+        if (flag){
+            Toast.makeText(getApplicationContext(),"internet valid", Toast.LENGTH_LONG).show();
 
 
-        } else {
-            Toast.makeText(getApplicationContext(), "internet invalid", Toast.LENGTH_LONG).show();
-            // try{
-            //     goToOfflineFragment();
-            // }
+        }else{
+            Toast.makeText(getApplicationContext(),"internet invalid", Toast.LENGTH_LONG).show();
+           // try{
+           //     goToOfflineFragment();
+           // }
 
         }
         final CheckBox login_checkbox_remember = (CheckBox) findViewById(R.id.login_checkbox_remember);
@@ -124,11 +117,11 @@ public class LoginActivity extends FragmentActivity {
 
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
-        try {
-            if (!db.getValueByKey("username").equals("")) {
-                email.setText(db.getValueByKey("username").toString());
-            }
-        } catch (Exception e) {
+        try{
+        if(!db.getValueByKey("username").equals("")){
+            email.setText(db.getValueByKey("username").toString());
+        }
+        }catch(Exception e){
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
         }
@@ -139,10 +132,10 @@ public class LoginActivity extends FragmentActivity {
                 Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
                     @Override
                     public void onResult(String str) {
-                        Log.e("mytag", str.trim());
-                        if (str.equals("0")) {
+                        Log.e("mytag",str.trim());
+                        if (str.equals("0")){
                             Toast.makeText(getApplicationContext(), "נשלח בהצלחה", Toast.LENGTH_LONG).show();
-                        } else {
+                        }else{
                             Toast.makeText(getApplicationContext(), "כתובת לא נמצאה", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -169,31 +162,31 @@ public class LoginActivity extends FragmentActivity {
 
                     //Toast.makeText(getApplicationContext(),"mac_address:" + mac_address, Toast.LENGTH_LONG).show();
 
-                    try {
+                    try{
                         Model.getInstance().AsyncLogin(mac_address, memail, mpass, new Model.LoginListener() {
                             @Override
                             public void onResult(String str) {
-                                if (str.equals("incorrect")) {
+                                if(str.equals("incorrect")){
                                     Toast.makeText(getApplicationContext(), "incorrect URL", Toast.LENGTH_LONG).show();
-                                } else if (str.equals("1")) {
+                                }else if(str.equals("1")){
                                     //chk if is not the same user,
                                     //if is not the same user - delete files because they not belong him.
                                     if (!db.getValueByKey("username").toString().equals(memail)) {
                                         helper.deleteAllFiles();
                                     }
-                                    if (login_checkbox_remember.isChecked()) {
-                                        db.updateValue("username", memail);
-                                        db.updateValue("AUTO_LOGIN", "1");
+                                    if (login_checkbox_remember.isChecked()){
+                                        db.updateValue("username",memail);
+                                        db.updateValue("AUTO_LOGIN","1");
 
                                     }
                                     goToMenu();
 
-                                } else {
+                                }else {
                                     Toast.makeText(getApplicationContext(), "username or password incorrect", Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
-                    } catch (Exception ex) {
+                    }catch(Exception ex){
                         Toast.makeText(getApplicationContext(), ex.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -202,65 +195,31 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
-        //Set the top logo image.
-        setTopLogoImage();
     }
-
-    /**
-     * TODO move this method to the MainActivity and save it somewhere so there won't be a need to download the image on every access
-     * Sets the top image to the user's company logo.
-     */
-    private void setTopLogoImage() {
-
-        //Performing network operation, need to run in a thread.
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    ImageView topLogo = (ImageView) findViewById(R.id.login_topLogo);
-
-                    //Get the user url.
-                    String userUrl = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL");
-                    String logoUrl = userUrl + "/data/logo.png";
-
-                    //Get image from url.
-                    URL url = new URL(logoUrl);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                    InputStream is = connection.getInputStream();
-                    Bitmap img = BitmapFactory.decodeStream(is);
-
-                    //Set image.
-                    topLogo.setImageBitmap(img);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-    }
-
-    private void goToMenu() {
+    private void goToMenu(){
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivityForResult(intent, 1);
         startActivity(intent);
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Toast.makeText(getApplicationContext(), String.valueOf(requestCode), Toast.LENGTH_LONG).show();
+//        if (requestCode == 1) {
+//            if(resultCode == Activity.RESULT_OK){
+//                String result=data.getStringExtra("result");
+//                Toast.makeText(getApplicationContext(),result, Toast.LENGTH_LONG).show();
+//                if (result == "close"){
+//                    finish();
+//                }
+//            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                Toast.makeText(getApplicationContext(),"hello", Toast.LENGTH_LONG).show();
+//                //Write your code if there's no result
+//            }
+//        }
+//    }//onActivityResult
 
-    public void goToOfflineFragment() {
-        //Bundle bundle=new Bundle();
-        //bundle.putString("name", strBundle);
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentMenuOffline frag = new FragmentMenuOffline();
-        //frag.setArguments(bundle);
-        ft.replace(R.id.container, frag, "FragmentMenuOffline");
-
-        ft.addToBackStack("FragmentMenuOffline");
-        ft.commit();
-    }
 
     //###################################
 //CHECK EMAIL

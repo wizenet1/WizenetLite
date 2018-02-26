@@ -349,7 +349,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/menu_offers" />
+                        android:src="@drawable/masofon" />
 
                     <TextView
                         android:id="@+id/id10_text"
@@ -374,7 +374,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/menu_offers" />
+                        android:src="@drawable/favorites" />
 
                     <TextView
                         android:id="@+id/id11_text"
@@ -399,7 +399,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/menu_offers" />
+                        android:src="@drawable/reporthours" />
 
                     <TextView
                         android:id="@+id/id12_text"
