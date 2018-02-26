@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -36,7 +38,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.NetworkInterface;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -195,7 +200,47 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
+        //Set logo image.
+        setTopLogoImage();
     }
+
+    /**
+     * TODO move this method to the MainActivity and save it somewhere so there won't be a need to download the image on every access
+     * Sets the top image to the user's company logo.
+     */
+    private void setTopLogoImage() {
+
+        //Performing network operation, need to run in a thread.
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    ImageView topLogo = (ImageView) findViewById(R.id.login_topLogo);
+
+                    //Get the user url.
+                    String userUrl = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL");
+                    String logoUrl = userUrl + "/data/logo.png";
+
+                    //Get image from url.
+                    URL url = new URL(logoUrl);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    InputStream is = connection.getInputStream();
+                    Bitmap img = BitmapFactory.decodeStream(is);
+
+                    //Set image.
+                    topLogo.setImageBitmap(img);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+    }
+
     private void goToMenu(){
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
