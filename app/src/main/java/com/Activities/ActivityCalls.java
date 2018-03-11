@@ -256,7 +256,7 @@ TextView lblcount;
         super.onResume();
         Log.e("mytag","onResume");
         //DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
-        ArrayList<Call_offline> arr_Call_offline = null;
+        ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
         try{
              arr_Call_offline = new ArrayList<Call_offline>(DatabaseHelper.getInstance(ctx).getCall_offline());
             for (Call_offline co:arr_Call_offline) {
