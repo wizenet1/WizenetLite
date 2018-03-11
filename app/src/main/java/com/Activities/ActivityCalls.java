@@ -1,5 +1,6 @@
 package com.Activities;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -64,6 +66,7 @@ TextView lblcount;
         Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
+
         ctx = this;
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
@@ -71,6 +74,14 @@ TextView lblcount;
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
         Icon_Manager icon_manager = new Icon_Manager();
+
+
+
+
+
+
+
+
         //-------------------------------------
         //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);

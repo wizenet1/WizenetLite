@@ -87,7 +87,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         // Initialize all the badges.
         //this.initializeBadgeDictionary();
 
-        //this.initializeBadgeDictionary();
+
         // Set the alert of homepage to 1.
         //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         //getCallStatuses();
@@ -113,29 +113,29 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             View myLayout = findViewById(R.id.nav_bar);
 
             // Initialize the nav_bar badges.
-            switch (alert){
-                case badge_homepage:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_homepage));
-                    break;
-                case badge_clients:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_clients));
-                    break;
-                case badge_messages:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_messages));
-                    break;
-                case badge_arrows:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_arrows));
-                    break;
-                case badge_help:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_help));
-                    break;
-
-            }
+//            switch (alert){
+//                case badge_homepage:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_homepage));
+//                    break;
+//                case badge_clients:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_clients));
+//                    break;
+//                case badge_messages:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_messages));
+//                    break;
+//                case badge_arrows:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_arrows));
+//                    break;
+//                case badge_help:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_help));
+//                    break;
+//
+//            }
 
         }
     }
