@@ -462,8 +462,8 @@ public class ActivityCallDetails extends FragmentActivity {
                                     JSONArray jarray = j.getJSONArray("Wz_Call_Update");
                                     String status = jarray.getJSONObject(0).getString("Status");
                                     if (status.equals("0")){
-                                        Toast.makeText(getApplicationContext(),"successfully updated", Toast.LENGTH_LONG).show();
-                                        finish();
+                                        //Toast.makeText(getApplicationContext(),"successfully updated", Toast.LENGTH_LONG).show();
+                                        //finish();
                                         //txttechanswer.setText("");
                                     }else{
                                         Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_LONG).show();
@@ -473,6 +473,8 @@ public class ActivityCallDetails extends FragmentActivity {
                                 }
                             }
                         });
+                    Toast.makeText(getApplicationContext(),"successfully updated", Toast.LENGTH_LONG).show();
+                    finish();
                 }else{
                     Call_offline co = new Call_offline(Integer.valueOf(callid),statusID,txt_internalsn.getText().toString(),txttechanswer.getText().toString());
                     DatabaseHelper.getInstance(getApplicationContext()).add_call_offline(co);
