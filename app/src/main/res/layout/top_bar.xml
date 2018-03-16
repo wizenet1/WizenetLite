@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_toLeftOf="@+id/magnifying_glass"
-        android:text="Search"
+        android:hint="Search"
         android:textStyle="bold" />
 
     <ImageView
@@ -48,4 +48,11 @@
         layout="@layout/nav_bar"
         android:id="@+id/nav_bar"
         android:layout_below="@id/wizenet_face" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        android:layout_below="@+id/nav_bar">
+    </RelativeLayout>
 </RelativeLayout>
