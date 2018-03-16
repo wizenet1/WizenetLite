@@ -7,6 +7,7 @@ import com.model.*;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -27,6 +28,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,6 +96,29 @@ public class ActivityCallDetails extends FragmentActivity {
             //Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             //startActivity(intent);
         //}
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayUseLogoEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+
+        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        View customNav = LayoutInflater.from(this).inflate(R.layout.nav_bar, null); // layout which contains your button.
+
+        actionBar.setCustomView(customNav, lp1);
+        Button iv = (Button) customNav.findViewById(R.id.back);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
         final GPSTracker gps = new GPSTracker(this);
         helper = new Helper();
         db = DatabaseHelper.getInstance(this);

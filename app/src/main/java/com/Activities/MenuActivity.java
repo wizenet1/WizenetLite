@@ -82,14 +82,13 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         Log.e("mytag","arrived to here");
 
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.top_bar);
 
         // Initialize all the badges.
-        //this.initializeBadgeDictionary();
+        this.initializeBadgeDictionary();
 
-        //this.initializeBadgeDictionary();
         // Set the alert of homepage to 1.
-        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
+        this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         //getCallStatuses();
 
         //setHasOptionsMenu(false);
