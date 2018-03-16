@@ -10,7 +10,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
+import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.SideNavigationMenuAdapter;
@@ -60,22 +60,22 @@ import java.util.List;
  */
 
 
-public class FragmentMenu extends android.support.v4.app.Fragment {
+
+public class FragmentMenu extends android.support.v4.app.Fragment  {
     TextView tv_username;
     CheckBox cb;
-    Button btn2, mapid;
+    Button btn2,mapid;
     EditText myEditText2;
     //BarCodeActivity barCodeActivity;
     Helper helper;
-    TextView id1, id2, id3, id4, id5, id6, id7, id8, id9;
-    TextView id1_text, id2_text, id3_text, id4_text, id5_text, id6_text, id7_text, id8_text, id9_text;
+    TextView id1,id2,id3,id4,id5,id6,id7,id8,id9;
+    TextView id1_text,id2_text,id3_text,id4_text,id5_text,id6_text,id7_text,id8_text,id9_text;
     DatabaseHelper db;
     Icon_Manager icon_manager;
     Context context;
     private DrawerLayout drawerLayout;
     private ListView sideNavigationListView;
     TextView menu_bar_welcome_txt;
-
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
@@ -84,10 +84,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         getCallStatuses();
         helper = new Helper();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
-        menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));
+        menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
-        this.drawerLayout = (DrawerLayout) v.findViewById(R.id.menu_drawer_layout);
+        this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
 
         //THe list of items which are displayed in the side navigation menu.
         this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
@@ -114,18 +114,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 //        }
 
 
+
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
-        final ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
-        final ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
+        ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
+        ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
         ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
-        final ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
-        final ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
+        ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
+        ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
         ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
-        final ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
-        final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
-        final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
+        ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
+        ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
+        ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
+        ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -144,32 +146,28 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             }
         });
 
-        final int onClickColor = 0xFFFFA64D;
-
-        id_customers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_customers.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
-                //FragmentManager fragManager = getFragmentManager();
-                android.support.v4.app.FragmentManager fm = getFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentCustomer frag = new FragmentCustomer();
-                ft.replace(R.id.container, frag, "FragmentMenu");
-                ft.addToBackStack("FragmentMenu");
-                ft.commit();
+            id_customers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //FragmentManager fragManager = getFragmentManager();
+                    android.support.v4.app.FragmentManager fm = getFragmentManager();
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentCustomer frag = new FragmentCustomer();
+                    ft.replace(R.id.container,frag,"FragmentMenu");
+                    ft.addToBackStack("FragmentMenu");
+                    ft.commit();
 
 
-            }
-        });
+                }
+            });
         id_tools.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_tools.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 //FragmentManager fragManager = getFragmentManager();
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentTools frag = new FragmentTools();
-                ft.replace(R.id.container, frag, "FragmentTools");
+                ft.replace(R.id.container,frag,"FragmentTools");
                 ft.addToBackStack("FragmentTools");
                 ft.commit();
 
@@ -179,12 +177,11 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         id_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_favorites.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 //FragmentManager fragManager = getFragmentManager();
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentFavorite frag = new FragmentFavorite();
-                ft.replace(R.id.container, frag, "FragmentFavorite");
+                ft.replace(R.id.container,frag,"FragmentFavorite");
                 ft.addToBackStack("FragmentFavorite");
                 ft.commit();
 
@@ -196,11 +193,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         id_reporttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_reporttime.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentLoginReport frag = new FragmentLoginReport();
-                ft.replace(R.id.container, frag, "FragmentLoginReport");
+                ft.replace(R.id.container,frag,"FragmentLoginReport");
                 ft.addToBackStack("FragmentLoginReport");
                 ft.commit();
             }
@@ -208,11 +204,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         id_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_orders.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenuOffline frag = new FragmentMenuOffline();
-                ft.replace(R.id.container, frag, "FragmentMenu");
+                ft.replace(R.id.container,frag,"FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
             }
@@ -220,11 +215,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         id_missions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_missions.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage frag = new FragmentMessage();
-                ft.replace(R.id.container, frag, "FragmentMessage");
+                ft.replace(R.id.container,frag,"FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
             }
@@ -232,7 +226,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         id_preferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_preferences.setColorFilter(onClickColor, PorterDuff.Mode.MULTIPLY);
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
                 ControlPanelFragment fragment2 = new ControlPanelFragment();
@@ -242,26 +235,42 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 fragmentTransaction2.commit();
             }
         });
+        id_masofon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), ActivityWebView.class);
+                Bundle b = new Bundle();
+                b.putInt("callid", -1);
+                b.putInt("cid", -1);
+                b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
+                b.putString("action","masofon");
+                b.putString("specialurl", "");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
 
-        try {
-            id_calls.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                    startActivity(intent);
-                }
-            });
-        } catch (Exception ex) {
+       try{
+           id_calls.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                   startActivity(intent);
+               }
+           });
+       }catch (Exception ex){
 
-            Log.e("mytag", ex.getMessage());
-        }
+           Log.e("mytag",ex.getMessage());
+       }
+
+
 
 
         return v;
     }
-
-    private void getCallStatuses() {
+    private void getCallStatuses(){
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
@@ -276,29 +285,28 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 //                fragmentTransaction2.hide(FragmentMenu.this);
 //                fragmentTransaction2.add(R.id.container, fragment2);
 //                fragmentTransaction2.commit();
-
     /**
      * Opens the side navigation menu from the left.
-     *
      * @param view view
      */
-    public void onMenuBarOptionsClick(View view) {
+    public void onMenuBarOptionsClick(View view){
 
         this.drawerLayout.openDrawer(Gravity.START);
     }
 
     /**
      * Closes the side navigation menu.
-     *
      * @param view view
      */
-    public void onSideNavOptionsClick(View view) {
+    public void onSideNavOptionsClick(View view){
 
         this.drawerLayout.closeDrawer(Gravity.START);
     }
 
 
-    protected void AlertDialogAllFirstTime() {
+
+
+    protected void AlertDialogAllFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת כל המוצרים");
         builder.setMessage("האם תרצה לסנכרן את כל המוצרים?");
@@ -307,14 +315,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialog, int ii) {
                 boolean flag;
                 flag = db.delete_from_mgnet_items("all");
-                if (flag == true) {
-                    if (db.mgnet_items_isEmpty("all")) {
+                if (flag == true){
+                    if (db.mgnet_items_isEmpty("all")){
                         new ProgressTaskAll(context).execute();
                     }
                 }
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -322,8 +331,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         );
         builder.show();
     }
-
-    protected void AlertDialogClientFirstTime() {
+    protected void AlertDialogClientFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת מוצרי לקוח לא הושלמה");
         builder.setMessage("האם תרצה לסנכרן מוצרי לקוח?");
@@ -334,10 +342,11 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 //                backServices.startService(new Intent(getContext(), BackServices.class));
                 helper.startService_sync_products(getContext());
                 Toast.makeText(getContext(), "startService_sync_products", Toast.LENGTH_LONG).show();
-                // new ProgressTaskClient(getContext()).execute();
-            }
+                       // new ProgressTaskClient(getContext()).execute();
+                    }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -347,21 +356,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     }
 
 
-    protected void setUsername() {
-        try {
+    protected  void setUsername(){
+        try{
             Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
-                    tv_username.setText("שלום " + str);
+                    tv_username.setText("שלום "+str);
                     //Log.e("myTag",str);
                 }
             });
-        } catch (Exception ex) {
-            Log.e("MYTAG", ex.getMessage());
+        }catch (Exception ex){
+            Log.e("MYTAG",ex.getMessage());
         }
     }
-
-    public void chkUpdateProducts() {
+    public void chkUpdateProducts(){
 
 
 //------------------------
@@ -384,11 +392,11 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             //Log.e("MYTAG","current:"+ currentTime.toString()+ " is after -try try- :"+c_week.getTime().toString() + "?");
 
             //##################
-            Log.e("MYTAG", "current:" + currentTime.toString() + " is after convertedDate_all:" + convertedDate_all.toString() + "?");
+            Log.e("MYTAG","current:"+ currentTime.toString()+ " is after convertedDate_all:"+convertedDate_all.toString() + "?");
             if (currentTime.after((convertedDate_all))) {
                 AlertDialogAll();
             }
-            Log.e("MYTAG", "current:" + currentTime.toString() + " is after convertedDate_all:" + convertedDate_client.toString() + "?");
+            Log.e("MYTAG","current:"+ currentTime.toString()+ " is after convertedDate_all:"+convertedDate_client.toString() + "?");
             if (currentTime.after(convertedDate_client)) {
                 AlertDialogClient();
             }
@@ -409,8 +417,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
 
     }
-
-    protected void AlertDialogAll() {
+    protected void AlertDialogAll(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת כל המוצרים");
         builder.setMessage("לא בוצע סנכרון כבר 7 ימים, האם לסנכרן?");
@@ -419,14 +426,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialog, int ii) {
                 boolean flag;
                 flag = db.delete_from_mgnet_items("all");
-                if (flag == true) {
-                    if (db.mgnet_items_isEmpty("all") == true) {
+                if (flag == true){
+                    if (db.mgnet_items_isEmpty("all") == true){
 
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Calendar c_week = Calendar.getInstance();
                         c_week.add(Calendar.DAY_OF_YEAR, 7);
                         String formatted = df.format(c_week.getTime());
-                        db.updateValue("PRODUCTS_UPDATE", formatted);
+                        db.updateValue("PRODUCTS_UPDATE",formatted);
 
 
                         new ProgressTaskAll(context).execute();
@@ -434,7 +441,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 }
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -442,29 +450,31 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         );
         builder.show();
     }
-
-    protected void DeleteForExample() {
+    protected void DeleteForExample(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת כל המוצרים");
         builder.setMessage("מחק מוצרי לקוח?");
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int ii) {
-                try {
-                    File dir = new File(Environment.getExternalStorageDirectory() + "/wizenet/client_products");
-                    if (dir.isDirectory()) {
+                try{
+                    File dir = new File(Environment.getExternalStorageDirectory()+"/wizenet/client_products");
+                    if (dir.isDirectory())
+                    {
                         String[] children = dir.list();
-                        for (int i = 0; i < children.length; i++) {
+                        for (int i = 0; i < children.length; i++)
+                        {
                             new File(dir, children[i]).delete();
                         }
                     }
-                } catch (Exception ex) {
-                    Log.e("MYTAG", "failed to delete");
+                }catch(Exception ex){
+                        Log.e("MYTAG","failed to delete");
                 }
 
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -473,7 +483,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         builder.show();
     }
 
-    protected void AlertDialogClient() {
+    protected void AlertDialogClient(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת מוצרי לקוח");
         builder.setMessage("לא בוצע סנכרון היום, האם לסנכרן?");
@@ -482,19 +492,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialog, int ii) {
 
 
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Calendar c_week = Calendar.getInstance();
-                c_week.add(Calendar.DAY_OF_YEAR, 7);
-                String formatted = df.format(c_week.getTime());
-                db.updateValue("CLIENTS_PRODUCTS_UPDATE", formatted);
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Calendar c_week = Calendar.getInstance();
+                        c_week.add(Calendar.DAY_OF_YEAR, 7);
+                        String formatted = df.format(c_week.getTime());
+                        db.updateValue("CLIENTS_PRODUCTS_UPDATE",formatted);
 
-                helper.deleteProductsFiles();
-                new ProgressTaskClient(context).execute();
+                        helper.deleteProductsFiles();
+                        new ProgressTaskClient(context).execute();
 
 
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -534,36 +545,38 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 //    }
 
 
+
+
     @Override
     public void onResume() {
         super.onResume();
 
-        if (helper.isNetworkAvailable(context)) {
-            Log.e("mytag", "isNetworkAvailable");
+        if (helper.isNetworkAvailable(context)){
+            Log.e("mytag","isNetworkAvailable");
             Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
-                    menu_bar_welcome_txt.setText(" שלום " + str);
+                    menu_bar_welcome_txt.setText( " שלום " +str);
                 }
             });
-        } else {
-            Log.e("mytag", "is not NetworkAvailable");
+        }else{
+            Log.e("mytag","is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
         }
         //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
 
     }
-
-    public String getEditText() {
+    public String getEditText(){
         return myEditText2.getText().toString();
     }
 
 
-    public void goToMapFragment() {
+
+    public void goToMapFragment(){
         android.support.v4.app.FragmentManager fm = getFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         //MapFragment frag = new MapFragment();
-        // ft.replace(R.id.container,frag,"MapFragment");
+       // ft.replace(R.id.container,frag,"MapFragment");
         //tv.setVisibility(TextView.GONE);
         ft.addToBackStack("MapFragment");
         ft.commit();
