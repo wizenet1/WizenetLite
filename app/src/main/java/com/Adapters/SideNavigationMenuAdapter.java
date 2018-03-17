@@ -76,10 +76,9 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
         this.title.setText(this.titles[i]);
 
 
-        this.wrapper.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //Log.e("mytag", titles[i].toString());
+            public void onClick(View view) {
                 GoToScreen(titles[i].toString());
             }
         });

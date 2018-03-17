@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -117,20 +119,22 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
-        ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
-        ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
-        ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
+        final ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
+        final ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
+        final ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
         ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
-        ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
-        ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
+        final ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
+        final ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
         ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
-        ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
-        ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
-        ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
-        ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
+        final ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
+        final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
+        final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
+        final ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
+
+        final int onTouchColor = 0xFFFFA64D;
 
         menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +154,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 @Override
                 public void onClick(View v) {
                     //FragmentManager fragManager = getFragmentManager();
+                    id_customers.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                     android.support.v4.app.FragmentManager fm = getFragmentManager();
                     android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                     FragmentCustomer frag = new FragmentCustomer();
@@ -160,10 +165,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
                 }
             });
+
         id_tools.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //FragmentManager fragManager = getFragmentManager();
+                id_tools.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentTools frag = new FragmentTools();
@@ -178,6 +185,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
                 //FragmentManager fragManager = getFragmentManager();
+                id_favorites.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentFavorite frag = new FragmentFavorite();
@@ -193,6 +201,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_reporttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_reporttime.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentLoginReport frag = new FragmentLoginReport();
@@ -204,6 +213,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_orders.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenuOffline frag = new FragmentMenuOffline();
@@ -215,6 +225,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_missions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_missions.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage frag = new FragmentMessage();
@@ -226,6 +237,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_preferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_preferences.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
                 ControlPanelFragment fragment2 = new ControlPanelFragment();
@@ -239,6 +251,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
 
+                id_masofon.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                 Intent intent = new Intent(getContext(), ActivityWebView.class);
                 Bundle b = new Bundle();
                 b.putInt("callid", -1);
@@ -256,8 +269,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
            id_calls.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
+                   id_calls.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
                    Intent intent = new Intent(getActivity(), ActivityCalls.class);
                    startActivity(intent);
+                   id_calls.clearColorFilter();
                }
            });
        }catch (Exception ex){
@@ -270,6 +285,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         return v;
     }
+
+
     private void getCallStatuses(){
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
@@ -302,9 +319,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         this.drawerLayout.closeDrawer(Gravity.START);
     }
-
-
-
 
     protected void AlertDialogAllFirstTime(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
