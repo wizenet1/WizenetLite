@@ -199,7 +199,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
 
 
-                goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_call);
+                goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_mobile_call);
                 //id1 = (TextView) v.findViewById(R.id.id1);
                 goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 

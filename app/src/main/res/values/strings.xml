@@ -33,8 +33,7 @@
     <string name="fa_icon_folder">&#xf434;</string>
     <string name="fa_icon_contact">&#xf419;</string>
     <string name="fa_icon_alert">&#xf100;</string>
-
-
+    <string name="fa_icon_arrow_right">&#xf125;</string>
 
 
     <string name="action_settings">Settings</string>

@@ -11,8 +11,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Ccustomer;
+import com.Fragments.FragmentCustomer;
+import com.Fragments.FragmentCustomerDetails;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
@@ -30,12 +33,13 @@ import java.util.ArrayList;
  */
 public class CustomersAdapter extends BaseAdapter implements Filterable {
     Context c;
-    TextView goToTelephone, goToSms,goToCustomers;
-    TextView goToLandlinePhone;
-    TextView goToGps;
-    TextView profileImage;
-    TextView firstName;
-    TextView lastName;
+    private TextView goToTelephone, goToSms,goToCustomers;
+    private TextView goToLandlinePhone;
+    private TextView goToGps;
+    private TextView profileImage;
+    private TextView firstName;
+    private TextView lastName;
+    private TextView customerDetails;
 
     ArrayList<Ccustomer> ccustomerArrayList;
     CustomFilter filter;
@@ -68,7 +72,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             convertView.getTag(pos);
         }
         //###################### TELEPHONE #############################
-        goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_call);
+        goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_mobile_call);
         //id1 = (TextView) v.findViewById(R.id.id1);
         goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
 
@@ -137,6 +141,19 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
 
         this.lastName = (TextView) convertView.findViewById(R.id.customers_list_item_last_name);
         this.lastName.setText(ccustomerArrayList.get(pos).getClname());
+
+        this.customerDetails = (TextView)convertView.findViewById(R.id.customers_list_item_details);
+        this.customerDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { //TODO implement an interface instead
+                android.support.v4.app.FragmentManager fm = ((MenuActivity)c).getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCustomerDetails fragmentCustomerDetails = new FragmentCustomerDetails();
+                ft.replace(R.id.container, fragmentCustomerDetails, "FragmentCustomerDetails");
+                ft.addToBackStack("FragmentCustomerDetails");
+                ft.commit();
+            }
+        });
 
         return convertView;
     }
