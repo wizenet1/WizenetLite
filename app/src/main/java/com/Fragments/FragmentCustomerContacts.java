@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,13 +196,13 @@ public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View rowView = inflater.inflate(R.layout.customer, parent, false);
-                TextView name = (TextView) rowView.findViewById(R.id.textView);
+                TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
                 convertView = inflater.inflate(R.layout.customer,null);
                 convertView.setTag(position);
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
 
 
-                goToTelephone = (TextView) convertView.findViewById(R.id.call);
+                goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_call);
                 //id1 = (TextView) v.findViewById(R.id.id1);
                 goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 
@@ -220,11 +219,11 @@ public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
             convertView.setTag(convertView.getId(),position);
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rowView = inflater.inflate(R.layout.customer, parent, false);
-            TextView name = (TextView) rowView.findViewById(R.id.textView);
+            TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
 
             dataName = name.getText().toString();
             //ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
-            TextView nickname = (TextView) convertView.findViewById(R.id.textView);
+            TextView nickname = (TextView) convertView.findViewById(R.id.customers_list_item_company);
 
             convertView.setTag(position);
             nickname.setText(data2.get(position).getCcompany());//+" "+
@@ -240,7 +239,7 @@ public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
 //                    startActivity(it);
            //    }
            // });
-            goToSms = (TextView) convertView.findViewById(R.id.sendsms);
+            goToSms = (TextView) convertView.findViewById(R.id.customer_list_item_sendsms);
             goToSms.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
             goToSms.setTextSize(30);
             goToSms.setTag(position);

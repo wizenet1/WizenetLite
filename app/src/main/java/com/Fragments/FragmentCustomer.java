@@ -1,14 +1,9 @@
 package com.Fragments;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,15 +12,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
@@ -33,7 +23,6 @@ import com.Classes.Ccustomer;
 import com.File_;
 import com.Helper;
 import com.Icon_Manager;
-import com.model.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,13 +193,13 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View rowView = inflater.inflate(R.layout.customer, parent, false);
-                TextView name = (TextView) rowView.findViewById(R.id.textView);
+                TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
                 convertView = inflater.inflate(R.layout.customer,null);
                 convertView.setTag(position);
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
 
 
-                goToTelephone = (TextView) convertView.findViewById(R.id.call);
+                goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_call);
                 //id1 = (TextView) v.findViewById(R.id.id1);
                 goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 
@@ -227,11 +216,11 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             convertView.setTag(convertView.getId(),position);
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rowView = inflater.inflate(R.layout.customer, parent, false);
-            TextView name = (TextView) rowView.findViewById(R.id.textView);
+            TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
 
             dataName = name.getText().toString();
             //ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
-            TextView nickname = (TextView) convertView.findViewById(R.id.textView);
+            TextView nickname = (TextView) convertView.findViewById(R.id.customers_list_item_company);
 
             convertView.setTag(position);
             nickname.setText(data2.get(position).getCcompany());//+" "+
@@ -247,7 +236,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
 //                    startActivity(it);
            //    }
            // });
-            goToSms = (TextView) convertView.findViewById(R.id.sendsms);
+            goToSms = (TextView) convertView.findViewById(R.id.customer_list_item_sendsms);
             goToSms.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
             goToSms.setTextSize(30);
             goToSms.setTag(position);

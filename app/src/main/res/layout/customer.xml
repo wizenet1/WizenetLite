@@ -1,45 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="ltr"
     android:orientation="horizontal"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/call"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:text="@string/fa_icon_call" />
-
-    <TextView
-        android:id="@+id/sendsms"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:text="@string/fa_icon_sms" />
-
-    <TextView
-        android:id="@+id/goToCustomers"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:text="@string/fa_icon_customers_contacts"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/textView"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/customers_list_round_shape_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_weight="0.99"
-        android:gravity="center_vertical"
-        android:text="hello"
-        android:textDirection="rtl"
-        android:textSize="8pt" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/customers_list_round_rectangle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0">
+        <!--<TextView-->
+        <!--android:id="@+id/call"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="@string/fa_icon_call"-->
+        <!--tools:layout_editor_absoluteY="73dp"-->
+        <!--tools:layout_editor_absoluteX="0dp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/sendsms"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="@string/fa_icon_sms"-->
+        <!--tools:layout_editor_absoluteY="73dp"-->
+        <!--tools:layout_editor_absoluteX="0dp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/goToCustomers"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="@string/fa_icon_customers_contacts"-->
+        <!--android:visibility="gone"-->
+        <!--tools:layout_editor_absoluteY="73dp"-->
+        <!--tools:layout_editor_absoluteX="0dp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="44dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_weight="0.99"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="hello"-->
+        <!--android:textDirection="rtl"-->
+        <!--android:textSize="8pt"-->
+        <!--tools:layout_editor_absoluteY="8dp"-->
+        <!--tools:layout_editor_absoluteX="8dp" />-->
+        <TextView
+            android:id="@+id/customers_list_item_profile_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/fa_icon_contacts"
+            android:textAlignment="textEnd"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customers_list_item_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="16dp"
+            android:textColor="#d84626"
+            app:layout_constraintRight_toLeftOf="@+id/customers_list_item_profile_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customers_list_item_last_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/customers_list_item_profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/customers_list_item_first_name" />
+
+        <TextView
+            android:id="@+id/customers_list_item_call"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/list_icon_circle_orange"
+            android:text="@string/fa_icon_call"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customers_list_item_landline_call"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/list_icon_circle_gray"
+            android:text="@string/fa_icon_call"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/customers_list_item_call"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customer_list_item_sendsms"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/list_icon_circle_white"
+            android:text="@string/fa_icon_sms"
+            android:textAlignment="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/customers_list_item_landline_call"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customers_list_item_gps"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/list_icon_circle_white"
+            android:text="@string/fa_icon_location"
+            android:textAlignment="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/customer_list_item_sendsms"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/customer_list_item_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:background="@drawable/rounded_border"
+        android:text="לפרטים נוספים"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingRight="8dp"
+        android:paddingEnd="8dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/whiteColor"
+        app:layout_constraintBaseline_toBaselineOf="@+id/customers_list_item_company"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/customers_list_item_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:text="חברה"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customers_list_round_shape_layout" />
+
+    <TextView
+        android:id="@+id/customers_list_item_job_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:text="תפקיד"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        app:layout_constraintBaseline_toBaselineOf="@+id/customers_list_item_company"
+        app:layout_constraintRight_toLeftOf="@+id/customers_list_item_company" />
+
+    <TextView
+        android:id="@+id/customers_list_item_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:text="עיר"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/customers_list_item_company"
+        app:layout_constraintRight_toLeftOf="@+id/customers_list_item_separator" />
+
+    <TextView
+        android:id="@+id/customers_list_item_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:text="|"
+        android:textAlignment="center"
+        app:layout_constraintRight_toLeftOf="@+id/customers_list_item_job_title"
+        app:layout_constraintTop_toBottomOf="@+id/customers_list_round_shape_layout" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
     <!--android:layout_width="100dp"-->
     <!--android:layout_height="50dp"-->

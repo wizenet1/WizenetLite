@@ -3,27 +3,19 @@ package com.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.Activities.R;
 import com.Classes.Ccustomer;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by WIZE02 on 23/05/2017.
@@ -39,6 +31,11 @@ import static java.security.AccessController.getContext;
 public class CustomersAdapter extends BaseAdapter implements Filterable {
     Context c;
     TextView goToTelephone, goToSms,goToCustomers;
+    TextView goToLandlinePhone;
+    TextView goToGps;
+    TextView profileImage;
+    TextView firstName;
+    TextView lastName;
 
     ArrayList<Ccustomer> ccustomerArrayList;
     CustomFilter filter;
@@ -71,7 +68,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             convertView.getTag(pos);
         }
         //###################### TELEPHONE #############################
-        goToTelephone = (TextView) convertView.findViewById(R.id.call);
+        goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_call);
         //id1 = (TextView) v.findViewById(R.id.id1);
         goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
 
@@ -80,12 +77,26 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + "0526561633"));
+                callIntent.setData(Uri.parse("tel:" + "12345"));
                 //c.startActivity(callIntent);
             }
         });
+
+        //Setting the icon of the landline call.
+        goToLandlinePhone = (TextView) convertView.findViewById(R.id.customers_list_item_landline_call);
+        goToLandlinePhone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        goToLandlinePhone.setTextSize(30);
+        goToLandlinePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + "12345"));
+                c.startActivity(callIntent);
+            }
+        });
+
         //###################### SMS #############################
-        goToSms = (TextView) convertView.findViewById(R.id.sendsms);
+        goToSms = (TextView) convertView.findViewById(R.id.customer_list_item_sendsms);
         goToSms.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         goToSms.setTextSize(30);
         goToSms.setTag(pos);
@@ -97,11 +108,35 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                  c.startActivity(it);
             }
         });
+
+        //Setting the icon of the gps.
+        goToGps = (TextView) convertView.findViewById(R.id.customers_list_item_gps);
+        goToGps.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        goToGps.setTextSize(30);
+        goToGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        //Setting the customer profile image.
+        profileImage = (TextView) convertView.findViewById(R.id.customers_list_item_profile_image);
+        profileImage.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        profileImage.setTextSize(70);
+
+
         //#################    TEXTVIEW    ##########################
-        TextView nameTxt=(TextView) convertView.findViewById(R.id.textView);
-        nameTxt.setText(ccustomerArrayList.get(pos).getCcompany()+' '+ccustomerArrayList.get(pos).getCcell());
+        TextView nameTxt=(TextView) convertView.findViewById(R.id.customers_list_item_company);
+        nameTxt.setText(ccustomerArrayList.get(pos).getCcompany()); //TODO this part was commented, return if needed: +' '+ccustomerArrayList.get(pos).getCcell());
         convertView.setTag(convertView.getId(),pos);
         convertView.getTag(pos);
+
+        this.firstName = (TextView) convertView.findViewById(R.id.customers_list_item_first_name);
+        this.firstName.setText(ccustomerArrayList.get(pos).getCfname());
+
+        this.lastName = (TextView) convertView.findViewById(R.id.customers_list_item_last_name);
+        this.lastName.setText(ccustomerArrayList.get(pos).getClname());
 
         return convertView;
     }

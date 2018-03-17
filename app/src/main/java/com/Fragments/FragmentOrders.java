@@ -619,7 +619,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View rowView = inflater.inflate(R.layout.item_order, parent, false);
-                TextView name = (TextView) rowView.findViewById(R.id.textView);
+                TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
                 convertView = inflater.inflate(R.layout.item_order,null);
                 convertView.setTag(position);
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
@@ -642,11 +642,11 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             convertView.setTag(convertView.getId(),position);
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rowView = inflater.inflate(R.layout.customer, parent, false);
-            TextView name = (TextView) rowView.findViewById(R.id.textView);
+            TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
 
             dataName = name.getText().toString();
             //ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
-            TextView nickname = (TextView) convertView.findViewById(R.id.textView);
+            TextView nickname = (TextView) convertView.findViewById(R.id.customers_list_item_company);
 
             convertView.setTag(position);
             nickname.setText(data2.get(position).getPname() + " "+data2.get(position).getPmakat());//+" "+

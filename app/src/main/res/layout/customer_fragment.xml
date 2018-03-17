@@ -58,9 +58,10 @@
                 android:id="@+id/customer_list"
                 android:layout_width="fill_parent"
                 android:layout_height="480dp"
+                android:dividerHeight="15dp"
                 android:choiceMode="singleChoice"
                 android:fastScrollEnabled="true"
-                tools:listitem="@layout/customer"></ListView>
+                tools:listitem="@layout/customer"/>
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
