@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:weightSum="1"
     android:paddingBottom="8dp"
-    android:background="@drawable/menu_background">
+    android:background="#f6f6f6">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/customers_list_round_shape_layout"
