@@ -72,8 +72,8 @@ public class FragmentCustomerDetails extends Fragment {
                 } else {
                     android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                     FragmentCustomer frag = new FragmentCustomer();
-                    ft.replace(R.id.container, frag, "FragmentCustomerDetails");
-                    ft.addToBackStack("FragmentCustomerDetails");
+                    ft.replace(R.id.container, frag, "FragmentCustomer");
+                    ft.addToBackStack("FragmentCustomer");
                     ft.commit();
                 }
             }
