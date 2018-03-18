@@ -91,6 +91,9 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
             case "יציאה מהמערכת":
                 ((FragmentActivity)context).finish();
                 break;
+            case "דף הבית":
+                helper.goToMenuFragment(context);
+                break;
             case "לקוחות":
                 helper.goTocustomers(context);
                 break;

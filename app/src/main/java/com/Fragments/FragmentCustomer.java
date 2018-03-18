@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -122,6 +123,20 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             }
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floating_add);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCreateCustomer frag = new FragmentCreateCustomer();
+                ft.replace(R.id.container,frag,"FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+            }
+        });
+
         return v;
     }
 
