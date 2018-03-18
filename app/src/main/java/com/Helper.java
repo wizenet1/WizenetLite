@@ -804,6 +804,17 @@ public class Helper {
         fragmentTransaction.commit();
 
     }
+
+    public void goToMenuFragment(Context context){
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentMenu frag = new FragmentMenu();
+        ft.replace(R.id.container,frag,"FragmentMenu");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentMenu");
+        ft.commit();
+    }
+
     public void goToToolsFragment(Context context){
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
