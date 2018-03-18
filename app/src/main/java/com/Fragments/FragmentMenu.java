@@ -182,6 +182,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentTools");
                 ft.addToBackStack("FragmentTools");
                 ft.commit();
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
 
             }
@@ -197,7 +198,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentFavorite");
                 ft.addToBackStack("FragmentFavorite");
                 ft.commit();
-
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
             }
         });
@@ -213,6 +214,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentLoginReport");
                 ft.addToBackStack("FragmentLoginReport");
                 ft.commit();
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +227,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_missions.setOnClickListener(new View.OnClickListener() {
@@ -237,6 +240,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {
@@ -250,6 +254,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 fragmentTransaction2.hide(FragmentMenu.this);
                 fragmentTransaction2.add(R.id.container, fragment2);
                 fragmentTransaction2.commit();
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_masofon.setOnClickListener(new View.OnClickListener() {
@@ -581,6 +586,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             Log.e("mytag","is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
         }
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
         //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
 
     }

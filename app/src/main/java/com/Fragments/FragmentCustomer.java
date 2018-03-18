@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -136,6 +137,12 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
                 ft.commit();
             }
         });
+
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //View view = inflater.inflate(R.layout.top_bar, container, false);
+        //View view1 = view.findViewById(R.id.top_action_bar);
+        //view1.setVisibility(View.VISIBLE);
 
         return v;
     }

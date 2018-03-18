@@ -65,6 +65,7 @@ TextView lblcount;
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_call);
 
         ctx = this;
@@ -166,6 +167,7 @@ TextView lblcount;
             }
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
+
     }
 
 //region notinuse

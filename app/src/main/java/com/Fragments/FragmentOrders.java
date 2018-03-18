@@ -404,6 +404,9 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                 return false;
             }
         });
+
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
         return v;
     };
     protected List<String> getSpecialCustomerList(){

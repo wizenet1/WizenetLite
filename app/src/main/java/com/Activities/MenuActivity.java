@@ -104,6 +104,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         goToMenuFragment();
         this.initImageButtons();
 
+        View action_bar = (View)findViewById(R.id.top_action_bar);
+        action_bar.setVisibility(View.GONE);
     }
 
     protected void initImageButtons() {
