@@ -39,6 +39,20 @@
             android:textSize="20sp" />
     </LinearLayout>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:visibility="visible"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/red"
+            android:src="@drawable/plus_icon"
+            android:id="@+id/floating_add"/>
+
         <LinearLayout
             android:id="@+id/placeHolderFragment"
             android:layout_width="fill_parent"
@@ -55,14 +69,6 @@
                 tools:listitem="@layout/customer"/>
         </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:visibility="visible"
-        android:layout_gravity="bottom|end"
-        app:backgroundTint="@color/red"
-        android:src="@drawable/plus_icon"
-        android:id="@+id/floating_add"/>
+    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
