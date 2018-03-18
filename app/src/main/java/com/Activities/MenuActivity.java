@@ -26,8 +26,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +40,10 @@ import com.Alarm_Receiver_Text_File;
 import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
+import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
+import com.Fragments.FragmentMessage;
 import com.GPSTracker;
 import com.Helper;
 import com.model.Model;
@@ -97,6 +102,78 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
         goToMenuFragment();
+        this.initImageButtons();
+
+    }
+
+    protected void initImageButtons() {
+        // Get the nav_bar view.
+        RelativeLayout outer = (RelativeLayout)findViewById(R.id.nav_bar);
+
+        // Init the homepage button.
+        ImageButton homepage = (ImageButton)outer.findViewById(R.id.homepage);
+        homepage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMenu fragMenu = new FragmentMenu();
+                ft.replace(R.id.container, fragMenu,"FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+            }
+        });
+
+        // Init the clients button.
+        ImageButton clients = (ImageButton)outer.findViewById(R.id.clients);
+        clients.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCustomer fragCustomer = new FragmentCustomer();
+                ft.replace(R.id.container, fragCustomer,"FragmentCustomer");
+                ft.addToBackStack("FragmentCustomer");
+                ft.commit();
+            }
+        });
+
+        // Init the message.
+        ImageButton messages = (ImageButton)outer.findViewById(R.id.messages);
+        messages.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMessage fragMessage = new FragmentMessage();
+                ft.replace(R.id.container, fragMessage,"FragmentMessage");
+                ft.addToBackStack("FragmentMessage");
+                ft.commit();
+            }
+        });
+
+        // TODO: What fragment is this.
+//        ImageButton calls = (ImageButton)outer.findViewById(R.id.help);
+//        calls.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+//                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+//                FragmentCalls fragMessage = new FragmentCalls();
+//                ft.replace(R.id.container, fragMessage,"FragmentCalls");
+//                ft.addToBackStack("FragmentCalls");
+//                ft.commit();
+//            }
+//        });
+
+        // Init the calls.
+        ImageButton calls = (ImageButton)outer.findViewById(R.id.help);
+        calls.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCalls fragCalls = new FragmentCalls();
+                ft.replace(R.id.container, fragCalls,"FragmentCalls");
+                ft.addToBackStack("FragmentCalls");
+                ft.commit();
+            }
+        });
 
     }
 
