@@ -56,8 +56,8 @@
 
             <ListView
                 android:id="@+id/customer_list"
-                android:layout_width="fill_parent"
-                android:layout_height="480dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:dividerHeight="15dp"
                 android:choiceMode="singleChoice"
                 android:fastScrollEnabled="true"

@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,6 +28,7 @@ import com.Icon_Manager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 //import com.google.android.gms.maps.model.LatLng;
@@ -35,22 +37,23 @@ import java.util.ArrayList;
 /**
  * Created by doron on 05/03/2016.
  */
-public class FragmentCustomer extends android.support.v4.app.Fragment{
+public class FragmentCustomer extends android.support.v4.app.Fragment {
 
     ListView myList; //mSearchNFilterLv
     private EditText mSearchEdt;
-     CustomersAdapter customersAdapter; //to refresh the list
-    ArrayList<Ccustomer> data2 = new ArrayList<Ccustomer>() ;
+    CustomersAdapter customersAdapter; //to refresh the list
+    ArrayList<Ccustomer> data2 = new ArrayList<Ccustomer>();
     private TextWatcher mSearchTw;
-//CustomersAdapter customersAdapter;
-    String dataName,myString;
+    //CustomersAdapter customersAdapter;
+    String dataName, myString;
     //ImageButton goToTelephone, goToSms;
     TextView goToTelephone, goToSms;
     //EditText customer_search;
     CustomAdapter adapter; //for listview here
-    String myBundle= "";
+    String myBundle = "";
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.customer_fragment, null);
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
@@ -76,7 +79,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
 //            }
 //        });
         data2.clear();
-        for (Ccustomer c : getCustomerList()){
+        for (Ccustomer c : getCustomerList()) {
             data2.add(c);
             //data2.add(c.getCfname()+" "+c.getClname()+" "+c.getCcell());
         }
@@ -95,9 +98,10 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
 //        });
         //init
 
-        customersAdapter=new CustomersAdapter(data2,getContext());
+        customersAdapter = new CustomersAdapter(data2, getContext());
         myList.setAdapter(customersAdapter);
-        mSearchTw=new TextWatcher() {
+
+        mSearchTw = new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -119,7 +123,9 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
         return v;
-    };
+    }
+
+    ;
 
 //     for(Datapoint d : dataPointList){
 //        if(d.getName() != null && d.getName().contains(search))
@@ -130,7 +136,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
     public void onResume() {
         super.onResume();
 
-        if(getView() == null){
+        if (getView() == null) {
             return;
         }
 
@@ -140,7 +146,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                     getFragmentManager().popBackStack();
                     // handle back button's click listener
                     return true;
@@ -149,15 +155,16 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             }
         });
     }
-    private Ccustomer[] getCustomerList(){
+
+    private Ccustomer[] getCustomerList() {
         Helper helper = new Helper();
         File_ f = new File_();
         //myString = f.readFromFileInternal(getContext(),"customers.txt");
-        myString = f.readFromFileExternal(getContext(),"customers.txt");
-        Log.e("mytag",myString);
+        myString = f.readFromFileExternal(getContext(), "customers.txt");
+        Log.e("mytag", myString);
         JSONObject j = null;
         int length = 0;
-        Ccustomer[] ccustomers ;//= new Ccustomer[5];
+        Ccustomer[] ccustomers;//= new Ccustomer[5];
         try {
             j = new JSONObject(myString);
             JSONArray jarray = j.getJSONArray("Customers");
@@ -166,7 +173,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             e.printStackTrace();
         }
         ccustomers = new Ccustomer[length];
-        ccustomers=     helper.getCustomersFromJson2(myString);
+        ccustomers = helper.getCustomersFromJson2(myString);
         return ccustomers;
     }
 
@@ -194,14 +201,14 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View rowView = inflater.inflate(R.layout.customer, parent, false);
                 TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
-                convertView = inflater.inflate(R.layout.customer,null);
+                convertView = inflater.inflate(R.layout.customer, null);
                 convertView.setTag(position);
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
 
 
                 goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_mobile_call);
                 //id1 = (TextView) v.findViewById(R.id.id1);
-                goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+                goToTelephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));
 
                 goToTelephone.setTextSize(30);
                 goToTelephone.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +220,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
                     }
                 });
             }
-            convertView.setTag(convertView.getId(),position);
+            convertView.setTag(convertView.getId(), position);
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rowView = inflater.inflate(R.layout.customer, parent, false);
             TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
@@ -224,26 +231,26 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
 
             convertView.setTag(position);
             nickname.setText(data2.get(position).getCcompany());//+" "+
-                    //data2.get(position).getClname()+" "
-                    //+data2.get(position).getCcell());
+            //data2.get(position).getClname()+" "
+            //+data2.get(position).getCcell());
             //TextView tv = (TextView) convertView.findViewById(R.id.textView);
             //tv.setOnClickListener(new View.OnClickListener() {
-             //   @Override
+            //   @Override
             //    public void onClick(View v) {
             //        alertDialog(data2.get(position));
 //                    Uri uri = Uri.parse("smsto:"+data2.get(position).getCcell());
 //                    Intent it = new Intent(Intent.ACTION_SENDTO, uri);
 //                    startActivity(it);
-           //    }
-           // });
+            //    }
+            // });
             goToSms = (TextView) convertView.findViewById(R.id.customer_list_item_sendsms);
-            goToSms.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+            goToSms.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));
             goToSms.setTextSize(30);
             goToSms.setTag(position);
             goToSms.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Uri uri = Uri.parse("smsto:"+data2.get(position).getCcell());
+                    Uri uri = Uri.parse("smsto:" + data2.get(position).getCcell());
                     Intent it = new Intent(Intent.ACTION_SENDTO, uri);
                     startActivity(it);
                 }
@@ -251,7 +258,8 @@ public class FragmentCustomer extends android.support.v4.app.Fragment{
             return convertView;
         }
     }
-    public void alertDialog(Ccustomer c){
+
+    public void alertDialog(Ccustomer c) {
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
 //text_entry is an Layout XML file containing two text field to display in alert dialog

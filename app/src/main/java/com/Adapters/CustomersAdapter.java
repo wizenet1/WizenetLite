@@ -3,6 +3,7 @@ package com.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             convertView=inflater.inflate(R.layout.customer, null);
             convertView.getTag(pos);
         }
+
         //###################### TELEPHONE #############################
         goToTelephone = (TextView) convertView.findViewById(R.id.customers_list_item_mobile_call);
         //id1 = (TextView) v.findViewById(R.id.id1);
@@ -87,6 +89,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
         });
 
         //Setting the icon of the landline call.
+        //TODO all the methods might not work, it probably shouldn't be in the adapter
         goToLandlinePhone = (TextView) convertView.findViewById(R.id.customers_list_item_landline_call);
         goToLandlinePhone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         goToLandlinePhone.setTextSize(30);
@@ -146,9 +149,27 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
         this.customerDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { //TODO implement an interface instead
+
+                Ccustomer ccustomer = ccustomerArrayList.get(pos);
+                String CID = ccustomer.getCID();
+                String firstName = ccustomer.getCfname();
+                String lastName = ccustomer.getClname();
+                String company = ccustomer.getCcompany();
+                String cell = ccustomer.getCcell();
+                String phone = ccustomer.getCphone();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("CID", CID);
+                bundle.putString("FirstName", firstName);
+                bundle.putString("LastName", lastName);
+                bundle.putString("Company", company);
+                bundle.putString("Cell", cell);
+                bundle.putString("Phone", phone);
+
                 android.support.v4.app.FragmentManager fm = ((MenuActivity)c).getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCustomerDetails fragmentCustomerDetails = new FragmentCustomerDetails();
+                fragmentCustomerDetails.setArguments(bundle);
                 ft.replace(R.id.container, fragmentCustomerDetails, "FragmentCustomerDetails");
                 ft.addToBackStack("FragmentCustomerDetails");
                 ft.commit();

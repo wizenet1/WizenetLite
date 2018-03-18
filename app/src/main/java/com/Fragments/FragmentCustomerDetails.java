@@ -4,6 +4,7 @@ package com.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.Activities.R;
-import com.Adapters.ExpandableListContactsAdapter;
+import com.Adapters.ExpandableListAdapter;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
@@ -26,10 +27,10 @@ public class FragmentCustomerDetails extends Fragment {
 
     private ExpandableListView expandableListViewComments;
     private ExpandableListView expandableListViewContacts;
-    private ExpandableListContactsAdapter listAdapter;
-    private List<String> listDataHeaderComments;
+    private ExpandableListAdapter listAdapter;
+    private List<String[]> listDataHeaderComments;
     private HashMap<String, List<String>> listHashComments;
-    private List<String> listDataHeaderContacts;
+    private List<String[]> listDataHeaderContacts;
     private HashMap<String, List<String>> listHashContacts;
 
     public FragmentCustomerDetails() {
@@ -42,7 +43,16 @@ public class FragmentCustomerDetails extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_customer_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_customer_details, container, false);
+
+        //Get customer data from given Bundle.
+        Bundle bundle = getArguments();
+        String CID = bundle.getString("CID");
+        String firstName = bundle.getString("FirstName");
+        String lastName = bundle.getString("LastName");
+        String company = bundle.getString("Company");
+        String cell = bundle.getString("Cell");
+        String phone = bundle.getString("Phone");
 
         Icon_Manager iconManager = new Icon_Manager();
         final Context context = getContext();
@@ -51,6 +61,33 @@ public class FragmentCustomerDetails extends Fragment {
         TextView arrowImage = (TextView) view.findViewById(R.id.customer_details_arrow);
         arrowImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         arrowImage.setTextSize(30);
+
+        //Setting back arrow click listener.
+        arrowImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentCustomer frag = new FragmentCustomer();
+                    ft.replace(R.id.container, frag, "FragmentCustomerDetails");
+                    ft.addToBackStack("FragmentCustomerDetails");
+                    ft.commit();
+                }
+            }
+        });
+
+        //Setting customer's text parameters.
+        TextView firstNameView = (TextView) view.findViewById(R.id.customer_details_first_name);
+        firstNameView.setText(firstName);
+
+        TextView lastNameView = (TextView) view.findViewById(R.id.customer_details_last_name);
+        lastNameView.setText(lastName);
+
+        TextView companyView = (TextView) view.findViewById(R.id.customer_details_company_txt);
+        companyView.setText(company);
 
         //Setting customer profile image.
         TextView profileImage = (TextView) view.findViewById(R.id.customer_details_profile_image);
@@ -124,15 +161,15 @@ public class FragmentCustomerDetails extends Fragment {
         });
 
         //Setting the comments expandable list.
-        this.expandableListViewComments = (ExpandableListView)view.findViewById(R.id.expandable_listView_additional_comments);
+        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
         initComments();
-        this.listAdapter = new ExpandableListContactsAdapter(context, listDataHeaderComments, listHashComments);
+        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
         this.expandableListViewComments.setAdapter(this.listAdapter);
 
         //Setting the additional contacts expandable list.
-        this.expandableListViewContacts = (ExpandableListView)view.findViewById(R.id.expandable_listView_additional_contacts);
+        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
         initContacts();
-        this.listAdapter = new ExpandableListContactsAdapter(context, listDataHeaderContacts, listHashContacts);
+        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
         this.expandableListViewContacts.setAdapter(this.listAdapter);
 
         return view;
@@ -143,8 +180,9 @@ public class FragmentCustomerDetails extends Fragment {
         this.listDataHeaderComments = new ArrayList<>();
         this.listHashComments = new HashMap<>();
 
-        listDataHeaderComments.add("הערות");
-    //    listDataHeader.add("אנשי קשר של הלקוח");
+        String[] header = {"הערות", "fa_icon_comments"};
+        listDataHeaderComments.add(header);
+        //    listDataHeader.add("אנשי קשר של הלקוח");
 
         List<String> comments = new ArrayList<>();
         comments.add("הערה 1");
@@ -156,24 +194,25 @@ public class FragmentCustomerDetails extends Fragment {
 //        additionalContacts.add("איש קשר 2");
 //        additionalContacts.add("איש קשר 3");
 
-        listHashComments.put(listDataHeaderComments.get(0), comments);
-    //    listHash.put(listDataHeader.get(0), additionalContacts);
+        listHashComments.put(listDataHeaderComments.get(0)[0], comments);
+        //    listHash.put(listDataHeader.get(0), additionalContacts);
 
     }
 
-    private void initContacts(){
+    private void initContacts() {
 
         this.listDataHeaderContacts = new ArrayList<>();
         this.listHashContacts = new HashMap<>();
 
-        listDataHeaderContacts.add("אנשי קשר של הלקוח");
+        String[] header = {"אנשי קשר של הלקוח", "fa_icon_contacts_book"};
+        listDataHeaderContacts.add(header);
 
         List<String> additionalContacts = new ArrayList<>();
         additionalContacts.add("איש קשר 1");
         additionalContacts.add("איש קשר 2");
         additionalContacts.add("איש קשר 3");
 
-        listHashContacts.put(listDataHeaderContacts.get(0), additionalContacts);
+        listHashContacts.put(listDataHeaderContacts.get(0)[0], additionalContacts);
     }
 
 }
