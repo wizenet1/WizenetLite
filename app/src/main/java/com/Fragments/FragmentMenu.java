@@ -26,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -134,7 +136,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
         //helper = new Helper();
 
-        final int onTouchColor = 0xFFFFA64D;
+        //final int onTouchColor = 0xFFFFA64D;
+
+        //Animation applied to menu icons to create click effect.
+        final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
 
         menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +159,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 @Override
                 public void onClick(View v) {
                     //FragmentManager fragManager = getFragmentManager();
-                    id_customers.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                    id_customers.startAnimation(clickAnimation);
                     android.support.v4.app.FragmentManager fm = getFragmentManager();
                     android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                     FragmentCustomer frag = new FragmentCustomer();
@@ -170,7 +175,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
                 //FragmentManager fragManager = getFragmentManager();
-                id_tools.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_tools.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentTools frag = new FragmentTools();
@@ -185,7 +190,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
                 //FragmentManager fragManager = getFragmentManager();
-                id_favorites.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_favorites.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentFavorite frag = new FragmentFavorite();
@@ -201,7 +206,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_reporttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_reporttime.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_reporttime.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentLoginReport frag = new FragmentLoginReport();
@@ -213,7 +218,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_orders.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_orders.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenuOffline frag = new FragmentMenuOffline();
@@ -225,7 +230,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_missions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_missions.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_missions.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage frag = new FragmentMessage();
@@ -237,7 +242,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         id_preferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_preferences.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_preferences.startAnimation(clickAnimation);
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
                 ControlPanelFragment fragment2 = new ControlPanelFragment();
@@ -251,7 +256,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View v) {
 
-                id_masofon.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                id_masofon.startAnimation(clickAnimation);
                 Intent intent = new Intent(getContext(), ActivityWebView.class);
                 Bundle b = new Bundle();
                 b.putInt("callid", -1);
@@ -269,10 +274,9 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
            id_calls.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   id_calls.setColorFilter(onTouchColor, PorterDuff.Mode.MULTIPLY);
+                   id_calls.startAnimation(clickAnimation);
                    Intent intent = new Intent(getActivity(), ActivityCalls.class);
                    startActivity(intent);
-                   id_calls.clearColorFilter();
                }
            });
        }catch (Exception ex){
