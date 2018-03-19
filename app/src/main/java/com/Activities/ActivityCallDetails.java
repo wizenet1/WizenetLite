@@ -108,13 +108,13 @@ public class ActivityCallDetails extends FragmentActivity {
         View customNav = LayoutInflater.from(this).inflate(R.layout.nav_bar, null); // layout which contains your button.
 
         actionBar.setCustomView(customNav, lp1);
-        Button iv = (Button) customNav.findViewById(R.id.back);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
-            }
-        });
+        //Button iv = (Button) customNav.findViewById(R.id.back);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
 
 
