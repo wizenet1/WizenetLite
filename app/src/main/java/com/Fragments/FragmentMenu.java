@@ -46,9 +46,11 @@ import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Helper;
 import com.Icon_Manager;
+import com.MenuAlertBadgeEnum;
 import com.ProgressTaskAll;
 import com.ProgressTaskClient;
 import com.model.Model;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -57,7 +59,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 20/09/2016.
@@ -77,6 +81,9 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     DatabaseHelper db;
     Icon_Manager icon_manager;
     Context context;
+
+    Map<MenuAlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<MenuAlertBadgeEnum, NotificationBadge>();
+
     private DrawerLayout drawerLayout;
     private ListView sideNavigationListView;
     TextView menu_bar_welcome_txt;
@@ -92,6 +99,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
         this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
+
+        this.initializeBadgeDictionary(v);
+        // Set the alert of homepage to 1.
+        this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_customers).setNumber(10);
 
         //THe list of items which are displayed in the side navigation menu.
         this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
@@ -295,6 +306,69 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         return v;
     }
 
+    /**
+     * Initializes all the badges in the action bar and main menu.
+     */
+    private void initializeBadgeDictionary(View v) {
+
+        // Set all the badges objects.
+        for(MenuAlertBadgeEnum alert : MenuAlertBadgeEnum.values()) {
+
+            // Initialize the nav_bar badges.
+            switch (alert){
+                case badge_customers:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_customers));
+                    break;
+                case badge_offers:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_offers));
+                    break;
+                case badge_orders:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_orders));
+                    break;
+                case badge_calls:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_calls));
+                    break;
+                case badge_missions:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_missions));
+                    break;
+                case badge_reports:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reports));
+                    break;
+                case badge_masofon:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_masofon));
+                    break;
+                case badge_favorites:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_favorites));
+                    break;
+                case badge_reporttime:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reporttime));
+                    break;
+                case badge_tools:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_tools));
+                    break;
+                case badge_preferences:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_preferences));
+                    break;
+                case badge_accounting:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_accounting));
+                    break;
+
+            }
+
+        }
+    }
 
     private void getCallStatuses(){
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
