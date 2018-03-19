@@ -62,17 +62,25 @@ public class Alarm_Receiver extends BroadcastReceiver {
         this._context=context;
         helper = new Helper();
         //new AsynchCallSoap().execute(); subject,comment
-        Model.getInstance().init(_context);
-        Model.getInstance().AsyncReminder(helper.getMacAddr(), new Model.ReminderListener() {
-            @Override
-            public void onResult(String str, String str2, int size) {
-                if(size==1){
-                    pushNotification(str,str2);
-                }else{
-                    pushNotification("Wizenet",size+" new messages");
-                }
-            }
-        });
+        if (helper.isNetworkAvailable(context)){
+           try{
+               Model.getInstance().init(_context);
+               Model.getInstance().AsyncReminder(helper.getMacAddr(), new Model.ReminderListener() {
+                   @Override
+                   public void onResult(String str, String str2, int size) {
+                       if(size==1){
+                           pushNotification(str,str2);
+                       }else{
+                           pushNotification("Wizenet",size+" new messages");
+                       }
+                   }
+               });
+           }catch (Exception e){
+               helper.LogPrintExStackTrace(e);
+           }
+
+        }
+
     }
 
 

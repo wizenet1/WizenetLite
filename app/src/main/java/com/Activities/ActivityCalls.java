@@ -58,13 +58,17 @@ TextView lblcount;
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
-
+    String ss = "";
 
     String s = "";
+    Bundle extras;
+    String condition = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.activity_call);
 
@@ -81,7 +85,27 @@ TextView lblcount;
 
 
 
-
+//        Bundle extras = getIntent().getExtras();
+//        try{
+//            if (extras != null) {
+//                ss = extras.getString("choose");
+//                // and get whatever type user account id is
+//            }
+//            //ss= extras.getStringExtra("choose").toString();
+//            Log.e("mytag"," myss :" + ss.toString());
+//        }catch(Exception ex){
+//            Log.e("mytag"," asdasd :" + ex.getMessage());
+//        }
+//        if (ss.contains("total")){
+//            condition = "  order by ";
+//        }else if(ss.contains("open")){
+//            condition = " and sla='0' order by ";
+//        }else if(ss.contains("sla")){
+//            condition = " and sla='1' order by ";
+//        }else{
+//            condition = " order by  " ;
+//        }
+//        Log.e("mytag","condition: " + condition);
 
         //-------------------------------------
         //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
@@ -96,25 +120,25 @@ TextView lblcount;
                 //Log.e("mytag",(String) parent.getItemAtPosition(position));
                 String s=(String) parent.getItemAtPosition(position);
                 if (s.equals("מס' קריאה ↑")){
-                    getFilteredList("CallID asc");
+                    getFilteredList(condition+"CallID asc");
                 }else if(s.equals("מס' קריאה ↓")){
-                    getFilteredList("CallID desc");
+                    getFilteredList(condition+"CallID desc");
                 }else if(s.equals("פתיחת קריאה ↓")){
-                    getFilteredList("CreateDate desc");
+                    getFilteredList(condition+"CreateDate desc");
                 }else if(s.equals("פתיחת קריאה ↑")){
-                    getFilteredList("CreateDate asc");
+                    getFilteredList(condition+"CreateDate asc");
                 }else if(s.equals("עדיפות ↑")){
-                    getFilteredList("OriginName asc");
+                    getFilteredList(condition+"OriginName asc");
                 }else if(s.equals("עדיפות ↓")){
-                    getFilteredList("OriginName desc");
+                    getFilteredList(condition+"OriginName desc");
                 }else if(s.equals("עיר ↑")){
-                    getFilteredList("Ccity asc");
+                    getFilteredList(condition+"Ccity asc");
                 }else if(s.equals("עיר ↓")){
-                    getFilteredList("Ccity desc");
+                    getFilteredList(condition+"Ccity desc");
                 }else if(s.equals("חברה ↑")){
-                    getFilteredList("Ccompany asc");
+                    getFilteredList(condition+"Ccompany asc");
                 }else if(s.equals("חברה ↓")){
-                    getFilteredList("Ccompany desc");
+                    getFilteredList(condition+"Ccompany desc");
                 }
             }
             @Override
@@ -256,6 +280,28 @@ TextView lblcount;
     @Override
     protected void onResume() {
         super.onResume();
+        Bundle extras = getIntent().getExtras();
+        try{
+            if (extras != null) {
+                ss = extras.getString("choose");
+                // and get whatever type user account id is
+            }
+            //ss= extras.getStringExtra("choose").toString();
+            Log.e("mytag"," myss :" + ss.toString());
+        }catch(Exception ex){
+            Log.e("mytag"," asdasd :" + ex.getMessage());
+        }
+        if (ss.contains("total")){
+            condition = "  order by ";
+        }else if(ss.contains("open")){
+            condition = " and sla='0' order by ";
+        }else if(ss.contains("sla")){
+            condition = " and sla='1' order by ";
+        }else{
+            condition = " order by  " ;
+        }
+        Log.e("mytag","condition: " + condition);
+
         Log.e("mytag","onResume");
         //DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
         ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
@@ -270,7 +316,7 @@ TextView lblcount;
             }
         }catch (Exception e){
             helper.LogPrintExStackTrace(e);
-            Log.e("mytag",e.getMessage());
+            Log.e("mytag","11:" +e.getMessage());
         }
 
 
@@ -284,7 +330,7 @@ TextView lblcount;
                     public void onResult(String str) {
                         if (str.contains("0")){
                             DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
-                            change();
+                            //change();
                         }
                         Log.e("mytag","return:" +str);
                     }
@@ -302,7 +348,10 @@ TextView lblcount;
             Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
-                    ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(""));
+                    //f
+                    Log.e("mytag","ss="+ ss);
+
+                    ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(setCondition(ss)));
                     data2.clear();
                     data2.addAll(arrlistofOptions);
                     callsAdapter=new CallsAdapter(data2,getBaseContext());
@@ -316,7 +365,21 @@ TextView lblcount;
             Toast.makeText(getBaseContext(),"אינטרנט לא זמין", Toast.LENGTH_SHORT).show();
         }
     }
+    private  String setCondition(String ss){
+        String ret = "";
+        if (ss.contains("total")){
+            ret = "  order by callid";
+        }else if(ss.contains("open")){
+            ret = " and sla='0' order by callid";
+        }else if(ss.contains("sla")){
+            ret = " and sla='1' order by callid";
+        }else{
+            ret = "   " ;
+        }
+        return ret;
+    }
     public void getFilteredList(String orderby){
+
         ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(orderby));
         data2.clear();
         data2.addAll(arrlistofOptions);
@@ -358,6 +421,7 @@ TextView lblcount;
             //Log.e("mytag","step 3");
             length = calls.size();
         } catch (Exception e) {
+            Log.e("mytag","sdf " +e.getMessage());
             e.printStackTrace();
             helper.LogPrintExStackTrace(e);
         }

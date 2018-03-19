@@ -45,6 +45,7 @@ Helper helper;
         //Toast.makeText(context, "succeed", Toast.LENGTH_LONG).show();
         int len;
         if (helper.isNetworkAvailable(_context)){
+
             Log.e("MYTAG","hello");
             List<String> listCIDS = new ArrayList<String>();
             listCIDS=helper.getCIDSlist();

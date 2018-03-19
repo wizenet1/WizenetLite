@@ -280,8 +280,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                @Override
                public void onClick(View v) {
                    id_calls.startAnimation(clickAnimation);
-                   Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                   startActivity(intent);
+                   android.support.v4.app.FragmentManager fm = getFragmentManager();
+                   android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                   FragmentMidCalls frag = new FragmentMidCalls();
+                   ft.replace(R.id.container,frag,"FragmentMidCalls");
+                   ft.addToBackStack("FragmentMidCalls");
+                   ft.commit();
+                   getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                   //Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                   //startActivity(intent);
                }
            });
        }catch (Exception ex){

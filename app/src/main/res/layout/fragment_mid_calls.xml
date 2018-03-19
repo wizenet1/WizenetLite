@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        >
+    <LinearLayout
+        android:layoutDirection="rtl"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangle_r1"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:id="@+id/calls_total">
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="24"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/t1"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="סהכ קריאות"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp" />
+</LinearLayout>
+
+        <LinearLayout
+            android:layoutDirection="rtl"
+            android:layout_marginTop="10dp"
+
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/rectangle_r2"
+            android:id="@+id/calls_open">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="24"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/t2"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="קריאות פתוחות"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layoutDirection="rtl"
+            android:layout_marginTop="10dp"
+
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/rectangle_r3"
+            android:id="@+id/calls_sla">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="24"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/t3"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="חורגות"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layoutDirection="rtl"
+            android:layout_marginTop="10dp"
+
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/rectangle_r4"
+            android:id="@+id/calls_closed">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="24"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/t4"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="נסגרו היום"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layoutDirection="rtl"
+            android:layout_marginTop="10dp"
+
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/rectangle_r1"
+            android:id="@+id/calls_time">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="24"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/t5"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="זמן דיווח להיום"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+    <!--android:textColor="#a09d9d"-->

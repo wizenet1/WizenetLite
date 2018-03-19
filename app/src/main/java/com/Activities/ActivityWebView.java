@@ -128,6 +128,15 @@ public class ActivityWebView extends FragmentActivity {
                 //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
                 Log.e("mytag","url: " + url);
                 break;
+            case "dashboard":
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=modulesServices/dashboard_report&action=totalCloseCallsToday&techctypeid=&calltypeidnot=&calltype=&ClientCtypeID=&techid=" + technicianid + ""
+                        //+ "/iframe.aspx?control=modulesServices/dashboard_report&action=techgraph&calltype=&data=" + technicianid + ""
+                        +"&MACAddress=" + helper.getMacAddr();
+                //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
+                Log.e("mytag","url: " + url);
+                break;
             case "calltime":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
@@ -173,7 +182,8 @@ public class ActivityWebView extends FragmentActivity {
             case "goToUserHistory" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
-                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
+                        + "/iframe.aspx?control=/modulesProjects/UsersTimeReport"
+                        //+ "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
                         +"&MACAddress=" + helper.getMacAddr();
                 Log.e("mytag","url: " + url);
             case "masofon" :

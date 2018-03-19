@@ -666,7 +666,7 @@ public interface get_mgnet_client_items_Listener{
                     File_ f = new File_();
                     f.deleteFileExternal(ctx,"calls.txt");
                     flag = f.writeTextToFileExternal(ctx,"calls.txt",myResponse);
-                    Log.e("mytag", String.valueOf(flag));
+                    Log.e("mytag","sss"+ String.valueOf(flag));
                     if (flag == true){
                         //public List<String> getCIDSlist(){
                             //List<Call> ret = new ArrayList<Call>();
@@ -683,7 +683,7 @@ public interface get_mgnet_client_items_Listener{
                                 DatabaseHelper.getInstance(ctx).deleteAllCalls();
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage());
+                                Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage() + "  dd");
                                 return "";
                             }
 
@@ -749,11 +749,13 @@ public interface get_mgnet_client_items_Listener{
                                      call.setContctCemail(e.getString("ContctCemail"));
                                      call.setCallParentID(e.getString("CallParentID"));
                                     call.setState(e.getString("state"));
+                                    call.setSla(e.getString("sla"));
+                                    Log.e("MYTAG","test doron");
 
                                     DatabaseHelper.getInstance(context).addNewCall(call);
                                 } catch (JSONException e1) {
                                     e1.printStackTrace();
-                                    Log.e("MYTAG",e1.getMessage());
+                                    Log.e("MYTAG","model add call: " +e1.getMessage());
                                     return "";
                                 }
                                 //ADD TO DATABASE
@@ -942,7 +944,7 @@ public interface get_mgnet_client_items_Listener{
                                  DatabaseHelper.getInstance(context).addCallStatus(callStatus);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
-                                Log.e("MYTAG",e1.getMessage());
+                                Log.e("MYTAG","sss1:"+e1.getMessage());
                                 return "";
                             }
                             //ADD TO DATABASE

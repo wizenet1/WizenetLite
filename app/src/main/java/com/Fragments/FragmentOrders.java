@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
-import com.Alarm_Receiver_sync_client_products;
+
 import com.Classes.Order;
 import com.DatabaseHelper;
 import com.File_;
@@ -95,7 +95,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         price_id = (EditText) v.findViewById(R.id.price_id);
         amount_id.setSelectAllOnFocus(true);
         price_id.setSelectAllOnFocus(true);
-        AlretIfNotFinishSync();
+        //AlretIfNotFinishSync();
 
 
         List<String> responseList2 = new ArrayList<String>();
@@ -440,45 +440,33 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         }
         return ret;
     }
-    protected void AlretIfNotFinishSync(){
-        int len = 0;
-        int count=0;
-        try{
-            //-------------------------------------------------
-            List<String> listCIDS = new ArrayList<String>();
-            listCIDS=helper.getCIDSlist();
-            len = listCIDS.size();
-            //-------------------------------------------------
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
-            File[] list = myFile.listFiles();
-            for (File f: list){
-                String name = f.getName();
-                if (name.endsWith(".txt"))
-                    count++;
-            }
-        }catch (Exception ex){
-
-        }
-        Intent alarm = new Intent(getContext(), Alarm_Receiver_sync_client_products.class);
-        boolean alarmRunning = (PendingIntent.getBroadcast(getContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-        if(alarmRunning == true || ((len != count) || (count == 0))) {
-            String msg = "";
-            if (alarmRunning == true){msg="<font color='#FF7F27'>סנכרון מוצרי לקוח רץ ברקע  "+count+"/"+len+"</font>";}
-            else{msg="<font color='#FF7F27'>"+String.valueOf(count) + "סונכרנו מתוך"+ String.valueOf(len)+"</font>";}
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(Html.fromHtml(msg));
-            builder.setPositiveButton(Html.fromHtml("<font color='#FF7F27'>אישור</font>"), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int arg1) {
-
-                }
-            });
-            builder.create();
-            builder.show();
-        }
-
-//        if ((len != count) || (count == 0)) {
+//    protected void AlretIfNotFinishSync(){
+//        int len = 0;
+//        int count=0;
+//        try{
+//            //-------------------------------------------------
+//            List<String> listCIDS = new ArrayList<String>();
+//            listCIDS=helper.getCIDSlist();
+//            len = listCIDS.size();
+//            //-------------------------------------------------
+//            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+//            File[] list = myFile.listFiles();
+//            for (File f: list){
+//                String name = f.getName();
+//                if (name.endsWith(".txt"))
+//                    count++;
+//            }
+//        }catch (Exception ex){
+//
+//        }
+//        Intent alarm = new Intent(getContext(), Alarm_Receiver_sync_client_products.class);
+//        boolean alarmRunning = (PendingIntent.getBroadcast(getContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+//        if(alarmRunning == true || ((len != count) || (count == 0))) {
+//            String msg = "";
+//            if (alarmRunning == true){msg="<font color='#FF7F27'>סנכרון מוצרי לקוח רץ ברקע  "+count+"/"+len+"</font>";}
+//            else{msg="<font color='#FF7F27'>"+String.valueOf(count) + "סונכרנו מתוך"+ String.valueOf(len)+"</font>";}
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//            builder.setTitle(Html.fromHtml("<font color='#FF7F27'>סנכרון מוצרי לקוח עדיין לא הושלם  "+count+"/"+len+"</font>"));
+//            builder.setTitle(Html.fromHtml(msg));
 //            builder.setPositiveButton(Html.fromHtml("<font color='#FF7F27'>אישור</font>"), new DialogInterface.OnClickListener() {
 //                public void onClick(DialogInterface dialog, int arg1) {
 //
@@ -487,8 +475,20 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 //            builder.create();
 //            builder.show();
 //        }
-
-    }
+//
+////        if ((len != count) || (count == 0)) {
+////            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+////            builder.setTitle(Html.fromHtml("<font color='#FF7F27'>סנכרון מוצרי לקוח עדיין לא הושלם  "+count+"/"+len+"</font>"));
+////            builder.setPositiveButton(Html.fromHtml("<font color='#FF7F27'>אישור</font>"), new DialogInterface.OnClickListener() {
+////                public void onClick(DialogInterface dialog, int arg1) {
+////
+////                }
+////            });
+////            builder.create();
+////            builder.show();
+////        }
+//
+//    }
 
 
     public void createOrder(String cid){

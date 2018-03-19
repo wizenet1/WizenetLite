@@ -95,14 +95,19 @@ public class MainActivity extends Activity {
                     helper.addInitialfirst(ctx);
                 }
                 Toast.makeText(getBaseContext(),"עודכן בהצלחה", Toast.LENGTH_SHORT).show();
-//                if (!DatabaseHelper.getInstance(ctx).columnExistsInTable("CallStatus","stam")){
-//                   Boolean flag = false;
-//                    flag = DatabaseHelper.getInstance(ctx).createColumnToCalls("stam");
-//                    if (flag == true){
-//                        Log.e("mytag","success");
-//                    }else{Log.e("mytag","failed");}
-//                    Log.e("mytag",DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString());
-//                }
+                Log.e("mytag", String.valueOf(DatabaseHelper.getInstance(ctx).columnExistsInTable("mgnet_calls","sla")));
+                //-----------add new column in mgnet_calls if not exist
+                if (!DatabaseHelper.getInstance(ctx).columnExistsInTable("mgnet_calls","sla")){
+                    Log.e("mytag","dd");
+
+                   Boolean flag = false;
+                    flag = DatabaseHelper.getInstance(ctx).createColumnToCalls("sla",isCallsEsixts);
+                    Log.e("mytag","sla exists?: "+ flag.toString());
+                    if (flag == true){
+                        Log.e("mytag","success add sla");
+                    }else{Log.e("mytag","failed");}
+                    //Log.e("mytag","");//DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString()
+                }
                 ///////////////////
             }
         });

@@ -169,7 +169,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "techColor"+ " TEXT, "
                         + "ContctCemail"+ " TEXT, "
                         + "CallParentID"+ " TEXT, "
-                        + "state"+ " TEXT "
+                        + "state"+ " TEXT, "
+                        + "sla"+ " TEXT "
                         + ")";
         String CREATE_mgnet_items =
                 "CREATE TABLE " + "mgnet_items" + "("
@@ -229,6 +230,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public String getScalarByCountQuery(String s){
+        Helper helper = new Helper();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //SELECT count(*) FROM " + TABLE_CONTROL_PANEL
+        String count = s;
+        int icount = 0;
+        try{
+            Cursor mcursor = db.rawQuery(count, null);
+            mcursor.moveToFirst();
+            icount = mcursor.getInt(0);
+            Log.e("mytag",Integer.toString(icount));
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+        db.close();
+        return Integer.toString(icount) ;
+    }
+    public String getScalarBySql(String s){
+        Helper helper = new Helper();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //SELECT count(*) FROM " + TABLE_CONTROL_PANEL
+        String count = s;
+        String icount = "";
+        try{
+            Cursor mcursor = db.rawQuery(count, null);
+            mcursor.moveToFirst();
+            icount = mcursor.getString(0);
+            Log.e("mytag",(icount));
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+        db.close();
+        return (icount) ;
+    }
+
     public  boolean columnExistsInTable(String table, String columnToCheck) {
         Cursor cursor = null;
         SQLiteDatabase db = null;
@@ -276,6 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean createColumnToCalls(String column,boolean isTableExist){
         String mgnet_calls = "mgnet_calls";
         boolean flag = false;
+        Helper h = new Helper();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -338,23 +375,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             + "ContctCemail"+ " TEXT, "
                             + "CallParentID"+ " TEXT, "
                             + "state"+ " TEXT "
+                            + "sla"+ " TEXT "
                             + ")";
             if (isTableExist){
+                db.execSQL("DROP TABLE IF EXISTS '" + mgnet_calls + "_old" + "'");
                 db.execSQL("ALTER TABLE " + mgnet_calls + " RENAME TO " + mgnet_calls + "_old;");
+                Log.e("mytag","step 1");
             }
 
+            try{
             db.execSQL(CREATE_mgnet_calls);
+            }catch (Exception e){
+                Log.e("mytag","exception create exe: " + e.getMessage());
+                //String bla = CREATE_mgnet_calls.replace("CREATE TABLE","ALTER TABLE");
+                //db.execSQL(bla);
+            }
             if (isTableExist){
                 db.execSQL("DROP TABLE " + mgnet_calls + "_old;");
+                Log.e("mytag","step 2");
             }
 
-            if (!column.equals("")){
-                db.execSQL("ALTER TABLE " + mgnet_calls + " ADD COLUMN " + column + " TEXT;");
+            Log.e("mytag","last time: " + columnExistsInTable("mgnet_calls","sla"));
+            if (!columnExistsInTable("mgnet_calls","sla")){
+                Log.e("mytag","step 3");
+                try{
+                    db.execSQL("ALTER TABLE " + mgnet_calls + " ADD COLUMN " + column + " TEXT;");
+
+                }catch (Exception e){
+                    Log.e("mytag","err step 4, " + e.getMessage());
+                    h.LogPrintExStackTrace(e);
+                }
             }
 
             flag = true;
         }catch (Exception e){
-            Helper h = new Helper();
+
             Log.e("mytag",e.getMessage());
             h.LogPrintExStackTrace(e);
         }
@@ -595,11 +650,13 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         List<Call> callList = new ArrayList<Call>();
 // Select All Query
         String selectQuery ="";
-            selectQuery = "SELECT * FROM mgnet_calls " ;
+            selectQuery = "SELECT * FROM mgnet_calls where 1=1 " ;
         if (!sortby.trim().equals("")){
-            selectQuery+= " where 1=1 order by " + sortby + "";
+            selectQuery+=  sortby + "";
+            //selectQuery+= "  order by " + sortby + "";
         }
         SQLiteDatabase db = this.getReadableDatabase();
+        Log.e("mytag","sql: " +selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -654,7 +711,8 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
                 cursor.getString(cursor.getColumnIndex("techColor")),
                 cursor.getString(cursor.getColumnIndex("ContctCemail")),
                 cursor.getString(cursor.getColumnIndex("CallParentID")),
-                cursor.getString(cursor.getColumnIndex("state"))
+                cursor.getString(cursor.getColumnIndex("state")),
+                cursor.getString(cursor.getColumnIndex("sla"))
                 );
 // Adding contact to list
                 callList.add(c);
@@ -754,7 +812,7 @@ public void addNewCall(Call call) {
                 values.put("ContctCemail", call.getContctCemail());
                 values.put("CallParentID", call.getCallParentID());
                 values.put("state", call.getState().trim());
-
+                values.put("sla",  call.getSla().toString());
         // Inserting Row
         db.insert("mgnet_calls", null, values);
         // Closing database connection
@@ -762,7 +820,7 @@ public void addNewCall(Call call) {
 
     }catch (Exception e){
         e.printStackTrace();
-        Log.e("MYTAG",e.getMessage());
+        Log.e("MYTAG"," db error1: " +e.getMessage());
     }
 
 }
@@ -1111,7 +1169,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 call.setContctCemail( (cursor.getString(cursor.getColumnIndex("ContctCemail"))));
                 call.setCallParentID( (cursor.getString(cursor.getColumnIndex("CallParentID"))));
                 call.setState( (cursor.getString(cursor.getColumnIndex("state"))));
-
+                call.setSla( (cursor.getString(cursor.getColumnIndex("sla"))));
             }
             return call;
         }

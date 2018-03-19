@@ -46,34 +46,23 @@ Helper helper;
     public void onReceive(Context context, Intent intent) {
         this._context=context;
         helper = new Helper();
-        //Toast.makeText(context, "succeed", Toast.LENGTH_LONG).show();
-
-        //new AsynchCallSoap().execute(); subject,comment
-        //Model.getInstance().init(_context);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
-        String sdt = df.format(new Date(System.currentTimeMillis()));
-        Log.e("MYTAG","chk: "+sdt);
-        String isNetwork = "";
-        if (helper.isNetworkAvailable(_context)){
-            String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
-            File myDirectory = new File(path);
-            traverse(myDirectory);
-        }else{
-            isNetwork = " on Network";
+        try{
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
+            String sdt = df.format(new Date(System.currentTimeMillis()));
+            Log.e("MYTAG","chk: "+sdt);
+            String isNetwork = "";
+            if (helper.isNetworkAvailable(_context)){
+                String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
+                File myDirectory = new File(path);
+                traverse(myDirectory);
+            }else{
+                isNetwork = " on Network";
+            }
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
         }
-        //helper.writeTextToFileORDER(sdt + isNetwork);
 
 
-//        Model.getInstance().AsyncReminder(helper.getMacAddr(), new Model.ReminderListener() {
-//            @Override
-//            public void onResult(String str, String str2, int size) {
-//                if(size==1){
-//                    pushNotification(str,str2);
-//                }else{
-//                    pushNotification("Wizenet",size+" new messages");
-//                }
-//            }
-//        });
     }
     public static void deleteFile(final File file) {
         if (file != null) {

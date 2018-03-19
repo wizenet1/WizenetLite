@@ -416,7 +416,8 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
                                 filterList.get(i).getTechColor(),
                                 filterList.get(i).getContctCemail(),
                                 filterList.get(i).getCallParentID(),
-                                filterList.get(i).getState()
+                                filterList.get(i).getState(),
+                                filterList.get(i).getSla()
                         );
 
                         filters.add(p);

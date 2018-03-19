@@ -53,6 +53,7 @@ public class Call {
     String techColor;
     String ContctCemail;
     String state;
+    String sla;
 
 
 
@@ -115,6 +116,14 @@ public class Call {
 
     public String getPname() {
         return Pname;
+    }
+
+    public String getSla() {
+        return sla;
+    }
+
+    public void setSla(String sla) {
+        this.sla = sla;
     }
 
     public String getContractID() {
@@ -264,7 +273,7 @@ public class Call {
                 Integer callTypeID, String priorityID, String originName, String problemTypeName, String callTypeName, String cname, String cemail,
                 Integer contctCode, String callStartTime, String callEndTime, String ccompany, String clocation, Integer callOrder, String caddress,
                 String ccity, String ccomments, String cfname, String clname, String techName, String aname, String contctName, String contctAddress,
-                String contctCity, String contctCell, String contctPhone, String city, String ccell, String techColor, String contctCemail, String callParentID,String state){
+                String contctCity, String contctCell, String contctPhone, String city, String ccell, String techColor, String contctCemail, String callParentID,String state,String sla){
         this.CallID = callID;
         this.callStartTime = callStartTime;
         this.callEndTime = callEndTime;
@@ -316,7 +325,7 @@ public class Call {
         this.Cemail = cemail;
         this.contctCode = contctCode;
         this.state = state;
-
+        this.sla = sla;
     }
     public Call(int callID,String subject,String createDate,String ccompany,String statusName,String contctCell,String ccity,String caddress)
     {
