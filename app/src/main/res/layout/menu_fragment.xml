@@ -11,6 +11,7 @@
         android:fillViewport="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
@@ -189,6 +190,18 @@
                         android:gravity="center"
                         android:text="לקוחות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_customers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_customers"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_customers"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -214,6 +227,18 @@
                         android:gravity="center"
                         android:text="הצעות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_offers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_offers"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_offers"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -240,6 +265,17 @@
                         android:gravity="center"
                         android:text="הזמנות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_orders"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_orders"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -277,6 +313,17 @@
                         android:text="קריאות"
                         android:textSize="15dp" />
 
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_calls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_calls"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_calls"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -302,6 +349,18 @@
                         android:gravity="center"
                         android:text="משימות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_missions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_missions"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_missions"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -327,6 +386,17 @@
                         android:gravity="center"
                         android:text="דוחות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_reports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_reports"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_reports"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -362,6 +432,18 @@
                         android:gravity="center"
                         android:text="מסופון"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_masofon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_masofon"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_masofon"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -387,6 +469,18 @@
                         android:gravity="center"
                         android:text="מועדפים"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_favorites"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_favorites"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_favorites"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -412,6 +506,18 @@
                         android:gravity="center"
                         android:text="דיווח"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_reporttime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_reporttime"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_reporttime"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -448,6 +554,18 @@
                         android:gravity="center"
                         android:text="כלים"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_tools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_tools"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_tools"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -474,6 +592,18 @@
                         android:gravity="center"
                         android:text="הגדרות"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_preferences"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_preferences"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_preferences"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -499,6 +629,18 @@
                         android:gravity="center"
                         android:text="הנהח"
                         android:textSize="15dp" />
+
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        android:id="@+id/badge_accounting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/id_accounting"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginTop="-90dp"
+                        android:layout_toRightOf="@+id/id_accounting"
+                        app:badgeBackground="@drawable/badge_bg_with_shadow"
+                        app:maxTextLength="2"/>
+
                 </LinearLayout>
 
 
