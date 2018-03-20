@@ -97,24 +97,24 @@ public class ActivityCallDetails extends FragmentActivity {
             //startActivity(intent);
         //}
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayUseLogoEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-
-        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.nav_bar, null); // layout which contains your button.
-
-        actionBar.setCustomView(customNav, lp1);
-        Button iv = (Button) customNav.findViewById(R.id.back);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
-            }
-        });
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayUseLogoEnabled(false);
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(false);
+//
+//        ActionBar.LayoutParams lp1 = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+//        View customNav = LayoutInflater.from(this).inflate(R.layout.nav_bar, null); // layout which contains your button.
+//
+//        actionBar.setCustomView(customNav, lp1);
+//        Button iv = (Button) customNav.findViewById(R.id.back);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"clicked", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
 
 

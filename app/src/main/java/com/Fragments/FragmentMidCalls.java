@@ -134,10 +134,13 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
                         JSONObject j = null;
                         j = new JSONObject(str);
                         //get the array [...] in json
-                        JSONArray jarray = j.getJSONArray("Login");
-                        JSONObject object = jarray.getJSONObject(0);
+                        JSONArray jarray = j.getJSONArray("Wz_calls_Summary");
+                        //JSONObject object = jarray.getJSONObject(0);
                         String closedCalls = jarray.getJSONObject(0).getString("closedCalls");
                         String techcalltime = jarray.getJSONObject(0).getString("techcalltime");
+                        if (techcalltime.contains("null")){
+                            techcalltime = "0";
+                        }
                         t4.setText(closedCalls);
                         t5.setText(techcalltime);
 

@@ -1261,6 +1261,7 @@ public interface get_mgnet_client_items_Listener{
     }
     //PRODUCTS_CLIENTS_ITEMS_LIST
     public void Async_Wz_calls_Summary_Listener(final String macAddress, final Wz_calls_Summary_Listener listener) {
+
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
             //###################################
@@ -1268,16 +1269,22 @@ public interface get_mgnet_client_items_Listener{
             //###################################
             @Override
             protected String doInBackground(String... params) {
-                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
-                //String response = cs.Call(mac_address, memail, mpass);
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
 
-                String response = cs.Wz_calls_Summary(macAddress);
-                String myResponse = response;
-                myResponse = myResponse.replaceAll("Wz_calls_SummaryResponse", "");
-                myResponse = myResponse.replaceAll("Wz_calls_SummaryResult=", "Wz_calls_Summary:");
-                myResponse = myResponse.replaceAll(";", "");
-                //return "";
-                return myResponse.toString();
+                    String response = cs.Wz_calls_Summary(macAddress);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_calls_SummaryResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_calls_SummaryResult=", "Wz_calls_Summary:");
+                    myResponse = myResponse.replaceAll(";", "");
+                    //return "";
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+
             }
             //###################################
             //active the fragment with json result by bundle

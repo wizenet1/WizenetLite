@@ -194,6 +194,7 @@ public class ActivityWebView extends FragmentActivity {
                         //+ "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
                         +"&MACAddress=" + helper.getMacAddr();
                 Log.e("mytag","url: " + url);
+                break;
             case "masofon" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
