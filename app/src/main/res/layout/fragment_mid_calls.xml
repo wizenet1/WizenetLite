@@ -118,7 +118,7 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="24"
+                android:text="-"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/t4"
@@ -150,7 +150,7 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="24"
+                android:text="-"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/t5"
@@ -161,7 +161,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="זמן דיווח להיום"
+                android:text="זמן דיווח להיום (בדקות)"
                 android:textAlignment="center"
                 android:textSize="17sp"
                 android:paddingTop="10dp"

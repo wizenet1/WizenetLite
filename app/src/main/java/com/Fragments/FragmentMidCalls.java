@@ -40,6 +40,7 @@ import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
 import com.Icon_Manager;
+import com.model.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +85,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         calls_closed = (LinearLayout) v.findViewById(R.id.calls_closed);
         calls_time = (LinearLayout) v.findViewById(R.id.calls_time);
         setTexts();
-
+        call_Async_Wz_calls_Summary_Listener();
         calls_total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,19 +115,44 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
             @Override
             public void onClick(View v) {
                 goToDashboardTechCalls();
-                ///iframe.aspx?control=modulesServices/dashboard_report&action=techgraph&calltype=&data=239610
             }
         });
         calls_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), ActivityCalls.class);
-//                intent.putExtra("choose", "total");
-//                startActivity(intent);
+                goToCallTimeDetails();
             }
         });
         return v;
     };
+    private void call_Async_Wz_calls_Summary_Listener(){
+        try{
+            Model.getInstance().Async_Wz_calls_Summary_Listener(helper.getMacAddr(), new Model.Wz_calls_Summary_Listener() {
+                @Override
+                public void onResult(String str) {
+                    try {
+                        JSONObject j = null;
+                        j = new JSONObject(str);
+                        //get the array [...] in json
+                        JSONArray jarray = j.getJSONArray("Login");
+                        JSONObject object = jarray.getJSONObject(0);
+                        String closedCalls = jarray.getJSONObject(0).getString("closedCalls");
+                        String techcalltime = jarray.getJSONObject(0).getString("techcalltime");
+                        t4.setText(closedCalls);
+                        t5.setText(techcalltime);
+
+                    } catch (JSONException e1) {
+                        helper.LogPrintExStackTrace(e1);
+                    }
+                }
+            });
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+
+
+    }
     private void goToDashboardTechCalls(){
         Intent intent = new Intent(getContext(), ActivityWebView.class);
         Bundle b = new Bundle();
@@ -134,6 +160,16 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         b.putInt("cid", -1);
         b.putInt("technicianid",Integer.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID")));
         b.putString("action","dashboard");
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+    private void goToCallTimeDetails(){
+        Intent intent = new Intent(getContext(), ActivityWebView.class);
+        Bundle b = new Bundle();
+        b.putInt("callid",-1);
+        b.putInt("cid", -1);
+        b.putInt("technicianid",Integer.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID")));
+        b.putString("action","calltimedetails");
         intent.putExtras(b);
         startActivity(intent);
     }

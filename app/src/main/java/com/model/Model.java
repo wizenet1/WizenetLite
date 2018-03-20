@@ -1255,6 +1255,44 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+    //region Wz_calls_Summary
+    public interface Wz_calls_Summary_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_calls_Summary_Listener(final String macAddress, final Wz_calls_Summary_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                //String response = cs.Call(mac_address, memail, mpass);
+
+                String response = cs.Wz_calls_Summary(macAddress);
+                String myResponse = response;
+                myResponse = myResponse.replaceAll("Wz_calls_SummaryResponse", "");
+                myResponse = myResponse.replaceAll("Wz_calls_SummaryResult=", "Wz_calls_Summary:");
+                myResponse = myResponse.replaceAll(";", "");
+                //return "";
+                return myResponse.toString();
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
+
 }
 
 

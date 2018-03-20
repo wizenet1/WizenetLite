@@ -34,7 +34,9 @@ import com.model.Model;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityWebView extends FragmentActivity {
@@ -128,13 +130,19 @@ public class ActivityWebView extends FragmentActivity {
                 //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
                 Log.e("mytag","url: " + url);
                 break;
+            case "calltimedetails":
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                        +"/IN.aspx?url="
+                        + "/iframe.aspx?control=modulesServices/reportcalltimebytech_details&OdateFrom=" + getCurrentTimeStamp() + "&OdateTo=" + getCurrentTimeStamp() + "&techListDashboard=" + technicianid + "&CID=-1&strstatus=-999"
+                        //+ "/iframe.aspx?control=modulesServices/dashboard_report&action=totalCloseCallsToday&techctypeid=&calltypeidnot=&calltype=&ClientCtypeID=&techid=" + technicianid + ""
+                        +"&MACAddress=" + helper.getMacAddr();
+                Log.e("mytag","url: " + url);
+                break;
             case "dashboard":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=modulesServices/dashboard_report&action=totalCloseCallsToday&techctypeid=&calltypeidnot=&calltype=&ClientCtypeID=&techid=" + technicianid + ""
-                        //+ "/iframe.aspx?control=modulesServices/dashboard_report&action=techgraph&calltype=&data=" + technicianid + ""
                         +"&MACAddress=" + helper.getMacAddr();
-                //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
                 Log.e("mytag","url: " + url);
                 break;
             case "calltime":
@@ -194,34 +202,6 @@ public class ActivityWebView extends FragmentActivity {
                 Log.e("mytag","url: " + url);
                 break;
 
-//            case "calltime":
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True";
-//                break;
-//            case "callparts":
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                    + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + "";
-//                break;
-//            case "mycalls" :
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/mobile/control.aspx?control=modulesService/myCalls";
-//                break;
-//            case "callfiles" :
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True";
-//                break;
-//            case "history" :
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True";
-//                break;
-//            case "customercase" :
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True";
-//                break;
-//            case "goToUserHistory" :
-//                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-//                        + "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport";
-//                break;
             default:
                 //setContentView(R.layout.default);
         }
@@ -235,31 +215,10 @@ public class ActivityWebView extends FragmentActivity {
         mWebview .loadUrl(url);//"http://www.google.com");
         setContentView(mWebview );
 
-//        WebView  mWebview  = new WebView(this);
-//
-//        mWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
-//
-//        final Activity activity = this;
-//
-//        mWebview.setWebViewClient(new WebViewClient() {
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
-//            }
-//            @TargetApi(android.os.Build.VERSION_CODES.M)
-//            @Override
-//            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
-//                // Redirect to deprecated method, so you can use it in all SDK versions
-//                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
-//            }
-//        });
-//
-//        mWebview .loadUrl("http://www.google.com");
-//        setContentView(mWebview );
 
-
-
+    }
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     }
     public void initList(){
         data2.clear();
