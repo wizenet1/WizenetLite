@@ -138,7 +138,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             }
         });
 
-        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+        //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
         //View view = inflater.inflate(R.layout.top_bar, container, false);
         //View view1 = view.findViewById(R.id.top_action_bar);

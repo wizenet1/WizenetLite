@@ -65,7 +65,7 @@ TextView lblcount;
     String condition = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("mytag","fdgsaghgh");
+        //Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
 
 

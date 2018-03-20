@@ -112,7 +112,7 @@ public class Model {
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
             @Override
             protected String doInBackground(String... params) {
-
+            try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Call(macAddress,username,pass);//login
                 //Toast.makeText(getApplicationContext(),"hi", Toast.LENGTH_LONG).show();
@@ -126,6 +126,10 @@ public class Model {
                     return myResponse.toString();
                 }
                 return "incorrect URL";
+                }catch(Exception e){
+                helper.LogPrintExStackTrace(e);
+                    return "error has been occour "+e.getMessage();
+                }
             }
 
             @Override
@@ -238,7 +242,7 @@ public class Model {
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
             @Override
             protected String doInBackground(String... params) {
-
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//databaseHelper.getControlPanel(1).getUrl());
                 //String mac_address = getMacAddress();
                 String response = cs.Call4(macAddress);
@@ -251,7 +255,10 @@ public class Model {
                     myResponse = myResponse.replaceAll(";", "");
                 }
 
-                return myResponse.toString();
+                    return myResponse.toString();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
             }
 
             @Override
@@ -386,6 +393,7 @@ public class Model {
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
                 String response = cs.Call2(macAddress);
@@ -395,18 +403,10 @@ public class Model {
                 myResponse = myResponse.replaceAll(";", "");
 
 
-//            FileWriter fw = null;
-//            try {
-//                fw = new FileWriter(myFile);
-//                BufferedWriter bw = new BufferedWriter(fw);
-//                bw.write(myResponse);
-//                bw.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
                 return myResponse.toString();
+                }catch(Exception e){
+                    return "nothing? "+e.getMessage();
+                }
             }
 
             //###################################
@@ -437,6 +437,7 @@ public class Model {
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
                 String response = cs.Call_getClientsContacts(macAddress);
@@ -446,7 +447,9 @@ public class Model {
                 myResponse = myResponse.replaceAll(";", "");
 
                 return myResponse.toString();
-            }
+            }catch(Exception e){
+                return "nothing? "+e.getMessage();
+            }}
 
             //###################################
             //active the fragment with json result by bundle
@@ -475,6 +478,7 @@ public class Model {
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
                 String response = cs.getOrdersProducts(macAddress);
@@ -485,6 +489,9 @@ public class Model {
 
                 return myResponse.toString();
             }
+            catch(Exception e){
+                return "nothing? "+e.getMessage();
+            }}
 
             //###################################
             //active the fragment with json result by bundle
@@ -513,6 +520,9 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
+
+
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
 
@@ -525,6 +535,9 @@ public interface get_mgnet_client_items_Listener{
 
                 return myResponse.toString();
             }
+            catch(Exception e){
+                return "nothing? "+e.getMessage();
+            }}
 
             //###################################
             //active the fragment with json result by bundle
@@ -557,10 +570,11 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
                 String response = cs.CREATE_OFFLINE(macAddress,json);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("CREATE_OFFLINEResponse", "");
@@ -606,9 +620,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.GET_CALLS_LIST(macAddress);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("CALLS_ListResponse", "");
@@ -650,9 +665,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(ctx).getValueByKey("URL"));
                 String response = cs.Wz_Calls_List(macAddress,CallStatusID);
-                try{
+
                     Log.e("mytag","arrived here async");
 
                     String myResponse = response;
@@ -666,7 +682,7 @@ public interface get_mgnet_client_items_Listener{
                     File_ f = new File_();
                     f.deleteFileExternal(ctx,"calls.txt");
                     flag = f.writeTextToFileExternal(ctx,"calls.txt",myResponse);
-                    Log.e("mytag","sss"+ String.valueOf(flag));
+                    //Log.e("mytag","sss"+ String.valueOf(flag));
                     if (flag == true){
                         //public List<String> getCIDSlist(){
                             //List<Call> ret = new ArrayList<Call>();
@@ -798,9 +814,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Call_setTime(macAddress,CallID,action,latitude,longtitude);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_Call_setTimeResponse", "");
@@ -832,9 +849,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Call_getTime(macAddress,CallID,action);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_Call_getTimeResponse", "");
@@ -865,9 +883,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Call_Update(macAddress,CallID,CallStatusID,CallAnswer);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_Call_UpdateResponse", "");
@@ -897,11 +916,11 @@ public interface get_mgnet_client_items_Listener{
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
             @Override
             protected String doInBackground(String... params) {
-
+                try{
                 // USER_ClientsResponse
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Call_Statuses(macAddress);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResponse", "");
@@ -983,9 +1002,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Forgot(macAddress,Email);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_ForgotResponse", "");
@@ -1018,9 +1038,10 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_timeReport(macAddress,action,latitude,longtitude);
-                try{
+
                     String myResponse = response;
 
                     myResponse = myResponse.replaceAll("Wz_timeReportResponse", "");
@@ -1050,7 +1071,7 @@ public interface get_mgnet_client_items_Listener{
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
             @Override
             protected String doInBackground(String... params) {
-                // USER_ClientsResponse
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_getState(macAddress);
                 try{
@@ -1063,6 +1084,10 @@ public interface get_mgnet_client_items_Listener{
                     return myResponse.toString().trim();
                 }catch(Exception e){
                     return "nothing? "+e.getMessage();
+                }
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
                 }
             }
             @Override
@@ -1084,6 +1109,9 @@ public interface get_mgnet_client_items_Listener{
             @Override
             protected String doInBackground(String... params) {
                 // USER_ClientsResponse
+                try{
+
+
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
                 String response = cs.Wz_Update_Call_Field(macAddress,callid,field,value);
                 try{
@@ -1096,6 +1124,10 @@ public interface get_mgnet_client_items_Listener{
                     return myResponse.toString().trim();
                 }catch(Exception e){
                     return "nothing? "+e.getMessage();
+                }
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
                 }
             }
             @Override
@@ -1122,6 +1154,7 @@ public interface get_mgnet_client_items_Listener{
             //###################################
             @Override
             protected String doInBackground(String... params) {
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
 
@@ -1132,6 +1165,10 @@ public interface get_mgnet_client_items_Listener{
                 myResponse = myResponse.replaceAll(";", "");
                 return "";
                 //return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
             }
             //###################################
             //active the fragment with json result by bundle
@@ -1159,6 +1196,7 @@ public interface get_mgnet_client_items_Listener{
             //###################################
             @Override
             protected String doInBackground(String... params) {
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
 
@@ -1169,6 +1207,10 @@ public interface get_mgnet_client_items_Listener{
                 myResponse = myResponse.replaceAll(";", "");
                 //return "";
                 return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
             }
             //###################################
             //active the fragment with json result by bundle
@@ -1195,6 +1237,7 @@ public interface get_mgnet_client_items_Listener{
             //###################################
             @Override
             protected String doInBackground(String... params) {
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
 
@@ -1205,6 +1248,10 @@ public interface get_mgnet_client_items_Listener{
                 myResponse = myResponse.replaceAll(";", "");
                 //return "";
                 return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
             }
             //###################################
             //active the fragment with json result by bundle
@@ -1232,6 +1279,7 @@ public interface get_mgnet_client_items_Listener{
             //###################################
             @Override
             protected String doInBackground(String... params) {
+                try{
                 CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                 //String response = cs.Call(mac_address, memail, mpass);
 
@@ -1242,6 +1290,10 @@ public interface get_mgnet_client_items_Listener{
                 myResponse = myResponse.replaceAll(";", "");
                 //return "";
                 return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
             }
             //###################################
             //active the fragment with json result by bundle

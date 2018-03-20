@@ -166,7 +166,7 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
             }
         });
 
-        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+        //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         return v;
     };
 

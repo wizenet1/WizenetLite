@@ -3,6 +3,7 @@ package com.Fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,19 +23,23 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
 import com.Activities.ActivityWebView;
 import com.Activities.R;
+import com.Adapters.CallsAdapter;
 import com.Adapters.CustomersAdapter;
 import com.Adapters.NamesAdapter;
 import com.Adapters.OrdersAdapter;
 
+import com.Classes.Call;
 import com.Classes.Order;
 import com.DatabaseHelper;
 import com.File_;
@@ -62,6 +67,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     Helper helper;
     TextView t1,t2,t3,t4,t5;
     LinearLayout calls_total,calls_open,calls_sla,calls_closed,calls_time;
+    private ProgressDialog pDialog;
 
 
 
@@ -72,6 +78,9 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mid_calls, null);
+        runDialog();
+        //spinner.setVisibility(View.VISIBLE);
+
         f = new File_();
         helper = new Helper();
         t1 = (TextView)  v.findViewById(R.id.t1);
@@ -84,7 +93,8 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         calls_sla = (LinearLayout) v.findViewById(R.id.calls_sla);
         calls_closed = (LinearLayout) v.findViewById(R.id.calls_closed);
         calls_time = (LinearLayout) v.findViewById(R.id.calls_time);
-        setTexts();
+        setDBcurrentCalls();
+
         call_Async_Wz_calls_Summary_Listener();
         calls_total.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +135,29 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         });
         return v;
     };
+    public void runDialog(){
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading... ");//Please wait...
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.wizenet_logo_big, null));
+
+        pDialog.show();
+    }
+    public void setDBcurrentCalls(){
+        if (helper.isNetworkAvailable(getContext())){
+            Model.getInstance().Async_Wz_Calls_List_Listener(getContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+                @Override
+                public void onResult(String str) {
+                    setTexts();
+                    pDialog.dismiss();
+                }
+            });
+        }else{
+            Toast.makeText(getContext(),"אינטרנט לא זמין", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void call_Async_Wz_calls_Summary_Listener(){
         try{
             Model.getInstance().Async_Wz_calls_Summary_Listener(helper.getMacAddr(), new Model.Wz_calls_Summary_Listener() {
@@ -152,9 +185,6 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         }catch(Exception e){
             helper.LogPrintExStackTrace(e);
         }
-
-
-
     }
     private void goToDashboardTechCalls(){
         Intent intent = new Intent(getContext(), ActivityWebView.class);
@@ -181,9 +211,9 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
        String txt1 = "";
         String txt2 = "";
         String txt3 = "";
-        txt1 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls");
-        txt2 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '0'");
-        txt3 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '1'");
+        txt1 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where statusid <> -1");
+        txt2 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '0' and  statusid <> -1");
+        txt3 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '1' and  statusid <> -1");
 
         t1.setText(txt1);
         t2.setText(txt2);

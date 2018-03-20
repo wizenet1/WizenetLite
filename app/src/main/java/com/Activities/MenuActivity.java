@@ -44,6 +44,7 @@ import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.Fragments.FragmentMessage;
+import com.Fragments.FragmentMidCalls;
 import com.GPSTracker;
 import com.Helper;
 import com.model.Model;
@@ -87,13 +88,13 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         Log.e("mytag","arrived to here");
 
-        setContentView(R.layout.top_bar);
+        setContentView(R.layout.activity_menu);
 
         // Initialize all the badges.
-        this.initializeBadgeDictionary();
+        //this.initializeBadgeDictionary();
 
         // Set the alert of homepage to 1.
-        this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
+        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         //getCallStatuses();
 
         //setHasOptionsMenu(false);
@@ -102,10 +103,10 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
         initilize();
         goToMenuFragment();
-        this.initImageButtons();
+        //this.initImageButtons();
 
-        View action_bar = (View)findViewById(R.id.top_action_bar);
-        action_bar.setVisibility(View.GONE);
+        //View action_bar = (View)findViewById(R.id.top_action_bar);
+        //action_bar.setVisibility(View.GONE);
     }
 
     protected void initImageButtons() {
@@ -385,7 +386,12 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            goToLinkFragment("bla");
         //}
         //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
-        Log.w("MainActivity", "onResume");
+        Log.e("mytag", "onResume MenuActivity");
+        FragmentMidCalls myFragment = (FragmentMidCalls)getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
+        if (myFragment != null && myFragment.isVisible()) {
+            myFragment.runDialog();
+            myFragment.setDBcurrentCalls();
+        }
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
             //goToMenuFragment();
         //}
@@ -397,6 +403,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onRestart() {
         super.onRestart();
+
 //        FragmentManager fm = getSupportFragmentManager();
 //        Fragment f = fm.findFragmentById(R.id.container);
 //        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
