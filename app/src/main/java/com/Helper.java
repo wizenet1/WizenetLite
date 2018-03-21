@@ -761,8 +761,10 @@ public class Helper {
                 String phone = jarray.getJSONObject(i).getString("Cphone");
                 String cell = jarray.getJSONObject(i).getString("Ccell");
                 String ccompany = jarray.getJSONObject(i).getString("Ccompany");
+                String address = jarray.getJSONObject(i).getString("address");
                 String cid = jarray.getJSONObject(i).getString("CID");
-                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany,cid);
+                //TODO add image to the constructor
+                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany, address, "",cid);
                 customersList[i] = c;
             }
         } catch (JSONException e1) {

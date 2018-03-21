@@ -17,6 +17,7 @@ import com.Icon_Manager;
  */
 public class FragmentCreateCustomer extends Fragment {
 
+    private Bundle customerArgumentsBundle;
 
     public FragmentCreateCustomer() {
         // Required empty public constructor
@@ -32,7 +33,17 @@ public class FragmentCreateCustomer extends Fragment {
         Context context = getContext();
         Icon_Manager iconManager = new Icon_Manager();
 
-        TextView backArrow = (TextView)view.findViewById(R.id.create_customer_arrow);
+        try {
+            //Try getting customer data from a Bundle.
+            this.customerArgumentsBundle = getArguments();
+
+            //If there were passed customer arguments, change to an editing layout.
+            changeLayoutToEditCustomer(view);
+
+        } catch (Exception e) {
+        }
+
+        TextView backArrow = (TextView) view.findViewById(R.id.create_customer_arrow);
         backArrow.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         backArrow.setTextSize(30);
         //Setting back arrow click listener.
@@ -52,39 +63,85 @@ public class FragmentCreateCustomer extends Fragment {
             }
         });
 
-        TextView customerProfileIcon = (TextView)view.findViewById(R.id.create_customer_profile_image);
+        //Customer profile.
+        TextView customerProfileIcon = (TextView) view.findViewById(R.id.create_customer_profile_image);
         customerProfileIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerProfileIcon.setTextSize(30);
 
-        TextView customerNameIcon = (TextView)view.findViewById(R.id.create_customer_name_icon);
+        //Customer name
+        TextView customerNameIcon = (TextView) view.findViewById(R.id.create_customer_name_icon);
         customerNameIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerNameIcon.setTextSize(30);
 
-        TextView customerCompanyIcon = (TextView)view.findViewById(R.id.create_customer_company_icon);
+        //Customer company
+        TextView customerCompanyIcon = (TextView) view.findViewById(R.id.create_customer_company_icon);
         customerCompanyIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerCompanyIcon.setTextSize(30);
 
-        TextView customerPositionIcon = (TextView)view.findViewById(R.id.create_customer_position_icon);
+        //Customer job position.
+        TextView customerPositionIcon = (TextView) view.findViewById(R.id.create_customer_position_icon);
         customerPositionIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerPositionIcon.setTextSize(30);
 
-        TextView customerCellIcon = (TextView)view.findViewById(R.id.create_customer_cell_icon);
+        //Customer cellphone.
+        TextView customerCellIcon = (TextView) view.findViewById(R.id.create_customer_cell_icon);
         customerCellIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerCellIcon.setTextSize(30);
 
-        TextView customerLandlineIcon = (TextView)view.findViewById(R.id.create_customer_landline_icon);
+        //Customer landline.
+        TextView customerLandlineIcon = (TextView) view.findViewById(R.id.create_customer_landline_icon);
         customerLandlineIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerLandlineIcon.setTextSize(30);
 
-        TextView customerAddressIcon = (TextView)view.findViewById(R.id.create_customer_address_icon);
+        //Customer address.
+        TextView customerAddressIcon = (TextView) view.findViewById(R.id.create_customer_address_icon);
         customerAddressIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerAddressIcon.setTextSize(30);
 
-        TextView customerEmailIcon = (TextView)view.findViewById(R.id.create_customer_email_icon);
+        //Customer email.
+        TextView customerEmailIcon = (TextView) view.findViewById(R.id.create_customer_email_icon);
         customerEmailIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerEmailIcon.setTextSize(30);
 
         return view;
+    }
+
+    private void changeLayoutToEditCustomer(View view){
+
+        String CID = this.customerArgumentsBundle.getString("CID");
+        String firstName = this.customerArgumentsBundle.getString("FirstName");
+        String lastName = this.customerArgumentsBundle.getString("LastName");
+        String company = this.customerArgumentsBundle.getString("Company");
+        String cell = this.customerArgumentsBundle.getString("Cell");
+        String landline = this.customerArgumentsBundle.getString("Phone");
+
+        //Change the welcome sign.
+        TextView welcomeTxt = (TextView) view.findViewById(R.id.create_customer_welcome_txt);
+        welcomeTxt.setText("עדכון לקוח");
+
+        //TODO add an actual profile image.
+
+        //Fill the input fields with the existing customer data.
+        TextView customerNameEditText = (TextView) view.findViewById(R.id.create_customer_name_editText);
+        customerNameEditText.setText(lastName + " " + firstName);//TODO should it be divided to two textviews?
+
+        TextView customerCompanyEditText = (TextView) view.findViewById(R.id.create_customer_company_editText);
+        customerCompanyEditText.setText(company);
+
+        TextView customerPositionEditText = (TextView) view.findViewById(R.id.create_customer_position_editText);
+        customerPositionEditText.setText("");//TODO delete if position is not needed
+
+        TextView customerCellEditText = (TextView) view.findViewById(R.id.create_customer_cell_editText);
+        customerCellEditText.setText(cell);
+
+        TextView customerLandlineEditText = (TextView) view.findViewById(R.id.create_customer_landline_editText);
+        customerLandlineEditText.setText(landline);
+
+        TextView customerAddressEditText = (TextView) view.findViewById(R.id.create_customer_address_editText);
+        customerAddressEditText.setText("");//TODO add customer address
+
+        TextView customerEmailEditText = (TextView) view.findViewById(R.id.create_customer_email_editText);
+        customerEmailEditText.setText("");//TODO add customer email
     }
 
 }

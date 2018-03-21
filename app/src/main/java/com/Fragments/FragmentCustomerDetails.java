@@ -3,6 +3,7 @@ package com.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.Activities.R;
 import com.Adapters.ExpandableListAdapter;
+import com.Classes.Ccustomer;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
@@ -32,11 +34,12 @@ public class FragmentCustomerDetails extends Fragment {
     private HashMap<String, List<String>> listHashComments;
     private List<String[]> listDataHeaderContacts;
     private HashMap<String, List<String>> listHashContacts;
+    private Bundle customerArgumentsBundle;
+
 
     public FragmentCustomerDetails() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,13 +49,13 @@ public class FragmentCustomerDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_customer_details, container, false);
 
         //Get customer data from given Bundle.
-        Bundle bundle = getArguments();
-        String CID = bundle.getString("CID");
-        String firstName = bundle.getString("FirstName");
-        String lastName = bundle.getString("LastName");
-        String company = bundle.getString("Company");
-        String cell = bundle.getString("Cell");
-        String phone = bundle.getString("Phone");
+        this.customerArgumentsBundle = getArguments();
+        String CID = this.customerArgumentsBundle.getString("CID");
+        String firstName = this.customerArgumentsBundle.getString("FirstName");
+        String lastName = this.customerArgumentsBundle.getString("LastName");
+        String company = this.customerArgumentsBundle.getString("Company");
+        String cell = this.customerArgumentsBundle.getString("Cell");
+        String phone = this.customerArgumentsBundle.getString("Phone");
 
         Icon_Manager iconManager = new Icon_Manager();
         final Context context = getContext();
@@ -151,12 +154,15 @@ public class FragmentCustomerDetails extends Fragment {
         });
 
         //Setting edit button icon.
-        TextView editButton = (TextView) view.findViewById(R.id.customer_details_button_edit);
-        editButton.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        editButton.setTextSize(20);
+        TextView editButtonIcon = (TextView) view.findViewById(R.id.customer_details_button_edit);
+        editButtonIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        editButtonIcon.setTextSize(20);
+
+        ConstraintLayout editButton = (ConstraintLayout) view.findViewById(R.id.customer_details_constraintLayout_edit_button);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                goToEditCustomerDetails();
             }
         });
 
@@ -172,9 +178,35 @@ public class FragmentCustomerDetails extends Fragment {
         this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
         this.expandableListViewContacts.setAdapter(this.listAdapter);
 
+        TextView sendSms = (TextView) view.findViewById(R.id.customer_details_sendsms);
+        sendSms.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        sendSms.setTextSize(30);
+
+        TextView gps = (TextView) view.findViewById(R.id.customers_details_gps);
+        gps.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        gps.setTextSize(30);
+
         return view;
     }
 
+    /**
+     * Goes to another page where the user can edit the customers details.
+     */
+    private void goToEditCustomerDetails() {
+
+        android.support.v4.app.FragmentManager fm = getFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentCreateCustomer fragmentCreateCustomer = new FragmentCreateCustomer();
+
+        //Pass the bundle which was earlier received from the customers list.
+        fragmentCreateCustomer.setArguments(this.customerArgumentsBundle);
+        ft.replace(R.id.container, fragmentCreateCustomer, "FragmentCreateCustomer");
+        ft.addToBackStack("FragmentCreateCustomer");
+        ft.commit();
+    }
+
+
+    //TODO delete this method
     private void initComments() {
 
         this.listDataHeaderComments = new ArrayList<>();
@@ -199,6 +231,7 @@ public class FragmentCustomerDetails extends Fragment {
 
     }
 
+    //TODO delete this method
     private void initContacts() {
 
         this.listDataHeaderContacts = new ArrayList<>();
