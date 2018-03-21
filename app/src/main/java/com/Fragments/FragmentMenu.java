@@ -106,7 +106,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
-        this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
+        //this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
 
         this.initializeBadgeDictionary(v);
 
@@ -118,12 +118,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 setNumber(this.getCallsListLength());
 
 
-        //THe list of items which are displayed in the side navigation menu.
-        this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
-
-        //Add the side navigation menu adapter.
-        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getContext());
-        sideNavigationListView.setAdapter(sideNavMenuAdapter);
+//        //THe list of items which are displayed in the side navigation menu.
+//        this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
+//
+//        //Add the side navigation menu adapter.
+//        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getContext());
+//        sideNavigationListView.setAdapter(sideNavMenuAdapter);
 
         //Top menu bar options image.
         ImageView menuBarOptionsImg = (ImageView) v.findViewById(R.id.menu_bar_options);
@@ -166,6 +166,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //Animation applied to menu icons to create click effect.
         final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
 
+        this.drawerLayout = (DrawerLayout)getActivity().findViewById(R.id.main_drawer_layout);
+
         menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,12 +175,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             }
         });
 
-        sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSideNavOptionsClick(view);
-            }
-        });
+//        sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onSideNavOptionsClick(view);
+//            }
+//        });
 
             id_customers.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -34,11 +34,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.Adapters.SideNavigationMenuAdapter;
 import com.Alarm_Receiver_Text_File;
 //import com.AlertBadgeEnum;
 import com.AlertBadgeEnum;
@@ -76,6 +78,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     String s_latitude = "";
 
     private DrawerLayout drawerLayout;
+    private ListView sideNavigationListView;
     // Alert badge. At the moment is static but in future will be dynamic.
     //Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
     //int homepageCount = 1;
@@ -87,11 +90,12 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     DatabaseHelper db;
     Helper helper = new Helper();
     String strBundle = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("mytag","arrived to here");
+        Log.e("mytag", "arrived to here");
 
         setContentView(R.layout.top_bar);
 
@@ -105,35 +109,44 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //setHasOptionsMenu(false);
 
         db = DatabaseHelper.getInstance(getApplicationContext());
-        manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
+        manager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
+
+        // TODO: Find the id.
+        this.drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+
+        //THe list of items which are displayed in the side navigation menu.
+        this.sideNavigationListView = (ListView) findViewById(R.id.side_nav_list);
+
+        //Add the side navigation menu adapter.
+        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getApplicationContext(),
+                getSupportFragmentManager(), drawerLayout);
+        sideNavigationListView.setAdapter(sideNavMenuAdapter);
+
         initilize();
         goToMenuFragment();
         this.initImageButtons();
 
-        View action_bar = (View)findViewById(R.id.top_action_bar);
+        View action_bar = (View) findViewById(R.id.top_action_bar);
         action_bar.setVisibility(View.GONE);
     }
 
     protected void initImageButtons() {
 
         // Get the nav_bar view.
-        final RelativeLayout outer = (RelativeLayout)findViewById(R.id.nav_bar);
+        final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
 
         // Init the homepage button.
-        final ImageView homepage = (ImageView)outer.findViewById(R.id.homepage);
+        final ImageView homepage = (ImageView) outer.findViewById(R.id.homepage);
         // Init the clients button.
-        final ImageView clients = (ImageView)outer.findViewById(R.id.clients);
+        final ImageView clients = (ImageView) outer.findViewById(R.id.clients);
         // Init the message.
-        final ImageView messages = (ImageView)outer.findViewById(R.id.messages);
+        final ImageView messages = (ImageView) outer.findViewById(R.id.messages);
         // Init the calls.
-        final ImageView calls = (ImageView)outer.findViewById(R.id.help);
+        final ImageView calls = (ImageView) outer.findViewById(R.id.help);
         // Init the arrows.
-        final ImageView arrows = (ImageView)outer.findViewById(R.id.arrows);
+        final ImageView arrows = (ImageView) outer.findViewById(R.id.arrows);
         // Init side menu image.
-        final ImageView sideMenu = (ImageView)outer.findViewById(R.id.action_image);
-
-        // TODO: Find the id.
-        //this.drawerLayout = (DrawerLayout)findViewById(R.id.menu_drawer_layout);
+        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
 
         // TODO: Opens side menu.
         sideMenu.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +161,17 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
 
-                //this.drawerLayout.openDrawer(Gravity.START);
+                onMenuBarOptionsClick(v);
 
+            }
+        });
+
+        ImageView sideNavHeaderOptionsImg = (ImageView) findViewById(R.id.side_nav_header_options);
+
+        sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSideNavOptionsClick(view);
             }
         });
 
@@ -164,7 +186,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenu fragMenu = new FragmentMenu();
-                ft.replace(R.id.container, fragMenu,"FragmentMenu");
+                ft.replace(R.id.container, fragMenu, "FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
             }
@@ -181,7 +203,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCustomer fragCustomer = new FragmentCustomer();
-                ft.replace(R.id.container, fragCustomer,"FragmentCustomer");
+                ft.replace(R.id.container, fragCustomer, "FragmentCustomer");
                 ft.addToBackStack("FragmentCustomer");
                 ft.commit();
                 clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -200,7 +222,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage fragMessage = new FragmentMessage();
-                ft.replace(R.id.container, fragMessage,"FragmentMessage");
+                ft.replace(R.id.container, fragMessage, "FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
                 messages.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -233,7 +255,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCalls fragCalls = new FragmentCalls();
-                ft.replace(R.id.container, fragCalls,"FragmentCalls");
+                ft.replace(R.id.container, fragCalls, "FragmentCalls");
                 ft.addToBackStack("FragmentCalls");
                 ft.commit();
 
@@ -282,9 +304,29 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //        }
 //    }
 
-    private void initilize(){
-        try{
-            try{
+    /**
+     * Opens the side navigation menu from the left.
+     *
+     * @param view view
+     */
+    public void onMenuBarOptionsClick(View view) {
+
+        this.drawerLayout.openDrawer(Gravity.START);
+    }
+
+    /**
+     * Closes the side navigation menu.
+     *
+     * @param view view
+     */
+    public void onSideNavOptionsClick(View view) {
+
+        this.drawerLayout.closeDrawer(Gravity.START);
+    }
+
+    private void initilize() {
+        try {
+            try {
                 if (db.getValueByKey("BACKGROUND").equals("1")) {
                     Intent alarm = new Intent(MenuActivity.this, Alarm_Receiver.class);
                     boolean alarmRunning = (PendingIntent.getBroadcast(MenuActivity.this, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
@@ -295,7 +337,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
                     }
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 helper.LogPrintExStackTrace(ex);
             }
 
@@ -305,54 +347,55 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             //################################
             if (db.getValueByKey("BACKGROUND").equals("1")) {
                 startService_text();
-                Log.e("MYTAG","thread started");
-            }else{
+                Log.e("MYTAG", "thread started");
+            } else {
                 stopService_text();
             }
 
 
-
-            if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && (db.getValueByKey("GPS").equals("1"))){
+            if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && (db.getValueByKey("GPS").equals("1"))) {
                 startRepeatingTask();
-            }else if((!manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) && (db.getValueByKey("GPS").equals("1"))) {
+            } else if ((!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) && (db.getValueByKey("GPS").equals("1"))) {
                 stopRepeatingTask();
                 Toast.makeText(getApplicationContext(), "gps not available", Toast.LENGTH_LONG).show();
                 db.updateValue("GPS", "0");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             helper.LogPrintExStackTrace(ex);
-            Log.e("mytag",ex.getMessage());
+            Log.e("mytag", ex.getMessage());
         }
     }
 
-    public void myFunc(){
-    // CLEAR BACK STACK.
+    public void myFunc() {
+        // CLEAR BACK STACK.
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        while (fragmentManager.getBackStackEntryCount() ==1) {
+        while (fragmentManager.getBackStackEntryCount() == 1) {
             fragmentManager.popBackStackImmediate();
 
+        }
+        //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        //((YourActivityClassName)getActivity()).yourPublicMethod();
     }
-    //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    //((YourActivityClassName)getActivity()).yourPublicMethod();
-}
-    private void stopService_text(){
+
+    private void stopService_text() {
         Intent intent = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
         PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
     }
-    private void startService_text(){
-        try{
+
+    private void startService_text() {
+        try {
             Intent alarm = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
             boolean alarmRunning = (PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-            if(alarmRunning == false) {
+            if (alarmRunning == false) {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 // TODO: 05/09/2016  just note the time is every 5 minutes
-                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),240000, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             helper.LogPrintExStackTrace(e);
         }
 
@@ -373,7 +416,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 public void onResult(String str) {
                     //Log.e("myTag","return from asyncStatus: " +str);
                     if (str.equals("1")) {
-                        Log.e("myTag","AsyncStatus: "+ s_latitude + ":" + s_longtitude);
+                        Log.e("myTag", "AsyncStatus: " + s_latitude + ":" + s_longtitude);
                         writeTextToFileGPS(s_latitude + ":" + s_longtitude);
                         //Toast.makeText(getApplicationContext(), s_latitude + ":" + s_longtitude, Toast.LENGTH_LONG).show();
                     } else {
@@ -386,16 +429,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         }
     };
 
-    public void goToMenuFragment(){
+    public void goToMenuFragment() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         FragmentMenu frag = new FragmentMenu();
-        ft.replace(R.id.container,frag,"FragmentMenu");
+        ft.replace(R.id.container, frag, "FragmentMenu");
 
         ft.addToBackStack("FragmentMenu");
         ft.commit();
     }
-
 
 
     @Override
@@ -407,24 +449,24 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         Fragment topFragment = fragmentManager.findFragmentById(R.id.container);
 
-        if(fm.getBackStackEntryCount() == 2){
+        if (fm.getBackStackEntryCount() == 2) {
             //if(!topFragment.getTag().equals("xyz")){
 
-                Log.e("mytag","fm.getBackStackEntryCount())==2: " +String.valueOf(fm.getBackStackEntryCount()));
+            Log.e("mytag", "fm.getBackStackEntryCount())==2: " + String.valueOf(fm.getBackStackEntryCount()));
 
-                fm.popBackStack();
-                //goToMenuFragment();
+            fm.popBackStack();
+            //goToMenuFragment();
             //}else{
             //    finish();
             //}
             //fm.popBackStack();
-        }else if (fm.getBackStackEntryCount()==1){
-            Log.e("mytag","fm.getBackStackEntryCount())==1:"+String.valueOf(fm.getBackStackEntryCount()));
+        } else if (fm.getBackStackEntryCount() == 1) {
+            Log.e("mytag", "fm.getBackStackEntryCount())==1:" + String.valueOf(fm.getBackStackEntryCount()));
             finish();
             //AlertDialoLogOut();
             //alertDialogExit();
-        }else{
-            Log.e("mytag","fm.getBackStackEntryCount()else:"+String.valueOf(fm.getBackStackEntryCount()));
+        } else {
+            Log.e("mytag", "fm.getBackStackEntryCount()else:" + String.valueOf(fm.getBackStackEntryCount()));
             fm.popBackStack();
             //goToMenuFragment();
         }
@@ -450,20 +492,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //}
         //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
         Log.e("mytag", "onResume MenuActivity");
-        FragmentMidCalls myFragment = (FragmentMidCalls)getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
+        FragmentMidCalls myFragment = (FragmentMidCalls) getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
         if (myFragment != null && myFragment.isVisible()) {
             myFragment.setDBcurrentCalls();
-            if (helper.isNetworkAvailable(getApplicationContext())){
+            if (helper.isNetworkAvailable(getApplicationContext())) {
                 myFragment.call_Async_Wz_calls_Summary_Listener();
                 myFragment.runDialog();
                 myFragment.pDialog.dismiss();
-            }else{
+            } else {
                 myFragment.setTexts();
             }
 
         }
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
-            //goToMenuFragment();
+        //goToMenuFragment();
         //}
     }
 
@@ -481,7 +523,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            goToLinkFragment("bla");
 //        }
 
-       // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
+        // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
     }
 
 
@@ -553,13 +595,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //                break;
 //            case R.id.BarCode:
 
-                //getSupportFragmentManager().beginTransaction().
-                //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
-               // break;
+            //getSupportFragmentManager().beginTransaction().
+            //        remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
+            // break;
         }
         return (super.onOptionsItemSelected(item));
     }
-    public  String toString(StackTraceElement[] stackTraceElements) {
+
+    public String toString(StackTraceElement[] stackTraceElements) {
         if (stackTraceElements == null)
             return "";
         StringBuilder stringBuilder = new StringBuilder();
@@ -567,8 +610,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             stringBuilder.append(element.toString()).append("\n");
         return stringBuilder.toString();
     }
-    protected void AlertDialoLogOut(){
-        try{
+
+    protected void AlertDialoLogOut() {
+        try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
             builder.setTitle("יציאה");
             builder.setMessage("האם ברצונך לצאת?");
@@ -579,8 +623,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //                android.os.Process.killProcess(pid);
                 }
             });
-            builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                    {
+            builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int ii) {
                             dialog.dismiss();
                         }
@@ -588,15 +631,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             );
 
             builder.show();
-        }catch (Exception e){
-            Log.e("mytag",e.getMessage());
-            Log.e("mytag",toString(e.getStackTrace()));
+        } catch (Exception e) {
+            Log.e("mytag", e.getMessage());
+            Log.e("mytag", toString(e.getStackTrace()));
         }
 
     }
 
 
-    public void alertDialog(String content){
+    public void alertDialog(String content) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MenuActivity.this);
         alertDialog.setTitle("סריקת ברקוד");
         //alertDialog.setMessage("b c d");
@@ -611,23 +654,23 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //alertDialog.setIcon(R.drawable.btn_login);
 
         //alertDialog.setPositiveButton("YES",
-               // new DialogInterface.OnClickListener() {
-                //    public void onClick(DialogInterface dialog, int which) {
-                        //password = input.getText().toString();
-                        //if (password.compareTo("") == 0) {
-                        //    if (pass.equals(password)) {
-                        //        Toast.makeText(getApplicationContext(),
-                        //                "Password Matched", Toast.LENGTH_SHORT).show();
-                        //        Intent myIntent1 = new Intent(view.getContext(),
-                        //                Show.class);
-                        //       startActivityForResult(myIntent1, 0);
-                        //    } else {
-                        //        Toast.makeText(getApplicationContext(),
-                         //               "Wrong Password!", Toast.LENGTH_SHORT).show();
-                         //   }
-                        //}
-                    //}
-               // });
+        // new DialogInterface.OnClickListener() {
+        //    public void onClick(DialogInterface dialog, int which) {
+        //password = input.getText().toString();
+        //if (password.compareTo("") == 0) {
+        //    if (pass.equals(password)) {
+        //        Toast.makeText(getApplicationContext(),
+        //                "Password Matched", Toast.LENGTH_SHORT).show();
+        //        Intent myIntent1 = new Intent(view.getContext(),
+        //                Show.class);
+        //       startActivityForResult(myIntent1, 0);
+        //    } else {
+        //        Toast.makeText(getApplicationContext(),
+        //               "Wrong Password!", Toast.LENGTH_SHORT).show();
+        //   }
+        //}
+        //}
+        // });
 
         alertDialog.setNegativeButton("סגור",
                 new DialogInterface.OnClickListener() {
@@ -638,38 +681,38 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         alertDialog.show();
     }
-    public void alertDialogExit(){
+
+    public void alertDialogExit() {
 
         int len = 0;
         int count = 0;
-        try{
+        try {
             // ---------client products first time ------------
             //-------------------------------------------------
             List<String> listCIDS = new ArrayList<String>();
-            listCIDS=helper.getCIDSlist();
+            listCIDS = helper.getCIDSlist();
             len = listCIDS.size();
             //-------------------------------------------------
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/client_products");
+            File myFile = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/client_products");
             File[] list = myFile.listFiles();
             if (list.length == 0) {
                 count = 0;
-            }else
-            {
-                for (File ff: list){
+            } else {
+                for (File ff : list) {
                     String name = ff.getName();
                     if (name.endsWith(".txt"))
                         count++;
                 }
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
         }
-        Log.e("mytag","count:" + count + " len:" + len );
-        if (count >0 && (count != len)){
+        Log.e("mytag", "count:" + count + " len:" + len);
+        if (count > 0 && (count != len)) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(MenuActivity.this);
             alertDialog.setTitle("יציאה");
-            alertDialog.setMessage("פעולת הסנכרון לא הושלמה, "+count+ "מתוך" +len + "סונכרנו," +"האם תרצ/י לצאת בכל זאת?");
+            alertDialog.setMessage("פעולת הסנכרון לא הושלמה, " + count + "מתוך" + len + "סונכרנו," + "האם תרצ/י לצאת בכל זאת?");
 
             final EditText input = new EditText(MenuActivity.this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -696,7 +739,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                     });
 
             alertDialog.show();
-        }else{
+        } else {
             finish();
         }
         //
@@ -708,20 +751,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     //###################################
     //WRITE URL TO FILE
     //###################################
-    public void writeTextToFileGPS(String param){
+    public void writeTextToFileGPS(String param) {
         FileWriter f;
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/GPS_RECORDS.txt");
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/GPS_RECORDS.txt");
         try {
-            f = new FileWriter(file,true);
-            if(!file.exists()) {
+            f = new FileWriter(file, true);
+            if (!file.exists()) {
                 file.createNewFile();
             }
-            f.write("\r\n"+param);
+            f.write("\r\n" + param);
             f.flush();
             f.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.e("myTag",e.toString());
+            Log.e("myTag", e.toString());
         }
     }
 
