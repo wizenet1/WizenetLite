@@ -2,15 +2,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/lightGray"></solid>
-            <size android:width="20dp" android:height="20dp"></size>
+            <solid android:color="@color/red"></solid>
+            <size android:width="30dp" android:height="30dp"></size>
         </shape>
     </item>
 
     <item android:bottom="1dp" android:right="0.5dp">
         <shape android:shape="oval">
-            <solid android:color="@color/colorGray"></solid>
-            <size android:width="20dp" android:height="20dp"></size>
+            <solid android:color="@color/red"></solid>
+            <size android:width="30dp" android:height="30dp"></size>
         </shape>
     </item>
 
