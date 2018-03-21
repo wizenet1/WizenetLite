@@ -134,6 +134,30 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:gravity="center"
+            android:text="הצג חלון סיכום קריאות"
+            android:textSize="8pt"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chk_calls_summary"
+            android:layout_weight="0.5" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:visibility="gone"

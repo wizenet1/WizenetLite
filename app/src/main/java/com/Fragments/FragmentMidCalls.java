@@ -40,6 +40,7 @@ import com.Adapters.NamesAdapter;
 import com.Adapters.OrdersAdapter;
 
 import com.Classes.Call;
+import com.Classes.Call_offline;
 import com.Classes.Order;
 import com.DatabaseHelper;
 import com.File_;
@@ -67,7 +68,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     Helper helper;
     TextView t1,t2,t3,t4,t5;
     LinearLayout calls_total,calls_open,calls_sla,calls_closed,calls_time;
-    private ProgressDialog pDialog;
+    public ProgressDialog pDialog;
 
 
 
@@ -78,11 +79,22 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mid_calls, null);
-        runDialog();
-        //spinner.setVisibility(View.VISIBLE);
 
         f = new File_();
         helper = new Helper();
+        try{
+            //send and update offline when online back
+            ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
+            arr_Call_offline = initOnline();
+            sendCallsOffline(getContext(),arr_Call_offline);
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+        runDialog();
+        //spinner.setVisibility(View.VISIBLE);
+
+
         t1 = (TextView)  v.findViewById(R.id.t1);
         t2 = (TextView)  v.findViewById(R.id.t2);
         t3 = (TextView)  v.findViewById(R.id.t3);
@@ -93,9 +105,15 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         calls_sla = (LinearLayout) v.findViewById(R.id.calls_sla);
         calls_closed = (LinearLayout) v.findViewById(R.id.calls_closed);
         calls_time = (LinearLayout) v.findViewById(R.id.calls_time);
-        setDBcurrentCalls();
+        setDBcurrentCalls();//first add from service and then load from db
+        if (helper.isNetworkAvailable(getContext())) {
+            call_Async_Wz_calls_Summary_Listener();
+        }else{
+            setTexts();
+        }
 
-        call_Async_Wz_calls_Summary_Listener();
+        pDialog.dismiss();
+
         calls_total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,13 +176,50 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
             Toast.makeText(getContext(),"אינטרנט לא זמין", Toast.LENGTH_SHORT).show();
         }
     }
-    private void call_Async_Wz_calls_Summary_Listener(){
+    private void sendCallsOffline(final Context ctx1,ArrayList<Call_offline> arr_Call_offline){
+        if (helper.isNetworkAvailable(ctx1)){
+            Log.e("mytag","size: " + arr_Call_offline.size());
+            if (arr_Call_offline.size()>0){
+                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx1).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        if (str.contains("0")){
+                            DatabaseHelper.getInstance(ctx1).deleteAllCall_offline();
+                            //change();
+                        }
+                        Log.e("mytag","return:" +str);
+                    }
+                });
+            }else{
+                //change();
+            }
+        }
+    }
+    private ArrayList<Call_offline> initOnline(){
+        ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
+        try{
+            arr_Call_offline = new ArrayList<Call_offline>(DatabaseHelper.getInstance(getContext()).getCall_offline());
+            for (Call_offline co:arr_Call_offline) {
+                Log.e("mytag","Call_offline: " + co.toString());
+            }
+            if (arr_Call_offline.size() > 0 ){
+                Log.e("mytag","json: " + DatabaseHelper.getInstance(getContext()).getJsonResults());
+
+            }
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
+            Log.e("mytag","11:" +e.getMessage());
+        }
+        return arr_Call_offline;
+    }
+    public void call_Async_Wz_calls_Summary_Listener(){
         try{
             Model.getInstance().Async_Wz_calls_Summary_Listener(helper.getMacAddr(), new Model.Wz_calls_Summary_Listener() {
                 @Override
                 public void onResult(String str) {
                     try {
                         JSONObject j = null;
+                        Log.e("mytag","str:" + str);
                         j = new JSONObject(str);
                         //get the array [...] in json
                         JSONArray jarray = j.getJSONArray("Wz_calls_Summary");
@@ -207,7 +262,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         startActivity(intent);
     }
 
-    private void setTexts(){
+    public void setTexts(){
        String txt1 = "";
         String txt2 = "";
         String txt3 = "";
