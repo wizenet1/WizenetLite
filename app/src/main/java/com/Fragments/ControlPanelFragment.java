@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +23,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Alarm_Receiver;
 import com.Classes.ControlPanel;
+import com.Classes.Favorite;
 import com.DatabaseHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +50,13 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
     CustomAdapter adapter;
     List<ControlPanel> data2 = new ArrayList<ControlPanel>() ;
     String dataName;
-    CheckBox cb,running_cb,chk_sync_products,chk_remember;
+    CheckBox cb,running_cb,chk_sync_products,chk_remember,chk_calls_summary;
     LocationManager manager = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = DatabaseHelper.getInstance(getContext());
+        getFavorite();
         View v = inflater.inflate(R.layout.panel_control_fragment, null);
         setHasOptionsMenu(true);
         manager = (LocationManager)getActivity().getSystemService(getActivity().LOCATION_SERVICE);
@@ -58,20 +66,37 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
         db = DatabaseHelper.getInstance(getContext());
         chk_sync_products = (CheckBox) v.findViewById(R.id.chk_sync_products) ;
         chk_remember = (CheckBox) v.findViewById(R.id.chk_remember) ;
-
+        chk_calls_summary= (CheckBox) v.findViewById(R.id.chk_calls_summary) ;
 
         boolean isBackground = db.getValueByKey("BACKGROUND").equals("1");
         boolean isGPS = db.getValueByKey("GPS").equals("1");
         boolean isSyncProducts = db.getValueByKey("CLIENT_SYNC_PRODUCTS").equals("1");
         boolean isRemember = db.getValueByKey("AUTO_LOGIN").equals("1");
+        boolean isCallsSummary = db.getValueByKey("APPS_CALLS_SUMMARY").equals("1");
+
 
 
         running_cb.setChecked(isBackground);
         cb.setChecked(isGPS);
         chk_sync_products.setChecked(isSyncProducts);
         chk_remember.setChecked(isRemember);
+        chk_calls_summary.setChecked(isCallsSummary);
 
-
+        chk_calls_summary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!chk_calls_summary.isChecked()){ //if true (running)
+                    db.updateValue("APPS_CALLS_SUMMARY","0");
+                    Toast.makeText(getActivity(),"stop APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
+                    Log.e("myTag","stop APPS_CALLS_SUMMARY");
+                }else{
+                    db.updateValue("APPS_CALLS_SUMMARY","1");
+                    Log.e("myTag","start APPS_CALLS_SUMMARY");
+                    Toast.makeText(getActivity(),"Start APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
+                    //}
+                }
+            }
+        });
         running_cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +191,7 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
             }
         });
 
-        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+        //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         return v;
     };
 
@@ -225,7 +250,69 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
 
     }
 
+    public void getFavorite(){
 
+
+
+
+        String jsonArray = String.valueOf(DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("ControlPanel"));
+        Log.e("mytag",jsonArray);
+        return ;
+        //JSONObject j = null;
+//        try {
+//            j = new JSONObject();
+//            //get the array [...] in json
+//            JSONArray jarray = j.getJSONArray(jsonArray);//"Wz_retClientFavorites");
+//            //FavoriteList = new Favorite[jarray.length()];
+//            //customersList = new Ccustomer[jarray.length()];
+//            for (int i = 0; i < jarray.length(); i++) {
+//                //JSONObject object = jarray.getJSONObject(i);
+//                String FID = jarray.getJSONObject(i).getString("FID");
+//                String CID = jarray.getJSONObject(i).getString("CID");
+//                String pageTitle = jarray.getJSONObject(i).getString("pageTitle");
+//                String pageUrl = jarray.getJSONObject(i).getString("pageUrl");
+//
+//                Favorite c = new Favorite(FID,CID,pageTitle,pageUrl);
+//                //FavoriteList[i] = c;
+//            }
+//        } catch (JSONException e1) {
+//            //helper.LogPrintExStackTrace(e1);
+//            e1.printStackTrace();
+//        }
+//
+//        final int N = FavoriteList.length ; // total number of textviews to add
+//
+//        //final TextView[] myTextViews = new TextView[N]; // create an empty array;
+//
+//        for (final Favorite f: FavoriteList) {
+//            //Log.e("mytag",f.toString());
+//            final TextView rowTextView = new TextView(getContext());
+//            rowTextView.setText(f.getPageTitle());
+//            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+//            rowTextView.setTextSize(20);
+//            //rowTextView.setHeight(30);
+//
+//            // add the textview to the linearlayout
+//            layout.addView(rowTextView);
+//            rowTextView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(getContext(), ActivityWebView.class);
+//                    Bundle b = new Bundle();
+//                    b.putInt("callid", -1);
+//                    b.putInt("cid", -1);
+//                    b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
+//                    b.putString("action","dynamic");
+//                    b.putString("specialurl", f.getPageUrl());
+//                    intent.putExtras(b);
+//                    startActivity(intent);
+//                }
+//            });
+//        }
+//
+//
+//        return FavoriteList;
+    }
 
     class CustomAdapter extends BaseAdapter {
         @Override

@@ -65,7 +65,7 @@ TextView lblcount;
     String condition = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("mytag","fdgsaghgh");
+        //Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
 
 
@@ -80,8 +80,8 @@ TextView lblcount;
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
         Icon_Manager icon_manager = new Icon_Manager();
 
-
-
+        String callsJson = db.getJsonResultsFromTable("mgnet_calls").toString();
+        Log.e("mytag",callsJson);
 
 
 
@@ -303,10 +303,36 @@ TextView lblcount;
         Log.e("mytag","condition: " + condition);
 
         Log.e("mytag","onResume");
-        //DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
+
+        ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
+        arr_Call_offline = initOnline();
+        init();
+        sendCallsOffline(ctx,arr_Call_offline);
+
+    }
+    private void sendCallsOffline(final Context ctx1,ArrayList<Call_offline> arr_Call_offline){
+        if (helper.isNetworkAvailable(ctx)){
+            Log.e("mytag","size: " + arr_Call_offline.size());
+            if (arr_Call_offline.size()>0){
+                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        if (str.contains("0")){
+                            DatabaseHelper.getInstance(ctx1).deleteAllCall_offline();
+                            //change();
+                        }
+                        Log.e("mytag","return:" +str);
+                    }
+                });
+            }else{
+                change();
+            }
+        }
+    }
+    private ArrayList<Call_offline> initOnline(){
         ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
         try{
-             arr_Call_offline = new ArrayList<Call_offline>(DatabaseHelper.getInstance(ctx).getCall_offline());
+            arr_Call_offline = new ArrayList<Call_offline>(DatabaseHelper.getInstance(ctx).getCall_offline());
             for (Call_offline co:arr_Call_offline) {
                 Log.e("mytag","Call_offline: " + co.toString());
             }
@@ -318,29 +344,7 @@ TextView lblcount;
             helper.LogPrintExStackTrace(e);
             Log.e("mytag","11:" +e.getMessage());
         }
-
-
-        init();
-        Log.e("mytag","onResume2");
-        if (helper.isNetworkAvailable(ctx)){
-            Log.e("mytag","size: " + arr_Call_offline.size());
-            if (arr_Call_offline.size()>0){
-                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
-                    @Override
-                    public void onResult(String str) {
-                        if (str.contains("0")){
-                            DatabaseHelper.getInstance(ctx).deleteAllCall_offline();
-                            //change();
-                        }
-                        Log.e("mytag","return:" +str);
-                    }
-                });
-            }else{
-                change();
-            }
-
-
-        }
+        return arr_Call_offline;
     }
     public  void change(){
 

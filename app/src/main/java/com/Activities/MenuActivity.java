@@ -8,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -44,6 +46,7 @@ import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.Fragments.FragmentMessage;
+import com.Fragments.FragmentMidCalls;
 import com.GPSTracker;
 import com.Helper;
 import com.model.Model;
@@ -109,13 +112,51 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     }
 
     protected void initImageButtons() {
+
         // Get the nav_bar view.
-        RelativeLayout outer = (RelativeLayout)findViewById(R.id.nav_bar);
+        final RelativeLayout outer = (RelativeLayout)findViewById(R.id.nav_bar);
 
         // Init the homepage button.
-        ImageButton homepage = (ImageButton)outer.findViewById(R.id.homepage);
+        final ImageView homepage = (ImageView)outer.findViewById(R.id.homepage);
+        // Init the clients button.
+        final ImageView clients = (ImageView)outer.findViewById(R.id.clients);
+        // Init the message.
+        final ImageView messages = (ImageView)outer.findViewById(R.id.messages);
+        // Init the calls.
+        final ImageView calls = (ImageView)outer.findViewById(R.id.help);
+        // Init the arrows.
+        final ImageView arrows = (ImageView)outer.findViewById(R.id.arrows);
+        // Init side menu image.
+        final ImageView sideMenu = (ImageView)outer.findViewById(R.id.action_image);
+
+        // TODO: Opens side menu.
+        sideMenu.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMenu fragMenu = new FragmentMenu();
+                ft.replace(R.id.container, fragMenu,"FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+
+            }
+        });
+
         homepage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenu fragMenu = new FragmentMenu();
@@ -125,34 +166,45 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
         });
 
-        // Init the clients button.
-        ImageButton clients = (ImageButton)outer.findViewById(R.id.clients);
+
         clients.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCustomer fragCustomer = new FragmentCustomer();
                 ft.replace(R.id.container, fragCustomer,"FragmentCustomer");
                 ft.addToBackStack("FragmentCustomer");
                 ft.commit();
+                clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
         });
 
-        // Init the message.
-        ImageButton messages = (ImageButton)outer.findViewById(R.id.messages);
+
         messages.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage fragMessage = new FragmentMessage();
                 ft.replace(R.id.container, fragMessage,"FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
+                messages.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
         });
 
         // TODO: What fragment is this.
-//        ImageButton calls = (ImageButton)outer.findViewById(R.id.help);
+//        ImageView calls = (ImageView)outer.findViewById(R.id.help);
 //        calls.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
 //                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -164,16 +216,24 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            }
 //        });
 
-        // Init the calls.
-        ImageButton calls = (ImageButton)outer.findViewById(R.id.help);
+
         calls.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCalls fragCalls = new FragmentCalls();
                 ft.replace(R.id.container, fragCalls,"FragmentCalls");
                 ft.addToBackStack("FragmentCalls");
                 ft.commit();
+
+                calls.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
         });
 
@@ -385,7 +445,19 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //            goToLinkFragment("bla");
         //}
         //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
-        Log.w("MainActivity", "onResume");
+        Log.e("mytag", "onResume MenuActivity");
+        FragmentMidCalls myFragment = (FragmentMidCalls)getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
+        if (myFragment != null && myFragment.isVisible()) {
+            myFragment.setDBcurrentCalls();
+            if (helper.isNetworkAvailable(getApplicationContext())){
+                myFragment.call_Async_Wz_calls_Summary_Listener();
+                myFragment.runDialog();
+                myFragment.pDialog.dismiss();
+            }else{
+                myFragment.setTexts();
+            }
+
+        }
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
             //goToMenuFragment();
         //}
@@ -397,6 +469,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onRestart() {
         super.onRestart();
+
 //        FragmentManager fm = getSupportFragmentManager();
 //        Fragment f = fm.findFragmentById(R.id.container);
 //        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));

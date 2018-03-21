@@ -97,17 +97,23 @@ public class MainActivity extends Activity {
                 Toast.makeText(getBaseContext(),"עודכן בהצלחה", Toast.LENGTH_SHORT).show();
                 Log.e("mytag", String.valueOf(DatabaseHelper.getInstance(ctx).columnExistsInTable("mgnet_calls","sla")));
                 //-----------add new column in mgnet_calls if not exist
-                if (!DatabaseHelper.getInstance(ctx).columnExistsInTable("mgnet_calls","sla")){
-                    Log.e("mytag","dd");
-
-                   Boolean flag = false;
-                    flag = DatabaseHelper.getInstance(ctx).createColumnToCalls("sla",isCallsEsixts);
-                    Log.e("mytag","sla exists?: "+ flag.toString());
-                    if (flag == true){
-                        Log.e("mytag","success add sla");
-                    }else{Log.e("mytag","failed");}
-                    //Log.e("mytag","");//DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString()
+                boolean isSlaColAdded = false;
+                isSlaColAdded = addColumnToTable("mgnet_calls","sla",isCallsEsixts);
+                if (isSlaColAdded == true){
+                    Log.e("mytag","isSlaColAdded success");
+                }else{
+                    Log.e("mytag","isSlaColAdded already in");
                 }
+
+                boolean isAppsColAdded = DatabaseHelper.getInstance(getApplicationContext()).checkIfKeyExistsCP("APPS_CALLS_SUMMARY");
+                Log.e("mytag","isAppsColAdded : " + isAppsColAdded);
+
+                if (isAppsColAdded == false){
+                    DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
+                    Log.e("mytag","isAppsColAdded success");
+                }
+
+
                 ///////////////////
             }
         });
@@ -258,6 +264,26 @@ public class MainActivity extends Activity {
 
         }
     }
+    private boolean addColumnToTable(String table,String column,boolean isTableExist){
+        boolean flag = false;
+        if (!DatabaseHelper.getInstance(ctx).columnExistsInTable(table,column)){
+            if (table == "mgnet_calls"){
+                flag = DatabaseHelper.getInstance(ctx).createColumnToCalls(column,isTableExist);
+            }else if(table == "ControlPanel"){
+                flag = DatabaseHelper.getInstance(ctx).createColumnToCP(column,isTableExist);
+            }
+
+            Log.e("mytag","" + column + " exists?: "+ flag);
+            if (flag == true){
+                Log.e("mytag","success add " + column + "");
+            }else{Log.e("mytag","failed");}
+            //Log.e("mytag","");//DatabaseHelper.getInstance(ctx).getJsonResultsStatuses().toString()
+
+    }
+        return flag;
+    }
+
+
 
     protected void checkPermissionForReadWriteStorage() {
 
