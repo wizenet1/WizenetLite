@@ -23,7 +23,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,10 +75,11 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     String s_longtitude = "";
     String s_latitude = "";
 
+    private DrawerLayout drawerLayout;
     // Alert badge. At the moment is static but in future will be dynamic.
-    Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
-    int homepageCount = 1;
-    int customerCount = 2;
+    //Map<AlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<AlertBadgeEnum, NotificationBadge>();
+    //int homepageCount = 1;
+    //int customerCount = 2;
 
     private Context context;
     LocationManager manager = null;
@@ -93,10 +96,10 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         setContentView(R.layout.top_bar);
 
         // Initialize all the badges.
-        this.initializeBadgeDictionary();
+        //this.initializeBadgeDictionary();
 
         // Set the alert of homepage to 1.
-        this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
+        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
         //getCallStatuses();
 
         //setHasOptionsMenu(false);
@@ -129,6 +132,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         // Init side menu image.
         final ImageView sideMenu = (ImageView)outer.findViewById(R.id.action_image);
 
+        // TODO: Find the id.
+        //this.drawerLayout = (DrawerLayout)findViewById(R.id.menu_drawer_layout);
+
         // TODO: Opens side menu.
         sideMenu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -141,10 +147,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentMenu fragMenu = new FragmentMenu();
-                ft.replace(R.id.container, fragMenu,"FragmentMenu");
-                ft.addToBackStack("FragmentMenu");
-                ft.commit();
+
+                //this.drawerLayout.openDrawer(Gravity.START);
 
             }
         });
@@ -242,41 +246,41 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     /**
      * Initializes all the badges in the action bar and main menu.
      */
-    private void initializeBadgeDictionary() {
-
-        // Set all the badges objects.
-        for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
-
-            // Get nav_bar layout.
-            View myLayout = findViewById(R.id.nav_bar);
-
-            // Initialize the nav_bar badges.
-            switch (alert){
-                case badge_homepage:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_homepage));
-                    break;
-                case badge_clients:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_clients));
-                    break;
-                case badge_messages:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_messages));
-                    break;
-                case badge_arrows:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_arrows));
-                    break;
-                case badge_help:
-                    this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_help));
-                    break;
-
-            }
-
-        }
-    }
+//    private void initializeBadgeDictionary() {
+//
+//        // Set all the badges objects.
+//        for(AlertBadgeEnum alert : AlertBadgeEnum.values()) {
+//
+//            // Get nav_bar layout.
+//            View myLayout = findViewById(R.id.nav_bar);
+//
+//            // Initialize the nav_bar badges.
+//            switch (alert){
+//                case badge_homepage:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_homepage));
+//                    break;
+//                case badge_clients:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_clients));
+//                    break;
+//                case badge_messages:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_messages));
+//                    break;
+//                case badge_arrows:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_arrows));
+//                    break;
+//                case badge_help:
+//                    this.alertBadgeDictionary.put
+//                            (alert, (NotificationBadge)myLayout.findViewById(R.id.badge_help));
+//                    break;
+//
+//            }
+//
+//        }
+//    }
 
     private void initilize(){
         try{
