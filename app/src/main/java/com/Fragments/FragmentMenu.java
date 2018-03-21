@@ -47,6 +47,7 @@ import com.DatabaseHelper;
 import com.Helper;
 import com.Icon_Manager;
 //import com.MenuAlertBadgeEnum;
+import com.MenuAlertBadgeEnum;
 import com.ProgressTaskAll;
 import com.ProgressTaskClient;
 import com.model.Model;
@@ -82,7 +83,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     Icon_Manager icon_manager;
     Context context;
 
-    //Map<MenuAlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<MenuAlertBadgeEnum, NotificationBadge>();
+    Map<MenuAlertBadgeEnum, NotificationBadge> alertBadgeDictionary = new HashMap<MenuAlertBadgeEnum, NotificationBadge>();
 
     private DrawerLayout drawerLayout;
     private ListView sideNavigationListView;
@@ -100,9 +101,9 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //The drawer layout which covers the entire fragment.
         this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
 
-        //this.initializeBadgeDictionary(v);
+        this.initializeBadgeDictionary(v);
         // Set the alert of homepage to 1.
-        //this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_customers).setNumber(10);
+        this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_customers).setNumber(10);
 
         //THe list of items which are displayed in the side navigation menu.
         this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
@@ -143,7 +144,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
         final ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
-        final ImageView id_reports = (ImageView) v.findViewById(R.id.id_reports);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -194,23 +194,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentTools");
                 ft.addToBackStack("FragmentTools");
                 ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-
-
-            }
-        });
-        id_reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //FragmentManager fragManager = getFragmentManager();
-                id_reports.startAnimation(clickAnimation);
-                android.support.v4.app.FragmentManager fm = getFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentClientReports frag = new FragmentClientReports();
-                ft.replace(R.id.container,frag,"FragmentClientReports");
-                ft.addToBackStack("FragmentClientReports");
-                ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
 
             }
@@ -226,7 +210,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentFavorite");
                 ft.addToBackStack("FragmentFavorite");
                 ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
             }
         });
@@ -242,7 +226,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentLoginReport");
                 ft.addToBackStack("FragmentLoginReport");
                 ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +239,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_missions.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +252,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 ft.replace(R.id.container,frag,"FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {
@@ -282,7 +266,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 fragmentTransaction2.hide(FragmentMenu.this);
                 fragmentTransaction2.add(R.id.container, fragment2);
                 fragmentTransaction2.commit();
-                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_masofon.setOnClickListener(new View.OnClickListener() {
@@ -308,22 +292,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                @Override
                public void onClick(View v) {
                    id_calls.startAnimation(clickAnimation);
-                   boolean isCallsSummary = DatabaseHelper.getInstance(getContext()).getValueByKey("APPS_CALLS_SUMMARY").equals("1");
-                   if (isCallsSummary == true) {
-                       android.support.v4.app.FragmentManager fm = getFragmentManager();
-                       android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                       FragmentMidCalls frag = new FragmentMidCalls();
-                       ft.replace(R.id.container, frag, "FragmentMidCalls");
-                       ft.addToBackStack("FragmentMidCalls");
-                       ft.commit();
-                   }else{
-                       //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-                       Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                       intent.putExtra("choose", "total");
-                       startActivity(intent);
-                   }
-
-
+                   android.support.v4.app.FragmentManager fm = getFragmentManager();
+                   android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                   FragmentMidCalls frag = new FragmentMidCalls();
+                   ft.replace(R.id.container,frag,"FragmentMidCalls");
+                   ft.addToBackStack("FragmentMidCalls");
+                   ft.commit();
+                   getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                   //Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                   //startActivity(intent);
                }
            });
        }catch (Exception ex){
@@ -340,66 +317,66 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     /**
      * Initializes all the badges in the action bar and main menu.
      */
-//    private void initializeBadgeDictionary(View v) {
-//
-//        // Set all the badges objects.
-//        for(MenuAlertBadgeEnum alert : MenuAlertBadgeEnum.values()) {
-//
-//            // Initialize the nav_bar badges.
-//            switch (alert){
-//                case badge_customers:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_customers));
-//                    break;
-//                case badge_offers:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_offers));
-//                    break;
-//                case badge_orders:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_orders));
-//                    break;
-//                case badge_calls:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_calls));
-//                    break;
-//                case badge_missions:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_missions));
-//                    break;
-//                case badge_reports:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reports));
-//                    break;
-//                case badge_masofon:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_masofon));
-//                    break;
-//                case badge_favorites:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_favorites));
-//                    break;
-//                case badge_reporttime:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reporttime));
-//                    break;
-//                case badge_tools:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_tools));
-//                    break;
-//                case badge_preferences:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_preferences));
-//                    break;
-//                case badge_accounting:
-//                    this.alertBadgeDictionary.put
-//                            (alert, (NotificationBadge)v.findViewById(R.id.badge_accounting));
-//                    break;
-//
-//            }
-//
-//        }
-//    }
+    private void initializeBadgeDictionary(View v) {
+
+        // Set all the badges objects.
+        for(MenuAlertBadgeEnum alert : MenuAlertBadgeEnum.values()) {
+
+            // Initialize the nav_bar badges.
+            switch (alert){
+                case badge_customers:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_customers));
+                    break;
+                case badge_offers:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_offers));
+                    break;
+                case badge_orders:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_orders));
+                    break;
+                case badge_calls:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_calls));
+                    break;
+                case badge_missions:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_missions));
+                    break;
+                case badge_reports:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reports));
+                    break;
+                case badge_masofon:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_masofon));
+                    break;
+                case badge_favorites:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_favorites));
+                    break;
+                case badge_reporttime:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reporttime));
+                    break;
+                case badge_tools:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_tools));
+                    break;
+                case badge_preferences:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_preferences));
+                    break;
+                case badge_accounting:
+                    this.alertBadgeDictionary.put
+                            (alert, (NotificationBadge)v.findViewById(R.id.badge_accounting));
+                    break;
+
+            }
+
+        }
+    }
 
     private void getCallStatuses(){
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
@@ -691,7 +668,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             Log.e("mytag","is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
         }
-        //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
         //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
 
     }

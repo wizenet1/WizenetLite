@@ -12,47 +12,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/top_action_bar">
 
-    <ImageView
-        android:id="@+id/action_image"
-        android:layout_width="5dp"
-        android:layout_height="25dp"
-        android:layout_alignParentLeft="true"
-        android:layout_gravity="left"
-        android:layout_marginTop="8dp"
-        android:layout_toLeftOf="@+id/search"
-        android:src="@drawable/shape1" />
-
-    <EditText
-        android:id="@+id/search"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_toLeftOf="@+id/magnifying_glass"
-        android:hint="Search"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/magnifying_glass"
-        android:layout_width="25dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/wizenet_face"
-        android:src="@drawable/magnifying_glass" />
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:id="@+id/wizenet_face"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/face"/>
-
     <include
         android:layout_width="match_parent"
         android:layout_height="50dp"
         layout="@layout/nav_bar"
-        android:id="@+id/nav_bar"
-        android:layout_below="@id/wizenet_face" />
+        android:id="@+id/nav_bar" />
     </RelativeLayout>
 
     <RelativeLayout
