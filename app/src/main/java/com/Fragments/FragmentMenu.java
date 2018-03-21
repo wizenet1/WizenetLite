@@ -43,7 +43,10 @@ import com.Activities.R;
 import com.Adapters.SideNavigationMenuAdapter;
 import com.Adapters.SideNavigationMenuAdapter;
 import com.AlertBadgeEnum;
+import com.Classes.Call;
+import com.Classes.Ccustomer;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.Icon_Manager;
 //import com.MenuAlertBadgeEnum;
@@ -52,6 +55,10 @@ import com.ProgressTaskAll;
 import com.ProgressTaskClient;
 import com.model.Model;
 import com.nex3z.notificationbadge.NotificationBadge;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -102,8 +109,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
 
         this.initializeBadgeDictionary(v);
-        // Set the alert of homepage to 1.
-        this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_customers).setNumber(10);
+
+        // Set the badge of customer.
+        this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_customers).
+                setNumber(this.getCustomerListLength());
+        // Set the badge of calls.
+        this.alertBadgeDictionary.get(MenuAlertBadgeEnum.badge_calls).
+                setNumber(this.getCallsListLength());
+
 
         //THe list of items which are displayed in the side navigation menu.
         this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
@@ -386,6 +399,44 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             }
         });
     }
+
+    private int getCustomerListLength() {
+        Helper helper = new Helper();
+        File_ f = new File_();
+        //myString = f.readFromFileInternal(getContext(),"customers.txt");
+        String myString = f.readFromFileExternal(getContext(), "customers.txt");
+        Log.e("mytag", myString);
+        JSONObject j = null;
+        int length = 0;
+        Ccustomer[] ccustomers;//= new Ccustomer[5];
+        try {
+            j = new JSONObject(myString);
+            JSONArray jarray = j.getJSONArray("Customers");
+            length = jarray.length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ccustomers = new Ccustomer[length];
+        ccustomers = helper.getCustomersFromJson2(myString);
+        return ccustomers.length;
+    }
+
+    private int getCallsListLength(){
+        JSONObject j = null;
+        int length = 0;
+
+        List<Call> calls = new ArrayList<Call>() ;
+        try {
+            calls= DatabaseHelper.getInstance(getContext()).getCalls("");
+            length = calls.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return calls.size();
+    }
+
 //    FragmentManager fragmentManager2 = getFragmentManager();
 //    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
 //    FragmentMenuOffline fragment2 = new FragmentMenuOffline();
