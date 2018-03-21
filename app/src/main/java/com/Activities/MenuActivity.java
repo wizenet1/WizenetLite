@@ -74,6 +74,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     GPSTracker gps;
     String s_longtitude = "";
     String s_latitude = "";
+    
 
     private DrawerLayout drawerLayout;
     // Alert badge. At the moment is static but in future will be dynamic.
