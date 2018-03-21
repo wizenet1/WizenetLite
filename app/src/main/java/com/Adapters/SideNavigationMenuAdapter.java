@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,12 @@ import android.widget.TextView;
 import com.Activities.ActivityCalls;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Fragments.ControlPanelFragment;
+import com.Fragments.FragmentCalls;
+import com.Fragments.FragmentCustomer;
+import com.Fragments.FragmentMenu;
+import com.Fragments.FragmentMessage;
+import com.Fragments.FragmentOrders;
 import com.Helper;
 
 /**
@@ -25,26 +34,34 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
 
     //Titles to display in each row.
     public String[] titles = {"דף הבית", "לקוחות", "קריאות", "הזמנות", "הודעות", "דוחות", "משימות",
-            "הנחש", "כלים", "הגדרות","יציאה מהמערכת"};
+            "הנחש", "כלים", "הגדרות", "יציאה מהמערכת"};
 
     //Icons to display in each row.
     private int[] images = {R.drawable.side_nav_home, R.drawable.side_nav_customers, R.drawable.side_nav_calls,
             R.drawable.side_nav_orders, R.drawable.side_nav_messages, R.drawable.side_nav_reports,
             R.drawable.side_nav_goals, R.drawable.side_nav_accounting, R.drawable.side_nav_tools,
-            R.drawable.side_nav_preferences,0};
+            R.drawable.side_nav_preferences, 0};
     private android.support.constraint.ConstraintLayout wrapper;
     private LayoutInflater layoutInflater;
     private ImageView icon;
     private TextView title;
     private Context context;
+    private android.support.v4.app.FragmentManager fragmentManager;
+    private DrawerLayout drawerLayout;
+
     /**
      * Constructor.
+     *
      * @param context context
      */
-    public SideNavigationMenuAdapter(Context context) {
+    public SideNavigationMenuAdapter(Context context,
+                                     android.support.v4.app.FragmentManager fragmentManager,
+                                     DrawerLayout drawerLayout) {
 
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.fragmentManager = fragmentManager;
+        this.drawerLayout = drawerLayout;
     }
 
     @Override
@@ -85,30 +102,67 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
 
         return view;
     }
-    private void GoToScreen(String str){
+
+    private void GoToScreen(String str) {
         Helper helper = new Helper();
-        switch(str) {
+        android.support.v4.app.FragmentTransaction ft = this.fragmentManager.beginTransaction();
+
+        switch (str) {
             case "יציאה מהמערכת":
-                ((FragmentActivity)context).finish();
+                ((FragmentActivity) context).finish();
                 break;
             case "דף הבית":
-                helper.goToMenuFragment(context);
+                //helper.goToMenuFragment(context);
+                FragmentMenu fragmentMenu = new FragmentMenu();
+                ft.replace(R.id.container,fragmentMenu,"FragmentMenu");
+                //tv.setVisibility(TextView.GONE);
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "לקוחות":
-                helper.goTocustomers(context);
+                //helper.goTocustomers(context);
+                FragmentCustomer fragmentCustomer = new FragmentCustomer();
+                ft.replace(R.id.container, fragmentCustomer, "FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "הזמנות":
-                helper.goToOrdersFragment(context);
+                //helper.goToOrdersFragment(context);
+                FragmentOrders fragmentOrders = new FragmentOrders();
+                ft.replace(R.id.container,fragmentOrders,"FragmentOrders");
+                //tv.setVisibility(TextView.GONE);
+                ft.addToBackStack("FragmentOrders");
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "קריאות":
-                Intent intent = new Intent(((Activity) context), ActivityCalls.class);
-                ((Activity) context).startActivity(intent);
+                //Intent intent = new Intent(((Activity) context), ActivityCalls.class);
+                //((Activity) context).startActivity(intent);
+                FragmentCalls fragCalls = new FragmentCalls();
+                ft.replace(R.id.container, fragCalls, "FragmentCalls");
+                ft.addToBackStack("FragmentCalls");
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "הודעות":
-                helper.goToMessagesFragment(context);
+                //helper.goToMessagesFragment(context);
+                FragmentMessage fragmentMessage = new FragmentMessage();
+                ft.replace(R.id.container,fragmentMessage,"FragmentMessage");
+                //tv.setVisibility(TextView.GONE);
+                ft.addToBackStack("FragmentMessage");
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "הגדרות":
-                helper.goToCPFragment(context);
+                //helper.goToCPFragment(context);
+                ControlPanelFragment controlPanelFragment = new ControlPanelFragment();
+                ft.replace(R.id.container,controlPanelFragment,"CPFragment");
+                ft.addToBackStack("CPFragment");
+                //tv.setVisibility(TextView.GONE);
+                ft.commit();
+                this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "עדכון מערכת":
                 //Intent returnIntent = new Intent();
