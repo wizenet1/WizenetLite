@@ -1350,7 +1350,47 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+//region Wz_retClientReports
+    public interface Wz_retClientReports_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_retClientReports_Listener(final String macAddress, final Wz_retClientReports_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
+
+                    String response = cs.Wz_retClientReports(macAddress);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_retClientReportsResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_retClientReportsResult=", "Wz_retClientReports:");
+                    myResponse = myResponse.replaceAll(";", "");
+                    //return "";
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
 
 }
 

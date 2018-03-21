@@ -55,6 +55,7 @@ public class CallSoap {
     public  final String Wz_retClientFavorites = "Wz_retClientFavorites";
     public  final String Wz_Send_Call_Offline = "Wz_Send_Call_Offline";
     public  final String Wz_calls_Summary = "Wz_calls_Summary";
+    public  final String Wz_retClientReports = "Wz_retClientReports";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -69,6 +70,7 @@ public class CallSoap {
     public final String CREATE_OFFLINE_SOAP_ACTION8 = "http://tempuri.org/CREATE_OFFLINE";
     public final String ORDER_getMgnetClientItemsList_SOAP_ACTION9 = "http://tempuri.org/PRODUCTS_CLIENTS_ITEMS_LIST";
     public final String CALLS_List_SOAP_ACTION10 = "http://tempuri.org/CALLS_List";
+
 
 
     //new functions
@@ -87,6 +89,7 @@ public class CallSoap {
     public  final String Wz_retClientFavorites_SOAP_ACTION = "http://tempuri.org/Wz_retClientFavorites";
     public  final String Wz_Send_Call_Offline_SOAP_ACTION = "http://tempuri.org/Wz_Send_Call_Offline";
     public  final String Wz_calls_Summary_SOAP_ACTION = "http://tempuri.org/Wz_calls_Summary";
+    public  final String Wz_retClientReports_SOAP_ACTION = "http://tempuri.org/Wz_retClientReports";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
 
@@ -756,6 +759,30 @@ public String Wz_Forgot(String mac_address,String Email)
         try
         {
             httpTransport.call(Wz_calls_Summary_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+
+    //endregion
+    //region Wz_retClientReports
+    public String Wz_retClientReports(String mac_address)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_retClientReports);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_retClientReports_SOAP_ACTION, envelope);
             response = envelope.bodyIn;
         }
         catch (Exception exception)

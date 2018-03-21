@@ -389,8 +389,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         Log.e("mytag", "onResume MenuActivity");
         FragmentMidCalls myFragment = (FragmentMidCalls)getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
         if (myFragment != null && myFragment.isVisible()) {
-            myFragment.runDialog();
             myFragment.setDBcurrentCalls();
+            if (helper.isNetworkAvailable(getApplicationContext())){
+                myFragment.call_Async_Wz_calls_Summary_Listener();
+                myFragment.runDialog();
+                myFragment.pDialog.dismiss();
+            }else{
+                myFragment.setTexts();
+            }
+
         }
         //'if (getFragmentManager().getBackStackEntryCount() == 0) {
             //goToMenuFragment();

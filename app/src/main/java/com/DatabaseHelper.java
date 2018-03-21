@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.Classes.*;
 
@@ -244,7 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }catch(Exception e){
             helper.LogPrintExStackTrace(e);
         }
-        db.close();
+        //db.close();
         return Integer.toString(icount) ;
     }
     public String getScalarBySql(String s){
@@ -400,6 +401,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.e("mytag","step 3");
                 try{
                     db.execSQL("ALTER TABLE " + mgnet_calls + " ADD COLUMN " + column + " TEXT;");
+                    Log.e("mytag","success to add " + column + "to calls");
 
                 }catch (Exception e){
                     Log.e("mytag","err step 4, " + e.getMessage());
@@ -548,6 +550,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("TAG_NAME", resultSet.toString() );
         return resultSet;
     }
+    public JSONArray getJsonResultsFromTable(String tableName)
+    {
+        Log.e("mytag","hello from db");
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String searchQuery = "SELECT  * FROM " + tableName;
+        Cursor cursor = db.rawQuery(searchQuery, null );
+
+        JSONArray resultSet     = new JSONArray();
+
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                {
+                    try
+                    {
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+                    }
+                    catch( Exception e )
+                    {
+                        Log.d("TAG_NAME", e.getMessage()  );
+                    }
+                }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString() );
+        return resultSet;
+    }
     public JSONArray getJsonResults()
     {
 
@@ -650,7 +697,7 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         List<Call> callList = new ArrayList<Call>();
 // Select All Query
         String selectQuery ="";
-            selectQuery = "SELECT * FROM mgnet_calls where 1=1 " ;
+            selectQuery = "SELECT * FROM mgnet_calls where 1=1 and statusid <> -1  " ;
         if (!sortby.trim().equals("")){
             selectQuery+=  sortby + "";
             //selectQuery+= "  order by " + sortby + "";
@@ -1249,21 +1296,28 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         }
     }
 
-    public boolean checkIfExists(String stringKey) {
+    public boolean checkIfKeyExistsCP(String stringKey) {
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = null;
+            String sql ="select count(*) as mycount from " + TABLE_CONTROL_PANEL + " WHERE " + KEY + " = '" + stringKey +"'";
+            cursor= db.rawQuery(sql,null);
+            //Log("Cursor Count : " + cursor.getCount());
+            Log.e("mytag","cursor.getCount():" +(cursor.getColumnIndex("mycount")));
+            if(Integer.valueOf(cursor.getColumnIndex("mycount")) >0){
+                //PID Found
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        //String count = "SELECT * FROM " + TABLE_CONTROL_PANEL + " WHERE " + KEY + " = " + stringKey;
-        Cursor mcursor = db.rawQuery("select count(*) from " + TABLE_CONTROL_PANEL + " WHERE " + KEY + " = '" + stringKey +"'", null);
-        mcursor.moveToFirst();
-        int icount = mcursor.getCount();
-        if(icount>0){
-            db.close();
-            return true;
-        }else{
-            db.close();
+                cursor.close();
+                return true;
+            }else{
+                cursor.close();
+                //PID Not Found
+                return false;
+            }
+        }catch(Exception e){
             return false;
         }
+
     }
 
 
@@ -1392,13 +1446,19 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
     }
 
     public void updateValue(String key,String val) {
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(VALUE, val);
+            //values.put(DESCRIPTION, "");
+            db.update(TABLE_CONTROL_PANEL, values, KEY + " = '"+key+"'", null);
+            db.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            Toast.makeText(mCtx, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(VALUE, val);
-        //values.put(DESCRIPTION, "");
-        db.update(TABLE_CONTROL_PANEL, values, KEY + " = '"+key+"'", null);
-        db.close();
     }
 
 

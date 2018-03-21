@@ -143,6 +143,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
         final ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
+        final ImageView id_reports = (ImageView) v.findViewById(R.id.id_reports);
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -192,6 +193,22 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 FragmentTools frag = new FragmentTools();
                 ft.replace(R.id.container,frag,"FragmentTools");
                 ft.addToBackStack("FragmentTools");
+                ft.commit();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+
+            }
+        });
+        id_reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FragmentManager fragManager = getFragmentManager();
+                id_reports.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentClientReports frag = new FragmentClientReports();
+                ft.replace(R.id.container,frag,"FragmentClientReports");
+                ft.addToBackStack("FragmentClientReports");
                 ft.commit();
                 //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
@@ -291,15 +308,22 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                @Override
                public void onClick(View v) {
                    id_calls.startAnimation(clickAnimation);
-                   android.support.v4.app.FragmentManager fm = getFragmentManager();
-                   android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                   FragmentMidCalls frag = new FragmentMidCalls();
-                   ft.replace(R.id.container,frag,"FragmentMidCalls");
-                   ft.addToBackStack("FragmentMidCalls");
-                   ft.commit();
-                   //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-                   //Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                   //startActivity(intent);
+                   boolean isCallsSummary = DatabaseHelper.getInstance(getContext()).getValueByKey("APPS_CALLS_SUMMARY").equals("1");
+                   if (isCallsSummary == true) {
+                       android.support.v4.app.FragmentManager fm = getFragmentManager();
+                       android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                       FragmentMidCalls frag = new FragmentMidCalls();
+                       ft.replace(R.id.container, frag, "FragmentMidCalls");
+                       ft.addToBackStack("FragmentMidCalls");
+                       ft.commit();
+                   }else{
+                       //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                       Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                       intent.putExtra("choose", "total");
+                       startActivity(intent);
+                   }
+
+
                }
            });
        }catch (Exception ex){
