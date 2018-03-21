@@ -13,6 +13,7 @@
         android:background="@color/colorGray">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/customer_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -27,15 +28,15 @@
     <LinearLayout
 
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp">
 
         <EditText
-            android:visibility="gone"
             android:id="@+id/mSearchEdt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="חיפוש"
+            android:hint="חיפוש אנשי קשר/לקוחות"
             android:textSize="20sp" />
     </LinearLayout>
 
