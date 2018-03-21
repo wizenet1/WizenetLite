@@ -1,6 +1,7 @@
 package com.Fragments;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.Icon_Manager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -49,7 +51,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
     //CustomersAdapter customersAdapter;
     String dataName, myString;
     //ImageButton goToTelephone, goToSms;
-    TextView goToTelephone, goToSms;
+    TextView goToTelephone, goToSms, goToWaze;
     //EditText customer_search;
     CustomAdapter adapter; //for listview here
     String myBundle = "";
@@ -217,6 +219,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             Icon_Manager icon_manager;
             icon_manager = new Icon_Manager();
             if (convertView == null) {
@@ -277,6 +280,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
                     startActivity(it);
                 }
             });
+
             return convertView;
         }
     }
@@ -305,6 +309,8 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
 //
 //                    }
 //                });
+
+
         alert.setView(textEntryView).setNegativeButton("סגור",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,

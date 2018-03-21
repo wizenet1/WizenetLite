@@ -1,5 +1,6 @@
 package com.Adapters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -123,6 +124,26 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
         goToGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try
+                {
+                    String url = "waze://?q=" + ccustomerArrayList.get(pos).getAddress();
+                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    c.startActivity( intent );
+                }
+                catch ( ActivityNotFoundException ex  )
+                {
+                    // If there is no internet.
+                    try {
+                        // If Waze is not installed, open it in Google Play:
+                        Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                        c.startActivity(intent);
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
 
             }
         });
