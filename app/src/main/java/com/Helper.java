@@ -791,8 +791,8 @@ public class Helper {
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         FragmentCustomer frag = new FragmentCustomer();
-        ft.replace(R.id.container,frag,"FragmentMenu");
-        ft.addToBackStack("FragmentMenu");
+        ft.replace(R.id.container,frag,"FragmentCustomer");
+        ft.addToBackStack("FragmentCustomer");
         ft.commit();
 
     }

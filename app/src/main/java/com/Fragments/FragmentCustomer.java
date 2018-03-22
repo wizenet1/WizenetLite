@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 import com.Classes.Ccustomer;
@@ -90,7 +91,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             data2.add(c);
             //data2.add(c.getCfname()+" "+c.getClname()+" "+c.getCcell());
         }
-
+        ((MenuActivity)getActivity()).initialIcons();
         myList = (ListView) v.findViewById(R.id.customer_list);
         ImageView client = (ImageView)getActivity().findViewById(R.id.clients);
         client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -141,8 +142,8 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCreateCustomer frag = new FragmentCreateCustomer();
-                ft.replace(R.id.container,frag,"FragmentMenu");
-                ft.addToBackStack("FragmentMenu");
+                ft.replace(R.id.container,frag,"FragmentCreateCustomer");
+                ft.addToBackStack("FragmentCreateCustomer");
                 ft.commit();
             }
         });
@@ -192,7 +193,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         File_ f = new File_();
         //myString = f.readFromFileInternal(getContext(),"customers.txt");
         myString = f.readFromFileExternal(getContext(), "customers.txt");
-        Log.e("mytag", myString);
+        //Log.e("mytag", myString);
         JSONObject j = null;
         int length = 0;
         Ccustomer[] ccustomers;//= new Ccustomer[5];

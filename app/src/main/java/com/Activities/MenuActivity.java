@@ -47,6 +47,7 @@ import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
 import com.Fragments.FragmentCalls;
+import com.Fragments.FragmentClientReports;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.Fragments.FragmentMessage;
@@ -92,6 +93,37 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     Helper helper = new Helper();
     String strBundle = "";
 
+    private void popFragment(String fTag ){
+        FragmentManager fm = getSupportFragmentManager();
+        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+        for (int i = 0; i < backStackCount; i++) {
+            // Get the back stack fragment id.
+            int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
+            String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
+            Log.e("mytag","fragName:" +tag);
+            if (tag.equals("FragmentMenu") || tag.equals(fTag)){
+            }else{
+                fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+
+        }
+        //getFragmentManager().popBackStack();
+        Log.e("mytag","fragName compare:" +fTag);
+        Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
+//        FragmentManager fm = getSupportFragmentManager();
+//        List<Fragment> frags = getSupportFragmentManager().getFragments();
+//        for(Fragment f : frags) {
+//            if (f != null){
+//                Log.e("mytag","fragments55555555555:" + f.getTag());
+//                if (f.getTag().equals(fTag) || f.getTag().equals("FragmentMenu")){
+//                }else{
+//                    getSupportFragmentManager().beginTransaction().remove(f).commit();
+//                    //fm.popBackStack(String.valueOf(f), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                }
+//            }
+//        }
+//        Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +199,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         });
 
         ImageView sideNavHeaderOptionsImg = (ImageView) findViewById(R.id.side_nav_header_options);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
         sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,12 +216,17 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                //fragmentManager.popBackStack();
+                //fragmentManager.popBackStack ("f1", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f1");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenu fragMenu = new FragmentMenu();
-                ft.replace(R.id.container, fragMenu, "FragmentMenu");
-                ft.addToBackStack("FragmentMenu");
+                ft.replace(R.id.container, fragMenu, "f1");
+                ft.addToBackStack("f1");
+
                 ft.commit();
+
             }
         });
 
@@ -200,13 +238,20 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                //fragmentManager.popBackStack();
+                //fragmentManager.popBackStack ("f2", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f2");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCustomer fragCustomer = new FragmentCustomer();
-                ft.replace(R.id.container, fragCustomer, "FragmentCustomer");
-                ft.addToBackStack("FragmentCustomer");
+                ft.replace(R.id.container, fragCustomer, "f2");
+                ft.addToBackStack("f2");
+
                 ft.commit();
                 clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
+
+
             }
         });
 
@@ -218,15 +263,19 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-
+                //fragmentManager.popBackStack ("f3", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f3");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentOrders fragOrders = new FragmentOrders();
-                ft.replace(R.id.container, fragOrders, "FragmentOrders");
-                ft.addToBackStack("FragmentOrders");
+                ft.replace(R.id.container, fragOrders, "f3");
+                ft.addToBackStack("f3");
                 ft.commit();
 
+
                 orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
+
             }
         });
 
@@ -237,13 +286,18 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                //fragmentManager.popBackStack();
+                //fragmentManager.popBackStack ("f4", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f4");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage fragMessage = new FragmentMessage ();
-                ft.replace(R.id.container, fragMessage,"FragmentMessage");
-                ft.addToBackStack("FragmentMessage");
+                ft.replace(R.id.container, fragMessage,"f4");
+                ft.addToBackStack("f4");
                 ft.commit();
                 missions.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
+
             }
         });
 
@@ -251,18 +305,29 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         calls.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//
 
+
+                boolean isCallsSummary = db.getValueByKey("APPS_CALLS_SUMMARY").equals("1");
+                if (isCallsSummary == true){
+                    homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                    clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                    orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                    calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                    arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                    popFragment("f5");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCalls fragCalls = new FragmentCalls();
-                ft.replace(R.id.container, fragCalls, "FragmentCalls");
-                ft.addToBackStack("FragmentCalls");
+                ft.replace(R.id.container, fragCalls, "f5");
+                ft.addToBackStack("f5");
                 ft.commit();
+
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), ActivityCalls.class);
+                    intent.putExtra("choose", "total");
+                    startActivity(intent);
+                }
 
                 calls.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
@@ -447,6 +512,11 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
     @Override
     public void onBackPressed() {
+
+        //final FragmentClientReports ReportFragment = (FragmentClientReports) getSupportFragmentManager().findFragmentByTag("FragmentClientReports");
+        //ReportFragment.onBackPressed();
+
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(R.id.container);
         Log.e("Mytag", String.valueOf(fm.getBackStackEntryCount()));
@@ -456,6 +526,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         if (fm.getBackStackEntryCount() == 2) {
             //if(!topFragment.getTag().equals("xyz")){
+            //findViewById(R.id.top_action_bar).setVisibility(View.GONE);
 
             Log.e("mytag", "fm.getBackStackEntryCount())==2: " + String.valueOf(fm.getBackStackEntryCount()));
 
@@ -467,6 +538,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             //fm.popBackStack();
         } else if (fm.getBackStackEntryCount() == 1) {
             Log.e("mytag", "fm.getBackStackEntryCount())==1:" + String.valueOf(fm.getBackStackEntryCount()));
+            findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+
             finish();
             //AlertDialoLogOut();
             //alertDialogExit();
@@ -489,6 +562,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onResume() {
         super.onResume();
+        this.initImageButtons();
+        View action_bar = (View) findViewById(R.id.top_action_bar);
+        if (getFragmentManager().getBackStackEntryCount() >2){
+            action_bar.setVisibility(View.VISIBLE);
+        }else{
+            action_bar.setVisibility(View.GONE);
+        }
+
+        initImageButtons();
 //        FragmentManager fm = getSupportFragmentManager();
 //        Fragment f = fm.findFragmentById(R.id.container);
 //        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
@@ -771,6 +853,29 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             e.printStackTrace();
             Log.e("myTag", e.toString());
         }
+    }
+    public void initialIcons(){
+        final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
+        // Init the homepage button.
+        final ImageView homepage = (ImageView) outer.findViewById(R.id.homepage);
+        // Init the clients button.
+        final ImageView clients = (ImageView) outer.findViewById(R.id.clients);
+        // Init the message.
+        final ImageView orders = (ImageView) outer.findViewById(R.id.messages);
+        // Init the missions.
+        final ImageView missions = (ImageView) outer.findViewById(R.id.arrows);
+        // Init the calls.
+        final ImageView calls = (ImageView) outer.findViewById(R.id.help);
+        // Init the arrows.
+        final ImageView arrows = (ImageView) outer.findViewById(R.id.arrows);
+        // Init side menu image.
+        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
     }
 
 

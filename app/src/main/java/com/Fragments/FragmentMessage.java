@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Message;
 import com.DatabaseHelper;
@@ -72,7 +73,7 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
-
+        ((MenuActivity)getActivity()).initialIcons();
         ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
         message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 

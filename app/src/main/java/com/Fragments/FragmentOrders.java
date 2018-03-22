@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 
@@ -99,6 +100,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         amount_id.setSelectAllOnFocus(true);
         price_id.setSelectAllOnFocus(true);
         //AlretIfNotFinishSync();
+        ((MenuActivity)getActivity()).initialIcons();
 
         ImageView orders = (ImageView)getActivity().findViewById(R.id.messages);
         orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);

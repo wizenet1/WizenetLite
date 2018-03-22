@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityWebView;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.DatabaseHelper;
 import com.GPSTracker;
@@ -49,6 +50,7 @@ public class FragmentLoginReport extends android.support.v4.app.Fragment {
         s_latitude = "";
         setHasOptionsMenu(true);
         h = new Helper();
+        ((MenuActivity)getActivity()).initialIcons();
 
         final GPSTracker gps = new GPSTracker(getContext());
 

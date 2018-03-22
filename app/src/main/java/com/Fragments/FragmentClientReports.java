@@ -154,6 +154,11 @@ public class FragmentClientReports extends android.support.v4.app.Fragment {
 
         return FavoriteList;
     }
+    public void onBackPressed()
+    {
+        //Pop Fragments off backstack and do your other checks
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+    }
 
 
 

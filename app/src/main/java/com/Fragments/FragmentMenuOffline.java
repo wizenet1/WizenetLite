@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.CallSoap;
 import com.Classes.Message;
@@ -70,6 +71,8 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment_oflline, null);
+        ((MenuActivity)getActivity()).initialIcons();
+
         db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         icon_manager = new Icon_Manager();
         helper = new Helper();

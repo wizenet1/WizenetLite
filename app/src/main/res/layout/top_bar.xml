@@ -29,6 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container"
+        android:gravity="center"
+        android:layoutDirection="ltr"
         android:layout_below="@+id/top_action_bar">
     </RelativeLayout>
 
