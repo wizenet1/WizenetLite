@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -94,6 +96,8 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         runDialog();
         //spinner.setVisibility(View.VISIBLE);
 
+        ImageView call = (ImageView)getActivity().findViewById(R.id.help);
+        call.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         t1 = (TextView)  v.findViewById(R.id.t1);
         t2 = (TextView)  v.findViewById(R.id.t2);

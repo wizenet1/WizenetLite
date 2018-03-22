@@ -1,9 +1,12 @@
 package com.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -87,7 +90,11 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             data2.add(c);
             //data2.add(c.getCfname()+" "+c.getClname()+" "+c.getCcell());
         }
+
         myList = (ListView) v.findViewById(R.id.customer_list);
+        ImageView client = (ImageView)getActivity().findViewById(R.id.clients);
+        client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+
         //adapter = new CustomAdapter();
         //myList.setAdapter(adapter);
 

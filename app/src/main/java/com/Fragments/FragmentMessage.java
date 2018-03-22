@@ -1,6 +1,8 @@
 package com.Fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +73,8 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
 
+        ImageView message = (ImageView)getActivity().findViewById(R.id.messages);
+        message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
