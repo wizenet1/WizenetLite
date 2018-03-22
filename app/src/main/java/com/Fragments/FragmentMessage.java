@@ -73,7 +73,7 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
 
-        ImageView message = (ImageView)getActivity().findViewById(R.id.messages);
+        ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
         message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

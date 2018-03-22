@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -22,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -97,6 +100,8 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         price_id.setSelectAllOnFocus(true);
         //AlretIfNotFinishSync();
 
+        ImageView orders = (ImageView)getActivity().findViewById(R.id.messages);
+        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         List<String> responseList2 = new ArrayList<String>();
         responseList2 = getSpecialCustomerList();
