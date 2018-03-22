@@ -103,6 +103,16 @@ public class FragmentCreateCustomer extends Fragment {
         customerEmailIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerEmailIcon.setTextSize(30);
 
+        //Add contacts button.
+        TextView addContactsIcon = (TextView) view.findViewById(R.id.create_customer_add_contacts_icon);
+        addContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        addContactsIcon.setTextSize(30);
+
+        //Save customer button.
+        TextView saveCustomerIcon = (TextView) view.findViewById(R.id.create_customer_save_icon);
+        saveCustomerIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        saveCustomerIcon.setTextSize(30);
+
         return view;
     }
 
