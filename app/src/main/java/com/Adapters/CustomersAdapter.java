@@ -178,6 +178,8 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                 String company = ccustomer.getCcompany();
                 String cell = ccustomer.getCcell();
                 String phone = ccustomer.getCphone();
+                String address = ccustomer.getAddress();
+                String email = ccustomer.getCemail();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("CID", CID);
@@ -186,6 +188,8 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                 bundle.putString("Company", company);
                 bundle.putString("Cell", cell);
                 bundle.putString("Phone", phone);
+                bundle.putString("Address", address);
+                bundle.putString("Email", email);
 
                 android.support.v4.app.FragmentManager fm = ((MenuActivity)c).getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
