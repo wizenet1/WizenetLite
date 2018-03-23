@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -158,10 +160,15 @@ public class FragmentCustomerDetails extends Fragment {
         editButtonIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         editButtonIcon.setTextSize(20);
 
-        ConstraintLayout editButton = (ConstraintLayout) view.findViewById(R.id.customer_details_constraintLayout_edit_button);
+        //Animation applied to menu icons to create click effect.
+        final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
+
+        final ConstraintLayout editButton = (ConstraintLayout) view.findViewById(R.id.customer_details_constraintLayout_edit_button);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                editButton.startAnimation(clickAnimation);
                 goToEditCustomerDetails();
             }
         });
