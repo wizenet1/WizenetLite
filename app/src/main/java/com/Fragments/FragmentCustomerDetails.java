@@ -173,17 +173,37 @@ public class FragmentCustomerDetails extends Fragment {
             }
         });
 
-        //Setting the comments expandable list.
-        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
-        initComments();
-        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
-        this.expandableListViewComments.setAdapter(this.listAdapter);
+        //Setting the comments expandable list. TODO delete if not needed
+//        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
+//        initComments();
+//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
+//        this.expandableListViewComments.setAdapter(this.listAdapter);
+//
+//        //Setting the additional contacts expandable list.
+//        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
+//        initContacts();
+//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
+//        this.expandableListViewContacts.setAdapter(this.listAdapter);
 
-        //Setting the additional contacts expandable list.
-        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
-        initContacts();
-        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
-        this.expandableListViewContacts.setAdapter(this.listAdapter);
+        final TextView additionalContactsIcon = (TextView) view.findViewById(R.id.customer_details_additional_contacts_icon);
+        additionalContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        additionalContactsIcon.setTextSize(20);
+
+        //Additional contacts button.
+        final ConstraintLayout additionalContactsLayout = (ConstraintLayout)view.findViewById(R.id
+                .customer_details_constraintLayout_additional_contacts);
+
+        additionalContactsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                additionalContactsIcon.setAnimation(clickAnimation);
+                FragmentAlertListDialog fragmentAlertListDialog = new FragmentAlertListDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", "רשימת אנשי קשר");
+                fragmentAlertListDialog.setArguments(bundle);
+                fragmentAlertListDialog.show(getFragmentManager(), "contacts");
+            }
+        });
 
         TextView sendSms = (TextView) view.findViewById(R.id.customer_details_sendsms);
         sendSms.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
