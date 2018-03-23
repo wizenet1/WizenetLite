@@ -53,6 +53,9 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
 
 
         View v = inflater.inflate(R.layout.message_fragment, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         setHasOptionsMenu(true);
         db = DatabaseHelper.getInstance(getContext());
 

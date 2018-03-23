@@ -58,6 +58,9 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
         db = DatabaseHelper.getInstance(getContext());
         getFavorite();
         View v = inflater.inflate(R.layout.panel_control_fragment, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         setHasOptionsMenu(true);
         manager = (LocationManager)getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 

@@ -62,6 +62,10 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.customer_fragment, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
         Helper helper = new Helper();

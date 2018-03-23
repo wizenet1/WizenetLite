@@ -81,7 +81,8 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mid_calls, null);
-
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         f = new File_();
         helper = new Helper();
         try{

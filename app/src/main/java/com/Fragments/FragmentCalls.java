@@ -58,6 +58,9 @@ public class FragmentCalls extends android.support.v4.app.Fragment {
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.calls_fragment, null);
+
+            // Load the action bar.
+            getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             //        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

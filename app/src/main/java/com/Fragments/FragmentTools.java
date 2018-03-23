@@ -63,6 +63,9 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tools, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         icon_manager = new Icon_Manager();
         helper = new Helper();

@@ -177,7 +177,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         homepage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
