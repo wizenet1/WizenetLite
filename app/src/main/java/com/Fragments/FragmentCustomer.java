@@ -66,6 +66,19 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
+        ImageView messages = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.messages);
+        // Init the clients button.
+        ImageView clients = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.clients);
+        // Init the missions.
+        ImageView missions = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.arrows);
+        // Init the calls.
+        ImageView calls = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.help);
+
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
         Helper helper = new Helper();
@@ -96,8 +109,6 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         }
 
         myList = (ListView) v.findViewById(R.id.customer_list);
-        ImageView client = (ImageView)getActivity().findViewById(R.id.clients);
-        client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         //adapter = new CustomAdapter();
         //myList.setAdapter(adapter);
