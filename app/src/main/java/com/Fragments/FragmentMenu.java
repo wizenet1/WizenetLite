@@ -157,8 +157,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
         final ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
-        final ImageView id_reports = (ImageView) v.findViewById(R.id.id_reports);
-
         //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
 
         //helper = new Helper();
@@ -192,8 +190,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                     android.support.v4.app.FragmentManager fm = getFragmentManager();
                     android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                     FragmentCustomer frag = new FragmentCustomer();
-                    ft.replace(R.id.container,frag,"FragmentCustomer");
-                    ft.addToBackStack("FragmentCustomer");
+                    ft.replace(R.id.container,frag,"FragmentMenu");
+                    ft.addToBackStack("FragmentMenu");
                     ft.commit();
 
 
@@ -253,8 +251,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenuOffline frag = new FragmentMenuOffline();
-                ft.replace(R.id.container,frag,"FragmentMenuOffline");
-                ft.addToBackStack("FragmentMenuOffline");
+                ft.replace(R.id.container,frag,"FragmentMenu");
+                ft.addToBackStack("FragmentMenu");
                 ft.commit();
                 getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
@@ -286,20 +284,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
-        id_reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_reports.startAnimation(clickAnimation);
-                android.support.v4.app.FragmentManager fm = getFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentClientReports frag = new FragmentClientReports();
-                ft.replace(R.id.container,frag,"FragmentClientReports");
-                ft.addToBackStack("FragmentClientReports");
-                ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-            }
-        });
-
         id_masofon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,28 +302,18 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         });
 
 
-
        try{
            id_calls.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   boolean isCallsSummary = DatabaseHelper.getInstance(context).getValueByKey("APPS_CALLS_SUMMARY").equals("1");
-                    if (isCallsSummary == true){
-                        id_calls.startAnimation(clickAnimation);
-                        android.support.v4.app.FragmentManager fm = getFragmentManager();
-                        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                        FragmentMidCalls frag = new FragmentMidCalls();
-                        ft.replace(R.id.container,frag,"FragmentMidCalls");
-                        ft.addToBackStack("FragmentMidCalls");
-                        ft.commit();
-                        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-                    }else{
-                        Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                        intent.putExtra("choose", "total");
-
-                        startActivity(intent);
-                    }
-
+                   id_calls.startAnimation(clickAnimation);
+                   android.support.v4.app.FragmentManager fm = getFragmentManager();
+                   android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                   FragmentMidCalls frag = new FragmentMidCalls();
+                   ft.replace(R.id.container,frag,"FragmentMidCalls");
+                   ft.addToBackStack("FragmentMidCalls");
+                   ft.commit();
+                   getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
                    //Intent intent = new Intent(getActivity(), ActivityCalls.class);
                    //startActivity(intent);
                }
@@ -697,6 +671,37 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         );
         builder.show();
     }
+//    public class ProgressTaskAll extends AsyncTask<String, String, String> {
+//        private ProgressDialog dialog;
+//        List<Message> titles;
+//
+//        //private List<Message> messages;
+//        public ProgressTaskAll() {
+//            dialog = new ProgressDialog(getContext());
+//        }
+//        @Override
+//        protected void onPreExecute() {
+//            //this.working_dialog = ProgressDialog.show(getContext(), "","Working please wait...", true);
+//
+//            this.dialog.setMessage("Working please wait...");
+//            this.dialog.show();
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                public void run() {
+//                    dialog.dismiss();
+//                }
+//            }, 5000);
+//        }
+//        @Override
+//        protected void onPostExecute(final String success) {
+//        }
+//        @Override
+//        protected String doInBackground(final String... args) {
+//            helper.ALLProductsSync(getContext());
+//            return "";
+//        }
+//    }
+
 
 
 
@@ -720,7 +725,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
 
     }
-
     public String getEditText(){
         return myEditText2.getText().toString();
     }

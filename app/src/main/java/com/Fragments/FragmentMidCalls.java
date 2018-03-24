@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
 import com.Activities.ActivityWebView;
-import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CallsAdapter;
 import com.Adapters.CustomersAdapter;
@@ -96,7 +95,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
 
         runDialog();
         //spinner.setVisibility(View.VISIBLE);
-        ((MenuActivity)getActivity()).initialIcons();
+
         ImageView call = (ImageView)getActivity().findViewById(R.id.help);
         call.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 

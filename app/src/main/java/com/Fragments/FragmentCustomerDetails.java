@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -158,25 +161,75 @@ public class FragmentCustomerDetails extends Fragment {
         editButtonIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         editButtonIcon.setTextSize(20);
 
-        ConstraintLayout editButton = (ConstraintLayout) view.findViewById(R.id.customer_details_constraintLayout_edit_button);
+        //Animation applied to menu icons to create click effect.
+        final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
+
+        final ConstraintLayout editButton = (ConstraintLayout) view.findViewById(R.id.customer_details_constraintLayout_edit_button);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                editButton.startAnimation(clickAnimation);
                 goToEditCustomerDetails();
             }
         });
 
-        //Setting the comments expandable list.
-        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
-        initComments();
-        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
-        this.expandableListViewComments.setAdapter(this.listAdapter);
+        //Setting the comments expandable list. TODO delete if not needed
+//        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
+//        initComments();
+//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
+//        this.expandableListViewComments.setAdapter(this.listAdapter);
+//
+//        //Setting the additional contacts expandable list.
+//        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
+//        initContacts();
+//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
+//        this.expandableListViewContacts.setAdapter(this.listAdapter);
 
-        //Setting the additional contacts expandable list.
-        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
-        initContacts();
-        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
-        this.expandableListViewContacts.setAdapter(this.listAdapter);
+        final TextView commentsIcon = (TextView) view.findViewById(R.id.customer_details_comments_icon);
+        commentsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        commentsIcon.setTextSize(20);
+
+        //Additional contacts button.
+        final ConstraintLayout commentsContactsLayout = (ConstraintLayout)view.findViewById(R.id
+                .customer_details_constraintLayout_comments);
+
+        commentsContactsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentsIcon.setAnimation(clickAnimation);
+
+                //TODO add actual user comments
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                builder1.setMessage("הערות משתמש");
+                builder1.setCancelable(true);
+
+                builder1.setNegativeButton("בטל", null);
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
+
+        final TextView additionalContactsIcon = (TextView) view.findViewById(R.id.customer_details_additional_contacts_icon);
+        additionalContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        additionalContactsIcon.setTextSize(20);
+
+        //Additional contacts button.
+        final ConstraintLayout additionalContactsLayout = (ConstraintLayout)view.findViewById(R.id
+                .customer_details_constraintLayout_additional_contacts);
+
+        additionalContactsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                additionalContactsIcon.setAnimation(clickAnimation);
+                FragmentAlertListDialog fragmentAlertListDialog = new FragmentAlertListDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", "רשימת אנשי קשר");
+                fragmentAlertListDialog.setArguments(bundle);
+                fragmentAlertListDialog.show(getFragmentManager(), "contacts");
+            }
+        });
 
         TextView sendSms = (TextView) view.findViewById(R.id.customer_details_sendsms);
         sendSms.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));

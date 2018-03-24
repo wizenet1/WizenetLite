@@ -57,7 +57,14 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = DatabaseHelper.getInstance(getContext());
         getFavorite();
-        View v = inflater.inflate(R.layout.panel_control_fragment, null);
+        View v = inflater.inflate(R.layout.panel_control_fragment, container, false);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         setHasOptionsMenu(true);
         manager = (LocationManager)getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 
