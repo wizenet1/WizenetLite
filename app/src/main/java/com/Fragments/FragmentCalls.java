@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Call;
 import com.DatabaseHelper;
@@ -61,6 +62,10 @@ public class FragmentCalls extends android.support.v4.app.Fragment {
 
             // Load the action bar.
             getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+            //Turn the calls action bar icon on, and the rest off to their original color.
+            ((MenuActivity) getActivity()).turnActionBarCallsIconsOn();
+
             //        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 import com.Classes.Ccustomer;
@@ -66,18 +67,8 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
-        ImageView messages = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.messages);
-        // Init the clients button.
-        ImageView clients = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.clients);
-        // Init the missions.
-        ImageView missions = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.arrows);
-        // Init the calls.
-        ImageView calls = (ImageView)getActivity().findViewById(R.id.nav_bar).findViewById(R.id.help);
-
-        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        //Turn the action bar customers icon on, and the rest off.
+        ((MenuActivity)getActivity()).turnActionBarClientsIconsOn();
 
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
@@ -200,6 +191,9 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
                 return false;
             }
         });
+
+        //Turn the action bar customers icon on, and the rest off.
+        ((MenuActivity)getActivity()).turnActionBarClientsIconsOn();
     }
 
     private Ccustomer[] getCustomerList() {

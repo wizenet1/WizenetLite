@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -76,16 +77,15 @@ import java.util.Map;
  */
 
 
-
-public class FragmentMenu extends android.support.v4.app.Fragment  {
+public class FragmentMenu extends android.support.v4.app.Fragment {
     TextView tv_username;
     CheckBox cb;
-    Button btn2,mapid;
+    Button btn2, mapid;
     EditText myEditText2;
     //BarCodeActivity barCodeActivity;
     Helper helper;
-    TextView id1,id2,id3,id4,id5,id6,id7,id8,id9;
-    TextView id1_text,id2_text,id3_text,id4_text,id5_text,id6_text,id7_text,id8_text,id9_text;
+    TextView id1, id2, id3, id4, id5, id6, id7, id8, id9;
+    TextView id1_text, id2_text, id3_text, id4_text, id5_text, id6_text, id7_text, id8_text, id9_text;
     DatabaseHelper db;
     Icon_Manager icon_manager;
     Context context;
@@ -95,15 +95,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     private DrawerLayout drawerLayout;
     private ListView sideNavigationListView;
     TextView menu_bar_welcome_txt;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         Icon_Manager icon_manager = new Icon_Manager();
         getCallStatuses();
         helper = new Helper();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
-        menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));
         //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
         //this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
@@ -143,16 +148,16 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //        }
 
 
-
         //Side navigation menu options image.
         ImageView sideNavHeaderOptionsImg = (ImageView) v.findViewById(R.id.side_nav_header_options);
         final ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
         final ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         final ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
-        ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
+        final ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
+        final ImageView id_reports = (ImageView) v.findViewById(R.id.id_reports);
         final ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
         final ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
-        ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
+        final ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
         final ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
         final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
@@ -166,7 +171,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         //Animation applied to menu icons to create click effect.
         final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
 
-        this.drawerLayout = (DrawerLayout)getActivity().findViewById(R.id.main_drawer_layout);
+        this.drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.main_drawer_layout);
 
         menuBarOptionsImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,21 +187,34 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //            }
 //        });
 
-            id_customers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //FragmentManager fragManager = getFragmentManager();
-                    id_customers.startAnimation(clickAnimation);
-                    android.support.v4.app.FragmentManager fm = getFragmentManager();
-                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                    FragmentCustomer frag = new FragmentCustomer();
-                    ft.replace(R.id.container,frag,"FragmentMenu");
-                    ft.addToBackStack("FragmentMenu");
-                    ft.commit();
+        id_customers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FragmentManager fragManager = getFragmentManager();
+                id_customers.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCustomer frag = new FragmentCustomer();
+                ft.replace(R.id.container, frag, "FragmentCustomer");
+                ft.addToBackStack("FragmentCustomer");
+                ft.commit();
 
 
-                }
-            });
+            }
+        });
+
+        id_offers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id_offers.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentOffers frag = new FragmentOffers();
+                ft.replace(R.id.container, frag, "FragmentOffers");
+                ft.addToBackStack("FragmentOffers");
+                ft.commit();
+            }
+        });
 
         id_tools.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,14 +224,28 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentTools frag = new FragmentTools();
-                ft.replace(R.id.container,frag,"FragmentTools");
+                ft.replace(R.id.container, frag, "FragmentTools");
                 ft.addToBackStack("FragmentTools");
                 ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
 
             }
         });
+
+        id_reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id_reports.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentReports frag = new FragmentReports();
+                ft.replace(R.id.container, frag, "FragmentReports");
+                ft.addToBackStack("FragmentReports");
+                ft.commit();
+            }
+        });
+
         id_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,14 +254,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentFavorite frag = new FragmentFavorite();
-                ft.replace(R.id.container,frag,"FragmentFavorite");
+                ft.replace(R.id.container, frag, "FragmentFavorite");
                 ft.addToBackStack("FragmentFavorite");
                 ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
             }
         });
-
 
         id_reporttime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,10 +269,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentLoginReport frag = new FragmentLoginReport();
-                ft.replace(R.id.container,frag,"FragmentLoginReport");
+                ft.replace(R.id.container, frag, "FragmentLoginReport");
                 ft.addToBackStack("FragmentLoginReport");
                 ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -251,10 +282,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMenuOffline frag = new FragmentMenuOffline();
-                ft.replace(R.id.container,frag,"FragmentMenu");
+                ft.replace(R.id.container, frag, "FragmentMenu");
                 ft.addToBackStack("FragmentMenu");
                 ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_missions.setOnClickListener(new View.OnClickListener() {
@@ -264,15 +295,16 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentMessage frag = new FragmentMessage();
-                ft.replace(R.id.container,frag,"FragmentMessage");
+                ft.replace(R.id.container, frag, "FragmentMessage");
                 ft.addToBackStack("FragmentMessage");
                 ft.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO when pressing the back button it leads to a wrong menu fragment, need to fix that
                 id_preferences.startAnimation(clickAnimation);
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
@@ -281,7 +313,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 fragmentTransaction2.hide(FragmentMenu.this);
                 fragmentTransaction2.add(R.id.container, fragment2);
                 fragmentTransaction2.commit();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_masofon.setOnClickListener(new View.OnClickListener() {
@@ -294,36 +326,47 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 b.putInt("callid", -1);
                 b.putInt("cid", -1);
                 b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
-                b.putString("action","masofon");
+                b.putString("action", "masofon");
                 b.putString("specialurl", "");
                 intent.putExtras(b);
                 startActivity(intent);
             }
         });
 
-
-       try{
-           id_calls.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   id_calls.startAnimation(clickAnimation);
-                   android.support.v4.app.FragmentManager fm = getFragmentManager();
-                   android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                   FragmentMidCalls frag = new FragmentMidCalls();
-                   ft.replace(R.id.container,frag,"FragmentMidCalls");
-                   ft.addToBackStack("FragmentMidCalls");
-                   ft.commit();
-                   getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-                   //Intent intent = new Intent(getActivity(), ActivityCalls.class);
-                   //startActivity(intent);
-               }
-           });
-       }catch (Exception ex){
-
-           Log.e("mytag",ex.getMessage());
-       }
+        id_accounting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id_accounting.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentAccounting frag = new FragmentAccounting();
+                ft.replace(R.id.container, frag, "FragmentAccounting");
+                ft.addToBackStack("FragmentAccounting");
+                ft.commit();
+            }
+        });
 
 
+        try {
+            id_calls.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    id_calls.startAnimation(clickAnimation);
+                    android.support.v4.app.FragmentManager fm = getFragmentManager();
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentMidCalls frag = new FragmentMidCalls();
+                    ft.replace(R.id.container, frag, "FragmentMidCalls");
+                    ft.addToBackStack("FragmentMidCalls");
+                    ft.commit();
+                    //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                    //Intent intent = new Intent(getActivity(), ActivityCalls.class);
+                    //startActivity(intent);
+                }
+            });
+        } catch (Exception ex) {
+
+            Log.e("mytag", ex.getMessage());
+        }
 
 
         return v;
@@ -335,57 +378,57 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     private void initializeBadgeDictionary(View v) {
 
         // Set all the badges objects.
-        for(MenuAlertBadgeEnum alert : MenuAlertBadgeEnum.values()) {
+        for (MenuAlertBadgeEnum alert : MenuAlertBadgeEnum.values()) {
 
             // Initialize the nav_bar badges.
-            switch (alert){
+            switch (alert) {
                 case badge_customers:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_customers));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_customers));
                     break;
                 case badge_offers:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_offers));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_offers));
                     break;
                 case badge_orders:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_orders));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_orders));
                     break;
                 case badge_calls:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_calls));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_calls));
                     break;
                 case badge_missions:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_missions));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_missions));
                     break;
                 case badge_reports:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reports));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_reports));
                     break;
                 case badge_masofon:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_masofon));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_masofon));
                     break;
                 case badge_favorites:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_favorites));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_favorites));
                     break;
                 case badge_reporttime:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_reporttime));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_reporttime));
                     break;
                 case badge_tools:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_tools));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_tools));
                     break;
                 case badge_preferences:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_preferences));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_preferences));
                     break;
                 case badge_accounting:
                     this.alertBadgeDictionary.put
-                            (alert, (NotificationBadge)v.findViewById(R.id.badge_accounting));
+                            (alert, (NotificationBadge) v.findViewById(R.id.badge_accounting));
                     break;
 
             }
@@ -393,7 +436,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         }
     }
 
-    private void getCallStatuses(){
+    private void getCallStatuses() {
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
@@ -423,13 +466,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         return ccustomers.length;
     }
 
-    private int getCallsListLength(){
+    private int getCallsListLength() {
         JSONObject j = null;
         int length = 0;
 
-        List<Call> calls = new ArrayList<Call>() ;
+        List<Call> calls = new ArrayList<Call>();
         try {
-            calls= DatabaseHelper.getInstance(getContext()).getCalls("");
+            calls = DatabaseHelper.getInstance(getContext()).getCalls("");
             length = calls.size();
         } catch (Exception e) {
             e.printStackTrace();
@@ -446,25 +489,28 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //                fragmentTransaction2.hide(FragmentMenu.this);
 //                fragmentTransaction2.add(R.id.container, fragment2);
 //                fragmentTransaction2.commit();
+
     /**
      * Opens the side navigation menu from the left.
+     *
      * @param view view
      */
-    public void onMenuBarOptionsClick(View view){
+    public void onMenuBarOptionsClick(View view) {
 
         this.drawerLayout.openDrawer(Gravity.START);
     }
 
     /**
      * Closes the side navigation menu.
+     *
      * @param view view
      */
-    public void onSideNavOptionsClick(View view){
+    public void onSideNavOptionsClick(View view) {
 
         this.drawerLayout.closeDrawer(Gravity.START);
     }
 
-    protected void AlertDialogAllFirstTime(){
+    protected void AlertDialogAllFirstTime() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת כל המוצרים");
         builder.setMessage("האם תרצה לסנכרן את כל המוצרים?");
@@ -473,15 +519,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             public void onClick(DialogInterface dialog, int ii) {
                 boolean flag;
                 flag = db.delete_from_mgnet_items("all");
-                if (flag == true){
-                    if (db.mgnet_items_isEmpty("all")){
+                if (flag == true) {
+                    if (db.mgnet_items_isEmpty("all")) {
                         new ProgressTaskAll(context).execute();
                     }
                 }
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -489,7 +534,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         );
         builder.show();
     }
-    protected void AlertDialogClientFirstTime(){
+
+    protected void AlertDialogClientFirstTime() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("רשימת מוצרי לקוח לא הושלמה");
         builder.setMessage("האם תרצה לסנכרן מוצרי לקוח?");
@@ -500,11 +546,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //                backServices.startService(new Intent(getContext(), BackServices.class));
                 helper.startService_sync_products(getContext());
                 Toast.makeText(getContext(), "startService_sync_products", Toast.LENGTH_LONG).show();
-                       // new ProgressTaskClient(getContext()).execute();
-                    }
+                // new ProgressTaskClient(getContext()).execute();
+            }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -514,20 +559,21 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
     }
 
 
-    protected  void setUsername(){
-        try{
+    protected void setUsername() {
+        try {
             Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
-                    tv_username.setText("שלום "+str);
+                    tv_username.setText("שלום " + str);
                     //Log.e("myTag",str);
                 }
             });
-        }catch (Exception ex){
-            Log.e("MYTAG",ex.getMessage());
+        } catch (Exception ex) {
+            Log.e("MYTAG", ex.getMessage());
         }
     }
-    public void chkUpdateProducts(){
+
+    public void chkUpdateProducts() {
 
 
 //------------------------
@@ -550,11 +596,11 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             //Log.e("MYTAG","current:"+ currentTime.toString()+ " is after -try try- :"+c_week.getTime().toString() + "?");
 
             //##################
-            Log.e("MYTAG","current:"+ currentTime.toString()+ " is after convertedDate_all:"+convertedDate_all.toString() + "?");
+            Log.e("MYTAG", "current:" + currentTime.toString() + " is after convertedDate_all:" + convertedDate_all.toString() + "?");
             if (currentTime.after((convertedDate_all))) {
                 AlertDialogAll();
             }
-            Log.e("MYTAG","current:"+ currentTime.toString()+ " is after convertedDate_all:"+convertedDate_client.toString() + "?");
+            Log.e("MYTAG", "current:" + currentTime.toString() + " is after convertedDate_all:" + convertedDate_client.toString() + "?");
             if (currentTime.after(convertedDate_client)) {
                 AlertDialogClient();
             }
@@ -575,7 +621,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 
 
     }
-    protected void AlertDialogAll(){
+
+    protected void AlertDialogAll() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת כל המוצרים");
         builder.setMessage("לא בוצע סנכרון כבר 7 ימים, האם לסנכרן?");
@@ -584,14 +631,14 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             public void onClick(DialogInterface dialog, int ii) {
                 boolean flag;
                 flag = db.delete_from_mgnet_items("all");
-                if (flag == true){
-                    if (db.mgnet_items_isEmpty("all") == true){
+                if (flag == true) {
+                    if (db.mgnet_items_isEmpty("all") == true) {
 
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Calendar c_week = Calendar.getInstance();
                         c_week.add(Calendar.DAY_OF_YEAR, 7);
                         String formatted = df.format(c_week.getTime());
-                        db.updateValue("PRODUCTS_UPDATE",formatted);
+                        db.updateValue("PRODUCTS_UPDATE", formatted);
 
 
                         new ProgressTaskAll(context).execute();
@@ -599,8 +646,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
                 }
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -608,31 +654,29 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         );
         builder.show();
     }
-    protected void DeleteForExample(){
+
+    protected void DeleteForExample() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת כל המוצרים");
         builder.setMessage("מחק מוצרי לקוח?");
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int ii) {
-                try{
-                    File dir = new File(Environment.getExternalStorageDirectory()+"/wizenet/client_products");
-                    if (dir.isDirectory())
-                    {
+                try {
+                    File dir = new File(Environment.getExternalStorageDirectory() + "/wizenet/client_products");
+                    if (dir.isDirectory()) {
                         String[] children = dir.list();
-                        for (int i = 0; i < children.length; i++)
-                        {
+                        for (int i = 0; i < children.length; i++) {
                             new File(dir, children[i]).delete();
                         }
                     }
-                }catch(Exception ex){
-                        Log.e("MYTAG","failed to delete");
+                } catch (Exception ex) {
+                    Log.e("MYTAG", "failed to delete");
                 }
 
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -641,7 +685,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
         builder.show();
     }
 
-    protected void AlertDialogClient(){
+    protected void AlertDialogClient() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("סנכרון רשימת מוצרי לקוח");
         builder.setMessage("לא בוצע סנכרון היום, האם לסנכרן?");
@@ -650,20 +694,19 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
             public void onClick(DialogInterface dialog, int ii) {
 
 
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Calendar c_week = Calendar.getInstance();
-                        c_week.add(Calendar.DAY_OF_YEAR, 7);
-                        String formatted = df.format(c_week.getTime());
-                        db.updateValue("CLIENTS_PRODUCTS_UPDATE",formatted);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar c_week = Calendar.getInstance();
+                c_week.add(Calendar.DAY_OF_YEAR, 7);
+                String formatted = df.format(c_week.getTime());
+                db.updateValue("CLIENTS_PRODUCTS_UPDATE", formatted);
 
-                        helper.deleteProductsFiles();
-                        new ProgressTaskClient(context).execute();
+                helper.deleteProductsFiles();
+                new ProgressTaskClient(context).execute();
 
 
             }
         });
-        builder.setNegativeButton("לא", new DialogInterface.OnClickListener()
-                {
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int ii) {
                         dialog.dismiss();
                     }
@@ -703,39 +746,39 @@ public class FragmentMenu extends android.support.v4.app.Fragment  {
 //    }
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
 
-        if (helper.isNetworkAvailable(context)){
-            Log.e("mytag","isNetworkAvailable");
+        if (helper.isNetworkAvailable(context)) {
+            Log.e("mytag", "isNetworkAvailable");
             Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
-                    menu_bar_welcome_txt.setText( " שלום " +str);
+                    menu_bar_welcome_txt.setText(" שלום " + str);
                 }
             });
-        }else{
-            Log.e("mytag","is not NetworkAvailable");
+        } else {
+            Log.e("mytag", "is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
         }
+
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
         //Toast.makeText(getActivity(),"onResume",Toast.LENGTH_SHORT).show();
 
     }
-    public String getEditText(){
+
+    public String getEditText() {
         return myEditText2.getText().toString();
     }
 
 
-
-    public void goToMapFragment(){
+    public void goToMapFragment() {
         android.support.v4.app.FragmentManager fm = getFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         //MapFragment frag = new MapFragment();
-       // ft.replace(R.id.container,frag,"MapFragment");
+        // ft.replace(R.id.container,frag,"MapFragment");
         //tv.setVisibility(TextView.GONE);
         ft.addToBackStack("MapFragment");
         ft.commit();

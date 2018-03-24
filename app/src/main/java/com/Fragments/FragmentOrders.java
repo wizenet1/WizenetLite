@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 
@@ -85,8 +86,13 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_orders, null);
+
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn the orders action bar icon on, and the rest off to their original color.
+        ((MenuActivity) getActivity()).turnActionBarOrdersIconOn();
+
         f = new File_();
         _CID = "0";
         helper = new Helper();
@@ -101,9 +107,6 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         amount_id.setSelectAllOnFocus(true);
         price_id.setSelectAllOnFocus(true);
         //AlretIfNotFinishSync();
-
-        ImageView orders = (ImageView)getActivity().findViewById(R.id.messages);
-        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         List<String> responseList2 = new ArrayList<String>();
         responseList2 = getSpecialCustomerList();

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,6 +185,31 @@ public class FragmentCustomerDetails extends Fragment {
 //        initContacts();
 //        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
 //        this.expandableListViewContacts.setAdapter(this.listAdapter);
+
+        final TextView commentsIcon = (TextView) view.findViewById(R.id.customer_details_comments_icon);
+        commentsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        commentsIcon.setTextSize(20);
+
+        //Additional contacts button.
+        final ConstraintLayout commentsContactsLayout = (ConstraintLayout)view.findViewById(R.id
+                .customer_details_constraintLayout_comments);
+
+        commentsContactsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentsIcon.setAnimation(clickAnimation);
+
+                //TODO add actual user comments
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                builder1.setMessage("הערות משתמש");
+                builder1.setCancelable(true);
+
+                builder1.setNegativeButton("בטל", null);
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
 
         final TextView additionalContactsIcon = (TextView) view.findViewById(R.id.customer_details_additional_contacts_icon);
         additionalContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));

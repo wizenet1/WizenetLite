@@ -67,15 +67,16 @@
             app:badgeBackground="@drawable/badge_bg_with_shadow"
             app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
 
+
         <ImageView
-            android:id="@+id/messages"
+            android:id="@+id/help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toRightOf="@+id/clients"
             android:layout_weight="1"
             android:background="#D84626"
-            android:src="@drawable/message" />
+            android:src="@drawable/help" />
 
         <com.nex3z.notificationbadge.NotificationBadge
             android:id="@+id/badge_messages"
@@ -89,14 +90,14 @@
             app:maxTextLength="2"></com.nex3z.notificationbadge.NotificationBadge>
 
         <ImageView
-            android:id="@+id/help"
+            android:id="@+id/messages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_toRightOf="@+id/arrows"
+            android:layout_toRightOf="@+id/help"
             android:layout_weight="1"
             android:background="#D84626"
-            android:src="@drawable/help" />
+            android:src="@drawable/message" />
 
         <com.nex3z.notificationbadge.NotificationBadge
             android:id="@+id/badge_help"

@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="רשימת תזכורות"
+            android:text="רשימת משימות"
             android:gravity="center"
             android:id="@+id/customer_name"
             android:textSize="30sp"/>

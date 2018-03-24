@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,10 +18,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Activities.ScannerActivity;
 import com.Classes.Message;
@@ -58,6 +62,11 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
     DatabaseHelper db;
     Icon_Manager icon_manager;
     private ProgressDialog working_dialog;
+    private ImageView homepage;
+    private ImageView messages;
+    private ImageView clients;
+    private ImageView missions;
+    private ImageView calls;
 
 
     @Override
@@ -66,6 +75,26 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
 
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
+        homepage = (ImageView)getActivity().findViewById(R.id.homepage);
+
+        messages = (ImageView)getActivity().findViewById(R.id.messages);
+        // Init the clients button.
+        clients = (ImageView)getActivity().findViewById(R.id.clients);
+        // Init the missions.
+        missions = (ImageView)getActivity().findViewById(R.id.arrows);
+        // Init the calls.
+        calls = (ImageView)getActivity().findViewById(R.id.help);
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        messages.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
         db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         icon_manager = new Icon_Manager();
         helper = new Helper();

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Message;
 import com.DatabaseHelper;
@@ -47,7 +48,6 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
     boolean result = false;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,6 +57,10 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         setHasOptionsMenu(true);
+
+        //Turn the missions action bar icon on, and the rest off to their original color.
+        ((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
+
         db = DatabaseHelper.getInstance(getContext());
 
 
@@ -75,9 +79,6 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
-
-        ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
-        message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
