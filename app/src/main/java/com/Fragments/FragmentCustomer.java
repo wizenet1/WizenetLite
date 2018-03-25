@@ -178,11 +178,11 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    getFragmentManager().popBackStack();
-                    // handle back button's click listener
-                    return true;
-                }
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    getFragmentManager().popBackStack();
+//                    // handle back button's click listener
+//                    return true;
+//                }
                 return false;
             }
         });

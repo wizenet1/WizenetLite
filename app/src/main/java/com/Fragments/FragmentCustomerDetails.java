@@ -170,13 +170,13 @@ public class FragmentCustomerDetails extends Fragment {
         //this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
         initComments();
         this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
-        this.expandableListViewComments.setAdapter(this.listAdapter);
+        //this.expandableListViewComments.setAdapter(this.listAdapter);
 
         //Setting the additional contacts expandable list.
         //this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
         initContacts();
         this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
-        this.expandableListViewContacts.setAdapter(this.listAdapter);
+        //this.expandableListViewContacts.setAdapter(this.listAdapter);
 
         TextView sendSms = (TextView) view.findViewById(R.id.customer_details_sendsms);
         sendSms.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));

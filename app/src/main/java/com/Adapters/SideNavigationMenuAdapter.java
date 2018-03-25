@@ -19,7 +19,7 @@ import com.Activities.ActivityCalls;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Fragments.ControlPanelFragment;
-import com.Fragments.FragmentCalls;
+//import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.Fragments.FragmentMessage;
@@ -140,10 +140,10 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
             case "קריאות":
                 //Intent intent = new Intent(((Activity) context), ActivityCalls.class);
                 //((Activity) context).startActivity(intent);
-                FragmentCalls fragCalls = new FragmentCalls();
-                ft.replace(R.id.container, fragCalls, "FragmentCalls");
-                ft.addToBackStack("FragmentCalls");
-                ft.commit();
+//                FragmentCalls fragCalls = new FragmentCalls();
+//                ft.replace(R.id.container, fragCalls, "FragmentCalls");
+//                ft.addToBackStack("FragmentCalls");
+//                ft.commit();
                 this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "הודעות":

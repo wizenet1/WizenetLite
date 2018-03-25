@@ -50,13 +50,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.NetworkInterface;
+import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import static com.Activities.MainActivity.ctx;
@@ -98,6 +101,39 @@ public class Helper {
 //            dir.mkdir();
 //        }
     }
+    public  long getDateDiff(SimpleDateFormat format, String oldDate, String newDate) { //now - new date - old the old one
+        Helper h = new Helper();
+        long ret = 0;
+        try {
+            //return TimeUnit.MINUTES.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            try {
+                Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: ");
+                long dateNew =  Long.valueOf(newDate);
+                long dateOld = Long.valueOf(oldDate);
+                long diff = dateNew - dateOld;
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+                long hours = minutes / 60;
+                ret = minutes;
+                long days = hours / 24;
+                //Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: "+minutes);
+
+                return minutes;
+            } catch (Exception e) {
+                h.LogPrintExStackTrace(e);
+                e.printStackTrace();
+            }
+            return ret;
+        } catch (Exception e) {
+
+            h.LogPrintExStackTrace(e);
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
 
     public boolean isJSONValid(String test) {
         try {
@@ -684,9 +720,16 @@ public class Helper {
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getMacAddr() {
-        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-        String device_id = tm.getDeviceId();
-        return device_id;
+        try{
+            TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            String device_id = tm.getDeviceId();
+            return device_id;
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            return "";
+        }
+
 //        try {
 //            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
 //            for (NetworkInterface nif : all) {
@@ -827,41 +870,42 @@ public class Helper {
         ft.addToBackStack("FragmentTools");
         ft.commit();
     }
-    public void goToCallsFragment(Context context){
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        FragmentCalls frag = new FragmentCalls();
-        ft.replace(R.id.container,frag,"FragmentCalls");
-        //tv.setVisibility(TextView.GONE);
-        ft.addToBackStack("FragmentCalls");
-        ft.commit();
-    }
-    public void goToCallDetailsFrag(Context context,String puId)
-    {
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle = new Bundle();
-        FragmentCallDetails frag = new FragmentCallDetails();
-        //bundle.putString("receiver", dataName);
-        bundle.putString("puId",puId);
-        frag.setArguments(bundle);
-        ft.replace(R.id.container,frag,"FragmentCallDetails");
-        ft.addToBackStack("FragmentCallDetails");
-        ft.commit();
-    }
-    public void goToCallDetailsFragNew(Context context,String puId)
-    {
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle = new Bundle();
-        FragmentCallDetails frag = new FragmentCallDetails();
-        //bundle.putString("receiver", dataName);
-        bundle.putString("puId",puId);
-        frag.setArguments(bundle);
-        ft.replace(R.id.container,frag,"FragmentCallDetails");
-        ft.addToBackStack("FragmentCallDetails");
-        ft.commit();
-    }
+//    public void goToCallsFragment(Context context){
+//        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+//        FragmentCalls frag = new FragmentCalls();
+//        ft.replace(R.id.container,frag,"FragmentCalls");
+//        //tv.setVisibility(TextView.GONE);
+//        ft.addToBackStack("FragmentCalls");
+//        ft.commit();
+//    }
+//    public void goToCallDetailsFrag(Context context,String puId)
+//    {
+//        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+//        Bundle bundle = new Bundle();
+//        FragmentCallDetails frag = new FragmentCallDetails();
+//        //bundle.putString("receiver", dataName);
+//        bundle.putString("puId",puId);
+//        frag.setArguments(bundle);
+//        ft.replace(R.id.container,frag,"FragmentCallDetails");
+//        ft.addToBackStack("FragmentCallDetails");
+//        ft.commit();
+//    }
+//    public void goToCallDetailsFragNew(Context context,String puId)
+//    {
+//        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+//        Bundle bundle = new Bundle();
+//        FragmentCallDetails frag = new FragmentCallDetails();
+//        //bundle.putString("receiver", dataName);
+//        bundle.putString("puId",puId);
+//        frag.setArguments(bundle);
+//        ft.replace(R.id.container,frag,"FragmentCallDetails");
+//        ft.addToBackStack("FragmentCallDetails");
+//        ft.commit();
+//    }
+
     public void goToOrdersFragment(Context context){
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();

@@ -85,15 +85,20 @@ public class MainActivity extends Activity {
                 Boolean isCallOfllineEsixts = DatabaseHelper.getInstance(ctx).isTableExists("call_offline") ? true : false;
                 Boolean isCallsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("mgnet_calls") ? true : false;
                 Boolean isControlPanelEsixts = DatabaseHelper.getInstance(ctx).isTableExists("ControlPanel") ? true : false;
+                Boolean isCalltimeEsixts = DatabaseHelper.getInstance(ctx).isTableExists("Calltime") ? true : false;
 
+                //--------- add tables -------------
                 if (!isCallOfllineEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToCalls_Offline("",isCallOfllineEsixts);
                 if (!isCallsEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToCalls("",isCallsEsixts);
+                if (!isCalltimeEsixts)
+                    DatabaseHelper.getInstance(ctx).createColumnToCalltime("",isCalltimeEsixts);
                 if (!isControlPanelEsixts){
                     DatabaseHelper.getInstance(ctx).createColumnToCP("",isControlPanelEsixts);
                     helper.addInitialfirst(ctx);
                 }
+                //---------- add columns ----------
                 Toast.makeText(getBaseContext(),"עודכן בהצלחה", Toast.LENGTH_SHORT).show();
                 Log.e("mytag", String.valueOf(DatabaseHelper.getInstance(ctx).columnExistsInTable("mgnet_calls","sla")));
                 //-----------add new column in mgnet_calls if not exist

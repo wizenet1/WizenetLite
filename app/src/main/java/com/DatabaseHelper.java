@@ -33,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String mgnet_items = "mgnet_items";
     private static final String mgnet_calls = "mgnet_calls";
     private static final String CallStatus = "CallStatus";
+    private static final String Calltime = "Calltime";
+
     //Table Columns mgnet_calls
     //CID, AID, StartDate, subject, CallType, TechnicianID, CPhone, ProblemID,
      //comments, Pmakat, InternalSN, Pname, OriginID, contractID, cntrctDate, CallStatus, resolution, CallTypeID, Cname, priorityID, contctCode,CallRefID
@@ -105,6 +107,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        String CREATE_call_time =
+                "CREATE TABLE " + "Calltime" + "("
+                        + "CTID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + "CallID" +  " INTEGER, "
+                        + "CallStartTime" +  " TEXT, "
+                        + "Minute" + " TEXT, "
+                        + "CTcomment" + " TEXT, "
+                        + "ctq" + " TEXT "
+                        + ")";
+
         String CREATE_call_offline=
                 "CREATE TABLE " + "call_offline" + "("
                         + "CallID" +  " INTEGER, "
@@ -112,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "internalSN"+ " TEXT, "
                         + "techAnswer"+ " TEXT "
                         + ")";
+
         String CREATE_mgnet_calls=
                 "CREATE TABLE " + mgnet_calls + "("
                         + "CallID" +  " INTEGER, "
@@ -220,8 +233,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_mgnet_client_items);
         db.execSQL(CREATE_mgnet_calls);
         db.execSQL(CREATE_call_offline);
+        db.execSQL(CREATE_call_time);
         //db.execSQL("DROP TABLE "+TABLE_CONTROL_PANEL+" ");
-
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -417,6 +430,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
+    public boolean createColumnToCalltime(String column,boolean isTableExist){
+        String Calltime = "Calltime";
+        boolean flag = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_call_time =
+                    "CREATE TABLE " + "Calltime" + "("
+                            + "CTID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            + "CallID" +  " INTEGER, "
+                            + "CallStartTime" +  " TEXT, "
+                            + "Minute" + " TEXT, "
+                            + "CTcomment" + " TEXT ,"
+                            + "ctq" + " TEXT "
+                            + ")";
+            if (isTableExist){
+                db.execSQL("ALTER TABLE " + Calltime + " RENAME TO " + Calltime + "_old;");
+            }
+            db.execSQL(CREATE_call_time);
+            if (isTableExist) {
+                db.execSQL("DROP TABLE " + Calltime + "_old;");
+            }
+            if (!column.equals("")){
+                db.execSQL("ALTER TABLE " + Calltime + " ADD COLUMN " + column + " TEXT;");
+            }
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
+    }
     public boolean createColumnToCalls_Offline(String column,boolean isTableExist){
         String call_offline = "call_offline";
         boolean flag = false;
@@ -481,8 +527,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
+    public boolean delete_call_time() {
+        boolean flag = true;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
 
+            db.delete("Calltime", null, null);
+            //db.close();
 
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    //region calltime
+    public boolean add_calltime(Calltime ct){
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CallID" , ct.getCallID());
+            values.put("CallStartTime", ct.getCallStartTime());
+            values.put("Minute", ct.getMinute());
+            values.put("CTcomment", ct.getCTcomment().trim());
+            values.put("ctq", ct.getCtq());
+            db.insert("Calltime", null, values);
+            flag = true;
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    public boolean update_calltime(Calltime ct) {
+        Log.e("mytag",ct.toString());
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CallID" , ct.getCallID());
+            values.put("CallStartTime", ct.getCallStartTime());
+            values.put("Minute", ct.getMinute());
+            values.put("CTcomment", ct.getCTcomment().trim());
+            values.put("ctq", ct.getCtq());
+            db.update("Calltime", values, "CTID = " + ct.getCTID(), null);
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+
+    }
+    //endregion
 
    //region call_offline
     public boolean add_call_offline(Call_offline co){
@@ -791,7 +891,7 @@ public boolean getCallsCount() {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
             flag = (cursor.getCount() > 0) ? true : false;
-            db.close();
+            //db.close ();
         }catch(Exception e){
             flag = false;
             Log.e("MYTAG","db + "+e.getMessage());
@@ -877,7 +977,7 @@ public void addNewCall(Call call) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             db.delete("mgnet_calls", null, null);
-            db.close();
+            //db.close();
 
         }catch (Exception e){
             flag = false;
@@ -888,6 +988,37 @@ public void addNewCall(Call call) {
     }
 
 //endregion
+public Calltime getCalltimeByCallidAndAction(String callid,String action){
+
+    Calltime calltime = new Calltime();
+
+    try {
+        String selectQuery = "";
+        selectQuery = "SELECT * FROM Calltime where callid= '" + callid + "' and CTcomment= '" + action + "' order by CTID desc LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.rawQuery(selectQuery, null);
+        if (cursor.getCount() == 0){
+            calltime.setCTID(-1);
+            return calltime;
+        }
+        if (cursor.moveToFirst()) {
+            calltime.setCTID((cursor.getInt(cursor.getColumnIndex("CTID"))));
+            calltime.setCallID((cursor.getInt(cursor.getColumnIndex("CallID"))));
+            calltime.setCallStartTime((cursor.getString(cursor.getColumnIndex("CallStartTime"))));
+            calltime.setCTcomment((cursor.getString(cursor.getColumnIndex("CTcomment"))));
+            calltime.setMinute((cursor.getString(cursor.getColumnIndex("Minute"))));
+            calltime.setCtq((cursor.getString(cursor.getColumnIndex("ctq"))));
+        }
+        cursor.close();
+        return calltime;
+    }
+    catch(Exception e) {
+        Helper h = new Helper();
+        h.LogPrintExStackTrace(e);
+        calltime.setCTID(-1);
+        return calltime;
+    }
+}
 public CallStatus getCallStatusByCallStatusName(String CallStatusName){
 
     CallStatus callStatus = new CallStatus();
@@ -901,19 +1032,13 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             callStatus.setCallStatusName( (cursor.getString(cursor.getColumnIndex("CallStatusName"))));
             callStatus.setCallStatusOrder( Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallStatusOrder"))));
         }
+        cursor.close();
         return callStatus;
     }
     finally {
-        // if (cursor != null) {
-        //    cursor.close();
-        db.close();
+
         return callStatus;
-        //}
     }
-
-
-    //db.close();
-    //eturn call;
 }
     public void addCallStatus(CallStatus callStatus) {
         try{
@@ -924,7 +1049,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put("CallStatusOrder", callStatus.getCallStatusOrder());
             db.insert(CallStatus, null, values);
             // Closing database connection
-            db.close();
+            //db.close();
         }catch (Exception e){
             e.printStackTrace();
             Log.e("MYTAG",e.getMessage());
@@ -950,7 +1075,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 statusList.add(cp);
             } while (cursor.moveToNext());
         }
-        db.close();
+        cursor.close();
+        //db.close();
         return statusList;
     }
     public boolean deleteCallStatuses() {
@@ -959,7 +1085,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             SQLiteDatabase db = this.getWritableDatabase();
 
             db.delete(CallStatus, null, null);
-            db.close();
+            //db.close();
 
         }catch (Exception e){
             flag = false;
@@ -976,7 +1102,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         Cursor mcursor = db.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
-        db.close();
+        //db.close();
         if(icount>0){
             return false;
         }
@@ -999,13 +1125,14 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             Cursor mcursor = db.rawQuery(count, null);
             mcursor.moveToFirst();
             int icount = mcursor.getInt(0);
-            db.close();
+            //db.close();
             if(icount>0){
                 flag = false;
             }
             else{
                 flag = true;
             }
+            mcursor.close();
         }catch(Exception ex){
             Log.e("MYTAG",ex.getMessage());
         }
@@ -1038,7 +1165,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 orderList.add(cp);
             } while (cursor.moveToNext());
         }
-        db.close();
+        //db.close();
         return orderList;
     }
     public List<Order> get_mgnet_items(String allORclient) {
@@ -1070,7 +1197,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                     orderList.add(cp);
                 } while (cursor.moveToNext());
             }
-            db.close();
+            //db.close();
             return orderList;
         }catch (Exception e){
 
@@ -1226,12 +1353,13 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 call.setState( (cursor.getString(cursor.getColumnIndex("state"))));
                 call.setSla( (cursor.getString(cursor.getColumnIndex("sla"))));
             }
+            cursor.close();
             return call;
         }
         finally {
            // if (cursor != null) {
             //    cursor.close();
-                db.close();
+                //db.close();
                 return call;
             //}
         }
@@ -1251,7 +1379,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put(DESCRIPTION, "");
             // Inserting Row
             db.insert(TABLE_CONTROL_PANEL, null, values);
-            db.close(); // Closing database connection
+           // db.close(); // Closing database connection
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1273,7 +1401,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
 
             // Inserting Row
             db.insert(TABLE_MESSAGES, null, values);
-            db.close(); // Closing database connection
+           // db.close(); // Closing database connection
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1299,7 +1427,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         finally {
             if (c != null) {
                 c.close();
-                db.close();
+                //db.close();
             }
         }
     }
@@ -1389,7 +1517,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 //cp.setId(c.getInt(c.getColumnIndex(ID)));
                 cp.setKey((c.getString(c.getColumnIndex(KEY))));
                 cp.setValue(c.getString(c.getColumnIndex(VALUE)));
-                db.close();
+                c.close();
+                //db.close();
                 return cp.getValue();
             } catch(Exception e) {
                 e.printStackTrace();
@@ -1421,7 +1550,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 control_panel_list.add(cp);
             } while (cursor.moveToNext());
         }
-        db.close();
+       // db.close();
+        cursor.close();
         return control_panel_list;
     }
 
@@ -1449,7 +1579,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 messages_list.add(cp);
             } while (cursor.moveToNext());
         }
-        db.close();
+        //db.close();
+        cursor.close();
         return messages_list;
     }
 
@@ -1460,7 +1591,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put(VALUE, val);
             //values.put(DESCRIPTION, "");
             db.update(TABLE_CONTROL_PANEL, values, KEY + " = '"+key+"'", null);
-            db.close();
+            //db.close();
         }catch(Exception e){
             Helper h = new Helper();
             h.LogPrintExStackTrace(e);

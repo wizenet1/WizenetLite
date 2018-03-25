@@ -47,7 +47,7 @@ import com.AlertBadgeEnum;
 import com.DatabaseHelper;
 import com.Alarm_Receiver;
 import com.Fragments.FragmentActions;
-import com.Fragments.FragmentCalls;
+//import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentClientReports;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
@@ -555,7 +555,18 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         } else {
             Log.e("mytag", "fm.getBackStackEntryCount()else:" + String.valueOf(fm.getBackStackEntryCount()));
             fm.popBackStack();
-            //goToMenuFragment();
+            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+            for (int i = 0; i < backStackCount; i++) {
+                // Get the back stack fragment id.
+                int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
+                String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
+                Log.e("mytag","fragName:" +tag);
+//                if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1){
+//                }else{
+//                    fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                }
+
+            }
         }
     }
 
