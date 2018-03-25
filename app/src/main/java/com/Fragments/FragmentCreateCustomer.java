@@ -3,13 +3,10 @@ package com.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.Activities.R;
@@ -106,47 +103,10 @@ public class FragmentCreateCustomer extends Fragment {
         customerEmailIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         customerEmailIcon.setTextSize(30);
 
-        //Add contacts button.
-        TextView addContactsIcon = (TextView) view.findViewById(R.id.create_customer_add_contacts_icon);
-        addContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        addContactsIcon.setTextSize(30);
-
-        //Save customer button.
-        TextView saveCustomerIcon = (TextView) view.findViewById(R.id.create_customer_save_icon);
-        saveCustomerIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        saveCustomerIcon.setTextSize(30);
-
-        //Animation applied to menu icons to create click effect.
-        final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
-
-        //Add contacts button.
-        final ConstraintLayout addContactsLayout = (ConstraintLayout) view.findViewById(R.id
-                .create_customer_constraintLayout_add_contacts);
-
-        addContactsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addContactsLayout.startAnimation(clickAnimation);
-                //TODO implement functionality
-            }
-        });
-
-        //Save customer button.
-        final ConstraintLayout saveLayout = (ConstraintLayout) view.findViewById(R.id
-                .create_customer_constraintLayout_save);
-
-        saveLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveLayout.startAnimation(clickAnimation);
-                //TODO implement functionality
-            }
-        });
-
         return view;
     }
 
-    private void changeLayoutToEditCustomer(View view) {
+    private void changeLayoutToEditCustomer(View view){
 
         String CID = this.customerArgumentsBundle.getString("CID");
         String firstName = this.customerArgumentsBundle.getString("FirstName");
@@ -154,8 +114,6 @@ public class FragmentCreateCustomer extends Fragment {
         String company = this.customerArgumentsBundle.getString("Company");
         String cell = this.customerArgumentsBundle.getString("Cell");
         String landline = this.customerArgumentsBundle.getString("Phone");
-        String address = this.customerArgumentsBundle.getString("Address");
-        String email = this.customerArgumentsBundle.getString("Email");
 
         //Change the welcome sign.
         TextView welcomeTxt = (TextView) view.findViewById(R.id.create_customer_welcome_txt);
@@ -180,10 +138,10 @@ public class FragmentCreateCustomer extends Fragment {
         customerLandlineEditText.setText(landline);
 
         TextView customerAddressEditText = (TextView) view.findViewById(R.id.create_customer_address_editText);
-        customerAddressEditText.setText(address);
+        customerAddressEditText.setText("");//TODO add customer address
 
         TextView customerEmailEditText = (TextView) view.findViewById(R.id.create_customer_email_editText);
-        customerEmailEditText.setText(email);
+        customerEmailEditText.setText("");//TODO add customer email
     }
 
 }

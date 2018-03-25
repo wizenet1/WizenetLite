@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by User on 31/08/2016.
  */
-public class FragmentMessage extends android.support.v4.app.Fragment {
+public class FragmentActions extends android.support.v4.app.Fragment {
 
 
     EditText key_et, val_et;
@@ -53,7 +53,7 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.message_fragment, null);
+        View v = inflater.inflate(R.layout.fragment_actions, null);
         setHasOptionsMenu(true);
         db = DatabaseHelper.getInstance(getContext());
 

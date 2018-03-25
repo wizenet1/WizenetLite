@@ -927,7 +927,7 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse = myResponse.replaceAll("\\<[^>]*>","");
-                    Log.e("mytag","callstatuses: "+ myResponse);
+                    Log.e("mytag","callstatuses: " );//myResponse
                     File_ f = new File_();
                     boolean flag = false;
                     if (helper.isJSONValid(myResponse)){

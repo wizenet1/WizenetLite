@@ -45,14 +45,7 @@ public class FragmentLoginReport extends android.support.v4.app.Fragment {
     Button btn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.login_report_fragment, container, false);
-
-        // Load the action bar.
-        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-
-        //Turn all the action bar icons off to their original color.
-        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
-
+        View v = inflater.inflate(R.layout.login_report_fragment, null);
         s_longtitude = "";
         s_latitude = "";
         setHasOptionsMenu(true);

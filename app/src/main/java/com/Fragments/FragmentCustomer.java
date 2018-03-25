@@ -63,13 +63,6 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.customer_fragment, null);
-
-        // Load the action bar.
-        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-
-        //Turn the action bar customers icon on, and the rest off.
-        ((MenuActivity)getActivity()).turnActionBarClientsIconsOn();
-
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
         Helper helper = new Helper();
@@ -100,6 +93,8 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         }
         ((MenuActivity)getActivity()).initialIcons();
         myList = (ListView) v.findViewById(R.id.customer_list);
+        ImageView client = (ImageView)getActivity().findViewById(R.id.clients);
+        client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         //adapter = new CustomAdapter();
         //myList.setAdapter(adapter);
@@ -191,9 +186,6 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
                 return false;
             }
         });
-
-        //Turn the action bar customers icon on, and the rest off.
-        ((MenuActivity)getActivity()).turnActionBarClientsIconsOn();
     }
 
     private Ccustomer[] getCustomerList() {

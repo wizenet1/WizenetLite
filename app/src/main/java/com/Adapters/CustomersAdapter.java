@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
@@ -22,7 +21,6 @@ import com.Fragments.FragmentCustomerDetails;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by WIZE02 on 23/05/2017.
@@ -86,15 +84,8 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                try {
-                    callIntent.setData(Uri.parse("tel:" + ccustomerArrayList.get(pos).getCcell()));
-                    c.startActivity(callIntent);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(c, "אין אפשרות לבצע שיחה", Toast.LENGTH_SHORT).show();
-                }
-
+                callIntent.setData(Uri.parse("tel:" + "12345"));
+                //c.startActivity(callIntent);
             }
         });
 
@@ -107,15 +98,8 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                try {
-                    callIntent.setData(Uri.parse("tel:" + ccustomerArrayList.get(pos).getCphone()));
-                    c.startActivity(callIntent);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(c, "אין אפשרות לבצע שיחה", Toast.LENGTH_SHORT).show();
-                }
-
+                callIntent.setData(Uri.parse("tel:" + "12345"));
+                c.startActivity(callIntent);
             }
         });
 
@@ -128,14 +112,8 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse("smsto:"+ccustomerArrayList.get(pos).getCcell());
-                try {
-                    Intent it = new Intent(Intent.ACTION_SENDTO, uri);
-                    c.startActivity(it);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(c, "אין אפשרות לשלוח הודעה", Toast.LENGTH_SHORT).show();
-                }
+                Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+                 c.startActivity(it);
             }
         });
 
@@ -200,8 +178,6 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                 String company = ccustomer.getCcompany();
                 String cell = ccustomer.getCcell();
                 String phone = ccustomer.getCphone();
-                String address = ccustomer.getAddress();
-                String email = ccustomer.getCemail();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("CID", CID);
@@ -210,8 +186,6 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                 bundle.putString("Company", company);
                 bundle.putString("Cell", cell);
                 bundle.putString("Phone", phone);
-                bundle.putString("Address", address);
-                bundle.putString("Email", email);
 
                 android.support.v4.app.FragmentManager fm = ((MenuActivity)c).getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();

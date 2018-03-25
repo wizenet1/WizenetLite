@@ -1042,32 +1042,40 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         return orderList;
     }
     public List<Order> get_mgnet_items(String allORclient) {
+        Helper h = new Helper();
         List<Order> orderList = new ArrayList<Order>();
-// Select All Query
-        String selectQuery ="";
-        if (allORclient.equals("all")){
-            selectQuery = "SELECT * FROM mgnet_items " ;
-        }else{
-            selectQuery = "SELECT * FROM mgnet_client_items " ;
-        }
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-// looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Order cp= new Order(
-                        cursor.getString(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3)
+        try{
 
-                );
+// Select All Query
+            String selectQuery ="";
+            if (allORclient.equals("all")){
+                selectQuery = "SELECT * FROM mgnet_items " ;
+            }else{
+                selectQuery = "SELECT * FROM mgnet_client_items " ;
+            }
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+// looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    Order cp= new Order(
+                            cursor.getString(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3)
+
+                    );
 
 // Adding contact to list
-                orderList.add(cp);
-            } while (cursor.moveToNext());
+                    orderList.add(cp);
+                } while (cursor.moveToNext());
+            }
+            db.close();
+            return orderList;
+        }catch (Exception e){
+
+            h.LogPrintExStackTrace(e);
         }
-        db.close();
         return orderList;
     }
 

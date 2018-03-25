@@ -19,16 +19,11 @@ import com.Activities.ActivityCalls;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Fragments.ControlPanelFragment;
-import com.Fragments.FragmentAccounting;
 import com.Fragments.FragmentCalls;
 import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
-import com.Fragments.FragmentMenuOffline;
 import com.Fragments.FragmentMessage;
-import com.Fragments.FragmentMidCalls;
 import com.Fragments.FragmentOrders;
-import com.Fragments.FragmentReports;
-import com.Fragments.FragmentTools;
 import com.Helper;
 
 /**
@@ -38,12 +33,12 @@ import com.Helper;
 public class SideNavigationMenuAdapter extends BaseAdapter {
 
     //Titles to display in each row.
-    public String[] titles = {"דף הבית", "לקוחות", "קריאות", "הזמנות", "דוחות", "משימות",
+    public String[] titles = {"דף הבית", "לקוחות", "קריאות", "הזמנות", "הודעות", "דוחות", "משימות",
             "הנחש", "כלים", "הגדרות", "יציאה מהמערכת"};
 
     //Icons to display in each row.
     private int[] images = {R.drawable.side_nav_home, R.drawable.side_nav_customers, R.drawable.side_nav_calls,
-            R.drawable.side_nav_orders /*R.drawable.side_nav_messages*/, R.drawable.side_nav_reports,
+            R.drawable.side_nav_orders, R.drawable.side_nav_messages, R.drawable.side_nav_reports,
             R.drawable.side_nav_goals, R.drawable.side_nav_accounting, R.drawable.side_nav_tools,
             R.drawable.side_nav_preferences, 0};
     private android.support.constraint.ConstraintLayout wrapper;
@@ -58,8 +53,6 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
      * Constructor.
      *
      * @param context context
-     * @param fragmentManager FragmentManager
-     * @param drawerLayout DrawerLayout to control the side menu
      */
     public SideNavigationMenuAdapter(Context context,
                                      android.support.v4.app.FragmentManager fragmentManager,
@@ -89,12 +82,9 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
 
-        if(view == null){
-
-            view = this.layoutInflater.inflate(R.layout.side_navigation_row, viewGroup, false);
-        }
-
         //For each row in the list, add the following items.
+        view = this.layoutInflater.inflate(R.layout.side_navigation_row, viewGroup, false);
+
         this.icon = (ImageView) view.findViewById(R.id.side_nav_row_img);
         this.title = (TextView) view.findViewById(R.id.side_nav_row_title);
         this.wrapper = (android.support.constraint.ConstraintLayout) view.findViewById(R.id.wrapper);
@@ -119,7 +109,7 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
 
         switch (str) {
             case "יציאה מהמערכת":
-                ((Activity) context).finish();
+                ((FragmentActivity) context).finish();
                 break;
             case "דף הבית":
                 //helper.goToMenuFragment(context);
@@ -140,61 +130,28 @@ public class SideNavigationMenuAdapter extends BaseAdapter {
                 break;
             case "הזמנות":
                 //helper.goToOrdersFragment(context);
-                //TODO change to the correct fragment(FragmentOrders)
-                FragmentMenuOffline fragmentOrders = new FragmentMenuOffline();
-                ft.replace(R.id.container,fragmentOrders,"FragmentMenuOffline");
+                FragmentOrders fragmentOrders = new FragmentOrders();
+                ft.replace(R.id.container,fragmentOrders,"FragmentOrders");
                 //tv.setVisibility(TextView.GONE);
-                ft.addToBackStack("FragmentMenuOffline");
+                ft.addToBackStack("FragmentOrders");
                 ft.commit();
                 this.drawerLayout.closeDrawer(Gravity.START);
                 break;
             case "קריאות":
                 //Intent intent = new Intent(((Activity) context), ActivityCalls.class);
                 //((Activity) context).startActivity(intent);
-                FragmentMidCalls fragCalls = new FragmentMidCalls();
-                ft.replace(R.id.container, fragCalls, "FragmentMidCalls");
-                ft.addToBackStack("FragmentMidCalls");
+                FragmentCalls fragCalls = new FragmentCalls();
+                ft.replace(R.id.container, fragCalls, "FragmentCalls");
+                ft.addToBackStack("FragmentCalls");
                 ft.commit();
                 this.drawerLayout.closeDrawer(Gravity.START);
                 break;
-            case "משימות":
+            case "הודעות":
                 //helper.goToMessagesFragment(context);
                 FragmentMessage fragmentMessage = new FragmentMessage();
                 ft.replace(R.id.container,fragmentMessage,"FragmentMessage");
+                //tv.setVisibility(TextView.GONE);
                 ft.addToBackStack("FragmentMessage");
-                ft.commit();
-                this.drawerLayout.closeDrawer(Gravity.START);
-                break;
-//            case "הודעות":
-//                //helper.goToMessagesFragment(context);
-//                FragmentMessage fragmentMessage = new FragmentMessage();
-//                ft.replace(R.id.container,fragmentMessage,"FragmentMessage");
-//                //tv.setVisibility(TextView.GONE);
-//                ft.addToBackStack("FragmentMessage");
-//                ft.commit();
-//                this.drawerLayout.closeDrawer(Gravity.START);
-//                break;
-            case "דוחות":
-                //helper.goToMessagesFragment(context);
-                FragmentReports fragmentReports = new FragmentReports();
-                ft.replace(R.id.container,fragmentReports,"FragmentReports");
-                ft.addToBackStack("FragmentReports");
-                ft.commit();
-                this.drawerLayout.closeDrawer(Gravity.START);
-                break;
-            case "הנחש":
-                //helper.goToMessagesFragment(context);
-                FragmentAccounting fragmentAccounting = new FragmentAccounting();
-                ft.replace(R.id.container,fragmentAccounting,"FragmentAccounting");
-                ft.addToBackStack("FragmentAccounting");
-                ft.commit();
-                this.drawerLayout.closeDrawer(Gravity.START);
-                break;
-            case "כלים":
-                //helper.goToMessagesFragment(context);
-                FragmentTools fragmentTools = new FragmentTools();
-                ft.replace(R.id.container,fragmentTools,"FragmentTools");
-                ft.addToBackStack("FragmentTools");
                 ft.commit();
                 this.drawerLayout.closeDrawer(Gravity.START);
                 break;

@@ -79,9 +79,13 @@ TextView lblcount;
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
         Icon_Manager icon_manager = new Icon_Manager();
+        try{
+            String callsJson = db.getJsonResultsFromTable("mgnet_calls").toString();
+            Log.e("mytag",callsJson);
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
 
-        String callsJson = db.getJsonResultsFromTable("mgnet_calls").toString();
-        Log.e("mytag",callsJson);
 
 
 

@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.Activities.ActivityCalls;
 import com.Activities.ActivityWebView;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CallsAdapter;
 import com.Adapters.CustomersAdapter;
@@ -95,7 +96,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
 
         runDialog();
         //spinner.setVisibility(View.VISIBLE);
-
+        ((MenuActivity)getActivity()).initialIcons();
         ImageView call = (ImageView)getActivity().findViewById(R.id.help);
         call.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
@@ -113,7 +114,11 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         if (helper.isNetworkAvailable(getContext())) {
             call_Async_Wz_calls_Summary_Listener();
         }else{
-            setTexts();
+            try{
+                setTexts();
+            }catch(Exception e){
+                helper.LogPrintExStackTrace(e);
+            }
         }
 
         pDialog.dismiss();
@@ -172,7 +177,12 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
             Model.getInstance().Async_Wz_Calls_List_Listener(getContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
-                    setTexts();
+                    try{
+                        setTexts();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                    }
+
                     pDialog.dismiss();
                 }
             });
