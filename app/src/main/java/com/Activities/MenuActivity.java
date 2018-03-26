@@ -99,25 +99,24 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     ImageView orders;
     ImageView missions;
     ImageView calls;
-    ImageView arrows;
 
-    private void popFragment(String fTag ){
+    private void popFragment(String fTag) {
         FragmentManager fm = getSupportFragmentManager();
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
         for (int i = 0; i < backStackCount; i++) {
             // Get the back stack fragment id.
             int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
             String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
-            Log.e("mytag","fragName:" +tag);
-            if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1){
-            }else{
+            Log.e("mytag", "fragName:" + tag);
+            if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1) {
+            } else {
                 fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
 
         }
         //getFragmentManager().popBackStack();
-        Log.e("mytag","fragName compare:" +fTag);
-        Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
+        Log.e("mytag", "fragName compare:" + fTag);
+        Log.e("mytag", "fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
 //        FragmentManager fm = getSupportFragmentManager();
 //        List<Fragment> frags = getSupportFragmentManager().getFragments();
 //        for(Fragment f : frags) {
@@ -132,6 +131,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 //        }
 //        Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +158,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         this.sideNavigationListView = (ListView) findViewById(R.id.side_nav_list);
 
         //Add the side navigation menu adapter.
-        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getApplicationContext(),
+        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(this,
                 getSupportFragmentManager(), drawerLayout);
         sideNavigationListView.setAdapter(sideNavMenuAdapter);
 
@@ -176,28 +176,23 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         // Get the nav_bar view.
         final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
         // Init the homepage button.
-         homepage = (ImageView) outer.findViewById(R.id.homepage);
+        homepage = (ImageView) outer.findViewById(R.id.homepage);
         // Init the clients button.
-         clients = (ImageView) outer.findViewById(R.id.clients);
+        clients = (ImageView) outer.findViewById(R.id.clients);
         // Init the message.
-         orders = (ImageView) outer.findViewById(R.id.messages);
+        orders = (ImageView) outer.findViewById(R.id.messages);
         // Init the missions.
-         missions = (ImageView) outer.findViewById(R.id.arrows);
+        missions = (ImageView) outer.findViewById(R.id.arrows);
         // Init the calls.
-         calls = (ImageView) outer.findViewById(R.id.help);
-        // Init the arrows.
-        arrows = (ImageView) outer.findViewById(R.id.arrows);
+        calls = (ImageView) outer.findViewById(R.id.help);
         // Init side menu image.
-        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
+        ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
+
+        //Turn all the action bar icons to their original color.
+        this.turnAllActionBarIconsOff();
 
         sideMenu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
@@ -220,18 +215,13 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         homepage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 popFragment("");
-                findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+                //findViewById(R.id.top_action_bar).setVisibility(View.GONE); TODO remove if not needed, I transferred it to onResume
             }
         });
 
 
         clients.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 //fragmentManager.popBackStack();
                 //fragmentManager.popBackStack ("f2", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 popFragment("f2");
@@ -242,7 +232,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 ft.addToBackStack("f2");
 
                 ft.commit();
-                clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
 
 
@@ -253,11 +242,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         orders.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 //fragmentManager.popBackStack ("f3", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 popFragment("f3");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -266,26 +250,18 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 ft.replace(R.id.container, fragOrders, "f3");
                 ft.addToBackStack("f3");
                 ft.commit();
-                orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-
             }
         });
 
         missions.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 popFragment("f4");
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentActions fragMessage = new FragmentActions ();
-                ft.replace(R.id.container, fragMessage,"f4");
+                FragmentActions fragMessage = new FragmentActions();
+                ft.replace(R.id.container, fragMessage, "f4");
                 ft.addToBackStack("f4");
                 ft.commit();
-                missions.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
 
             }
@@ -295,41 +271,87 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         calls.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-//
-
-
                 boolean isCallsSummary = db.getValueByKey("APPS_CALLS_SUMMARY").equals("1");
-                if (isCallsSummary == true){
-                    homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                    clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                    orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                    calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                    arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                if (isCallsSummary == true) {
                     popFragment("f5");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentMidCalls fragCalls = new FragmentMidCalls();
-                ft.replace(R.id.container, fragCalls, "f5");
-                ft.addToBackStack("f5");
-                ft.commit();
+                    android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                    android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                    FragmentMidCalls fragCalls = new FragmentMidCalls();
+                    ft.replace(R.id.container, fragCalls, "f5");
+                    ft.addToBackStack("f5");
+                    ft.commit();
 
-                }else{
+                } else {
                     Intent intent = new Intent(getApplicationContext(), ActivityCalls.class);
                     intent.putExtra("choose", "total");
                     startActivity(intent);
                 }
-
-                calls.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
         });
 
     }
-    public void goToOrdersManually(){
+
+    /**
+     * Turns all the action bar icons color off to the original color.
+     */
+    public void turnAllActionBarIconsOff() {
+
         homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+    }
+
+    /**
+     * Turns the action bar calls icon on, and the rest off.
+     */
+    public void turnActionBarCallsIconsOn() {
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+    }
+
+    /**
+     * Turns the action bar clients icon on, and the rest off.
+     */
+    public void turnActionBarClientsIconsOn() {
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+    }
+
+    /**
+     * Turns the action bar missions icon on, and the rest off.
+     */
+    public void turnActionBarMissionsIconOn() {
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+    }
+
+    /**
+     * Turns the action bar orders icon on, and the rest off.
+     */
+    public void turnActionBarOrdersIconOn() {
+
+        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        missions.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+    }
+
+    public void goToOrdersManually() {
         //fragmentManager.popBackStack ("f3", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         popFragment("f3");
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -338,11 +360,11 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         ft.replace(R.id.container, fragOrders, "f3");
         ft.addToBackStack("f3");
         ft.commit();
-        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
     }
-    public void setOrderGray(){
-        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-    }
+
+//    public void setOrderGray() {
+//        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+//    }
 
     /**
      * Initializes all the badges in the action bar and main menu.
@@ -539,6 +561,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("mytag", "fm.getBackStackEntryCount())==2: " + String.valueOf(fm.getBackStackEntryCount()));
             //fm.popBackStack();
             popFragment("");
+            //TODO remove line below if not needed
             findViewById(R.id.top_action_bar).setVisibility(View.GONE);
             //goToMenuFragment();
             //}else{
@@ -560,7 +583,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 // Get the back stack fragment id.
                 int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
                 String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
-                Log.e("mytag","fragName:" +tag);
+                Log.e("mytag", "fragName:" + tag);
 //                if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1){
 //                }else{
 //                    fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -585,13 +608,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         this.initImageButtons();
         popFragment("");
         View action_bar = (View) findViewById(R.id.top_action_bar);
-        if (getFragmentManager().getBackStackEntryCount() >2){
+        if (getFragmentManager().getBackStackEntryCount() > 2) {
             action_bar.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             action_bar.setVisibility(View.GONE);
         }
 
         initImageButtons();
+        findViewById(R.id.top_action_bar).setVisibility(View.GONE);
 //        FragmentManager fm = getSupportFragmentManager();
 //        Fragment f = fm.findFragmentById(R.id.container);
 //        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
@@ -875,29 +899,30 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("myTag", e.toString());
         }
     }
-    public void initialIcons(){
-        final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
-        // Init the homepage button.
-        final ImageView homepage = (ImageView) outer.findViewById(R.id.homepage);
-        // Init the clients button.
-        final ImageView clients = (ImageView) outer.findViewById(R.id.clients);
-        // Init the message.
-        final ImageView orders = (ImageView) outer.findViewById(R.id.messages);
-        // Init the missions.
-        final ImageView missions = (ImageView) outer.findViewById(R.id.arrows);
-        // Init the calls.
-        final ImageView calls = (ImageView) outer.findViewById(R.id.help);
-        // Init the arrows.
-        final ImageView arrows = (ImageView) outer.findViewById(R.id.arrows);
-        // Init side menu image.
-        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
 
-        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-    }
+//    public void initialIcons() {
+//        final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
+//        // Init the homepage button.
+//        final ImageView homepage = (ImageView) outer.findViewById(R.id.homepage);
+//        // Init the clients button.
+//        final ImageView clients = (ImageView) outer.findViewById(R.id.clients);
+//        // Init the message.
+//        final ImageView orders = (ImageView) outer.findViewById(R.id.messages);
+//        // Init the missions.
+//        final ImageView missions = (ImageView) outer.findViewById(R.id.arrows);
+//        // Init the calls.
+//        final ImageView calls = (ImageView) outer.findViewById(R.id.help);
+//        // Init the arrows.
+//        final ImageView arrows = (ImageView) outer.findViewById(R.id.arrows);
+//        // Init side menu image.
+//        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
+//
+//        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//        arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//    }
 
 
 }

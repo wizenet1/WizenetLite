@@ -63,6 +63,13 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.customer_fragment, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn the action bar customers icon on, and the rest off.
+        ((MenuActivity) getActivity()).turnActionBarClientsIconsOn();
+
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
         Helper helper = new Helper();
@@ -91,10 +98,10 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             data2.add(c);
             //data2.add(c.getCfname()+" "+c.getClname()+" "+c.getCcell());
         }
-        ((MenuActivity)getActivity()).initialIcons();
+       // ((MenuActivity) getActivity()).initialIcons();
         myList = (ListView) v.findViewById(R.id.customer_list);
-        ImageView client = (ImageView)getActivity().findViewById(R.id.clients);
-        client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        //ImageView client = (ImageView) getActivity().findViewById(R.id.clients);
+        //client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         //adapter = new CustomAdapter();
         //myList.setAdapter(adapter);
@@ -135,14 +142,14 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floating_add);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floating_add);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentCreateCustomer frag = new FragmentCreateCustomer();
-                ft.replace(R.id.container,frag,"FragmentCreateCustomer");
+                ft.replace(R.id.container, frag, "FragmentCreateCustomer");
                 ft.addToBackStack("FragmentCreateCustomer");
                 ft.commit();
             }
@@ -183,9 +190,13 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
 //                    // handle back button's click listener
 //                    return true;
 //                }
+
                 return false;
             }
         });
+
+        //Turn the action bar customers icon on, and the rest off.
+        ((MenuActivity) getActivity()).turnActionBarClientsIconsOn();
     }
 
     private Ccustomer[] getCustomerList() {

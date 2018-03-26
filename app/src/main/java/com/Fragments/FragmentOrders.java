@@ -58,7 +58,7 @@ import java.util.List;
 /**
  * Created by doron on 05/03/2016.
  */
-public class FragmentOrders extends android.support.v4.app.Fragment{
+public class FragmentOrders extends android.support.v4.app.Fragment {
     Helper helper;
     String strJson = "";
     Button scan;
@@ -68,28 +68,36 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
     //auto_complete_id;
     ListView myList; //mSearchNFilterLv
     private EditText mSearchEdt;
-     CustomersAdapter customersAdapter; //to refresh the list
-    ArrayList<Order> data2 = new ArrayList<Order>() ;
+    CustomersAdapter customersAdapter; //to refresh the list
+    ArrayList<Order> data2 = new ArrayList<Order>();
 
-//CustomersAdapter customersAdapter;
-    String dataName,myString;
+    //CustomersAdapter customersAdapter;
+    String dataName, myString;
     String selectionItem;
     Button delete;
     String pmakat;
     String _CID;
     //ImageButton goToTelephone, goToSms;
-    EditText amount_id,price_id;
-    EditText comments_id,lblPoprice;
+    EditText amount_id, price_id;
+    EditText comments_id, lblPoprice;
     //EditText customer_search;
-    String myBundle= "";
+    String myBundle = "";
     File_ f;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_orders, null);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn the orders action bar icon on, and the rest off to their original color.
+        ((MenuActivity) getActivity()).turnActionBarOrdersIconOn();
+
         f = new File_();
         _CID = "0";
         helper = new Helper();
-        lblPoprice= (EditText) v.findViewById(R.id.lblPoprice);
+        lblPoprice = (EditText) v.findViewById(R.id.lblPoprice);
         comments_id = (EditText) v.findViewById(R.id.comments_id);
         Button btn_add = (Button) v.findViewById(R.id.btn_add);
         Button btn_submit = (Button) v.findViewById(R.id.btn_submit);
@@ -100,10 +108,10 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         amount_id.setSelectAllOnFocus(true);
         price_id.setSelectAllOnFocus(true);
         //AlretIfNotFinishSync();
-        ((MenuActivity)getActivity()).initialIcons();
+        //((MenuActivity)getActivity()).initialIcons();
 
-        ImageView orders = (ImageView)getActivity().findViewById(R.id.messages);
-        orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        //ImageView orders = (ImageView)getActivity().findViewById(R.id.messages);
+        //orders.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         List<String> responseList2 = new ArrayList<String>();
         responseList2 = getSpecialCustomerList();
@@ -131,20 +139,20 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         List<Order> responseListClient = new ArrayList<Order>();
 
 
-        if (DatabaseHelper.getInstance(getContext()).mgnet_items_isEmpty("all")){
-            try{
+        if (DatabaseHelper.getInstance(getContext()).mgnet_items_isEmpty("all")) {
+            try {
 
                 //strJson = helper.readTextFromFile3("productss.txt");
-                strJson = f.readFromFileExternal(getContext(),"productss.txt");
-                strJson=strJson.replace("PRODUCTS_ITEMS_LISTResponse","");
-                strJson=strJson.replace("PRODUCTS_ITEMS_LISTResult=","Orders:");
+                strJson = f.readFromFileExternal(getContext(), "productss.txt");
+                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResponse", "");
+                strJson = strJson.replace("PRODUCTS_ITEMS_LISTResult=", "Orders:");
                 JSONObject j = null;
                 JSONArray jarray = null;
                 j = null;
                 jarray = null;
                 try {
                     j = new JSONObject(strJson);
-                    jarray= j.getJSONArray("Orders");
+                    jarray = j.getJSONArray("Orders");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,12 +161,12 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                     String name = "";
                     try {
                         e = jarray.getJSONObject(i);
-                        name = e.getString("Pname")+'|'+e.getString("Pmakat");
+                        name = e.getString("Pname") + '|' + e.getString("Pmakat");
                         Order order = new Order(
                                 e.getString("Pname"),
                                 e.getString("Pmakat"),
-                                (String.format("%.2f", Double.parseDouble( e.getString("Pprice")))),
-                                (String.format("%.2f", Double.parseDouble( e.getString("Poprice"))))
+                                (String.format("%.2f", Double.parseDouble(e.getString("Pprice")))),
+                                (String.format("%.2f", Double.parseDouble(e.getString("Poprice"))))
                         );
                         responseList.add(order);
 
@@ -167,22 +175,22 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                     }
 
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-        }else{
+        } else {
             responseList = DatabaseHelper.getInstance(getContext()).get_mgnet_items("all");
             //Toast.makeText(getActivity(),"responseList size: "+ responseList.size(), Toast.LENGTH_LONG).show();
         }
         // FOR CLIENT
 
-        if (_CID == "0"){
-            Log.e("MYTAG","is emptyyyyyyyyyyyyyyy");
-        }else{
+        if (_CID == "0") {
+            Log.e("MYTAG", "is emptyyyyyyyyyyyyyyy");
+        } else {
             //responseListClient =getClientOrderList(_CID);
             //responseListClient = DatabaseHelper.getInstance(getContext()).get_mgnet_items("client");
-            Toast.makeText(getActivity(),"responseList size: "+ responseList.size(), Toast.LENGTH_LONG).show();
-            Log.e("MYTAG","responseList size: "+ responseList.size());
+            Toast.makeText(getActivity(), "responseList size: " + responseList.size(), Toast.LENGTH_LONG).show();
+            Log.e("MYTAG", "responseList size: " + responseList.size());
         }
 
         List<Order> ordersList = new ArrayList<Order>();
@@ -198,7 +206,6 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         //String s = textView.getText().subSequence(textView.getText().in)
 
 
-
         myList = (ListView) v.findViewById(R.id.customer_list);
         setListViewHeightBasedOnChildren(myList);
 
@@ -210,20 +217,18 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         textViewClients.setAdapter(ordersAdapter);
 
 
-
-
         // #### GET THE SELECTED ITEM ###
 
         textViewClients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String)parent.getItemAtPosition(position);
-                pmakat = selection.substring(selection.lastIndexOf("|")+1,selection.lastIndexOf("~"));
-                price_id.setText(selection.substring(selection.lastIndexOf("~")+1, (selection.lastIndexOf("*"))));
-                lblPoprice.setText(selection.substring(selection.lastIndexOf("*")+1,selection.length()));
+                String selection = (String) parent.getItemAtPosition(position);
+                pmakat = selection.substring(selection.lastIndexOf("|") + 1, selection.lastIndexOf("~"));
+                price_id.setText(selection.substring(selection.lastIndexOf("~") + 1, (selection.lastIndexOf("*"))));
+                lblPoprice.setText(selection.substring(selection.lastIndexOf("*") + 1, selection.length()));
 //                price_id.setText(selection.substring(selection.lastIndexOf("~")+1,selection.length()));
                 amount_id.setText("1");
-                selectionItem = selection.substring(0,selection.lastIndexOf("|"));
+                selectionItem = selection.substring(0, selection.lastIndexOf("|"));
 
 
 //                List<Order> ordersListClient = new ArrayList<Order>();
@@ -239,58 +244,61 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 //                textView3.setAdapter(ordersAdapter2);
 
                 //Toast.makeText(getActivity(), selection + " success", Toast.LENGTH_LONG).show();
-                Log.e("MYTAG",selection.toString());
+                Log.e("MYTAG", selection.toString());
             }
         });
         textView_products_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String)parent.getItemAtPosition(position);
-                pmakat = selection.substring(selection.lastIndexOf("|")+1,selection.lastIndexOf("~"));
-                price_id.setText(selection.substring(selection.lastIndexOf("~")+1, (selection.lastIndexOf("*"))));
-                lblPoprice.setText(selection.substring(selection.lastIndexOf("*")+1,selection.length()));
+                String selection = (String) parent.getItemAtPosition(position);
+                pmakat = selection.substring(selection.lastIndexOf("|") + 1, selection.lastIndexOf("~"));
+                price_id.setText(selection.substring(selection.lastIndexOf("~") + 1, (selection.lastIndexOf("*"))));
+                lblPoprice.setText(selection.substring(selection.lastIndexOf("*") + 1, selection.length()));
                 amount_id.setText("1");
-                selectionItem = selection.substring(0,selection.lastIndexOf("|"));
+                selectionItem = selection.substring(0, selection.lastIndexOf("|"));
                 //Toast.makeText(getActivity(), selection + " success", Toast.LENGTH_LONG).show();
-                Log.e("MYTAG",selection.toString());
+                Log.e("MYTAG", selection.toString());
             }
         });
 
         textView_products_all.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String)parent.getItemAtPosition(position);
-                _CID = selection.substring(selection.lastIndexOf("|")+1,selection.length());
-                String _Cusername = selection.substring(selection.lastIndexOf("~")+1,selection.length());
-                Log.e("MYTAG",selection.toString());
-                Log.e("MYTAG","_CID : " + _CID);
-            try{
-                List<Order> ordersListClient = new ArrayList<Order>();
-                ordersListClient =helper.getClientOrderList(_Cusername,getContext());
-                //Toast.makeText(getContext(),"_CID: " +_CID + "__Cusername: " +_Cusername, Toast.LENGTH_LONG).show();
-                //Toast.makeText(getContext(),ordersListClient.toString(), Toast.LENGTH_LONG).show();
-                OrdersAdapter ordersAdapter2 = new OrdersAdapter(
-                        getContext(),
-                        R.layout.search_auto_complete,
-                        R.id.name_search,
-                        ordersListClient,
-                        _Cusername
-                );
-                textView_products_client.setAdapter(ordersAdapter2);
-            }catch (Exception ex){
-                Toast.makeText(getContext(),"מוצרי לקוח עדיין לא התווספו", Toast.LENGTH_LONG).show();
-            }
+                String selection = (String) parent.getItemAtPosition(position);
+                _CID = selection.substring(selection.lastIndexOf("|") + 1, selection.length());
+                String _Cusername = selection.substring(selection.lastIndexOf("~") + 1, selection.length());
+                Log.e("MYTAG", selection.toString());
+                Log.e("MYTAG", "_CID : " + _CID);
+                try {
+                    List<Order> ordersListClient = new ArrayList<Order>();
+                    ordersListClient = helper.getClientOrderList(_Cusername, getContext());
+                    //Toast.makeText(getContext(),"_CID: " +_CID + "__Cusername: " +_Cusername, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(),ordersListClient.toString(), Toast.LENGTH_LONG).show();
+                    OrdersAdapter ordersAdapter2 = new OrdersAdapter(
+                            getContext(),
+                            R.layout.search_auto_complete,
+                            R.id.name_search,
+                            ordersListClient,
+                            _Cusername
+                    );
+                    textView_products_client.setAdapter(ordersAdapter2);
+                } catch (Exception ex) {
+                    Toast.makeText(getContext(), "מוצרי לקוח עדיין לא התווספו", Toast.LENGTH_LONG).show();
+                }
 
             }
-             });
+        });
 
         textViewClients.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -301,7 +309,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
-                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
                     textViewClients.setText("");
                     amount_id.setText("");
                     price_id.setText("");
@@ -315,7 +323,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
-                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
                     textView_products_client.setText("");
                     amount_id.setText("");
                     price_id.setText("");
@@ -329,7 +337,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         lblPoprice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!lblPoprice.getText().equals("")){
+                if (!lblPoprice.getText().equals("")) {
                     price_id.setText(lblPoprice.getText());
                 }
             }
@@ -341,11 +349,11 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             public void onClick(View v) {
 
                 if ((textViewClients.getText().toString() != "" && (textViewClients.getText().toString().contains("|"))
-                ||
+                        ||
                         (textView_products_client.getText().toString() != "" && (textView_products_client.getText().toString().contains("|")))
                 )) {
                     //Order(String pname,String pmakat,String pprice,String poprice,String pq)
-                    data2.add(new Order(selectionItem,pmakat,price_id.getText().toString(),"",amount_id.getText().toString()));
+                    data2.add(new Order(selectionItem, pmakat, price_id.getText().toString(), "", amount_id.getText().toString()));
                     adapter.notifyDataSetChanged();
                     setListViewHeightBasedOnChildren(myList);
                     textViewClients.setText("");
@@ -354,22 +362,22 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                     pmakat = "";
                     price_id.setText("");
                     selectionItem = "";
-                    hideKeyboardFrom(getContext(),v);
-                //}
-                //else if(textView3.getText().toString() != "" && (textView3.getText().toString().contains("|")))
-                //{
-                //    //Order(String pname,String pmakat,String pprice,String poprice,String pq)
-               //     data2.add(new Order(selectionItem,pmakat,price_id.getText().toString(),"",amount_id.getText().toString()));
-                //    adapter.notifyDataSetChanged();
-                //    setListViewHeightBasedOnChildren(myList);
-                //    textView.setText("");
-                //    textView3.setText("");
-                //    amount_id.setText("");
-                //    pmakat = "";
-                 //   price_id.setText("");
-                 //   selectionItem = "";
-                 //   hideKeyboardFrom(getContext(),v);
-                }else{
+                    hideKeyboardFrom(getContext(), v);
+                    //}
+                    //else if(textView3.getText().toString() != "" && (textView3.getText().toString().contains("|")))
+                    //{
+                    //    //Order(String pname,String pmakat,String pprice,String poprice,String pq)
+                    //     data2.add(new Order(selectionItem,pmakat,price_id.getText().toString(),"",amount_id.getText().toString()));
+                    //    adapter.notifyDataSetChanged();
+                    //    setListViewHeightBasedOnChildren(myList);
+                    //    textView.setText("");
+                    //    textView3.setText("");
+                    //    amount_id.setText("");
+                    //    pmakat = "";
+                    //   price_id.setText("");
+                    //   selectionItem = "";
+                    //   hideKeyboardFrom(getContext(),v);
+                } else {
                     Toast.makeText(getActivity(), "יש לבחור מוצר", Toast.LENGTH_LONG).show();
                 }
             }
@@ -380,20 +388,20 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             public void onClick(View v) {
                 if (textView_products_all.getText().toString() == "") {
                     Toast.makeText(getActivity(), "יש לבחור לקוח", Toast.LENGTH_LONG).show();
-                }else{
-                    if(textView_products_all.getText().toString().contains("|")){
-                        String real_cid =textView_products_all.getText().toString()
-                                .substring(textView_products_all.getText().toString().lastIndexOf("|")+1,
+                } else {
+                    if (textView_products_all.getText().toString().contains("|")) {
+                        String real_cid = textView_products_all.getText().toString()
+                                .substring(textView_products_all.getText().toString().lastIndexOf("|") + 1,
                                         textView_products_all.getText().toString().lastIndexOf("~"));
-                       // Toast.makeText(getActivity(), "real_cid: " + real_cid, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getActivity(), "real_cid: " + real_cid, Toast.LENGTH_LONG).show();
                         createOrder(real_cid);
                         comments_id.setText("");
                         data2.clear();
                         adapter.notifyDataSetChanged();
-                        hideKeyboardFrom(getContext(),v);
-                    }else{
+                        hideKeyboardFrom(getContext(), v);
+                    } else {
                         Toast.makeText(getActivity(), "יש לבחור לקוח", Toast.LENGTH_LONG).show();
-                        hideKeyboardFrom(getContext(),v);
+                        hideKeyboardFrom(getContext(), v);
                     }
                 }
             }
@@ -415,17 +423,20 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 //        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
         return v;
-    };
-    protected List<String> getSpecialCustomerList(){
+    }
+
+    ;
+
+    protected List<String> getSpecialCustomerList() {
         List<String> ret = new ArrayList<String>();
         File_ f = new File_();
         //strJson = helper.readTextFromFileCustomers();
-        strJson = f.readFromFileExternal(getContext(),"customers.txt");
+        strJson = f.readFromFileExternal(getContext(), "customers.txt");
         JSONObject j = null;
         JSONArray jarray = null;
         try {
             j = new JSONObject(strJson);
-            jarray= j.getJSONArray("Customers");
+            jarray = j.getJSONArray("Customers");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -436,13 +447,13 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                 String name = null;
                 try {
                     e = jarray.getJSONObject(i);
-                    name = e.getString("Ccompany")+'|'+e.getString("CID")+"~"+e.getString("Cusername");
+                    name = e.getString("Ccompany") + '|' + e.getString("CID") + "~" + e.getString("Cusername");
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
                 ret.add(name);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return ret;
@@ -498,69 +509,65 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 //    }
 
 
-    public void createOrder(String cid){
+    public void createOrder(String cid) {
         JSONObject resultMain = new JSONObject();
-        JSONArray resultHeader     = new JSONArray();
+        JSONArray resultHeader = new JSONArray();
         JSONArray resultItems = new JSONArray();
 
-                  try
-                    {
+        try {
 
-                        for (int i=0;i<data2.size();i++){
+            for (int i = 0; i < data2.size(); i++) {
 
-                            JSONObject rowObject = new JSONObject();
-                            Log.d("TAG_NAME",  data2.get(i).getPmakat() );
-                            rowObject.put("Pmakat" , data2.get(i).getPmakat() );
-                            rowObject.put("Pname" , data2.get(i).getPname() );
-                            rowObject.put("PQ" , data2.get(i).getPq() );
-                            rowObject.put("Pprice" , data2.get(i).getPprice() );
-                            resultItems.put(rowObject);
-                        }
-                        JSONObject rowObjectHeader = new JSONObject();
-                        rowObjectHeader.put("CID" , cid );
-                        rowObjectHeader.put("COMMENT" , comments_id.getText().toString() );
-                        rowObjectHeader.put("TYPE" ,"ORDER" );
-                        resultHeader.put(rowObjectHeader);
+                JSONObject rowObject = new JSONObject();
+                Log.d("TAG_NAME", data2.get(i).getPmakat());
+                rowObject.put("Pmakat", data2.get(i).getPmakat());
+                rowObject.put("Pname", data2.get(i).getPname());
+                rowObject.put("PQ", data2.get(i).getPq());
+                rowObject.put("Pprice", data2.get(i).getPprice());
+                resultItems.put(rowObject);
+            }
+            JSONObject rowObjectHeader = new JSONObject();
+            rowObjectHeader.put("CID", cid);
+            rowObjectHeader.put("COMMENT", comments_id.getText().toString());
+            rowObjectHeader.put("TYPE", "ORDER");
+            resultHeader.put(rowObjectHeader);
 
 
-                        //resultMain.put("header",resultHeader);
-                        //resultMain.put("content",resultItems);
-                        writeTextToFileCustom(cid,resultHeader + "#" + resultItems);
-                        Toast.makeText(getActivity(),"Order is created", Toast.LENGTH_LONG).show();
-                        data2.clear();
+            //resultMain.put("header",resultHeader);
+            //resultMain.put("content",resultItems);
+            writeTextToFileCustom(cid, resultHeader + "#" + resultItems);
+            Toast.makeText(getActivity(), "Order is created", Toast.LENGTH_LONG).show();
+            data2.clear();
 
-                    }
-                    catch( Exception e )
-                    {
-                        Log.d("TAG_NAME", e.getMessage()  );
-                    }
-
+        } catch (Exception e) {
+            Log.d("TAG_NAME", e.getMessage());
+        }
 
 
         //cursor.close();
-        Log.d("TAG_NAME", resultMain.toString() );
+        Log.d("TAG_NAME", resultMain.toString());
         //return resultSet;
     }
 
-    public boolean writeTextToFileCustom(String prefix,String stringparameter){
+    public boolean writeTextToFileCustom(String prefix, String stringparameter) {
 
-        File pathOrders = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline");
+        File pathOrders = new File(Environment.getExternalStorageDirectory().getPath() + "/wizenet/offline");
         if (!pathOrders.exists())
             pathOrders.mkdir();
 
         // get the path to sdcard
         String myUrl;
-        if(stringparameter.length()>0){
+        if (stringparameter.length() > 0) {
             myUrl = stringparameter;
-        }else{
+        } else {
             myUrl = null;//DEMOURL;
         }
         try {
             int num = 0;
-            String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/"+prefix + ".txt";
+            String path = Environment.getExternalStorageDirectory().getPath() + "/wizenet/offline/" + prefix + ".txt";
             File myFile = new File(path);
-            while(myFile.exists()) {
-                path = Environment.getExternalStorageDirectory().getPath() + "/wizenet/offline/" + prefix + "_"+ (num++) + ".txt";
+            while (myFile.exists()) {
+                path = Environment.getExternalStorageDirectory().getPath() + "/wizenet/offline/" + prefix + "_" + (num++) + ".txt";
                 myFile = new File(path);
             }
             myFile.createNewFile();
@@ -582,7 +589,6 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -630,7 +636,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View rowView = inflater.inflate(R.layout.item_order, parent, false);
                 TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
-                convertView = inflater.inflate(R.layout.item_order,null);
+                convertView = inflater.inflate(R.layout.item_order, null);
                 convertView.setTag(position);
                 //צריך עכשיו לתפוס את הלייאאוט של קאסטומר ולתפוס את השם חברה
 
@@ -646,10 +652,10 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
 //                        Intent callIntent = new Intent(Intent.ACTION_CALL);
 //                        callIntent.setData(Uri.parse("tel:" + "0526561633"));
 //                        startActivity(callIntent);
-                    //}
-               // });
+                //}
+                // });
             }
-            convertView.setTag(convertView.getId(),position);
+            convertView.setTag(convertView.getId(), position);
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rowView = inflater.inflate(R.layout.customer, parent, false);
             TextView name = (TextView) rowView.findViewById(R.id.customers_list_item_company);
@@ -659,7 +665,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             TextView nickname = (TextView) convertView.findViewById(R.id.customers_list_item_company);
 
             convertView.setTag(position);
-            nickname.setText(data2.get(position).getPname() + " "+data2.get(position).getPmakat());//+" "+
+            nickname.setText(data2.get(position).getPname() + " " + data2.get(position).getPmakat());//+" "+
             //data2.get(position).getClname()+" "
             //+data2.get(position).getCcell());
             //TextView tv = (TextView) convertView.findViewById(R.id.textView);
@@ -684,14 +690,12 @@ public class FragmentOrders extends android.support.v4.app.Fragment{
             return convertView;
         }
     }
-    }
+}
 
 
-
-
-    //###################################
-    //EXTRACT CUSTOMERS FROM JSON
-    //###################################
+//###################################
+//EXTRACT CUSTOMERS FROM JSON
+//###################################
 //    public Ccustomer[] getCustomersFromJson(String json){
 //        Ccustomer[] customersList = new Ccustomer[0];
 //        JSONObject j = null;

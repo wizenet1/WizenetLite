@@ -100,6 +100,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         context = this.getContext();
         View v = inflater.inflate(R.layout.menu_fragment, container, false);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         Icon_Manager icon_manager = new Icon_Manager();
         getCallStatuses();
         helper = new Helper();
@@ -149,10 +156,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         final ImageView id_tools = (ImageView) v.findViewById(R.id.id_tools);
         final ImageView id_customers = (ImageView) v.findViewById(R.id.id_customers);
         final ImageView id_calls = (ImageView) v.findViewById(R.id.id_calls);
-        ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
+        final ImageView id_offers = (ImageView) v.findViewById(R.id.id_offers);
         final ImageView id_preferences = (ImageView) v.findViewById(R.id.id_preferences);
         final ImageView id_orders = (ImageView) v.findViewById(R.id.id_orders);
-        ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
+        final ImageView id_accounting = (ImageView) v.findViewById(R.id.id_accounting);
         final ImageView id_reporttime = (ImageView) v.findViewById(R.id.id_reporttime);
         final ImageView id_missions = (ImageView) v.findViewById(R.id.id_missions);
         final ImageView id_favorites = (ImageView) v.findViewById(R.id.id_favorites);
@@ -200,6 +207,19 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             }
         });
 
+        id_offers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id_offers.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentOffers frag = new FragmentOffers();
+                ft.replace(R.id.container, frag, "FragmentOffers");
+                ft.addToBackStack("FragmentOffers");
+                ft.commit();
+            }
+        });
+
         id_tools.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,8 +231,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.replace(R.id.container, frag, "FragmentTools");
                 ft.addToBackStack("FragmentTools");
                 ft.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
 
             }
@@ -228,8 +248,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.replace(R.id.container, frag, "FragmentFavorite");
                 ft.addToBackStack("FragmentFavorite");
                 ft.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
             }
         });
@@ -245,8 +265,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.replace(R.id.container, frag, "FragmentLoginReport");
                 ft.addToBackStack("FragmentLoginReport");
                 ft.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_orders.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +280,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.addToBackStack("FragmentMenuOffline");
                 ft.commit();
                 //((MenuActivity)getActivity()).goToOrdersManually();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
                 //((MenuActivity)getActivity()).setOrderGray();
             }
         });
@@ -274,8 +294,8 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.replace(R.id.container, frag, "FragmentActions");
                 ft.addToBackStack("FragmentActions");
                 ft.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
             }
         });
         id_preferences.setOnClickListener(new View.OnClickListener() {
@@ -285,12 +305,15 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
                 ControlPanelFragment fragment2 = new ControlPanelFragment();
-                fragmentTransaction2.addToBackStack("xyz");
-                fragmentTransaction2.hide(FragmentMenu.this);
-                fragmentTransaction2.add(R.id.container, fragment2);
+                //TODO Doron, decide if the three commented lines below are needed or not
+//                fragmentTransaction2.addToBackStack("xyz");
+//                fragmentTransaction2.hide(FragmentMenu.this);
+//                fragmentTransaction2.add(R.id.container, fragment2);
+                fragmentTransaction2.replace(R.id.container,fragment2,"CPFragment");
+                fragmentTransaction2.addToBackStack("CPFragment");
                 fragmentTransaction2.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
             }
         });
@@ -304,9 +327,23 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 ft.replace(R.id.container, frag, "FragmentClientReports");
                 ft.addToBackStack("FragmentClientReports");
                 ft.commit();
-                ((MenuActivity)getActivity()).initialIcons();
-                getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                //((MenuActivity)getActivity()).initialIcons();
+                //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
                 //((MenuActivity)getActivity()).setOrderGray();
+            }
+        });
+
+
+        id_accounting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id_accounting.startAnimation(clickAnimation);
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentAccounting frag = new FragmentAccounting();
+                ft.replace(R.id.container, frag, "FragmentAccounting");
+                ft.addToBackStack("FragmentAccounting");
+                ft.commit();
             }
         });
 
@@ -341,7 +378,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                         ft.replace(R.id.container, frag, "FragmentMidCalls");
                         ft.addToBackStack("FragmentMidCalls");
                         ft.commit();
-                        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+                       // getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
                     } else {
                         Intent intent = new Intent(getActivity(), ActivityCalls.class);
@@ -710,6 +747,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
 
         if (helper.isNetworkAvailable(context)) {
             //Log.e("mytag","isNetworkAvailable");

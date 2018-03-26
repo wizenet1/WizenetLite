@@ -1,4 +1,5 @@
 package com.Fragments;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityWebView;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Ccustomer;
 import com.Classes.Favorite;
@@ -45,15 +47,15 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
 
 
     EditText key_et, val_et;
-    Button addmem_btn,remove_btn;
+    Button addmem_btn, remove_btn;
     DatabaseHelper db;
     ListView myList;
-    List<Message> data2 = new ArrayList<Message>() ;
+    List<Message> data2 = new ArrayList<Message>();
     String dataName;
     CheckBox cb;
     LocationManager manager = null;
-    String firstname="";
-    String lastname="";
+    String firstname = "";
+    String lastname = "";
     boolean result = false;
     LinearLayout layout;
     Helper helper;
@@ -61,26 +63,34 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-         helper = new Helper();
-        View v = inflater.inflate(R.layout.favorite_fragment, null);
+        helper = new Helper();
+        View v = inflater.inflate(R.layout.favorite_fragment, container, false);
         setHasOptionsMenu(true);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         db = DatabaseHelper.getInstance(getContext());
 
-         layout = (LinearLayout ) v.findViewById(R.id.placeHolderFragment);
+        layout = (LinearLayout) v.findViewById(R.id.placeHolderFragment);
 
 
         Model.getInstance().Async_Wz_retClientFavorites_Listener(helper.getMacAddr(), new Model.Wz_retClientFavorites_Listener() {
             @Override
             public void onResult(String str) {
-                Log.e("mytag",str);
+                Log.e("mytag", str);
                 getFavorite(str);
             }
         });
 
 
-
         return v;
-    };
+    }
+
+    ;
 //    @Override
 //    public void onPrepareOptionsMenu(Menu menu) {
 //        MenuItem item = menu.findItem(R.menu.menu_main);
@@ -91,19 +101,18 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        for(int i=0; i<menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
             menu.getItem(i).setEnabled(false);
         }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
 
-    public Favorite[] getFavorite(String json){
-
-
+    public Favorite[] getFavorite(String json) {
 
 
         Favorite[] FavoriteList = new Favorite[0];
@@ -121,7 +130,7 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
                 String pageTitle = jarray.getJSONObject(i).getString("pageTitle");
                 String pageUrl = jarray.getJSONObject(i).getString("pageUrl");
 
-                Favorite c = new Favorite(FID,CID,pageTitle,pageUrl);
+                Favorite c = new Favorite(FID, CID, pageTitle, pageUrl);
                 FavoriteList[i] = c;
             }
         } catch (JSONException e1) {
@@ -129,11 +138,11 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
             e1.printStackTrace();
         }
 
-        final int N = FavoriteList.length ; // total number of textviews to add
+        final int N = FavoriteList.length; // total number of textviews to add
 
         //final TextView[] myTextViews = new TextView[N]; // create an empty array;
 
-        for (final Favorite f: FavoriteList) {
+        for (final Favorite f : FavoriteList) {
             //Log.e("mytag",f.toString());
             final TextView rowTextView = new TextView(getContext());
             rowTextView.setText(f.getPageTitle());
@@ -151,7 +160,7 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
                     b.putInt("callid", -1);
                     b.putInt("cid", -1);
                     b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
-                    b.putString("action","dynamic");
+                    b.putString("action", "dynamic");
                     b.putString("specialurl", f.getPageUrl());
                     intent.putExtras(b);
                     startActivity(intent);
@@ -162,9 +171,6 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
 
         return FavoriteList;
     }
-
-
-
 
 
 }

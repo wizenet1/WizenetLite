@@ -55,6 +55,13 @@ public class FragmentActions extends android.support.v4.app.Fragment {
 
         View v = inflater.inflate(R.layout.fragment_actions, null);
         setHasOptionsMenu(true);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
+
         db = DatabaseHelper.getInstance(getContext());
 
 
@@ -73,9 +80,9 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
-        ((MenuActivity)getActivity()).initialIcons();
-        ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
-        message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        //((MenuActivity)getActivity()).initialIcons();
+        //ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
+        //message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

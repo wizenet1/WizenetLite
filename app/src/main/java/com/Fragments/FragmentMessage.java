@@ -1,4 +1,5 @@
 package com.Fragments;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -35,18 +36,17 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
 
 
     EditText key_et, val_et;
-    Button addmem_btn,remove_btn;
+    Button addmem_btn, remove_btn;
     DatabaseHelper db;
     ListView myList;
     CustomAdapter adapter;
-    List<Message> data2 = new ArrayList<Message>() ;
+    List<Message> data2 = new ArrayList<Message>();
     String dataName;
     CheckBox cb;
     LocationManager manager = null;
-    String firstname="";
-    String lastname="";
+    String firstname = "";
+    String lastname = "";
     boolean result = false;
-
 
 
     @Override
@@ -55,16 +55,22 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
 
         View v = inflater.inflate(R.layout.message_fragment, null);
         setHasOptionsMenu(true);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         db = DatabaseHelper.getInstance(getContext());
 
 
-        for(int i =0;i < data2.size();i++)
-        {
+        for (int i = 0; i < data2.size(); i++) {
             data2.remove(i);
         }
-        data2 = new ArrayList<Message>() ;
-        List<Message> cps=  db.getAllMessages();  // getCustomersFromJson(myBundle);
-        for (Message c : cps){
+        data2 = new ArrayList<Message>();
+        List<Message> cps = db.getAllMessages();  // getCustomersFromJson(myBundle);
+        for (Message c : cps) {
             data2.add(c);
         }
         myList = (ListView) v.findViewById(R.id.messages_list);
@@ -73,9 +79,9 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
-        ((MenuActivity)getActivity()).initialIcons();
-        ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
-        message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        //((MenuActivity)getActivity()).initialIcons();
+        //ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
+        //message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,7 +94,9 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
             }
         });
         return v;
-    };
+    }
+
+    ;
 //    @Override
 //    public void onPrepareOptionsMenu(Menu menu) {
 //        MenuItem item = menu.findItem(R.menu.menu_main);
@@ -99,10 +107,11 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        for(int i=0; i<menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
             menu.getItem(i).setEnabled(false);
         }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -132,7 +141,7 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
                 //convertView = inflater.inflate(R.layout.item_message,null);
             }
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            convertView = inflater.inflate(R.layout.item_message,null);
+            convertView = inflater.inflate(R.layout.item_message, null);
             //View rowView = inflater.inflate(R.layout.item_message, parent, false);
 
             TextView key = (TextView) convertView.findViewById(R.id.key_text);
@@ -151,14 +160,13 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int ii) {
                             DatabaseHelper.getInstance(getContext()).deleteRowByMsgID(data2.get(po).getMsgID());
-                            Toast.makeText(getActivity(), data2.get(po).getMsgID().toString()+",\nMsgName:"+data2.get(po).getMsgComment().toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), data2.get(po).getMsgID().toString() + ",\nMsgName:" + data2.get(po).getMsgComment().toString(), Toast.LENGTH_LONG).show();
 
                             refresh();
                         }
                     });
 
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                            {
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int ii) {
                                     dialog.dismiss();
                                 }
@@ -179,17 +187,18 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
     }
 
 
-    public void refresh(){
-        List<Message> data = new ArrayList<Message>() ;
-        List<Message> cps=  db.getAllMessages();  // getCustomersFromJson(myBundle);
-        for (Message c : cps){
+    public void refresh() {
+        List<Message> data = new ArrayList<Message>();
+        List<Message> cps = db.getAllMessages();  // getCustomersFromJson(myBundle);
+        for (Message c : cps) {
             data.add(c);
         }
         data2.clear();
-        data2=data;
+        data2 = data;
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
     }
+
     private void goToMSGDetailsFrag(String puId)
 
     {
@@ -199,18 +208,16 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
 
 
-
         Bundle bundle = new Bundle();
         //bundle.putString("receiver", dataName);
-        bundle.putString("puId",puId);
+        bundle.putString("puId", puId);
 
         fr.setArguments(bundle);
 
-        ft.replace(R.id.container,fr,"FragmentMessageDetails");
+        ft.replace(R.id.container, fr, "FragmentMessageDetails");
         ft.addToBackStack("FragmentMessageDetails");
         ft.commit();
     }
-
 
 
 }

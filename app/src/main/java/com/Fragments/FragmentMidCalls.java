@@ -81,7 +81,13 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     File_ f;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mid_calls, null);
+        View v = inflater.inflate(R.layout.fragment_mid_calls, container, false);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn the calls action bar icon on, and the rest off to their original color.
+        ((MenuActivity) getActivity()).turnActionBarCallsIconsOn();
 
         f = new File_();
         helper = new Helper();
@@ -96,9 +102,9 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
 
         runDialog();
         //spinner.setVisibility(View.VISIBLE);
-        ((MenuActivity)getActivity()).initialIcons();
-        ImageView call = (ImageView)getActivity().findViewById(R.id.help);
-        call.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+//        ((MenuActivity)getActivity()).initialIcons();
+//        ImageView call = (ImageView)getActivity().findViewById(R.id.help);
+//        call.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
         t1 = (TextView)  v.findViewById(R.id.t1);
         t2 = (TextView)  v.findViewById(R.id.t2);

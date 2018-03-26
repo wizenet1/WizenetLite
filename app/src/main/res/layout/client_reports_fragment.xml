@@ -26,6 +26,23 @@
             android:layout_height="20px"
             android:src="@drawable/info"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="בקרוב"
+            android:gravity="center"
+
+            android:textSize="30sp"/>
+        <ImageButton
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:src="@drawable/info"/>
+    </LinearLayout>
 
     <LinearLayout
 

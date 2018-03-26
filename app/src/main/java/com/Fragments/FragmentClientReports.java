@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.Activities.ActivityWebView;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Favorite;
 import com.Classes.Message;
@@ -57,6 +58,13 @@ public class FragmentClientReports extends android.support.v4.app.Fragment {
          helper = new Helper();
         View v = inflater.inflate(R.layout.client_reports_fragment, null);
         setHasOptionsMenu(true);
+
+        // Load the action bar.
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+
+        //Turn all the action bar icons off to their original color.
+        ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
         db = DatabaseHelper.getInstance(getContext());
 
          layout = (LinearLayout ) v.findViewById(R.id.placeHolderFragment);
