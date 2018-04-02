@@ -1239,6 +1239,80 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         }
 
     }
+    public void addISAction(IS_Action is_action) {
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("actionID",is_action.getActionID());
+            values.put("taskID",is_action.getTaskID());
+            values.put("statusID",is_action.getStatusID());
+            values.put("ownerID",is_action.getOwnerID());
+            values.put("userID",is_action.getUserID());
+            values.put("depID",is_action.getDepID());
+            values.put("userCtypeID",is_action.getUserCtypeID());
+            values.put("ownerCtypeID",is_action.getOwnerCtypeID());
+            values.put("projectID",is_action.getProjectID());
+            values.put("ParentActionID",is_action.getParentActionID());
+
+            values.put("actionDate",is_action.getActionDate());
+            values.put("actionStartDate",is_action.getActionStartDate());
+            values.put("actionDue",is_action.getActionDue());
+            values.put("actionDesc",is_action.getActionDesc());
+            values.put("comments",is_action.getComments());
+            values.put("priorityID",is_action.getPriorityID());
+
+            values.put("reminderID",is_action.getReminderID());
+
+            values.put("WorkHours",is_action.getWorkHours());
+            values.put("WorkEstHours",is_action.getWorkEstHours());
+            values.put("Create",is_action.getCreate());
+            values.put("LastUpdate",is_action.getLastUpdate());
+            values.put("actionLink",is_action.getActionLink());
+
+            values.put("actionRef",is_action.getActionRef());
+            values.put("userCfname",is_action.getUserCfname());
+            values.put("userClname",is_action.getUserClname());
+            values.put("userCemail",is_action.getUserCemail());
+
+            values.put("ownerCfname",is_action.getOwnerCfname());
+            values.put("ownerClname",is_action.getOwnerClname());
+            values.put("ownerCemail",is_action.getOwnerCemail());
+
+            values.put("statusName",is_action.getStatusName());
+            values.put("PriorityName",is_action.getPriorityName());
+            values.put("actionType",is_action.getActionType());
+            values.put("actionSdate",is_action.getActionSdate());
+            values.put("actionEdate",is_action.getActionEdate());
+            values.put("WorkHoursM",is_action.getWorkHoursM());
+            values.put("WorkEstHoursM",is_action.getWorkEstHoursM());
+            values.put("actionPrice",is_action.getActionPrice());
+            values.put("statusColor",is_action.getStatusColor());
+            values.put("taskSummery",is_action.getTaskSummery());
+            values.put("projectSummery",is_action.getProjectSummery());
+            values.put("projectType",is_action.getProjectType());
+            values.put("actionNum",is_action.getActionNum());
+            values.put("actionFrom",is_action.getActionFrom());
+            values.put("actionDays",is_action.getActionDays());
+            values.put("remindertime",is_action.getRemindertime());
+            values.put("Expr1",is_action.getExpr1());
+            values.put("projectDesc",is_action.getProjectDesc());
+
+
+//            values.put("CallStatusID", callStatus.getCallStatusID());
+//            values.put("CallStatusName", callStatus.getCallStatusName());
+//            values.put("CallStatusOrder", callStatus.getCallStatusOrder());
+            db.insert("IS_Actions", null, values);
+            // Closing database connection
+            //db.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+
+    }
+
+
     //region CallStatus
     public List<CallStatus> getCallStausList() {
         List<CallStatus> statusList = new ArrayList<CallStatus>();
