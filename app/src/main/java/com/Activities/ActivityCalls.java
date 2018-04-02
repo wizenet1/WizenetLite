@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,12 +64,11 @@ TextView lblcount;
     String s = "";
     Bundle extras;
     String condition = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.activity_call);
 
@@ -79,38 +79,12 @@ TextView lblcount;
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
         Icon_Manager icon_manager = new Icon_Manager();
-        try{
-            String callsJson = db.getJsonResultsFromTable("mgnet_calls").toString();
-            Log.e("mytag",callsJson);
-        }catch(Exception e){
-            helper.LogPrintExStackTrace(e);
-        }
-
-
-
-
-//        Bundle extras = getIntent().getExtras();
-//        try{
-//            if (extras != null) {
-//                ss = extras.getString("choose");
-//                // and get whatever type user account id is
-//            }
-//            //ss= extras.getStringExtra("choose").toString();
-//            Log.e("mytag"," myss :" + ss.toString());
-//        }catch(Exception ex){
-//            Log.e("mytag"," asdasd :" + ex.getMessage());
-//        }
-//        if (ss.contains("total")){
-//            condition = "  order by ";
-//        }else if(ss.contains("open")){
-//            condition = " and sla='0' order by ";
-//        }else if(ss.contains("sla")){
-//            condition = " and sla='1' order by ";
-//        }else{
-//            condition = " order by  " ;
-//        }
-//        Log.e("mytag","condition: " + condition);
-
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                helper.transferJsonCallTime(ctx);
+            }
+        }, 2500);
         //-------------------------------------
         //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);
@@ -284,6 +258,7 @@ TextView lblcount;
     @Override
     protected void onResume() {
         super.onResume();
+        ///helper.transferJsonCallTime(getApplicationContext());
         Bundle extras = getIntent().getExtras();
         try{
             if (extras != null) {
@@ -420,13 +395,7 @@ TextView lblcount;
 
         List<Call> calls = new ArrayList<Call>() ;
         try {
-            //Log.e("mytag","step 2");
             calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
-            //Log.e("mytag","calls.size(): "+ String.valueOf(calls.size()));
-            //for (Call c: calls) {
-            //    Log.e("mytag",c.toString());
-            //}
-            //Log.e("mytag","step 3");
             length = calls.size();
         } catch (Exception e) {
             Log.e("mytag","sdf " +e.getMessage());

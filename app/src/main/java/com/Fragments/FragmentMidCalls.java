@@ -91,6 +91,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
 
         f = new File_();
         helper = new Helper();
+        //helper.transferJsonCallTime(getContext());
         try{
             //send and update offline when online back
             ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();

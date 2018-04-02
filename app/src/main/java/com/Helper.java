@@ -101,36 +101,63 @@ public class Helper {
 //            dir.mkdir();
 //        }
     }
-    public  long getDateDiff(SimpleDateFormat format, String oldDate, String newDate) { //now - new date - old the old one
+    public  long getDateDiff(String oldDate, String newDate) { //now - new date - old the old one
         Helper h = new Helper();
         long ret = 0;
         try {
-            //return TimeUnit.MINUTES.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
-            SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            try {
-                Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: ");
-                long dateNew =  Long.valueOf(newDate);
-                long dateOld = Long.valueOf(oldDate);
-                long diff = dateNew - dateOld;
-                long seconds = diff / 1000;
-                long minutes = seconds / 60;
-                long hours = minutes / 60;
-                ret = minutes;
-                long days = hours / 24;
-                //Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: "+minutes);
-
-                return minutes;
-            } catch (Exception e) {
-                h.LogPrintExStackTrace(e);
-                e.printStackTrace();
-            }
-            return ret;
+            Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: ");
+            long dateNew =  Long.valueOf(newDate);
+            long dateOld = Long.valueOf(oldDate);
+            long diff = dateNew - dateOld;
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            ret = minutes;
+            //long days = hours / 24;
+            //Log.e("mytag"," dateOld: " +oldDate.toString()+ " dateNew: " +newDate.toString()+" mins: "+minutes);
+            return minutes;
         } catch (Exception e) {
-
             h.LogPrintExStackTrace(e);
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
         }
+        return ret;
+    }
+    public void transferJsonCallTime(final Context ctx){
+        Helper h = new Helper();
+        if (h.isNetworkAvailable(ctx)){
+            String countUnClosed = "";
+            countUnClosed = DatabaseHelper.getInstance(ctx).getScalarByCountQuery("SELECT count(*) from Calltime where ctq='-2'");
+            int rowCount = 0;
+            rowCount = DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime").length();
+            if(rowCount > 0 && countUnClosed=="0"){
+                String jsonString = "";
+                jsonString = String.valueOf(DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
+                Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
+                try{
+                    Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
+                        @Override
+                        public void onResult(String str) {
+                           // Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
+
+                            //Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
+                            if (str.toLowerCase().contains("java.net")){
+                                Toast.makeText(ctx, "שידור לא הצליח, נא נסה שנית", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(ctx,"נשלח בהצלחה", Toast.LENGTH_LONG).show();
+                                DatabaseHelper.getInstance(ctx).delete_call_time();
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    h.LogPrintExStackTrace(e);
+                }
+            }else{
+                //Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 

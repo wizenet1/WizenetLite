@@ -86,6 +86,7 @@ public class MainActivity extends Activity {
                 Boolean isCallsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("mgnet_calls") ? true : false;
                 Boolean isControlPanelEsixts = DatabaseHelper.getInstance(ctx).isTableExists("ControlPanel") ? true : false;
                 Boolean isCalltimeEsixts = DatabaseHelper.getInstance(ctx).isTableExists("Calltime") ? true : false;
+                Boolean isISActionsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("IS_Actions") ? true : false;
 
                 //--------- add tables -------------
                 if (!isCallOfllineEsixts)
@@ -94,6 +95,8 @@ public class MainActivity extends Activity {
                     DatabaseHelper.getInstance(ctx).createColumnToCalls("",isCallsEsixts);
                 if (!isCalltimeEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToCalltime("",isCalltimeEsixts);
+                if (!isCalltimeEsixts)
+                    DatabaseHelper.getInstance(ctx).createColumnToISActions("",isISActionsEsixts);
                 if (!isControlPanelEsixts){
                     DatabaseHelper.getInstance(ctx).createColumnToCP("",isControlPanelEsixts);
                     helper.addInitialfirst(ctx);
@@ -117,9 +120,6 @@ public class MainActivity extends Activity {
                     DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
                     Log.e("mytag","isAppsColAdded success");
                 }
-
-
-                ///////////////////
             }
         });
         btndownloadversion.setOnClickListener(new View.OnClickListener() {

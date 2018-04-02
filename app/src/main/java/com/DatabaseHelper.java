@@ -106,7 +106,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
+       + "actionID" + " INTEGER,"
+        +"taskID"
+        +"actionDate" + " TEXT,"
+        +"actionStartDate" + " TEXT,"
+        +"actionDue" + " TEXT,"
+        +"actionDesc" + " TEXT,"
+        +"comments" + " TEXT,"
+        +"priorityID"+ " INTEGER,"
+        +"statusID"+ " INTEGER,"
+        +"reminderID"
+        +"ownerID"+ " INTEGER,"
+        +"userID"+ " INTEGER,"
+        +"WorkHours"+ " TEXT,"
+        +"WorkEstHours"+ " TEXT,"
+        +"[Create]"+ " TEXT,"
+        +"LastUpdate"+ " TEXT,"
+        +"actionLink"+ " TEXT,"
+        +"depID"+ " INTEGER,"
+        +"actionRef"+ " TEXT,"
+        +"userCfname"+ " TEXT,"
+        +"userClname"+ " TEXT,"
+        +"userCemail"+ " TEXT,"
+        +"userCtypeID"+ " INTEGER,"
+        +"ownerCfname"+ " TEXT,"
+        +"ownerClname"+ " TEXT,"
+        +"ownerCemail"+ " TEXT,"
+        +"ownerCtypeID"+ " INTEGER,"
+        +"projectID"+ " INTEGER,"
+        +"statusName"+ " TEXT,"
+        +"PriorityName"+ " TEXT,"
+        +"actionType"+ " TEXT,"
+        +"actionSdate"+ " TEXT,"
+        +"actionEdate"+ " TEXT,"
+        +"WorkHoursM"+ " TEXT,"
+        +"WorkEstHoursM"+ " TEXT,"
+        +"actionPrice"+ " TEXT,"
+        +"statusColor"+ " TEXT,"
+        +"taskSummery"+ " TEXT,"
+        +"projectSummery"+ " TEXT,"
+        +"projectType"+ " TEXT,"
+        +"actionNum"+ " TEXT,"
+        +"actionFrom"+ " TEXT,"
+        +"actionDays"+ " TEXT,"
+        +"ParentActionID"+ " INTEGER,"
+        +"remindertime"+ " TEXT,"
+        +"Expr1"+ " TEXT,"
+        +"projectDesc" + " TEXT"
+        + ")";
         String CREATE_call_time =
                 "CREATE TABLE " + "Calltime" + "("
                         + "CTID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -226,6 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + MsgREAD + " TEXT, "
                         + MsgTYPE + " TEXT "
                         + ")";
+        db.execSQL(CREATE_IS_Actions);
         db.execSQL(CREATE_CallStatus);
         db.execSQL(CREATE_mgnet_items);
         db.execSQL(CREATE_CP_TABLE);
@@ -322,6 +371,100 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             h.LogPrintExStackTrace(e);
         }
         return false;
+    }
+    public boolean createColumnToISActions(String column,boolean isTableExist){
+        String IS_Actions = "IS_Actions";
+        boolean flag = false;
+        Helper h = new Helper();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
+                    + "actionID" + " INTEGER,"
+                    +"taskID"
+                    +"actionDate" + " TEXT,"
+                    +"actionStartDate" + " TEXT,"
+                    +"actionDue" + " TEXT,"
+                    +"actionDesc" + " TEXT,"
+                    +"comments" + " TEXT,"
+                    +"priorityID"+ " INTEGER,"
+                    +"statusID"+ " INTEGER,"
+                    +"reminderID"
+                    +"ownerID"+ " INTEGER,"
+                    +"userID"+ " INTEGER,"
+                    +"WorkHours"+ " TEXT,"
+                    +"WorkEstHours"+ " TEXT,"
+                    +"[Create]"+ " TEXT,"
+                    +"LastUpdate"+ " TEXT,"
+                    +"actionLink"+ " TEXT,"
+                    +"depID"+ " INTEGER,"
+                    +"actionRef"+ " TEXT,"
+                    +"userCfname"+ " TEXT,"
+                    +"userClname"+ " TEXT,"
+                    +"userCemail"+ " TEXT,"
+                    +"userCtypeID"+ " INTEGER,"
+                    +"ownerCfname"+ " TEXT,"
+                    +"ownerClname"+ " TEXT,"
+                    +"ownerCemail"+ " TEXT,"
+                    +"ownerCtypeID"+ " INTEGER,"
+                    +"projectID"+ " INTEGER,"
+                    +"statusName"+ " TEXT,"
+                    +"PriorityName"+ " TEXT,"
+                    +"actionType"+ " TEXT,"
+                    +"actionSdate"+ " TEXT,"
+                    +"actionEdate"+ " TEXT,"
+                    +"WorkHoursM"+ " TEXT,"
+                    +"WorkEstHoursM"+ " TEXT,"
+                    +"actionPrice"+ " TEXT,"
+                    +"statusColor"+ " TEXT,"
+                    +"taskSummery"+ " TEXT,"
+                    +"projectSummery"+ " TEXT,"
+                    +"projectType"+ " TEXT,"
+                    +"actionNum"+ " TEXT,"
+                    +"actionFrom"+ " TEXT,"
+                    +"actionDays"+ " TEXT,"
+                    +"ParentActionID"+ " INTEGER,"
+                    +"remindertime"+ " TEXT,"
+                    +"Expr1"+ " TEXT,"
+                    +"projectDesc" + " TEXT"
+                    + ")";
+            if (isTableExist){
+                db.execSQL("DROP TABLE IF EXISTS '" + IS_Actions + "_old" + "'");
+                db.execSQL("ALTER TABLE " + IS_Actions + " RENAME TO " + IS_Actions + "_old;");
+                Log.e("mytag","step 1");
+            }
+
+            try{
+                db.execSQL(CREATE_IS_Actions);
+            }catch (Exception e){
+                Log.e("mytag","exception create exe: " + e.getMessage());
+                //String bla = CREATE_mgnet_calls.replace("CREATE TABLE","ALTER TABLE");
+                //db.execSQL(bla);
+            }
+            if (isTableExist){
+                db.execSQL("DROP TABLE " + IS_Actions + "_old;");
+                Log.e("mytag","step 2");
+            }
+
+            //Log.e("mytag","last time: " + columnExistsInTable("mgnet_calls","sla"));
+            if (!columnExistsInTable(IS_Actions,column)){
+                try{
+                    db.execSQL("ALTER TABLE " + IS_Actions + " ADD COLUMN " + column + " TEXT;");
+                    Log.e("mytag","success to add " + column + "to calls");
+
+                }catch (Exception e){
+                    Log.e("mytag","err step 4, " + e.getMessage());
+                    h.LogPrintExStackTrace(e);
+                }
+            }
+
+            flag = true;
+        }catch (Exception e){
+
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
     }
     public boolean createColumnToCalls(String column,boolean isTableExist){
         String mgnet_calls = "mgnet_calls";
@@ -562,7 +705,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return flag;
     }
     public boolean update_calltime(Calltime ct) {
-        Log.e("mytag",ct.toString());
+        //Log.e("mytag",ct.toString());
         boolean flag = false;
         try{
             SQLiteDatabase db = this.getWritableDatabase();
@@ -652,7 +795,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public JSONArray getJsonResultsFromTable(String tableName)
     {
-        Log.e("mytag","hello from db");
+        //Log.e("mytag","hello from db");
         SQLiteDatabase db = this.getReadableDatabase();
 
         String searchQuery = "SELECT  * FROM " + tableName;
@@ -858,9 +1001,9 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
                 cursor.getString(cursor.getColumnIndex("techColor")),
                 cursor.getString(cursor.getColumnIndex("ContctCemail")),
                 cursor.getString(cursor.getColumnIndex("CallParentID")),
-                cursor.getString(cursor.getColumnIndex("state")),
+                getState(cursor.getString(cursor.getColumnIndex("CallID"))),
                 cursor.getString(cursor.getColumnIndex("sla"))
-                );
+                );//cursor.getString(cursor.getColumnIndex("state")),
 // Adding contact to list
                 callList.add(c);
             } while (cursor.moveToNext());
@@ -869,7 +1012,41 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         //db.close();
         return callList;
     }
+private String getState(String callid){
+    Helper h = new Helper();
+    try{
+        SQLiteDatabase db = this.getWritableDatabase();
+        String count = "select count(*) from Calltime where callid=" + callid + " and ctq='-2'";
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        //db.close();
+        if(icount==2){
+            return "work";
+        }else if(icount==1){
+            try{
+                String count1 = "select count(*) from Calltime where callid=" + callid + " and ctq='-2' and CTcomment='work'";
+                String res = "";
+                res = getScalarByCountQuery(count1);
+                Log.e("mytag","res:" +res);
+                if (res == "1"){
+                    return "work";
+                }else{
+                    return "ride";
+                }
+            }catch(Exception e){
+                h.LogPrintExStackTrace(e);
+                return "ride";
+            }
+        }else{
+            return "null";
+        }
+    }catch(Exception e){
+        h.LogPrintExStackTrace(e);
+        return "null";
+    }
 
+}
 public boolean getCallsCount() {
     String selectQuery = "SELECT count(callid) as count1 FROM mgnet_calls " ;
     boolean flag;
@@ -988,13 +1165,18 @@ public void addNewCall(Call call) {
     }
 
 //endregion
-public Calltime getCalltimeByCallidAndAction(String callid,String action){
+public Calltime getCalltimeByCallidAndAction(String callid,String action,String openClose){
 
     Calltime calltime = new Calltime();
 
+    String openCloseCondition = "";
+    if(openClose != ""){
+        openCloseCondition = " and ctq='" + openClose + "' ";
+    }
+
     try {
         String selectQuery = "";
-        selectQuery = "SELECT * FROM Calltime where callid= '" + callid + "' and CTcomment= '" + action + "' order by CTID desc LIMIT 1";
+        selectQuery = "SELECT * FROM Calltime where callid= '" + callid + "' and CTcomment= '" + action + "' " + openCloseCondition + " order by CTID desc LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.rawQuery(selectQuery, null);
         if (cursor.getCount() == 0){
@@ -1019,6 +1201,7 @@ public Calltime getCalltimeByCallidAndAction(String callid,String action){
         return calltime;
     }
 }
+
 public CallStatus getCallStatusByCallStatusName(String CallStatusName){
 
     CallStatus callStatus = new CallStatus();

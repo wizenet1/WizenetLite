@@ -24,6 +24,8 @@ import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.Helper;
+import com.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,13 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         ((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
 
         db = DatabaseHelper.getInstance(getContext());
-
+        Helper h = new Helper();
+        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+            @Override
+            public void onResult(String str) {
+                Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
+            }
+        });
 
         for(int i =0;i < data2.size();i++)
         {

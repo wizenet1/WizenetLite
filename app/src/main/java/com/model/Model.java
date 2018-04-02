@@ -1391,6 +1391,96 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+    //region Wz_Call_setTime_Offline
+    public interface Wz_Call_setTime_Offline_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_Call_setTime_Offline_Listener(final String macAddress,final String jsonString, final Wz_Call_setTime_Offline_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
+
+                    String response = cs.Wz_Call_setTime_Offline(macAddress,jsonString);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_Call_setTime_OfflineResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_Call_setTime_OfflineResult=", "Wz_Call_setTime_Offline:");
+                    myResponse = myResponse.replaceAll(";", "");
+                    //return "";
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+    //region Wz_Call_setTime_Offline
+    public interface Wz_ACTIONS_retList_Listener{
+        public void onResult(String str);
+    }
+    //PRODUCTS_CLIENTS_ITEMS_LIST
+    public void Async_Wz_ACTIONS_retList_Listener(final String macAddress, final Wz_ACTIONS_retList_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
+
+                    String response = cs.Wz_ACTIONS_retList(macAddress);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_ACTIONS_retListResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_ACTIONS_retListResult=", "Wz_ACTIONS_retList:");
+                    myResponse = myResponse.replaceAll(";", "");
+
+                    boolean flag = false;
+                    File_ f = new File_();
+                    f.deleteFileExternal(context,"is_actions.txt");
+                    flag = f.writeTextToFileExternal(context,"is_actions.txt",myResponse);
+                    if (flag == true){
+
+                    }
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
 
 }
 
