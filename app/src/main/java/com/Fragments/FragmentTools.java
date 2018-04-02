@@ -223,6 +223,24 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
             }
         });
 
+
+
+
+        //TODO DELETE THAT, this shouldn't be here.
+        //Opens the nearest customers fragment.
+        Button openNearestCustomers = (Button)v.findViewById(R.id.tools_open_nearestCustomers_btn);
+        openNearestCustomers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentNearestCustomers frag = new FragmentNearestCustomers();
+                ft.replace(R.id.container, frag, "FragmentNearestCustomers");
+                ft.addToBackStack("FragmentNearestCustomers");
+                ft.commit();
+            }
+        });
+
         return v;
     }
     protected void AlertDialogClient(){
