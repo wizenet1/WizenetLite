@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +25,16 @@ import android.widget.Toast;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Adapters.ActionsAdapter;
+import com.Adapters.CallsAdapter;
+import com.Classes.Call;
+import com.Classes.IS_Action;
 import com.Classes.Message;
 import com.DatabaseHelper;
 import com.Helper;
 import com.model.Model;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,53 +49,53 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     Button addmem_btn,remove_btn;
     DatabaseHelper db;
     ListView myList;
-    CustomAdapter adapter;
-    List<Message> data2 = new ArrayList<Message>() ;
+    //CustomAdapter adapter;
+    List<IS_Action> data2 = new ArrayList<IS_Action>() ;
     String dataName;
     CheckBox cb;
     LocationManager manager = null;
     String firstname="";
     String lastname="";
     boolean result = false;
-
-
-
+    private EditText mSearchEdt;
+    private TextWatcher mSearchTw;
+    Helper helper;
+private ActionsAdapter actionsAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View v = inflater.inflate(R.layout.fragment_actions, null);
-        setHasOptionsMenu(true);
-
+        //setHasOptionsMenu(true);
+        mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-
+        helper= new Helper();
         //Turn all the action bar icons off to their original color.
         ((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
 
         db = DatabaseHelper.getInstance(getContext());
         Helper h = new Helper();
+
+
+
+        myList = (ListView) v.findViewById(R.id.actions_list);
+        myList.setClickable(true);
+        myList.setLongClickable(true);
+//        data2.clear();
+//        data2=getActionsList("");
+//        actionsAdapter=new ActionsAdapter(data2,getContext());
+//        myList.setAdapter(actionsAdapter);
         Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
             @Override
             public void onResult(String str) {
+                refresh();
                 Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
             }
         });
-
-        for(int i =0;i < data2.size();i++)
-        {
-            data2.remove(i);
-        }
-        data2 = new ArrayList<Message>() ;
-        List<Message> cps=  db.getAllMessages();  // getCustomersFromJson(myBundle);
-        for (Message c : cps){
-            data2.add(c);
-        }
-        myList = (ListView) v.findViewById(R.id.messages_list);
-        myList.setClickable(true);
-        myList.setLongClickable(true);
-        adapter = new CustomAdapter();
-        myList.setAdapter(adapter);
+        //refresh();
+        //adapter = new CustomAdapter();
+        //myList.setAdapter(adapter);
         //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
         //((MenuActivity)getActivity()).initialIcons();
         //ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
@@ -97,18 +106,48 @@ public class FragmentActions extends android.support.v4.app.Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Intent intent = new Intent(getActivity().getApplicationContext(),FragmentMessageDetails.class);
                 //intent.putExtra("id",data2.get(position).getMsgID());
-                goToMSGDetailsFrag(data2.get(position).getMsgID().toString());
+                //goToMSGDetailsFrag(data2.get(position).getMsgID().toString());
                 //Toast.makeText(getActivity(), data2.get(position).getMsgID(), Toast.LENGTH_LONG).show();
                 //startActivity(intent);
             }
         });
+        mSearchTw=new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                actionsAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        mSearchEdt.addTextChangedListener(mSearchTw);
         return v;
     };
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu) {
-//        MenuItem item = menu.findItem(R.menu.menu_main);
-//        item.setVisible(false);
-//    }
+    private List<IS_Action> getActionsList(String sortby){
+
+        JSONObject j = null;
+        int length = 0;
+
+        List<IS_Action> actions = new ArrayList<IS_Action>() ;
+        try {
+            actions= DatabaseHelper.getInstance(getContext()).getISActions(sortby);
+            length = actions.size();
+            Log.e("mytag","chk is_actions length: " +length);
+        } catch (Exception e) {
+            Log.e("mytag","sdf " +e.getMessage());
+            e.printStackTrace();
+            helper.LogPrintExStackTrace(e);
+        }
+
+        return actions;
+    }
 
 
     @Override
@@ -124,86 +163,18 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     }
 
 
-    class CustomAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return data2.size();
-        }
 
-        @Override
-        public Object getItem(int position) {
-            return data2.get(position).toString();
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getActivity());
-                //convertView = inflater.inflate(R.layout.item_message,null);
-            }
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            convertView = inflater.inflate(R.layout.item_message,null);
-            //View rowView = inflater.inflate(R.layout.item_message, parent, false);
-
-            TextView key = (TextView) convertView.findViewById(R.id.key_text);
-            //EditText value = (EditText) convertView.findViewById(R.id.value_text);
-            //Button remove_btn = (Button) convertView.findViewById(R.id.btn_remove);
-
-            key.setText(data2.get(position).getMsgSubject().toString());
-
-
-            myList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                public boolean onItemLongClick(final AdapterView<?> p, View v, final int po, long id) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Delete");
-                    builder.setMessage("Are you sure you want to delete?");
-                    builder.setIcon(android.R.drawable.ic_dialog_alert);
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int ii) {
-                            DatabaseHelper.getInstance(getContext()).deleteRowByMsgID(data2.get(po).getMsgID());
-                            Toast.makeText(getActivity(), data2.get(po).getMsgID().toString()+",\nMsgName:"+data2.get(po).getMsgComment().toString(), Toast.LENGTH_LONG).show();
-
-                            refresh();
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(DialogInterface dialog, int ii) {
-                                    dialog.dismiss();
-                                }
-                            }
-                    );
-                    builder.show();
-
-                    return true;
-                }
-            });
-            //value.setText(data2.get(position).getMsgComment().toString());
-
-            convertView.setTag(position);
-            //nickname.setText(data2.get(position).getKey());
-
-            return convertView;
-        }
-    }
 
 
     public void refresh(){
-        List<Message> data = new ArrayList<Message>() ;
-        List<Message> cps=  db.getAllMessages();  // getCustomersFromJson(myBundle);
-        for (Message c : cps){
-            data.add(c);
-        }
+        //List<IS_Action> data = new ArrayList<IS_Action>() ;
+        //List<IS_Action> cps=  db.getISActions("");  // getCustomersFromJson(myBundle);
+
         data2.clear();
-        data2=data;
-        adapter = new CustomAdapter();
-        myList.setAdapter(adapter);
+        data2=getActionsList("");
+        actionsAdapter=new ActionsAdapter(data2,getContext());
+        myList.setAdapter(actionsAdapter);
+        actionsAdapter.notifyDataSetChanged();
     }
     private void goToMSGDetailsFrag(String puId)
 

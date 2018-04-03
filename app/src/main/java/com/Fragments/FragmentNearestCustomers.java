@@ -51,7 +51,7 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
 
     //API key used to address the Google Maps server.
     //TODO add your key here
-    private final String API_KEY = "PUT YOUR KEY HERE";
+    private final String API_KEY = "AIzaSyDpObMzkQazFmlpvv_YvSUUOW9PiQMsWFA";
 
     public FragmentNearestCustomers() {
         // Required empty public constructor

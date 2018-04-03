@@ -936,6 +936,82 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         Log.e("mytag",e.getMessage());
     }
 }
+    public List<IS_Action> getISActions(String sortby) {
+        List<IS_Action> actions = new ArrayList<IS_Action>();
+        try{
+// Select All Query
+        String selectQuery ="";
+        selectQuery = "SELECT * FROM IS_Actions where 1=1   " ;
+        if (!sortby.trim().equals("")){
+            selectQuery+=  sortby + "";
+            //selectQuery+= "  order by " + sortby + "";
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        //Log.e("mytag","sql: " +selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+            Log.e("mytag","row count is_actions: " +cursor.getCount());
+// looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                IS_Action action= new IS_Action(
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("actionID"))),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("taskID"))),
+                        cursor.getString(cursor.getColumnIndex("actionDate")),cursor.getString(cursor.getColumnIndex("actionStartDate")),
+                        cursor.getString(cursor.getColumnIndex("actionDue")),
+                        cursor.getString(cursor.getColumnIndex("actionDesc")),
+                        cursor.getString(cursor.getColumnIndex("comments")),
+                        cursor.getString(cursor.getColumnIndex("priorityID")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))),
+                        cursor.getString(cursor.getColumnIndex("reminderID")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerID"))),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("userID"))),
+                        cursor.getString(cursor.getColumnIndex("WorkHours")),
+                        cursor.getString(cursor.getColumnIndex("WorkEstHours")),
+                        cursor.getString(cursor.getColumnIndex("Create")),
+                        cursor.getString(cursor.getColumnIndex("LastUpdate")),
+                        cursor.getString(cursor.getColumnIndex("actionLink")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("depID"))),
+                        cursor.getString(cursor.getColumnIndex("actionRef")),
+                        cursor.getString(cursor.getColumnIndex("userCfname")),
+                        cursor.getString(cursor.getColumnIndex("userClname")),
+                        cursor.getString(cursor.getColumnIndex("userCemail")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("userCtypeID"))),
+                        cursor.getString(cursor.getColumnIndex("ownerCfname")),
+                        cursor.getString(cursor.getColumnIndex("ownerClname")),
+                        cursor.getString(cursor.getColumnIndex("ownerCemail")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerCtypeID"))),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("projectID"))),
+                        cursor.getString(cursor.getColumnIndex("statusName")),
+                        cursor.getString(cursor.getColumnIndex("PriorityName")),
+                        cursor.getString(cursor.getColumnIndex("actionType")),
+                        cursor.getString(cursor.getColumnIndex("actionSdate")),
+                        cursor.getString(cursor.getColumnIndex("actionEdate")),
+                        cursor.getString(cursor.getColumnIndex("WorkHoursM")),
+                        cursor.getString(cursor.getColumnIndex("WorkEstHoursM")),
+                        cursor.getString(cursor.getColumnIndex("actionPrice")),
+                        cursor.getString(cursor.getColumnIndex("statusColor")),
+                        cursor.getString(cursor.getColumnIndex("taskSummery")),
+                        cursor.getString(cursor.getColumnIndex("projectSummery")),
+                        cursor.getString(cursor.getColumnIndex("projectType")),
+                        cursor.getString(cursor.getColumnIndex("actionNum")),
+                        cursor.getString(cursor.getColumnIndex("actionFrom")),
+                        cursor.getString(cursor.getColumnIndex("actionDays")),
+                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ParentActionID"))),
+                        cursor.getString(cursor.getColumnIndex("remindertime")),
+                        cursor.getString(cursor.getColumnIndex("Expr1")),
+                        cursor.getString(cursor.getColumnIndex("projectDesc"))
+                );
+// Adding contact to list
+                actions.add(action);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+        }
+        return actions;
+    }
     public List<Call> getCalls(String sortby) {
         List<Call> callList = new ArrayList<Call>();
 // Select All Query
@@ -1254,31 +1330,25 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put("ownerCtypeID",is_action.getOwnerCtypeID());
             values.put("projectID",is_action.getProjectID());
             values.put("ParentActionID",is_action.getParentActionID());
-
             values.put("actionDate",is_action.getActionDate());
             values.put("actionStartDate",is_action.getActionStartDate());
             values.put("actionDue",is_action.getActionDue());
             values.put("actionDesc",is_action.getActionDesc());
             values.put("comments",is_action.getComments());
             values.put("priorityID",is_action.getPriorityID());
-
             values.put("reminderID",is_action.getReminderID());
-
             values.put("WorkHours",is_action.getWorkHours());
             values.put("WorkEstHours",is_action.getWorkEstHours());
             values.put("Create",is_action.getCreate());
             values.put("LastUpdate",is_action.getLastUpdate());
             values.put("actionLink",is_action.getActionLink());
-
             values.put("actionRef",is_action.getActionRef());
             values.put("userCfname",is_action.getUserCfname());
             values.put("userClname",is_action.getUserClname());
             values.put("userCemail",is_action.getUserCemail());
-
             values.put("ownerCfname",is_action.getOwnerCfname());
             values.put("ownerClname",is_action.getOwnerClname());
             values.put("ownerCemail",is_action.getOwnerCemail());
-
             values.put("statusName",is_action.getStatusName());
             values.put("PriorityName",is_action.getPriorityName());
             values.put("actionType",is_action.getActionType());
@@ -1298,16 +1368,14 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put("Expr1",is_action.getExpr1());
             values.put("projectDesc",is_action.getProjectDesc());
 
-
-//            values.put("CallStatusID", callStatus.getCallStatusID());
-//            values.put("CallStatusName", callStatus.getCallStatusName());
-//            values.put("CallStatusOrder", callStatus.getCallStatusOrder());
             db.insert("IS_Actions", null, values);
+            Log.e("MYTAG","added!!" + is_action.toString());
             // Closing database connection
             //db.close();
         }catch (Exception e){
             e.printStackTrace();
             Log.e("MYTAG",e.getMessage());
+            return;
         }
 
     }
