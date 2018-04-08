@@ -1480,6 +1480,53 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+    //region Wz_Clients_List
+    public interface Wz_Clients_List_Listener{
+        public void onResult(String str);
+    }
+    //Wz_ACTIONS_retList
+    public void Async_Wz_Clients_List_Listener(final String macAddress,final int CtypeID,final int CparentID, final Wz_Clients_List_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
+
+                    String response = cs.Wz_Clients_List(macAddress,CtypeID,CparentID);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_Clients_ListResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_Clients_ListResult=", "Wz_Clients_List:");
+                    myResponse = myResponse.replaceAll(";", "");
+
+                    boolean flag = false;
+                    File_ f = new File_();
+                    // the logic of writing in the fragment
+
+                    //}
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
+
     private void addActions(){
         String strJson = "";
         File_ f = new File_();

@@ -141,18 +141,27 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
             public void onClick(View v) {
                 if (helper.isNetworkAvailable(getContext())){
                     Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
-                    Model.getInstance().Async_Get_Clients_Listener(helper.getMacAddr(), new Model.get_clients_Listener() {
+                    Model.getInstance().Async_Wz_Clients_List_Listener(helper.getMacAddr(), -1, -1, new Model.Wz_Clients_List_Listener() {
                         @Override
                         public void onResult(String str) {
                             File_ f = new File_();
                             f.writeTextToFileExternal(context,"customers.txt",str);
-
-                            //f.writeTextToFileInternal(context,"customers.txt",str);
-                            //helper.writeTextToSpecificFile("","customers.txt",str);
-
                             Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
                         }
                     });
+
+//                    Model.getInstance().Async_Wz_Clients_List_Listener(helper.getMacAddr(),-1,-1, new Model.() {
+//                        @Override
+//                        public void onResult(String str) {
+//                            File_ f = new File_();
+//                            f.writeTextToFileExternal(context,"customers.txt",str);
+//
+//                            //f.writeTextToFileInternal(context,"customers.txt",str);
+//                            //helper.writeTextToSpecificFile("","customers.txt",str);
+//
+//                            Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }else{
                     Toast.makeText(getActivity(),"network is Not available",Toast.LENGTH_SHORT).show();
                 }
