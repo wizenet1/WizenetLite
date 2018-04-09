@@ -67,15 +67,16 @@ public class ProgressTaskClient extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(final String... args) {
 
-
+        //Log.e("mytag","step 1");
         String strCustomers = helper.getCusernamelist();
         String [] Customers = strCustomers.split(",");
         String myCID = DatabaseHelper.getInstance(context).getValueByKey("CID");
         //
         File_ f = new File_();
         f.createSubDirectory(context,"client_products");
-        Log.e("mytag","step 3");
+        //Log.e("mytag","step 3");
         for (String c:Customers) {
+            //Log.e("mytag","step 1"+ c);
             String ret = "";
             ret =writeFile(myCID,c);
             if (ret == "-1"){

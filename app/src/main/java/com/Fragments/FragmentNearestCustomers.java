@@ -25,6 +25,7 @@ import com.Helper;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.Activities.R;
+import com.model.Model;
 import com.nearestCustomers.CustomerTmp;
 import com.nearestCustomers.DistanceComparator;
 import com.nearestCustomers.DistancesListAdapter;
@@ -51,7 +52,7 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     private SeekBar seekBar;
     private TextView distanceText;
     private Helper h;
-    private Button btnGPS;
+    private Button btnGPS,btnImport;
     GPSTracker gps = null;
     LatLng origin = null;
     //Customers list.
@@ -93,7 +94,7 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
 //            }
 
         }
-
+        this.btnImport = (Button)  view.findViewById(R.id.btnImport);
         this.btnGPS = (Button)  view.findViewById(R.id.btnGPS);
         this.seekBar = (SeekBar) view.findViewById(R.id.customers_distances_seekBar);
         this.distancesListView = (ListView) view.findViewById(R.id.customers_distances_listView);
@@ -124,7 +125,17 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
                 Toast.makeText(getContext(),"lat:"+gps.getLatitude()+" long:"+gps.getLongitude(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        btnImport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Model.getInstance().Async_Wz_ret_ClientsAddressesByActions_Listener(h.getMacAddr(), "", new Model.Wz_ret_ClientsAddressesByActions_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        Toast.makeText(getContext(),"יובא בהצלחה", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         return view;
     }
 
@@ -186,20 +197,21 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
         Helper helper = new Helper();
         File_ f = new File_();
         String myString = "";
-        myString = f.readFromFileExternal(getContext(), "customers.txt");
+        myString = f.readFromFileExternal(getContext(), "wzClients.txt");
         //Log.e("mytag", myString);
         JSONObject j = null;
         int length = 0;
         Ccustomer[] ccustomers;//= new Ccustomer[5];
         try {
             j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
+            JSONArray jarray = j.getJSONArray("Wz_ret_ClientsAddressesByActions");
             length = jarray.length();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Toast.makeText(getContext(),"length:" + length, Toast.LENGTH_SHORT).show();
         ccustomers = new Ccustomer[length];
-        ccustomers = helper.getCustomersFromJson2(myString);
+        ccustomers = helper.getWizenetClientsFromJson(myString);
         return ccustomers;
     }
 

@@ -176,7 +176,7 @@ public class FragmentOrders extends android.support.v4.app.Fragment {
 
                 }
             } catch (Exception e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"dd: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else {
             responseList = DatabaseHelper.getInstance(getContext()).get_mgnet_items("all");
@@ -230,20 +230,6 @@ public class FragmentOrders extends android.support.v4.app.Fragment {
                 amount_id.setText("1");
                 selectionItem = selection.substring(0, selection.lastIndexOf("|"));
 
-
-//                List<Order> ordersListClient = new ArrayList<Order>();
-//                ordersListClient =getClientOrderList(_CID);
-//                Toast.makeText(getContext(),"_CID: " +_CID, Toast.LENGTH_LONG).show();
-//                OrdersAdapter ordersAdapter2 = new OrdersAdapter(
-//                        getContext(),
-//                        R.layout.search_auto_complete,
-//                        R.id.name_search,
-//                        ordersListClient,
-//                        selectionItem
-//                );
-//                textView3.setAdapter(ordersAdapter2);
-
-                //Toast.makeText(getActivity(), selection + " success", Toast.LENGTH_LONG).show();
                 Log.e("MYTAG", selection.toString());
             }
         });
@@ -430,14 +416,17 @@ public class FragmentOrders extends android.support.v4.app.Fragment {
     protected List<String> getSpecialCustomerList() {
         List<String> ret = new ArrayList<String>();
         File_ f = new File_();
-        //strJson = helper.readTextFromFileCustomers();
+        String strJson= "";
         strJson = f.readFromFileExternal(getContext(), "customers.txt");
+        Log.e("mytag",strJson);
         JSONObject j = null;
         JSONArray jarray = null;
         try {
             j = new JSONObject(strJson);
-            jarray = j.getJSONArray("Customers");
+            jarray = j.getJSONArray("Wz_Clients_List");
+            Toast.makeText(getActivity(),"jarray len:" + jarray.length(), Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
+            helper.LogPrintExStackTrace(e);
             e.printStackTrace();
         }
 
@@ -449,12 +438,14 @@ public class FragmentOrders extends android.support.v4.app.Fragment {
                     e = jarray.getJSONObject(i);
                     name = e.getString("Ccompany") + '|' + e.getString("CID") + "~" + e.getString("Cusername");
                 } catch (JSONException e1) {
-                    e1.printStackTrace();
+                    helper.LogPrintExStackTrace(e1);
+                    //e1.printStackTrace();
                 }
                 ret.add(name);
             }
         } catch (Exception e) {
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+            helper.LogPrintExStackTrace(e);
+            Toast.makeText(getActivity(),"sss:" + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return ret;
     }

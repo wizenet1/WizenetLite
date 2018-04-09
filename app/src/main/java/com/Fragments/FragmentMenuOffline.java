@@ -208,7 +208,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                             count++;
                     }
                 }catch(Exception ex){
-
+                    helper.LogPrintExStackTrace(ex);
                 }
                 if (count == 0){
                     Toast.makeText(getActivity(), "sync started", Toast.LENGTH_SHORT).show();

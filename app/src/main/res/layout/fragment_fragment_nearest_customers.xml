@@ -6,18 +6,26 @@
     android:layout_height="match_parent"
     tools:context="com.Fragments.FragmentNearestCustomers">
 
-    <LinearLayout
+    <RelativeLayout
         android:layoutDirection="rtl"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp">
+
         <Button
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:text="ייבוא לקוחות"
+            android:id="@+id/btnImport"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:text="gps"
             android:id="@+id/btnGPS"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <TextView
         android:id="@+id/customers_distances_distanceText"
         android:layout_width="wrap_content"

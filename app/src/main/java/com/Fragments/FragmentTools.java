@@ -422,9 +422,9 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
     public void onResume() {
         super.onResume();
         if(DatabaseHelper.getInstance(getContext()).getValueByKey("GPS").equals("1")) {
-            cb.setChecked(true);
-            cb.setText("GPS");
-            cb.setVisibility(View.VISIBLE);
+            //cb.setChecked(true);
+            //cb.setText("GPS");
+            //cb.setVisibility(View.VISIBLE);
         }
 
 //        try{

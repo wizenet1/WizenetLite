@@ -114,7 +114,9 @@ public class OrdersAdapter extends ArrayAdapter<String> {
                     }
 
                     for (Order names : orderList) {
-                        if (names.getPname().toLowerCase().contains(constraint.toString().toLowerCase()) && constraint.toString().length() >=3){
+                        if ((names.getPmakat().toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                                names.getPname().toLowerCase().contains(constraint.toString().toLowerCase()))
+                                && constraint.toString().length() >=3){
                             suggestions.add(names);
                         }
                     }

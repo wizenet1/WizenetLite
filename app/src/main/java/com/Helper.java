@@ -435,7 +435,7 @@ public class Helper {
         JSONArray jarray = null;
         try {
             j = new JSONObject(strJson);
-            jarray= j.getJSONArray("Customers");
+            jarray= j.getJSONArray("Wz_Clients_List");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -899,7 +899,92 @@ public class Helper {
         }
         return customersList;
     }
+    public Ccustomer[] getWizenetClientsFromJson(String json){
+        Ccustomer[] customersList = new Ccustomer[0];
+        JSONObject j = null;
+        try {
+            j = new JSONObject(json);
+            //get the array [...] in json
+            JSONArray jarray = j.getJSONArray("Wz_ret_ClientsAddressesByActions");
+            customersList = new Ccustomer[jarray.length()];
+            //customersList = new Ccustomer[jarray.length()];
 
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject object = jarray.getJSONObject(i);
+                Ccustomer c = new Ccustomer(
+                        jarray.getJSONObject(i).getString("CstatusName"),
+                        jarray.getJSONObject(i).getString("Cage"),
+                        jarray.getJSONObject(i).getString("CID"),
+                        jarray.getJSONObject(i).getString("CParentID"),
+                        jarray.getJSONObject(i).getString("TargetWeight"),
+                        jarray.getJSONObject(i).getString("Cusername"),
+                        jarray.getJSONObject(i).getString("Cpassword"),
+                        jarray.getJSONObject(i).getString("Cfname"),
+                        jarray.getJSONObject(i).getString("Clname"),
+                        jarray.getJSONObject(i).getString("Cemail"),
+                        jarray.getJSONObject(i).getString("Caddress"),
+                        jarray.getJSONObject(i).getString("Ccity"),
+                        jarray.getJSONObject(i).getString("CArea"),
+                        jarray.getJSONObject(i).getString("Ccountry"),
+                        jarray.getJSONObject(i).getString("Cstate"),
+                        jarray.getJSONObject(i).getString("Czip"),
+                        jarray.getJSONObject(i).getString("Cphone"),
+                        jarray.getJSONObject(i).getString("Ccell"),
+                        jarray.getJSONObject(i).getString("Cfax"),
+                        jarray.getJSONObject(i).getString("Cdate"),
+                        jarray.getJSONObject(i).getString("CBirthDate"),
+                        jarray.getJSONObject(i).getString("CStartDate"),
+                        jarray.getJSONObject(i).getString("CEndDate"),
+                        jarray.getJSONObject(i).getString("CFemilyStatus"),
+                        jarray.getJSONObject(i).getString("CBuySum"),
+                        jarray.getJSONObject(i).getString("Ccompany"),
+                        jarray.getJSONObject(i).getString("Cprofession"),
+                        jarray.getJSONObject(i).getString("LNG"),
+                        jarray.getJSONObject(i).getString("CTypeID"),
+                        jarray.getJSONObject(i).getString("CCodeID"),
+                        jarray.getJSONObject(i).getString("CConfirm"),
+                        jarray.getJSONObject(i).getString("CInterest"),
+                        jarray.getJSONObject(i).getString("Cduty"),
+                        jarray.getJSONObject(i).getString("CPoints"),
+                        jarray.getJSONObject(i).getString("SendEmail"),
+                        jarray.getJSONObject(i).getString("ccName"),
+                        jarray.getJSONObject(i).getString("ccID"),
+                        jarray.getJSONObject(i).getString("ccType"),
+                        jarray.getJSONObject(i).getString("ccNo"),
+                        jarray.getJSONObject(i).getString("ccExp"),
+                        jarray.getJSONObject(i).getString("ccpayment"),
+                        jarray.getJSONObject(i).getString("CStatus"),
+                        jarray.getJSONObject(i).getString("CIMG"),
+                        jarray.getJSONObject(i).getString("CSex"),
+                        jarray.getJSONObject(i).getString("Ccomments"),
+                        jarray.getJSONObject(i).getString("CJoinerID"),
+                        jarray.getJSONObject(i).getString("Cweb"),
+                        jarray.getJSONObject(i).getString("CstatusID"),
+                        jarray.getJSONObject(i).getString("CstatusDate"),
+                        jarray.getJSONObject(i).getString("CstatusID2"),
+                        jarray.getJSONObject(i).getString("CstatusDate2"),
+                        jarray.getJSONObject(i).getString("IsActive"),
+                        jarray.getJSONObject(i).getString("Herb_ID"),
+                        jarray.getJSONObject(i).getString("Age"),
+                        jarray.getJSONObject(i).getString("Weight"),
+                        jarray.getJSONObject(i).getString("LooseWeight"),
+                        jarray.getJSONObject(i).getString("Height"),
+                        jarray.getJSONObject(i).getString("AgentID"),
+                        jarray.getJSONObject(i).getString("LastLogin"),
+                        jarray.getJSONObject(i).getString("SlpCode"),
+                        jarray.getJSONObject(i).getString("LastPassword"),
+                        jarray.getJSONObject(i).getString("CTypeName"));
+
+//                //TODO add image to the constructor
+//                Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany, address, "",cid);
+                customersList[i] = c;
+            }
+        } catch (JSONException e1) {
+            LogPrintExStackTrace(e1);
+            e1.printStackTrace();
+        }
+        return customersList;
+    }
 
     //endregion
 

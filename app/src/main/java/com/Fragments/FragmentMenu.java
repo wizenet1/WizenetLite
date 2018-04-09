@@ -760,6 +760,9 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 @Override
                 public void onResult(String str) {
                     menu_bar_welcome_txt.setText(" שלום " + str);
+                    if (str.contains("[]")){
+                        ((MenuActivity) getActivity()).finish();
+                    }
                 }
             });
         } else {

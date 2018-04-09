@@ -1526,7 +1526,50 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+//region Wz_Clients_List
+    public interface Wz_ret_ClientsAddressesByActions_Listener{
+        public void onResult(String str);
+    }
+    //Wz_ACTIONS_retList
+    public void Async_Wz_ret_ClientsAddressesByActions_Listener(final String macAddress,final String action, final Wz_ret_ClientsAddressesByActions_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
+            //###################################
+            //extract the data and return it
+            //###################################
+            @Override
+            protected String doInBackground(String... params) {
+                try{
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                    //String response = cs.Call(mac_address, memail, mpass);
+
+                    String response = cs.Wz_ret_ClientsAddressesByActions(macAddress,action);
+                    String myResponse = response;
+                    myResponse = myResponse.replaceAll("Wz_ret_ClientsAddressesByActionsResponse", "");
+                    myResponse = myResponse.replaceAll("Wz_ret_ClientsAddressesByActionsResult=", "Wz_ret_ClientsAddressesByActions:");
+                    myResponse = myResponse.replaceAll(";", "");
+
+                    boolean flag = false;
+                    File_ f = new File_();
+                   f.writeTextToFileExternal(context,"wzClients.txt",myResponse);
+                    return myResponse.toString();
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            //###################################
+            //active the fragment with json result by bundle
+            //###################################
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
     private void addActions(){
         String strJson = "";
         File_ f = new File_();
@@ -1612,8 +1655,6 @@ public interface get_mgnet_client_items_Listener{
                 helper.LogPrintExStackTrace(e1);
 
             }
-
-
         }
 
         DatabaseHelper.getInstance(context).getISActions("");
