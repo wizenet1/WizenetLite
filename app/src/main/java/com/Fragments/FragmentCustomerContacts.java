@@ -162,6 +162,7 @@ public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
                 String ccompany = jarray.getJSONObject(i).getString("Ccompany");
                 String cid = jarray.getJSONObject(i).getString("CID");
                 String cparent = jarray.getJSONObject(i).getString("CParentID");
+
                 Toast.makeText(getActivity(),cparent , Toast.LENGTH_LONG).show();
 
                 Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany,cid,cparent);

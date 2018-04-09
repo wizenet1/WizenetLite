@@ -114,22 +114,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
 
         }
-        //getFragmentManager().popBackStack();
         Log.e("mytag", "fragName compare:" + fTag);
         Log.e("mytag", "fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
-//        FragmentManager fm = getSupportFragmentManager();
-//        List<Fragment> frags = getSupportFragmentManager().getFragments();
-//        for(Fragment f : frags) {
-//            if (f != null){
-//                Log.e("mytag","fragments55555555555:" + f.getTag());
-//                if (f.getTag().equals(fTag) || f.getTag().equals("FragmentMenu")){
-//                }else{
-//                    getSupportFragmentManager().beginTransaction().remove(f).commit();
-//                    //fm.popBackStack(String.valueOf(f), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                }
-//            }
-//        }
-//        Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
+
     }
 
     @Override
@@ -606,16 +593,10 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     protected void onResume() {
         super.onResume();
         this.initImageButtons();
-        popFragment("");
+        FragmentManager fm = getSupportFragmentManager();
+        //Toast.makeText(getBaseContext(),"fm.getBackStackEntryCount:"+fm.getBackStackEntryCount(), Toast.LENGTH_SHORT).show();
         View action_bar = (View) findViewById(R.id.top_action_bar);
-        if (getFragmentManager().getBackStackEntryCount() > 2) {
-            action_bar.setVisibility(View.VISIBLE);
-        } else {
-            action_bar.setVisibility(View.GONE);
-        }
-
         initImageButtons();
-        findViewById(R.id.top_action_bar).setVisibility(View.GONE);
 //        FragmentManager fm = getSupportFragmentManager();
 //        Fragment f = fm.findFragmentById(R.id.container);
 //        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
@@ -636,14 +617,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
 
         }
-        //'if (getFragmentManager().getBackStackEntryCount() == 0) {
-        //goToMenuFragment();
-        //}
+//        if (getFragmentManager().getBackStackEntryCount() >= 2) {
+//            //action_bar.setVisibility(View.VISIBLE);
+//            //findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+//        } else {
+//            //action_bar.setVisibility(View.GONE);
+//            findViewById(R.id.top_action_bar).setVisibility(View.GONE);
+//        }
     }
-
-    //       if (getFragmentManager().getBackStackEntryCount() == 0) {
-//
-//    }
     @Override
     protected void onRestart() {
         super.onRestart();

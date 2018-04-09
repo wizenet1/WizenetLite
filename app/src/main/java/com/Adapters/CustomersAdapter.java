@@ -148,7 +148,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 try
                 {
-                    String url = "waze://?q=" + ccustomerArrayList.get(pos).getAddress();
+                    String url = "waze://?q=" + ccustomerArrayList.get(pos).getCaddress()+" "+ccustomerArrayList.get(pos).getCcity();
                     Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity( intent );
@@ -200,7 +200,7 @@ public class CustomersAdapter extends BaseAdapter implements Filterable {
                 String company = ccustomer.getCcompany();
                 String cell = ccustomer.getCcell();
                 String phone = ccustomer.getCphone();
-                String address = ccustomer.getAddress();
+                String address = ccustomer.getCaddress();
                 String email = ccustomer.getCemail();
 
                 Bundle bundle = new Bundle();

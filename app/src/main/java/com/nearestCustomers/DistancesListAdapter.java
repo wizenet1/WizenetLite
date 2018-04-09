@@ -31,8 +31,11 @@ public class DistancesListAdapter extends BaseAdapter implements Filterable {
      * @param customers customers list
      */
     public DistancesListAdapter(Context context, ArrayList<CustomerTmp> customers) {
-
-        this.layoutInflater = LayoutInflater.from(context);
+        try{
+            this.layoutInflater = LayoutInflater.from(context);
+        }catch (Exception e){
+            //getActivity().getSupportFragmentManager().popBackStack();
+        }
         this.context = context;
         this.customers = customers;
     }

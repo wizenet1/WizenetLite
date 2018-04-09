@@ -100,22 +100,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         }
        // ((MenuActivity) getActivity()).initialIcons();
         myList = (ListView) v.findViewById(R.id.customer_list);
-        //ImageView client = (ImageView) getActivity().findViewById(R.id.clients);
-        //client.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 
-        //adapter = new CustomAdapter();
-        //myList.setAdapter(adapter);
-
-//        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String u = data2.get(position).toString();
-//                //Toast.makeText(getActivity(), "item click " + u, Toast.LENGTH_LONG).show();
-//                alertDialog(data2.get(position));
-//                dataName = "";
-//            }
-//        });
-        //init
 
         customersAdapter = new CustomersAdapter(data2, getContext());
         myList.setAdapter(customersAdapter);
@@ -210,7 +195,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         Ccustomer[] ccustomers;//= new Ccustomer[5];
         try {
             j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Customers");
+            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
             length = jarray.length();
         } catch (JSONException e) {
             e.printStackTrace();

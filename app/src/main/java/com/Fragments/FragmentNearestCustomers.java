@@ -3,6 +3,8 @@ package com.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Classes.Ccustomer;
+import com.File_;
+import com.GPSTracker;
+import com.Helper;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.Activities.R;
@@ -24,6 +31,10 @@ import com.nearestCustomers.DistancesListAdapter;
 import com.nearestCustomers.GetDistanceHttp;
 import com.nearestCustomers.IObservable;
 import com.nearestCustomers.IObserver;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -39,8 +50,12 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     private DistancesListAdapter adapter;
     private SeekBar seekBar;
     private TextView distanceText;
-
+    private Helper h;
+    private Button btnGPS;
+    GPSTracker gps = null;
+    LatLng origin = null;
     //Customers list.
+    //private ArrayList<CustomerTmp> customers;
     private ArrayList<CustomerTmp> customers;
 
     //Counter used in the handler to count the number of tasks that were finished.
@@ -50,7 +65,7 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     private final int INITIAL_PROGRESS = 10;
 
     //API key used to address the Google Maps server.
-    //TODO add your key here
+    //doron key
     private final String API_KEY = "AIzaSyDpObMzkQazFmlpvv_YvSUUOW9PiQMsWFA";
 
     public FragmentNearestCustomers() {
@@ -63,7 +78,23 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_nearest_customers, container, false);
+        this.h = new Helper();
+        getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
+        FragmentManager fm = getFragmentManager();
+        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        for (int i = 0; i < backStackCount; i++) {
+            // Get the back stack fragment id.
+            int backStackId = getFragmentManager().getBackStackEntryAt(i).getId();
+            String tag = getFragmentManager().getBackStackEntryAt(i).getName();
+            Log.e("mytag", "fragName:" + tag);
+//            if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1) {
+//            } else {
+//                fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//            }
 
+        }
+
+        this.btnGPS = (Button)  view.findViewById(R.id.btnGPS);
         this.seekBar = (SeekBar) view.findViewById(R.id.customers_distances_seekBar);
         this.distancesListView = (ListView) view.findViewById(R.id.customers_distances_listView);
         this.distanceText = (TextView) view.findViewById(R.id.customers_distances_distanceText);
@@ -75,7 +106,10 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
         initializeCustomers();
 
         //TODO The location values of the user, should be supplied from outside.
-        LatLng origin = new LatLng(32.091412, 34.895811);
+        gps = new GPSTracker(getContext());
+        origin = new LatLng(gps.getLatitude(),gps.getLongitude());
+        Toast.makeText(getContext(),"lat:"+gps.getLatitude()+" long:"+gps.getLongitude(), Toast.LENGTH_SHORT).show();
+        //LatLng origin = new LatLng(32.091412, 34.895811);
 
         //Calculate distances from the user to the customers.
         boolean hasSucceeded = calculateDistancesToUser(origin);
@@ -83,6 +117,13 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
         if (!hasSucceeded) {
             Toast.makeText(getContext(), "Failed to create all asyncTasks", Toast.LENGTH_SHORT).show();
         }
+        btnGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                origin = new LatLng(gps.getLatitude(),gps.getLongitude());
+                Toast.makeText(getContext(),"lat:"+gps.getLatitude()+" long:"+gps.getLongitude(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
@@ -126,16 +167,40 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     private void initializeCustomers() {
 
         this.customers = new ArrayList<>();
-        this.customers.add(new CustomerTmp("לקוח 4", "אילת", "התמרים 1"));
-        this.customers.add(new CustomerTmp("משה כהן", "פתח תקווה", "חיים עוזר 1"));
-        this.customers.add(new CustomerTmp("לקוח 2", "תל אביב", "דיזינגוף 5"));
-        this.customers.add(new CustomerTmp("לקוח 5", "אילת", "התמרים 10"));
-        this.customers.add(new CustomerTmp("לקוח 1", "תל אביב", "אלנבי 1"));
-        this.customers.add(new CustomerTmp("לקוח 3", "נתניה", "הרצל 1"));
-        this.customers.add(new CustomerTmp("אבי כהן", "פתח תקווה", "הרצל 8"));
+        //this.customers = getCustomerList();
+        for (Ccustomer c:getCustomerList()) {
+            this.customers.add(new CustomerTmp(c.getCcompany(), c.getCcity(),c.getCaddress()));
+        }
+        //this.customers.add(new CustomerTmp("לקוח 4", "אילת", "התמרים 1"));
+        //this.customers.add(new CustomerTmp("משה כהן", "פתח תקווה", "חיים עוזר 1"));
+        //this.customers.add(new CustomerTmp("לקוח 2", "תל אביב", "דיזינגוף 5"));
+        //this.customers.add(new CustomerTmp("לקוח 5", "אילת", "התמרים 10"));
+        //this.customers.add(new CustomerTmp("לקוח 1", "תל אביב", "אלנבי 1"));
+        //this.customers.add(new CustomerTmp("לקוח 3", "נתניה", "הרצל 1"));
+        //this.customers.add(new CustomerTmp("אבי כהן", "פתח תקווה", "הרצל 8"));
 
         //Set the needed request counter.
         distancesCalculatedCounter = this.customers.size();
+    }
+    private Ccustomer[] getCustomerList() {
+        Helper helper = new Helper();
+        File_ f = new File_();
+        String myString = "";
+        myString = f.readFromFileExternal(getContext(), "customers.txt");
+        //Log.e("mytag", myString);
+        JSONObject j = null;
+        int length = 0;
+        Ccustomer[] ccustomers;//= new Ccustomer[5];
+        try {
+            j = new JSONObject(myString);
+            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
+            length = jarray.length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ccustomers = new Ccustomer[length];
+        ccustomers = helper.getCustomersFromJson2(myString);
+        return ccustomers;
     }
 
     @Override

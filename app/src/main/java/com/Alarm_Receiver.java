@@ -11,8 +11,11 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,6 +37,8 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.Activities.MainActivity.ctx;
 
 /**
  * Created by User on 23/08/2016.
@@ -65,7 +70,7 @@ public class Alarm_Receiver extends BroadcastReceiver {
         if (helper.isNetworkAvailable(context)){
            try{
                Model.getInstance().init(_context);
-               Model.getInstance().AsyncReminder(helper.getMacAddr(), new Model.ReminderListener() {
+               Model.getInstance().AsyncReminder(getMacAddr(_context), new Model.ReminderListener() {
                    @Override
                    public void onResult(String str, String str2, int size) {
                        if(size==1){
@@ -81,6 +86,18 @@ public class Alarm_Receiver extends BroadcastReceiver {
 
         }
 
+    }
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+    public  String getMacAddr(Context ctx) {
+        try{
+            TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            String device_id = tm.getDeviceId();
+            return device_id;
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            return "";
+        }
     }
 
 

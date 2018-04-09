@@ -8,7 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -87,7 +90,7 @@ Helper helper;
                     String fileContect = "";
                     fileContect = f.readFromCurrentFileExternal(_context,file);
                     //fileContect = helper.readTextFromFile(file);
-                    Model.getInstance().Async_CREATE_OFFLINE_Listener(helper.getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
+                    Model.getInstance().Async_CREATE_OFFLINE_Listener(getMacAddr(_context), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override
                         public void onResult(String str) {
                             Toast.makeText(_context, str, Toast.LENGTH_LONG).show();
@@ -101,6 +104,18 @@ Helper helper;
                     // do something here with the file
                 }
             }
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+    public  String getMacAddr(Context ctx) {
+        try{
+            TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            String device_id = tm.getDeviceId();
+            return device_id;
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            return "";
         }
     }
 

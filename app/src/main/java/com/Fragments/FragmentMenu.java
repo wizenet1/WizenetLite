@@ -478,13 +478,13 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         File_ f = new File_();
         //myString = f.readFromFileInternal(getContext(),"customers.txt");
         String myString = f.readFromFileExternal(getContext(), "customers.txt");
-        Log.e("mytag", myString);
+        //Log.e("mytag", myString);
         JSONObject j = null;
         int length = 0;
         Ccustomer[] ccustomers;//= new Ccustomer[5];
         try {
             j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Customers");
+            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
             length = jarray.length();
         } catch (JSONException e) {
             e.printStackTrace();
