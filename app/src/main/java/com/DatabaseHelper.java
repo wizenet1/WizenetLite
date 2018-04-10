@@ -108,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
        + "actionID" + " INTEGER,"
-        +"taskID"
+        +"taskID"+ " INTEGER,"
         +"actionDate" + " TEXT,"
         +"actionStartDate" + " TEXT,"
         +"actionDue" + " TEXT,"
@@ -372,7 +372,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return false;
     }
+    public String[] getTableColums(){
+        Log.e("mytag","getTableColums");
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.e("mytag","getTableColums1");
+            Cursor dbCursor = db.query("IS_Actions", null, null, null, null, null, null);
+            String[] columnNames = dbCursor.getColumnNames();
+
+            String ret = "IS_Actions:";
+            for (String c:columnNames) {
+                ret += c + ", ";
+            }
+            Log.e("mytag",ret);
+            return columnNames;
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            return null;
+        }
+
+    }
     public boolean createColumnToISActions(String column,boolean isTableExist){
+        getTableColums();
         String IS_Actions = "IS_Actions";
         boolean flag = false;
         Helper h = new Helper();
@@ -381,7 +403,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
                     + "actionID" + " INTEGER,"
-                    +"taskID"
+                    +"taskID" + " INTEGER,"
                     +"actionDate" + " TEXT,"
                     +"actionStartDate" + " TEXT,"
                     +"actionDue" + " TEXT,"
@@ -1339,7 +1361,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put("reminderID",is_action.getReminderID());
             values.put("WorkHours",is_action.getWorkHours());
             values.put("WorkEstHours",is_action.getWorkEstHours());
-            values.put("Create",is_action.getCreate());
+            values.put("[Create]",is_action.getCreate());
             values.put("LastUpdate",is_action.getLastUpdate());
             values.put("actionLink",is_action.getActionLink());
             values.put("actionRef",is_action.getActionRef());
@@ -1373,7 +1395,9 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             // Closing database connection
             //db.close();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
             Log.e("MYTAG",e.getMessage());
             return;
         }

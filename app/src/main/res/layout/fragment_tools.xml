@@ -46,6 +46,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_below="@id/menu_layout_id"
             android:layout_marginTop="20dp"
             android:id="@+id/menu_widget_id"
             android:layout_width="fill_parent"
@@ -54,7 +55,7 @@
             android:layout_weight="0.33"
             android:orientation="horizontal">
             <LinearLayout
-                android:visibility="invisible"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -72,7 +73,7 @@
                     android:layout_below="@id/id1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="barcode scan"
+                    android:text="לקוחות קרובים אליי"
                     android:layout_weight="1"
                     android:textSize="15dp"
                     android:gravity="center"/>
@@ -105,7 +106,7 @@
                     android:gravity="center"/>
             </LinearLayout>
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_weight="0.33"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,12 +131,12 @@
                     android:textSize="15dp"
                     android:gravity="center"/>
 
-                <Button
-                    android:id="@+id/tools_open_nearestCustomers_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="לקוחות קרובים אליי"/>
+                <!--<Button-->
+                    <!--android:id="@+id/tools_open_nearestCustomers_btn"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="לקוחות קרובים אליי"/>-->
             </LinearLayout>
 
 

@@ -122,7 +122,6 @@ public class OrdersAdapter extends ArrayAdapter<String> {
                     }
 
                     FilterResults filterResults = new FilterResults();
-
                     filterResults.values = suggestions;
                     filterResults.count = suggestions.size();
                     return filterResults;

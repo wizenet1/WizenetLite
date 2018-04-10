@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
                 Boolean isISActionsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("IS_Actions") ? true : false;
 
                 Log.e("mytag","is is_actions table exists? "+String.valueOf(isISActionsEsixts));
-
+                DatabaseHelper.getInstance(ctx).getTableColums();
                 //--------- add tables -------------
                 if (!isCallOfllineEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToCalls_Offline("",isCallOfllineEsixts);
@@ -114,14 +114,23 @@ public class MainActivity extends Activity {
                 }else{
                     Log.e("mytag","isSlaColAdded already in");
                 }
-
+                //--column --ReminderID--- createColumnToISActions
+                boolean isReminderIDColAdded = false;
+                isReminderIDColAdded = addColumnToTable("IS_Actions","reminderID",isISActionsEsixts);
+                if (isReminderIDColAdded == true){
+                    Log.e("mytag","isReminderIDColAdded success");
+                }else{
+                    Log.e("mytag","isReminderIDColAdded already in");
+                }
                 boolean isAppsColAdded = DatabaseHelper.getInstance(getApplicationContext()).checkIfKeyExistsCP("APPS_CALLS_SUMMARY");
                 Log.e("mytag","isAppsColAdded : " + isAppsColAdded);
-
                 if (isAppsColAdded == false){
                     DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
                     Log.e("mytag","isAppsColAdded success");
                 }
+
+
+
             }
         });
         btndownloadversion.setOnClickListener(new View.OnClickListener() {
