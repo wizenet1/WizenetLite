@@ -998,6 +998,16 @@ public class Helper {
         ft.addToBackStack("FragmentLoginReport");
         ft.commit();
     }
+    public void goToFragmentSecret(Context context){
+
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentSecret frag = new FragmentSecret();
+        ft.replace(R.id.container,frag,"FragmentSecret");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentSecret");
+        ft.commit();
+    }
     public void goTocustomers(Context context){
 
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();

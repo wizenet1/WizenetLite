@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
                 Boolean isISActionsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("IS_Actions") ? true : false;
 
                 Log.e("mytag","is is_actions table exists? "+String.valueOf(isISActionsEsixts));
-                DatabaseHelper.getInstance(ctx).getTableColums();
+                DatabaseHelper.getInstance(ctx).getTableColumns();
                 //--------- add tables -------------
                 if (!isCallOfllineEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToCalls_Offline("",isCallOfllineEsixts);

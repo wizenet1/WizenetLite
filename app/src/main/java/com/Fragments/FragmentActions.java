@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,6 +112,7 @@ private ActionsAdapter actionsAdapter;
                 //startActivity(intent);
             }
         });
+
         mSearchTw=new TextWatcher() {
 
             @Override
@@ -149,6 +151,28 @@ private ActionsAdapter actionsAdapter;
         return actions;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    getFragmentManager().popBackStack();
+//                    // handle back button's click listener
+//                    return true;
+//                }
+
+                return false;
+            }
+        });
+
+        //Turn the action bar customers icon on, and the rest off.
+        ((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

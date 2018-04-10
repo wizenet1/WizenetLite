@@ -1580,6 +1580,7 @@ public interface get_mgnet_client_items_Listener{
         try {
             j = new JSONObject(strJson);
             jarray= j.getJSONArray("Wz_ACTIONS_retList");
+            DatabaseHelper.getInstance(context).delete_IS_Actions_Rows();
             Log.e("MYTAG","jarray length is:" + jarray.length());
             if (jarray.length() == 0){
                 Log.e("MYTAG"," jarray is 0");

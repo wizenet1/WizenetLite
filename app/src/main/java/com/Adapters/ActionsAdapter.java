@@ -137,7 +137,13 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 //            }
 //        });
         TextView is_actiontxt=(TextView) convertView.findViewById(R.id.is_actionid);
+        TextView is_desc=(TextView) convertView.findViewById(R.id.is_desc);
+        TextView is_comments=(TextView) convertView.findViewById(R.id.is_comments);
+
+
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
+        is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
+        is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
         convertView.setTag(convertView.getId(),pos);
         convertView.getTag(pos);
 

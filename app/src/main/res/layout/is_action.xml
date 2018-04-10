@@ -20,13 +20,13 @@
             android:layout_weight="0.5">
 
             <TextView
-                android:id="@+id/txtcallid"
+                android:id="@+id/is_actionid"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginRight="20dp"
 
                 android:gravity="center_vertical"
-                android:text="משימה"
+                android:text="12345"
                 android:textColor="@color/wizenetColor"
                 android:textSize="16dp" />
 
@@ -73,26 +73,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/is_actionid"
+            android:id="@+id/is_desc"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="משובץ ל:" />
-
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/txtcallstarttime1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_weight="0.5"
-            android:gravity="left"
-            android:text="1900-01-01"
-            />
-
+            android:text="תיאור:" />
 
 
     </LinearLayout>
@@ -104,25 +92,16 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView61"
+            android:id="@+id/is_comments"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="משובץ ל:" />
+            android:text="הערות" />
 
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/txtcallstarttime11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_weight="0.5"
-            android:gravity="left"
-            android:text="1900-01-01"
-            />
+
 
 
 

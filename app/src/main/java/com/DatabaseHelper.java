@@ -372,7 +372,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return false;
     }
-    public String[] getTableColums(){
+    public String[] getTableColumns(){
         Log.e("mytag","getTableColums");
         try{
             SQLiteDatabase db = this.getReadableDatabase();
@@ -394,7 +394,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
     public boolean createColumnToISActions(String column,boolean isTableExist){
-        getTableColums();
+        getTableColumns();
         String IS_Actions = "IS_Actions";
         boolean flag = false;
         Helper h = new Helper();
@@ -700,6 +700,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.delete("Calltime", null, null);
             //db.close();
 
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    public boolean delete_IS_Actions_Table() {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS IS_Actions");
+            //db.delete("IS_Actions", null, null);
+            //db.close();
+            flag = true;
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+
+    public boolean delete_IS_Actions_Rows() {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("IS_Actions", null, null);
+            //db.close();
+            flag = true;
         }catch (Exception e){
             flag = false;
             e.printStackTrace();

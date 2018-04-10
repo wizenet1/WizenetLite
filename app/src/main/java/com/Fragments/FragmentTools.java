@@ -119,6 +119,8 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
         id2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                helper.goToFragmentSecret(getContext());
                 //goTocustomers();
                 //helper.goToCustomerFragment1(getContext());
             }
