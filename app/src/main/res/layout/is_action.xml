@@ -97,29 +97,33 @@
             android:layout_height="35dp"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:gravity="center_vertical"
             android:text="הערות" />
-
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="7dp"
+            android:background="@drawable/btn_circle2"
+            android:id="@+id/btn_open_details"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:text="˅"/>
 
 
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/lightGray"
-
-        ></LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+        <!--asd-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -156,113 +160,84 @@
                 android:text="@string/fa_icon_mobile"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:textDirection="rtl"
-            android:layout_gravity="right"
-            android:weightSum="0.5">
-
-            <TextView
-                android:id="@+id/alert"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="100dp"
-                android:background="@drawable/btn_circle2"
-                android:gravity="center"
-                android:text="@string/fa_icon_alert"
-                android:textColor="@color/wizenetColor"
-                 />
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-
-
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_marginRight="20dp"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layoutDirection="rtl"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-
-                android:layout_marginLeft="2pt"
-                android:layout_marginTop="5dp"
-                android:text="@string/fa_icon_location" />
-
-            <TextView
-                android:id="@+id/txtccity"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginRight="3dp"
-                android:gravity="center"
-                android:text="עיר" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:visibility="gone"
-                android:id="@+id/asterisk"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/fa_icon_asterisk"/>
-            <TextView
-                android:id="@+id/txtstatusname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_marginTop="13dp"
-                android:textColor="@color/wizenetColor"
-                android:text="סטטוס"
-                android:textStyle="bold"/>
-            >
-            <!--android:layout_marginTop="14dp"-->
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/whiteColor"
-                android:id="@+id/edit"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_border"
-                android:gravity="center_vertical"
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8pt"
+                android:layout_weight="0.3"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
 
-                android:text="לפרטים נוספים"
-                />
+                    android:layout_marginLeft="2pt"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/fa_icon_location" />
+
+                <TextView
+                    android:id="@+id/txtccity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="3dp"
+                    android:gravity="center"
+                    android:text="עיר" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:textAlignment="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:visibility="gone"
+                    android:id="@+id/asterisk"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/fa_icon_asterisk"/>
+                <TextView
+                    android:id="@+id/txtstatusname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/wizenetColor"
+                    android:text="סטטוס"
+                    android:textStyle="bold"/>
+                >
+                <!--android:layout_marginTop="14dp"-->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/whiteColor"
+                    android:id="@+id/edit"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_border"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="8pt"
+
+                    android:text="לפרטים נוספים"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 
 
 

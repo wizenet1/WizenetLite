@@ -122,6 +122,50 @@ public class Helper {
         }
         return ret;
     }
+    public boolean writeCtypeIDandSons(final Context ctx){
+        Model.getInstance().Async_Wz_getCtypeIDandSons_Listener(getMacAddr(), new Model.Wz_getCtypeIDandSons_Listener() {
+            @Override
+            public void onResult(String str) {
+                String ctypeids = "";
+                String sons = "";
+                ctypeids = str.substring(22,str.indexOf("#"));
+                sons = str.substring(str.indexOf("#")+1,str.length()-1).trim();
+                File_ f = new File_();
+                try {
+                    JSONArray jsonArr = new JSONArray(ctypeids);
+                    JSONArray jsonArr2 = new JSONArray(sons);
+                    //Log.e("mytag","jsonArr:" +jsonArr);
+                    //Log.e("mytag","jsonArr2:" +jsonArr2);
+                    f.writeTextToFileExternal(ctx,"ctype.txt",ctypeids);
+                    f.writeTextToFileExternal(ctx,"sons.txt",sons);
+                } catch (JSONException e) {
+                    LogPrintExStackTrace(e);
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+//        try {
+//            for (int i = 0; i < jarray.length(); i++) {
+//                final JSONObject e;
+//                String name = null;
+//                try {
+//                    e = jarray.getJSONObject(i);
+//                    name = e.getString("Cusername");
+//                    //name = e.getString("Ccompany")+'|'+e.getString("CID");
+//
+//                } catch (JSONException e1) {
+//                    e1.printStackTrace();
+//                }
+//                //ret.add(name);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        return true;
+    }
     public void transferJsonCallTime(final Context ctx){
         Helper h = new Helper();
         if (h.isNetworkAvailable(ctx)){

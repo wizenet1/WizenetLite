@@ -210,32 +210,6 @@ TextView lblcount;
             LayoutInflater inflater=getLayoutInflater();
             View row=inflater.inflate(R.layout.simple_spinner_item, parent, false);
             final TextView label=(TextView)row.findViewById(R.id.tv_spinnervalue);
-            //final LinearLayout linearLayout = (LinearLayout)row.findViewById(R.id.spinner_layout);
-
-//            linearLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    String s=label.getText().toString();
-//                if (s.equals("מס' קריאה")){
-//                    if (sortState.equals("CallID")){
-//                        if ( ascOrDesc.equals("desc")){
-//                            sortState = "CallID";
-//                            ascOrDesc = "asc";
-//                            getFilteredList("CallID asc");
-//                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
-//                        }else{
-//                            sortState = "CallID";
-//                            ascOrDesc = "desc";
-//                            getFilteredList("CallID desc");
-//                            Log.e("mytag","sortState:" + sortState + "  ascOrDesc:" + ascOrDesc);
-//                        }
-//
-//                    }
-//                }else if(s.equals("פתיחת קריאה")){
-//                    getFilteredList("CreateDate");
-//                }
-//                }
-//            });
             label.setText(objects[position]);
             return row;
         }

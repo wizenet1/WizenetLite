@@ -74,34 +74,36 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
         db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         icon_manager = new Icon_Manager();
         helper = new Helper();
-        iddeleteproducts = (TextView) v.findViewById(R.id.iddeleteproducts);
-        lbldivuah = (TextView) v.findViewById(R.id.lbldivuah);
+        //iddeleteproducts = (TextView) v.findViewById(R.id.iddeleteproducts);
+        //lbldivuah = (TextView) v.findViewById(R.id.id3);
         id1 = (TextView) v.findViewById(R.id.id1);
         id2 = (TextView) v.findViewById(R.id.id2);
-        //id3 = (TextView) v.findViewById(R.id.id3);//ENTRANCE TO OFFLINE
-        id4 = (TextView) v.findViewById(R.id.idsynccustomers);
-        id5 = (TextView) v.findViewById(R.id.id5);
-        btn_order= (TextView) v.findViewById(R.id.btn_order);
-        idsyncproducts = (TextView) v.findViewById(R.id.idsyncproducts);
-        iddeleteclientproducts = (TextView) v.findViewById(R.id.iddeleteclientproducts);
-        idsyncclientproducts = (TextView) v.findViewById(R.id.idsyncclientproducts);
+        id3 = (TextView) v.findViewById(R.id.id3);
+        //id4 = (TextView) v.findViewById(R.id.idsynccustomers);
+        //id5 = (TextView) v.findViewById(R.id.id5);
+        //btn_order= (TextView) v.findViewById(R.id.btn_order);
+        //idsyncproducts = (TextView) v.findViewById(R.id.idsyncproducts);
+        //iddeleteclientproducts = (TextView) v.findViewById(R.id.iddeleteclientproducts);
+        //idsyncclientproducts = (TextView) v.findViewById(R.id.idsyncclientproducts);
 
 
 
 
         id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        //id.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 //        iddeleteproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        btn_order.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        idsyncproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        //id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        //btn_order.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        //idsyncproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 
         id1.setTextSize(60);
         id2.setTextSize(60);
-        lbldivuah.setTextSize(60);
-        id4.setTextSize(60);
-        btn_order.setTextSize(60);
-        idsyncproducts.setTextSize(60);
+        id3.setTextSize(60);
+        //lbldivuah.setTextSize(60);
+        //id4.setTextSize(60);
+        //btn_order.setTextSize(60);
+        //idsyncproducts.setTextSize(60);
 
         id1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +118,19 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
                 //startActivity(intent);
             }
         });
+        id3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCreateAction frag = new FragmentCreateAction();
+                ft.replace(R.id.container, frag, "FragmentCreateAction");
+                ft.addToBackStack("FragmentCreateAction");
+                ft.commit();
+                //Intent intent = new Intent(getContext(), ScannerActivity.class);
+                //startActivity(intent);
+            }
+        });
         id2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,111 +140,8 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
                 //helper.goToCustomerFragment1(getContext());
             }
         });
-        btn_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.SendOrderToWizenet(getContext());
-//                DateFormat df = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
-//                String sdt = df.format(new Date(System.currentTimeMillis()));
-//                Log.e("MYTAG","chk: "+sdt);
-//                String isNetwork = "";
-//                if (helper.isNetworkAvailable(getContext())){
-//                    String path = Environment.getExternalStorageDirectory().getPath()+"/wizenet/offline/";
-//                    File_ myDirectory = new File_(path);
-//                    traverse(myDirectory);
-//                }else{
-//                    isNetwork = " nop Network";
-//                }
-//                helper.writeTextToFileORDER(sdt + isNetwork);
-            }
-        });
 
-        lbldivuah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //goTocustomers();
-               // helper.goToOfflineMenuFragment(getContext());
-                helper.goToLoginReportFragment(getContext());
-            }
-        });
 
-        id4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (helper.isNetworkAvailable(getContext())){
-                    Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
-
-                    Model.getInstance().Async_Get_Clients_Contacts_Listener(helper.getMacAddr(), new Model.Call_getClientsContactsListener() {
-                        @Override
-                        public void onResult(String str) {
-                            File_ f = new File_();
-                            f.writeTextToFileInternal(getContext(),"customers.txt",str);
-                            //helper.writeTextToSpecificFile("","customers.txt",str);
-                            Toast.makeText(getActivity(),"סונכרן בהצלחה",Toast.LENGTH_SHORT).show();
-                            //tv.setText(str);
-                            //Log.e("myTag",str);
-                        }
-                    });
-                }else{
-                    Toast.makeText(getActivity(),"network is Not available",Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-        iddeleteproducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean flag;
-                flag = db.delete_from_mgnet_items("all");
-                if (flag == true){
-                    Toast.makeText(getActivity(),"נמחקו בהצלחה",Toast.LENGTH_SHORT).show();
-
-                }else{
-                    Toast.makeText(getActivity(),"לא הצליח למחוק",Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
-        iddeleteclientproducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean flag;
-                flag = db.delete_from_mgnet_items("client");
-                if (flag == true){
-                    Toast.makeText(getActivity(),"נמחקו בהצלחה",Toast.LENGTH_SHORT).show();
-
-                }else{
-                    Toast.makeText(getActivity(),"לא הצליח למחוק",Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
-        idsyncproducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (db.mgnet_items_isEmpty("all")){
-                    new ProgressTaskAll().execute();
-                }else{
-                    Toast.makeText(getContext(), "רשימת כל המוצרים סונכרנו", Toast.LENGTH_LONG).show();
-                    // GIVE AN POSSIBLE TO ADD,
-                    AlertDialogAll();
-                    //WITH ALERT
-                }
-            }
-        });
-        idsyncclientproducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (db.mgnet_items_isEmpty("client")){
-                    //new ProgressTaskClient().execute();
-                }else{
-                    Toast.makeText(getContext(), "רשימת  מוצרי לקוח סונכרנו", Toast.LENGTH_LONG).show();
-                    // GIVE AN POSSIBLE TO ADD,
-                    AlertDialogClient();
-                    //WITH ALERT
-                }
-            }
-        });
 
 
 

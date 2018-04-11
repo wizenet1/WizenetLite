@@ -706,6 +706,10 @@ public class Ccustomer {
         this.Ccompany = ccompany;
 
     }
+    public Ccustomer(String CID,String Cfname){
+        this.CID = CID;
+        this.Cfname = Cfname;
+    }
 
     public Ccustomer(String cfname, String clname, String cemail, String cphone, String ccell, String ccompany, String cid) {
         this.Cfname = cfname;

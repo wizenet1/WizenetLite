@@ -115,7 +115,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         //menu_bar_profile.setTextSize(40);
         //The drawer layout which covers the entire fragment.
         //this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
-
+        helper.writeCtypeIDandSons(getContext());
         this.initializeBadgeDictionary(v);
 
         // Set the badge of customer.

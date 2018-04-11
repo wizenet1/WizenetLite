@@ -54,6 +54,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
+    LinearLayout layout_details;
     public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
@@ -71,82 +72,46 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     public long getItemId(int pos) {
         return callsArrayList.indexOf(getItem(pos));
     }
+    public class ViewHolder {
+        //Spinner spNames, spGrades;
+        TextView is_actiontxt,is_desc,is_comments,btn_open_details;
+        LinearLayout layout_details;
+    }
     @Override
     public View getView(final int pos, View convertView, ViewGroup parent) {
-
+        final ViewHolder holder;
         helper = new Helper();
         Icon_Manager icon_manager;
         icon_manager = new Icon_Manager();
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(convertView==null)
         {
-            convertView=inflater.inflate(R.layout.is_action, null);
-            convertView.getTag(pos);
+            holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.is_action, null);
+
+            holder.is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
+            holder.is_desc = (TextView) convertView.findViewById(R.id.is_desc);
+            holder.is_comments = (TextView) convertView.findViewById(R.id.is_comments);
+            holder.btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+            holder.layout_details = (LinearLayout) convertView.findViewById(R.id.layout_details);
+            holder.is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
+            holder.is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
+            holder.is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
+            holder.btn_open_details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.layout_details.getVisibility() == View.VISIBLE){
+                        holder.layout_details.setVisibility(View.GONE);
+                        holder.btn_open_details.setText("˅");
+                    }else{
+                        holder.layout_details.setVisibility(View.VISIBLE);
+                        holder.btn_open_details.setText("˄");
+                    }
+                }
+            });
+            convertView.setTag(holder);
         }
-//        TextView stateid=(TextView) convertView.findViewById(R.id.stateid);
-//        stateid.setTextColor(Color.parseColor("#32CD32"));
-//
-//        TextView txtsubject=(TextView) convertView.findViewById(R.id.txtsubject);
-//        TextView txtCreateDate=(TextView) convertView.findViewById(R.id.txtcreatedate);
-//        TextView txtcallid=(TextView) convertView.findViewById(R.id.txtcallid);
-//        TextView txtstatusname=(TextView) convertView.findViewById(R.id.txtstatusname);
-//        TextView txtCcompany=(TextView) convertView.findViewById(R.id.txtcname);
-//        TextView txtCcity=(TextView) convertView.findViewById(R.id.txtccity);
-//        TextView txtCallStartTime=(TextView) convertView.findViewById(R.id.txtcallstarttime1);
-//        LinearLayout assigmentlayout=(LinearLayout) convertView.findViewById(R.id.assigmentlayout);
-//
-//        TextView asterisk=(TextView) convertView.findViewById(R.id.asterisk);
-//        //###################### TELEPHONE #############################
-//        telephone= (TextView) convertView.findViewById(R.id.telephone);
-//        edit = (TextView) convertView.findViewById(R.id.edit);
-//        mobile = (TextView) convertView.findViewById(R.id.mobile);
-//        sign = (TextView) convertView.findViewById(R.id.sign);
-//        location = (TextView) convertView.findViewById(R.id.location);
-
-        //Log.e("mytag",callsArrayList.get(pos).getState().toString());
-//        mobile.setBackgroundResource(R.drawable.btn_circle2);
-//        telephone.setBackgroundResource(R.drawable.btn_circle2);
-//        sign.setBackgroundResource(R.drawable.btn_circle2);
-       // asterisk.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-        //asterisk.setTextSize(30);
-//         telephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-//        telephone.setTextSize(30);
-//        mobile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-//        mobile.setTextSize(30);
-//
-//        //mobile.setBackgroundColor(Color.parseColor("#E94e1b"));
-//        sign.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-//        sign.setTextSize(30);
-//        location.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-//        location.setTextSize(30);
-
-
-
-
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //helper.goToCallDetailsFragNew(c,String.valueOf(callsArrayList.get(pos).getCallID()));
-//                //helper.goToCallDetailsFrag(c,String.valueOf(callsArrayList.get(pos).getCallID()));
-//                //bundle.putString("receiver", dataName);
-//
-//                Intent intent = new Intent(c, ActivityCallDetails.class);
-//                intent.putExtra("EXTRA_SESSION_ID", String.valueOf(callsArrayList.get(pos).getCallID()));
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                c.startActivity(intent);
-//            }
-//        });
-        TextView is_actiontxt=(TextView) convertView.findViewById(R.id.is_actionid);
-        TextView is_desc=(TextView) convertView.findViewById(R.id.is_desc);
-        TextView is_comments=(TextView) convertView.findViewById(R.id.is_comments);
-
-
-        is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
-        is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
-        is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-        convertView.setTag(convertView.getId(),pos);
-        convertView.getTag(pos);
-
+        //final ViewHolder holder;
 //        edit.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
 //            public boolean onLongClick(View v) {
