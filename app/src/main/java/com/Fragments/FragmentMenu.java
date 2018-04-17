@@ -488,6 +488,10 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             length = jarray.length();
         } catch (JSONException e) {
             e.printStackTrace();
+            length = 0 ;
+        }
+        if (length == 0){
+            return 0;
         }
         ccustomers = new Ccustomer[length];
         ccustomers = helper.getCustomersFromJson2(myString);

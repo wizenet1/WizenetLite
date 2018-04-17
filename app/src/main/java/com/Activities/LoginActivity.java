@@ -76,6 +76,7 @@ public class LoginActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
+        mac_address = helper.getMacAddr();
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
         setContentView(R.layout.activity_login);
@@ -161,7 +162,7 @@ public class LoginActivity extends FragmentActivity {
 
                 memail = email.getText().toString();
                 mpass = pass.getText().toString();
-                mac_address = helper.getMacAddr();//
+                //
 
                 if (checkEmail(memail)) {
 
@@ -242,6 +243,22 @@ public class LoginActivity extends FragmentActivity {
     }
 
     private void goToMenu(){
+        try{
+            Model.getInstance().Async_Wz_getProjects_Listener(mac_address, new Model.Wz_getProjects_Listener() {
+                @Override
+                public void onResult(String str) {
+                    if(!str.contains("error")){
+                        Toast.makeText(getApplicationContext(),"success load project", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"error load project", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //startActivityForResult(intent, 1);
