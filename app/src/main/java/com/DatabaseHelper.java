@@ -994,9 +994,12 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
 // Select All Query
         String selectQuery ="";
         selectQuery = "SELECT * FROM IS_Actions where 1=1   " ;
-        if (!sortby.trim().equals("")){
+        if ((!sortby.trim().equals("") && (sortby != "top1"))){
             selectQuery+=  sortby + "";
             //selectQuery+= "  order by " + sortby + "";
+        }
+        if (sortby == "top1"){
+            selectQuery+=   " order by actionID limit 1";
         }
         SQLiteDatabase db = this.getReadableDatabase();
         //Log.e("mytag","sql: " +selectQuery);
@@ -1189,6 +1192,40 @@ public boolean getCallsCount() {
     }
     return flag;
 }
+
+    public int getFirstISAction() {
+        String selectQuery = "SELECT * FROM IS_Actions order by actionID asc LIMIT 1" ;
+        int flag;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            flag = Integer.valueOf(cursor.getString(cursor.getColumnIndex("actionID")));
+            //flag = (cursor.getCount() > 0) ? true : false;
+            //db.close ();
+        }catch(Exception e){
+            flag = 0;
+            Log.e("MYTAG","db + "+e.getMessage());
+        }
+
+        IS_Action is = new IS_Action();
+        String selectQuery2 = "SELECT * FROM IS_Actions" ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery2, null);
+        if (cursor.moveToFirst()) {
+            do {
+                is.setActionID( Integer.valueOf(cursor.getColumnIndex("actionID")));
+                Log.e("mytag","list: "+String.valueOf(cursor.getColumnIndex("actionID")));
+            } while (cursor.moveToNext());
+        }
+        // db.close();
+        cursor.close();
+
+
+
+        return flag;
+
+
+    }
     public boolean IsExistCallID(int callid) {
         String selectQuery = "SELECT * FROM mgnet_calls where callid=" + callid + "" ;
         boolean flag;
@@ -1293,6 +1330,7 @@ public void addNewCall(Call call) {
     }
 
 //endregion
+
 public Calltime getCalltimeByCallidAndAction(String callid,String action,String openClose){
 
     Calltime calltime = new Calltime();

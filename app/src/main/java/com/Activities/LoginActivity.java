@@ -255,6 +255,17 @@ public class LoginActivity extends FragmentActivity {
                     }
                 }
             });
+            Model.getInstance().Async_Wz_getTasks_Listener(mac_address, new Model.Wz_getTasks_Listener() {
+                @Override
+                public void onResult(String str) {
+                    if(!str.contains("error")){
+                        Toast.makeText(getApplicationContext(),"success load tasks", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"error load tasks", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
         }catch(Exception e){
             helper.LogPrintExStackTrace(e);
         }
