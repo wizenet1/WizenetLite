@@ -38,6 +38,9 @@
     <string name="fa_icon_contacts_book">&#xf3e9;</string>
     <string name="fa_icon_new_user">&#xf39f;</string>
     <string name="fa_icon_approval">&#xf383;</string>
+    <string name="fa_icon_search">&#xf2f5;</string>
+    <string name="fa_icon_plus">&#xf217;</string>
+    <string name="fa_icon_delete">&#xf37f;</string>
 
 
     <string name="action_settings">Settings</string>

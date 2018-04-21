@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
@@ -32,6 +33,19 @@ public class FragmentOffers extends Fragment {
 
         //Turn all the action bar icons off to their original color.
         ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+
+        Button newOfferButton = (Button) view.findViewById(R.id.offers_new_offer_button);
+        newOfferButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentOfferStageOne frag = new FragmentOfferStageOne();
+                ft.replace(R.id.container, frag, "FragmentOfferStageOne");
+                ft.addToBackStack("FragmentOfferStageOne");
+                ft.commit();
+            }
+        });
 
         return view;
     }
