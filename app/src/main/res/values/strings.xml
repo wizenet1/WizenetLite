@@ -41,6 +41,7 @@
     <string name="fa_icon_search">&#xf2f5;</string>
     <string name="fa_icon_plus">&#xf217;</string>
     <string name="fa_icon_delete">&#xf37f;</string>
+    <string name="fa_icon_thumbsup">&#xf251;</string>
 
 
     <string name="action_settings">Settings</string>

@@ -90,9 +90,9 @@ public class FragmentOfferStageTwo extends Fragment {
             public void onClick(View view) {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentOfferStageTwo frag = new FragmentOfferStageTwo();
-                ft.replace(R.id.container, frag, "FragmentOfferStageTwo");
-                ft.addToBackStack("FragmentOfferStageTwo");
+                FragmentOfferStageThree frag = new FragmentOfferStageThree();
+                ft.replace(R.id.container, frag, "FragmentOfferStageThree");
+                ft.addToBackStack("FragmentOfferStageThree");
                 ft.commit();
             }
         });
