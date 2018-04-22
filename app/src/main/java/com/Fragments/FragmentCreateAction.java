@@ -100,7 +100,9 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         txt_action_comments= (EditText) v.findViewById(R.id.txt_action_comments);
         txt_destination= (EditText) v.findViewById(R.id.txt_destination);
         txt_assignment= (EditText) v.findViewById(R.id.txt_assignment);
-
+        selectedReminder="";
+        selectedFromHoure="";
+        selectedToHour ="";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c_week = Calendar.getInstance();
         //c_week.add(Calendar.DAY_OF_YEAR, 7);
@@ -216,14 +218,52 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         Calendar c_week = Calendar.getInstance();
         //c_week.add(Calendar.DAY_OF_YEAR, 7);
         String formatted = df.format(c_week.getTime());
+        selectedReminder = "ללא";
+        selectedFromHoure =formatted + ":00";
+        selectedToHour =formatted + ":30";
+
         try{
             int pos1 = adapter2.getPosition(formatted + ":00");
             stat2.setSelection(pos1);
             int pos2 = adapter3.getPosition(formatted + ":30");
+
             stat3.setSelection(pos2);
         }catch(Exception e){
 
         }
+        stat1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedReminder =(String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        stat2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFromHoure =(String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        stat3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedToHour =(String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -234,7 +274,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
          txt_destination.setText(sdf.format(myCalendar.getTime()));
     }
     private void updateLabel2() {
-        String myFormat = "dd/MM/yy"; //In which you need put here
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         txt_assignment.setText(sdf.format(myCalendar.getTime()));
@@ -304,6 +344,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                     myp =(IS_Project) projects_map.get((String) parent.getItemAtPosition(position)) ;
                     try{
                         Log.e("mytag",String.valueOf( myp.getProjectID()));
+                        selectedProject = String.valueOf( myp.getProjectID());
 
 
                         setTaskSpinner(myp.getProjectID());
@@ -326,10 +367,10 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         try{
             List<IS_Task> projectsList = new ArrayList<IS_Task>();
             projectsList = getTasksList(PID);
-            for (Map.Entry<String, IS_Task> entry : tasks_map.entrySet())
-            {
-                Log.e("mytag",(entry.getKey() + "/" + entry.getValue()));
-            }
+            //for (Map.Entry<String, IS_Task> entry : tasks_map.entrySet())
+            //{
+                //Log.e("mytag",(entry.getKey() + "/" + entry.getValue()));
+            //}
 
             String[] items3 = new String[projectsList.size()+1];
 
@@ -348,11 +389,25 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
                     String s = "";
-                    //s = String.valueOf(db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID());
-                    //statusID = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID();
-                    //statusName = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusName();
-                    //Toast.makeText(getApplication(), "status: " + s, Toast.LENGTH_LONG).show();
-                    //Log.v("item", (String) parent.getItemAtPosition(position));
+                    //selectedTask = (String) parent.getItemAtPosition(position);f
+                    IS_Task myp   = new IS_Task();
+                    //for (Map.Entry<String, IS_Task> entry : tasks_map.entrySet())
+                    //{
+                    //    Log.e("mytag",(entry.getKey() + "/" + entry.getValue()));
+                    //}
+
+                        try{
+                            myp =(IS_Task) tasks_map.get((String) parent.getItemAtPosition(position)) ;
+                            if (myp != null){
+                                selectedTask = String.valueOf( myp.getTaskID());
+                                Log.e("mytag",myp.toString() + " | " + selectedTask);
+                            }
+                        }catch(Exception e){
+                            helper.LogPrintExStackTrace(e);
+                        }
+
+
+
                 }
 
                 @Override
@@ -395,10 +450,18 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 String s = "";
-                s = String.valueOf(db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID());
-                //statusID = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusID();
-                //statusName = db.getCallStatusByCallStatusName((String) parent.getItemAtPosition(position)).getCallStatusName();
-                //Toast.makeText(getApplication(), "status: " + s, Toast.LENGTH_LONG).show();
+
+                Ccustomer myp   = new Ccustomer();
+                try{
+                    myp =(Ccustomer) ccustomers_map.get((String) parent.getItemAtPosition(position)) ;
+                    if (myp != null){
+                        selectedCcustomer = String.valueOf( myp.getCID());
+                        Log.e("mytag",myp.toString() + " | " + selectedCcustomer);
+                    }
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                }
+
                 Log.v("item", (String) parent.getItemAtPosition(position));
             }
 
@@ -633,11 +696,11 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             IS_Action action= new IS_Action();//Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("AID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CID"))), cursor.getString(cursor.getColumnIndex("CreateDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))), cursor.getString(cursor.getColumnIndex("CallPriority")), cursor.getString(cursor.getColumnIndex("subject")), cursor.getString(cursor.getColumnIndex("comments")), cursor.getString(cursor.getColumnIndex("CallUpdate")), cursor.getString(cursor.getColumnIndex("cntrctDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("TechnicianID"))), cursor.getString(cursor.getColumnIndex("statusName")), cursor.getString(cursor.getColumnIndex("internalSN")), cursor.getString(cursor.getColumnIndex("Pmakat")), cursor.getString(cursor.getColumnIndex("Pname")), cursor.getString(cursor.getColumnIndex("contractID")), cursor.getString(cursor.getColumnIndex("Cphone")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("OriginID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("ProblemTypeID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallTypeID"))), cursor.getString(cursor.getColumnIndex("priorityID")), cursor.getString(cursor.getColumnIndex("OriginName")), cursor.getString(cursor.getColumnIndex("problemTypeName")), cursor.getString(cursor.getColumnIndex("CallTypeName")), cursor.getString(cursor.getColumnIndex("Cname")), cursor.getString(cursor.getColumnIndex("Cemail")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("contctCode"))), cursor.getString(cursor.getColumnIndex("callStartTime")), cursor.getString(cursor.getColumnIndex("callEndTime")), cursor.getString(cursor.getColumnIndex("Ccompany")), cursor.getString(cursor.getColumnIndex("Clocation")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("callOrder"))), cursor.getString(cursor.getColumnIndex("Caddress")), cursor.getString(cursor.getColumnIndex("Ccity")), cursor.getString(cursor.getColumnIndex("Ccomments")), cursor.getString(cursor.getColumnIndex("Cfname")), cursor.getString(cursor.getColumnIndex("Clname")), cursor.getString(cursor.getColumnIndex("techName")), cursor.getString(cursor.getColumnIndex("Aname")), cursor.getString(cursor.getColumnIndex("ContctName")), cursor.getString(cursor.getColumnIndex("ContctAddress")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("ContctCell")), cursor.getString(cursor.getColumnIndex("ContctPhone")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("Ccell")), cursor.getString(cursor.getColumnIndex("techColor")), cursor.getString(cursor.getColumnIndex("ContctCemail")), cursor.getString(cursor.getColumnIndex("CallParentID")));
 
             action.setActionID(generateActionID());
-            action.setTaskID(0);//Integer.valueOf(selectedTask.toString())
+            action.setTaskID(Integer.valueOf(selectedTask.toString()));//Integer.valueOf(selectedTask.toString())
 
             action.setOwnerID(0);
-            action.setUserID(0);//Integer.valueOf(ccustomers_map.get(selectedCcustomer).getCID())
-            action.setProjectID(0);//projects_map.get(selectedProject).getProjectID()
+            action.setUserID(Integer.valueOf(selectedCcustomer));//Integer.valueOf(ccustomers_map.get(selectedCcustomer).getCID())
+            action.setProjectID(Integer.valueOf(selectedProject));//projects_map.get(selectedProject).getProjectID()
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -645,7 +708,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             //c_week.add(Calendar.DAY_OF_YEAR, 7);
             String formatted = df.format(c_week.getTime());
             String formatted2 = df2.format(c_week.getTime());
-            action.setActionDate(txt_destination +" 00:00:00");
+            action.setActionDate(txt_destination.getText().toString() +" 00:00:00");
             action.setActionStartDate(formatted);
             action.setActionDue("9999-01-01 00:00:00"); //today
 
@@ -665,7 +728,8 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 action.setActionSdate(txt_assignment.getText().toString() + " "+ selectedFromHoure + ":00");
                 action.setActionEdate(txt_assignment.getText().toString() + " "+ selectedToHour + ":00");
             }
-            //DatabaseHelper.getInstance(getContext()).addISAction(action);
+            DatabaseHelper.getInstance(getContext()).addISAction(action);
+            Log.e("mytag",DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString());
             //action.setStatusID(e.getInt("statusID"));
             //action.setDepID(e.getInt("depID"));
             //action.setUserCtypeID(e.getInt("userCtypeID"));
@@ -675,7 +739,6 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
 //            }else{
 //                action.setParentActionID(Integer.valueOf(e.getString("ParentActionID")));
 //            }
-
 
             //action.setWorkHours(e.getString("WorkHours"));
             //action.setWorkEstHours(e.getString("WorkEstHours"));
@@ -720,19 +783,19 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         try {
             actions= DatabaseHelper.getInstance(getContext()).getISActions("top1");
             for (IS_Action a:actions) {
-                Log.e("mytag","list " +a.toString());
+                //Log.e("mytag","list " +a.getActionID());
+                ret = a.getActionID();
             }
-
-
-
-            //length = actions.size();
-            //Log.e("mytag","chk is_actions length: " +length);
+            if (ret > 0){
+                ret = -1;
+            }else{
+                ret = ret-1;
+            }
         } catch (Exception e) {
             Log.e("mytag","sdf " +e.getMessage());
             e.printStackTrace();
             helper.LogPrintExStackTrace(e);
         }
-
         Log.e("mytag","first actionID:" + String.valueOf(ret) );
         return ret;
     }

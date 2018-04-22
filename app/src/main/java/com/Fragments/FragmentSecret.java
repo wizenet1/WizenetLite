@@ -55,7 +55,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     Helper helper;
     EditText table;
     TextView id1,id2,id3;
-
+    Button btn_delete_offline_actions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -72,6 +72,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
         table.setText("IS_Actions");
+        btn_delete_offline_actions = (Button) v.findViewById(R.id.btn_delete_offline_actions);
         db = DatabaseHelper.getInstance(getContext());
 
         layout = (LinearLayout) v.findViewById(R.id.placeHolderFragment);
@@ -94,7 +95,13 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 }
             }
         });
-
+        btn_delete_offline_actions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean flag = DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows();
+                Log.e("mytag", "is deleted?" + String.valueOf(flag));
+            }
+        });
 //        Model.getInstance().Async_Wz_retClientFavorites_Listener(helper.getMacAddr(), new Model.Wz_retClientFavorites_Listener() {
 //            @Override
 //            public void onResult(String str) {

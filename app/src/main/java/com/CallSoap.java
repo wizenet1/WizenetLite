@@ -63,6 +63,8 @@ public class CallSoap {
     public  final String Wz_getCtypeIDandSons = "Wz_getCtypeIDandSons";
     public  final String Wz_getProjects = "Wz_getProjects";
     public  final String Wz_getTasks = "Wz_getTasks";
+    public  final String Wz_createISAction = "Wz_createISAction";
+
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
     //#############SOAP ACTION######################
@@ -103,7 +105,7 @@ public class CallSoap {
     public  final String Wz_getCtypeIDandSons_SOAP_ACTION = "http://tempuri.org/Wz_getCtypeIDandSons";
     public  final String Wz_getProjects_SOAP_ACTION = "http://tempuri.org/Wz_getProjects";
     public  final String Wz_getTasks_SOAP_ACTION = "http://tempuri.org/Wz_getTasks";
-
+    public  final String Wz_createISAction_SOAP_ACTION = "http://tempuri.org/Wz_createISAction";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
 
@@ -968,6 +970,29 @@ public String Wz_Forgot(String mac_address,String Email)
         try
         {
             httpTransport.call(Wz_getTasks_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+    //endregion
+    // region Wz_getProjects
+    public String Wz_createISAction(String mac_address,String jsonString)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_createISAction);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+        request.addProperty("jsonString",jsonString);
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_createISAction_SOAP_ACTION, envelope);
             response = envelope.bodyIn;
         }
         catch (Exception exception)

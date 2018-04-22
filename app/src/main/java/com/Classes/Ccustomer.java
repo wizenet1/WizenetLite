@@ -568,6 +568,7 @@ public class Ccustomer {
      String SlpCode;
      String LastPassword;
      String CTypeName;
+    public Ccustomer(){}
     public Ccustomer(
             String CstatusName,
             String Cage,
