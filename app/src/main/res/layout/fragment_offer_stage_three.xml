@@ -12,7 +12,7 @@
         android:background="#d6d5d5">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/offer_stage_two_welcome_ConstraintLayout"
+            android:id="@+id/offer_stage_three_welcome_ConstraintLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -21,13 +21,13 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/offer_stage_two_constraintLayout_stage_menu"
+            app:layout_constraintBottom_toTopOf="@+id/offer_stage_three_constraintLayout_stage_menu"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/offer_stage_two_welcome_fragment_name"
+                android:id="@+id/offer_stage_three_welcome_fragment_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_two_welcome_stage_txt"
+                android:id="@+id/offer_stage_three_welcome_stage_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -52,30 +52,30 @@
                 android:textColor="#ada9a9"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_two_welcome_fragment_name"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_welcome_fragment_name"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_two_welcome_number_txt"
+                android:id="@+id/offer_stage_three_welcome_number_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:text="3"
                 android:textAlignment="center"
                 android:textColor="#d84626"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_two_welcome_stage_txt"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_welcome_stage_txt"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_two_welcome_task_txt"
+                android:id="@+id/offer_stage_three_welcome_task_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:text="סיכום"
                 android:textAlignment="center"
@@ -83,7 +83,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_two_welcome_number_txt"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_welcome_number_txt"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
@@ -118,9 +118,8 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/list_icon_circle_white"
                     android:gravity="center"
-                    android:text="@string/fa_icon_new_user"
+                    android:text="@string/fa_icon_contact"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -164,7 +163,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/list_icon_circle_white"
                     android:gravity="center"
-                    android:text="@string/fa_icon_new_user"
+                    android:text="@string/fa_icon_cart"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -196,7 +195,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/list_icon_circle_orange"
                 android:gravity="center"
-                android:text="@string/fa_icon_mobile"
+                android:text="@string/fa_icon_barcode"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 app:layout_constraintRight_toRightOf="parent"
@@ -232,7 +231,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/list_icon_circle_white"
                 android:gravity="center"
-                android:text="@string/fa_icon_mobile"
+                android:text="@string/fa_icon_compose"
                 android:textAlignment="center"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/offer_stage_three_serial_number_icon" />
@@ -281,7 +280,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/list_icon_circle_gray"
                     android:gravity="center"
-                    android:text="@string/fa_icon_mobile"
+                    android:text="@string/fa_icon_cash"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
                     app:layout_constraintRight_toRightOf="parent"
@@ -333,7 +332,7 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/list_icon_circle_white"
                         android:gravity="center"
-                        android:text="@string/fa_icon_mail"
+                        android:text="@string/fa_icon_filling"
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -416,10 +415,12 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/customers_list_round_rectangle_gray"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/offer_stage_three_tax_text">
+                app:layout_constraintTop_toBottomOf="@+id/offer_stage_three_tax_text"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:id="@+id/offer_stage_three_total_price_icon"
@@ -431,7 +432,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/list_icon_circle_orange"
                     android:gravity="center"
-                    android:text="@string/fa_icon_mobile"
+                    android:text="@string/fa_icon_cash"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
                     app:layout_constraintRight_toRightOf="parent"
@@ -475,12 +476,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/offer_stage_one_save_txt"
+                        android:id="@+id/offer_stage_three_save_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginRight="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
                         android:text="עבור לשלב הבא"
@@ -489,11 +492,11 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_save_icon"
+                        app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_save_icon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/offer_stage_one_save_icon"
+                        android:id="@+id/offer_stage_three_save_icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -516,7 +519,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/offer_stage_two_constraintLayout_stage_menu"
+            android:id="@+id/offer_stage_three_constraintLayout_stage_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -530,7 +533,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/offer_stage_one_circle_one"
+                android:id="@+id/offer_stage_three_circle_one"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="8dp"
@@ -549,7 +552,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_one_circle_two"
+                android:id="@+id/offer_stage_three_circle_two"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="8dp"
@@ -564,11 +567,11 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_one"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_circle_one"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_one_circle_three"
+                android:id="@+id/offer_stage_three_circle_three"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="8dp"
@@ -583,11 +586,11 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_two"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_circle_two"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/offer_stage_one_circle_four"
+                android:id="@+id/offer_stage_three_circle_four"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="8dp"
@@ -605,7 +608,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_three"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_three_circle_three"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>

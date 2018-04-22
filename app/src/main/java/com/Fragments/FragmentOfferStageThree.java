@@ -15,7 +15,7 @@ import com.Activities.R;
 import com.Icon_Manager;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment represents the third stage of an offer page.
  */
 public class FragmentOfferStageThree extends Fragment {
 
@@ -29,7 +29,7 @@ public class FragmentOfferStageThree extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_offer_stage_three, container, false);
+        View view = inflater.inflate(R.layout.fragment_offer_stage_three, container, false);
 
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
@@ -41,38 +41,37 @@ public class FragmentOfferStageThree extends Fragment {
         Icon_Manager iconManager = new Icon_Manager();
 
         //Set the icons.
-//        TextView image = (TextView) view.findViewById(R.id.offer_stage_two_image);
-//        image.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        image.setTextSize(30);
-//
-//        TextView serialNumberIcon = (TextView) view.findViewById(R.id.offer_stage_two_serial_number_icon);
-//        serialNumberIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        serialNumberIcon.setTextSize(30);
-//
-//        TextView descriptionIcon = (TextView) view.findViewById(R.id.offer_stage_two_description_icon);
-//        descriptionIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        descriptionIcon.setTextSize(30);
-//
-//        TextView quantityIcon = (TextView) view.findViewById(R.id.offer_stage_two_quantity_icon);
-//        quantityIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        quantityIcon.setTextSize(30);
-//
-//        TextView priceIcon = (TextView) view.findViewById(R.id.offer_stage_two_price_icon);
-//        priceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        priceIcon.setTextSize(30);
-//
-//        TextView addProductIcon = (TextView) view.findViewById(R.id.offer_stage_two_add_product_icon);
-//        addProductIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        addProductIcon.setTextSize(30);
-//
-//        TextView deleteIcon = (TextView) view.findViewById(R.id.offer_stage_two_delete_icon);
-//        deleteIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        deleteIcon.setTextSize(30);
-//
-//
-//        TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_one_save_icon);
-//        saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-//        saveIcon.setTextSize(30);
+        TextView customerImage = (TextView) view.findViewById(R.id.offer_stage_three_customer_image);
+        customerImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        customerImage.setTextSize(50);
+
+        TextView productImage = (TextView) view.findViewById(R.id.offer_stage_three_product_image);
+        productImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        productImage.setTextSize(30);
+
+        TextView serialNumberIcon = (TextView) view.findViewById(R.id.offer_stage_three_serial_number_icon);
+        serialNumberIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        serialNumberIcon.setTextSize(30);
+
+        TextView descriptionIcon = (TextView) view.findViewById(R.id.offer_stage_three_description_icon);
+        descriptionIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        descriptionIcon.setTextSize(30);
+
+        TextView unitPriceIcon = (TextView) view.findViewById(R.id.offer_stage_three_unit_price_icon);
+        unitPriceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        unitPriceIcon.setTextSize(25);
+
+        TextView quantityIcon = (TextView) view.findViewById(R.id.offer_stage_three_quantity_icon);
+        quantityIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        quantityIcon.setTextSize(30);
+
+        TextView totalPriceIcon = (TextView) view.findViewById(R.id.offer_stage_three_total_price_icon);
+        totalPriceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        totalPriceIcon.setTextSize(25);
+
+        TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_three_save_icon);
+        saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        saveIcon.setTextSize(30);
 
         //Next stage onClickListener.
         ConstraintLayout nextStageButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_three_constraintLayout_save);

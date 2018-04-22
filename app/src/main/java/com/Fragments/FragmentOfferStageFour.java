@@ -15,7 +15,7 @@ import com.Activities.R;
 import com.Icon_Manager;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment represents the fourth stage of an offer page.
  */
 public class FragmentOfferStageFour extends Fragment {
 
@@ -46,8 +46,8 @@ public class FragmentOfferStageFour extends Fragment {
         thumbImage.setTextSize(100);
 
         TextView sendIcon = (TextView) view.findViewById(R.id.offer_stage_four_save_icon);
-        thumbImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        thumbImage.setTextSize(30);
+        sendIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        sendIcon.setTextSize(30);
 
 
         //Next stage onClickListener.
@@ -55,7 +55,7 @@ public class FragmentOfferStageFour extends Fragment {
         nextStageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //TODO implement
             }
         });
 

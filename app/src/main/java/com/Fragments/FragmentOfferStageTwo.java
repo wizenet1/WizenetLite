@@ -15,7 +15,7 @@ import com.Activities.R;
 import com.Icon_Manager;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment represents the second stage of an offer page.
  */
 public class FragmentOfferStageTwo extends Fragment {
 
@@ -59,7 +59,7 @@ public class FragmentOfferStageTwo extends Fragment {
 
         TextView priceIcon = (TextView) view.findViewById(R.id.offer_stage_two_price_icon);
         priceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        priceIcon.setTextSize(30);
+        priceIcon.setTextSize(25);
 
         TextView addProductIcon = (TextView) view.findViewById(R.id.offer_stage_two_add_product_icon);
         addProductIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
@@ -69,10 +69,18 @@ public class FragmentOfferStageTwo extends Fragment {
         deleteIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         deleteIcon.setTextSize(30);
 
-
-        TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_one_save_icon);
+        TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_two_save_icon);
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         saveIcon.setTextSize(30);
+
+        //Add product button onClickListener.
+        ConstraintLayout addProductButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_two_ConstraintLayout_add_product);
+        addProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO implement
+            }
+        });
 
         //Delete button onClickListener.
         ConstraintLayout deleteButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_two_ConstraintLayout_delete);

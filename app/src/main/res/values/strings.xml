@@ -42,6 +42,10 @@
     <string name="fa_icon_plus">&#xf217;</string>
     <string name="fa_icon_delete">&#xf37f;</string>
     <string name="fa_icon_thumbsup">&#xf251;</string>
+    <string name="fa_icon_barcode">&#xf3dc;</string>
+    <string name="fa_icon_compose">&#xf12c;</string>
+    <string name="fa_icon_filling">&#xf429;</string>
+    <string name="fa_icon_cash">&#xf316;</string>
 
 
     <string name="action_settings">Settings</string>

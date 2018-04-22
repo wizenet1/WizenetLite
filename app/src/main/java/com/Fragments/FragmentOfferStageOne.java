@@ -16,7 +16,7 @@ import com.Activities.R;
 import com.Icon_Manager;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment represents the first stage of an offer page.
  */
 public class FragmentOfferStageOne extends Fragment {
 
