@@ -50,7 +50,7 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
     CustomAdapter adapter;
     List<ControlPanel> data2 = new ArrayList<ControlPanel>() ;
     String dataName;
-    CheckBox cb,running_cb,chk_sync_products,chk_remember,chk_calls_summary;
+    CheckBox cb, running_cb, chk_sync_products, chk_remember, chk_calls_summary, chk_is_busy;
     LocationManager manager = null;
 
     @Override
@@ -74,15 +74,16 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
         chk_sync_products = (CheckBox) v.findViewById(R.id.chk_sync_products) ;
         chk_remember = (CheckBox) v.findViewById(R.id.chk_remember) ;
         chk_calls_summary= (CheckBox) v.findViewById(R.id.chk_calls_summary) ;
+        chk_is_busy = (CheckBox) v.findViewById(R.id.chk_is_busy);
 
         boolean isBackground = db.getValueByKey("BACKGROUND").equals("1");
         boolean isGPS = db.getValueByKey("GPS").equals("1");
         boolean isSyncProducts = db.getValueByKey("CLIENT_SYNC_PRODUCTS").equals("1");
         boolean isRemember = db.getValueByKey("AUTO_LOGIN").equals("1");
         boolean isCallsSummary = db.getValueByKey("APPS_CALLS_SUMMARY").equals("1");
+        boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
 
-
-
+        chk_is_busy.setChecked(isBusy);
         running_cb.setChecked(isBackground);
         cb.setChecked(isGPS);
         chk_sync_products.setChecked(isSyncProducts);
