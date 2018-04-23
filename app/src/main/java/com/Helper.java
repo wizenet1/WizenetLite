@@ -86,7 +86,7 @@ public class Helper {
         DatabaseHelper.getInstance(ctx).addControlPanel("URL","");// url.getText().toString());
         DatabaseHelper.getInstance(ctx).addControlPanel("CLIENT_SYNC_PRODUCTS","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
-            DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","1");
+        DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");
 
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.Activities.IncomingCallScreenActivity;
 import com.DatabaseHelper;
 
 import java.util.Date;
@@ -17,39 +18,66 @@ import static com.Activities.MainActivity.ctx;
 
 public class BusyMessageReceiver extends PhoneCallReceiver {
 
-    public DatabaseHelper db;
-    private String msg;
-
-    public BusyMessageReceiver() {
-        this.db = DatabaseHelper.getInstance(ctx);
-        this.msg = "Busy, cannot answer now";
-    }
-
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {
-        boolean isBusy = this.db.getValueByKey("IS_BUSY").equals("1");
-        
-        if(isBusy) {
-            this.sendMessageToCaller(ctx, number);
-        }
-    }
 
-    private void sendMessageToCaller(Context ctx, String number) {
+        final Context context = ctx;
+        final String msg = "Busy, call back later";
+        final DatabaseHelper db = DatabaseHelper.getInstance(ctx);
+        final String phoneNumber = number;
 
-        // TODO: Check which message was selected to send.
+        boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
 
-        // Send the sms.
-        Uri uri = Uri.parse("smsto:" + number);
-        try {
+        // If the is_busy is checked, send sms.
+        if (isBusy) {
 
-            Intent it = new Intent(Intent.ACTION_SENDTO, uri);
-            it.putExtra("sms_body", this.msg);
-            ctx.startActivity(it);
+            Uri uri = Uri.parse("smsto:" + phoneNumber);
+            try {
 
-        }
-        catch (Exception e){
+                Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+                it.putExtra("sms_body", msg);
+                context.startActivity(it);
 
-            e.printStackTrace();
-            Toast.makeText(ctx, "אין אפשרות לשלוח הודעה", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                Toast.makeText(context, "אין אפשרות לשלוח הודעה", Toast.LENGTH_SHORT).show();
+
+            }
+
+//        Thread pageTimer = new Thread() {
+//
+//            public void run() {
+//                try {
+//                    sleep(1500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } finally {
+//
+//                    boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
+//
+//                    // If the is_busy is checked, send sms.
+//                    if(isBusy) {
+//
+//                        Uri uri = Uri.parse("smsto:" + phoneNumber);
+//                        try {
+//
+//                            Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+//                            it.putExtra("sms_body", msg);
+//                            context.startActivity(it);
+//
+//                        }
+//                        catch (Exception e){
+//
+//                            e.printStackTrace();
+//                            Toast.makeText(context, "אין אפשרות לשלוח הודעה", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//                }
+//            }
+//        };
+
+            //pageTimer.start();
 
         }
 
