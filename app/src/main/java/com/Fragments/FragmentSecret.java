@@ -1,8 +1,11 @@
 package com.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +27,7 @@ import com.Activities.R;
 import com.Classes.Favorite;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
 import com.model.Model;
 
@@ -54,8 +58,9 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,id3;
+    TextView id1,id2,id3,id4;
     Button btn_delete_offline_actions;
+    Boolean flag = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -71,6 +76,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         table = (EditText)   v.findViewById(R.id.table);
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
+        id4 = (TextView) v.findViewById(R.id.id4) ;
         table.setText("IS_Actions");
         btn_delete_offline_actions = (Button) v.findViewById(R.id.btn_delete_offline_actions);
         db = DatabaseHelper.getInstance(getContext());
@@ -85,23 +91,64 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 }
             }
         });
+
         id2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean flag = false;
-                flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Table();
-                if (flag == true){
-                    Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
-                }
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("GPS is settings");
+                alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+                alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Table();
+                        if (flag == true){
+                            Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
+
+            }
+        });
+        id4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String d = "";
+                d = String.valueOf(DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("ControlPanel"));
+                File_ f = new File_();
+                boolean flag1 = f.writeTextToFileExternal(getContext(),"controlpanel.txt",d);
+                Toast.makeText(getContext(), "is created? ->" + flag1, Toast.LENGTH_LONG).show();
             }
         });
         btn_delete_offline_actions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean flag = DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows();
-                Log.e("mytag", "is deleted?" + String.valueOf(flag));
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("GPS is settings");
+                alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+                alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Table();
+                        if (flag == true){
+                           // Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
             }
         });
+
 //        Model.getInstance().Async_Wz_retClientFavorites_Listener(helper.getMacAddr(), new Model.Wz_retClientFavorites_Listener() {
 //            @Override
 //            public void onResult(String str) {

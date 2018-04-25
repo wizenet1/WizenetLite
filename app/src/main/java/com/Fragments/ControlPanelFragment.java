@@ -90,94 +90,18 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
         chk_remember.setChecked(isRemember);
         chk_calls_summary.setChecked(isCallsSummary);
 
-        chk_calls_summary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!chk_calls_summary.isChecked()){ //if true (running)
-                    db.updateValue("APPS_CALLS_SUMMARY","0");
-                    Toast.makeText(getActivity(),"stop APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
-                    Log.e("myTag","stop APPS_CALLS_SUMMARY");
-                }else{
-                    db.updateValue("APPS_CALLS_SUMMARY","1");
-                    Log.e("myTag","start APPS_CALLS_SUMMARY");
-                    Toast.makeText(getActivity(),"Start APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
-                    //}
-                }
-            }
-        });
-        running_cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!running_cb.isChecked()){ //if true (running)
-                    stopService1();
-                    db.updateValue("BACKGROUND","0");
-                    Toast.makeText(getActivity(),"stop service",Toast.LENGTH_LONG).show();
-                    Log.e("myTag","stop service");
-                }else{
-                    startService();
-                    db.updateValue("BACKGROUND","1");
-                    Log.e("myTag","start service");
-                    Toast.makeText(getActivity(),"Start Service",Toast.LENGTH_LONG).show();
-                    //}
-                }
-            }
-        });
+        setOnClickCalls_summary();
+        setOnClickRunning_cb();
+        setOnClickCbGps();
+        setOnClicksync_products();
+        setOnClickremember();
+        setOnClickis_busy();
 
-        cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cb.isChecked() == true) {
 
-                    if (!manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        db.getInstance(getContext()).updateValue("GPS","1");
-                        startActivity(intent);
 
-                    }else{
-                        db.getInstance(getContext()).updateValue("GPS","1");
-                        ((MenuActivity)getActivity()).startRepeatingTask();
-                        Toast.makeText(getActivity(),"start tracking",Toast.LENGTH_LONG).show();
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
 
-                }else{
-                    db.getInstance(getContext()).updateValue("GPS","0");
-                    ((MenuActivity)getActivity()).stopRepeatingTask();
-                    Log.e("myTag","stop tracking");
-                    Toast.makeText(getActivity(),"stop tracking",Toast.LENGTH_LONG).show();
-                    getActivity().getSupportFragmentManager().popBackStack();
 
-                }
-            }
-        });
-        chk_sync_products.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (chk_sync_products.isChecked() == true) {
-                    db.getInstance(getContext()).updateValue("CLIENT_SYNC_PRODUCTS","1");
-                    Toast.makeText(getActivity(), "updated", Toast.LENGTH_LONG).show();
 
-                }else{
-                    db.getInstance(getContext()).updateValue("CLIENT_SYNC_PRODUCTS","0");
-                    Toast.makeText(getActivity(), "updated", Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
-        chk_remember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (chk_remember.isChecked() == true) {
-                    db.getInstance(getContext()).updateValue("AUTO_LOGIN","1");
-                    Toast.makeText(getActivity(), "auto login on", Toast.LENGTH_LONG).show();
-
-                }else{
-                    db.getInstance(getContext()).updateValue("AUTO_LOGIN","0");
-                    Toast.makeText(getActivity(), "auto login off", Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
 
         List<ControlPanel> cps=  db.getAllKeysAndValues();  // getCustomersFromJson(myBundle);
         for (ControlPanel c : cps){
@@ -201,6 +125,113 @@ public class ControlPanelFragment extends android.support.v4.app.Fragment  {
 
         //getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         return v;
+    };
+    private void setOnClickCalls_summary(){
+        chk_calls_summary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!chk_calls_summary.isChecked()){ //if true (running)
+                    db.updateValue("APPS_CALLS_SUMMARY","0");
+                    Toast.makeText(getActivity(),"stop APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
+                    Log.e("myTag","stop APPS_CALLS_SUMMARY");
+                }else{
+                    db.updateValue("APPS_CALLS_SUMMARY","1");
+                    Log.e("myTag","start APPS_CALLS_SUMMARY");
+                    Toast.makeText(getActivity(),"Start APPS_CALLS_SUMMARY",Toast.LENGTH_LONG).show();
+                    //}
+                }
+            }
+        });
+    };
+    private void setOnClickRunning_cb(){running_cb.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(!running_cb.isChecked()){ //if true (running)
+                stopService1();
+                db.updateValue("BACKGROUND","0");
+                Toast.makeText(getActivity(),"stop service",Toast.LENGTH_LONG).show();
+                Log.e("myTag","stop service");
+            }else{
+                startService();
+                db.updateValue("BACKGROUND","1");
+                Log.e("myTag","start service");
+                Toast.makeText(getActivity(),"Start Service",Toast.LENGTH_LONG).show();
+                //}
+            }
+        }
+    });};
+    private void setOnClickCbGps(){cb.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (cb.isChecked() == true) {
+
+                if (!manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    db.getInstance(getContext()).updateValue("GPS","1");
+                    startActivity(intent);
+
+                }else{
+                    db.getInstance(getContext()).updateValue("GPS","1");
+                    ((MenuActivity)getActivity()).startRepeatingTask();
+                    Toast.makeText(getActivity(),"start tracking",Toast.LENGTH_LONG).show();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+
+            }else{
+                db.getInstance(getContext()).updateValue("GPS","0");
+                ((MenuActivity)getActivity()).stopRepeatingTask();
+                Log.e("myTag","stop tracking");
+                Toast.makeText(getActivity(),"stop tracking",Toast.LENGTH_LONG).show();
+                getActivity().getSupportFragmentManager().popBackStack();
+
+            }
+        }
+    });};
+    private void setOnClicksync_products(){chk_sync_products.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (chk_sync_products.isChecked() == true) {
+                db.getInstance(getContext()).updateValue("CLIENT_SYNC_PRODUCTS","1");
+                Toast.makeText(getActivity(), "updated", Toast.LENGTH_LONG).show();
+
+            }else{
+                db.getInstance(getContext()).updateValue("CLIENT_SYNC_PRODUCTS","0");
+                Toast.makeText(getActivity(), "updated", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    });};
+    private void setOnClickremember(){
+        chk_remember.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (chk_remember.isChecked() == true) {
+                db.getInstance(getContext()).updateValue("AUTO_LOGIN","1");
+                Toast.makeText(getActivity(), "auto login on", Toast.LENGTH_LONG).show();
+
+            }else{
+                db.getInstance(getContext()).updateValue("AUTO_LOGIN","0");
+                Toast.makeText(getActivity(), "auto login off", Toast.LENGTH_LONG).show();
+
+            }
+            }
+    });
+    };
+    private void setOnClickis_busy(){
+        chk_is_busy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_is_busy.isChecked() == true) {
+                    db.getInstance(getContext()).updateValue("IS_BUSY","1");
+                    //Toast.makeText(getActivity(), "auto login on", Toast.LENGTH_LONG).show();
+
+                }else{
+                    db.getInstance(getContext()).updateValue("IS_BUSY","0");
+                    //Toast.makeText(getActivity(), "auto login off", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
     };
 
     @Override
