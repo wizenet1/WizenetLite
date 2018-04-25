@@ -32,6 +32,40 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
 
         Thread pageTimer = new Thread() {
 
+            private void disconnectCall(){
+                try {
+
+                    String serviceManagerName = "android.os.ServiceManager";
+                    String serviceManagerNativeName = "android.os.ServiceManagerNative";
+                    String telephonyName = "com.android.internal.telephony.ITelephony";
+                    Class<?> telephonyClass;
+                    Class<?> telephonyStubClass;
+                    Class<?> serviceManagerClass;
+                    Class<?> serviceManagerNativeClass;
+                    Method telephonyEndCall;
+                    Object telephonyObject;
+                    Object serviceManagerObject;
+                    telephonyClass = Class.forName(telephonyName);
+                    telephonyStubClass = telephonyClass.getClasses()[0];
+                    serviceManagerClass = Class.forName(serviceManagerName);
+                    serviceManagerNativeClass = Class.forName(serviceManagerNativeName);
+                    Method getService = // getDefaults[29];
+                            serviceManagerClass.getMethod("getService", String.class);
+                    Method tempInterfaceMethod = serviceManagerNativeClass.getMethod("asInterface", IBinder.class);
+                    Binder tmpBinder = new Binder();
+                    tmpBinder.attachInterface(null, "fake");
+                    serviceManagerObject = tempInterfaceMethod.invoke(null, tmpBinder);
+                    IBinder retbinder = (IBinder) getService.invoke(serviceManagerObject, "phone");
+                    Method serviceMethod = telephonyStubClass.getMethod("asInterface", IBinder.class);
+                    telephonyObject = serviceMethod.invoke(null, retbinder);
+                    telephonyEndCall = telephonyClass.getMethod("endCall");
+                    telephonyEndCall.invoke(telephonyObject);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             public void run() {
                 try {
                     sleep(1500);
@@ -51,32 +85,7 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
                             SmsManager smsManager = SmsManager.getDefault();
                             smsManager.sendTextMessage(phoneNumber, null, msg, null, null);
 
-                            // Close the incoming call.
-                            String serviceManagerName = "android.os.ServiceManager";
-                            String serviceManagerNativeName = "android.os.ServiceManagerNative";
-                            String telephonyName = "com.android.internal.telephony.ITelephony";
-                            Class<?> telephonyClass;
-                            Class<?> telephonyStubClass;
-                            Class<?> serviceManagerClass;
-                            Class<?> serviceManagerNativeClass;
-                            Method telephonyEndCall;
-                            Object telephonyObject;
-                            Object serviceManagerObject;
-                            telephonyClass = Class.forName(telephonyName);
-                            telephonyStubClass = telephonyClass.getClasses()[0];
-                            serviceManagerClass = Class.forName(serviceManagerName);
-                            serviceManagerNativeClass = Class.forName(serviceManagerNativeName);
-                            Method getService = // getDefaults[29];
-                                    serviceManagerClass.getMethod("getService", String.class);
-                            Method tempInterfaceMethod = serviceManagerNativeClass.getMethod("asInterface", IBinder.class);
-                            Binder tmpBinder = new Binder();
-                            tmpBinder.attachInterface(null, "fake");
-                            serviceManagerObject = tempInterfaceMethod.invoke(null, tmpBinder);
-                            IBinder retbinder = (IBinder) getService.invoke(serviceManagerObject, "phone");
-                            Method serviceMethod = telephonyStubClass.getMethod("asInterface", IBinder.class);
-                            telephonyObject = serviceMethod.invoke(null, retbinder);
-                            telephonyEndCall = telephonyClass.getMethod("endCall");
-                            telephonyEndCall.invoke(telephonyObject);
+                            this.disconnectCall();
 
                         }
                         catch (Exception e){
@@ -91,4 +100,5 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
 
         pageTimer.start();
     }
+
 }
