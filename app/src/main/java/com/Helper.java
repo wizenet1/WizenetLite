@@ -88,7 +88,6 @@ public class Helper {
         DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
         DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");
 
-
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar c_week = Calendar.getInstance();
         c_week.add(Calendar.DAY_OF_YEAR, 7);
