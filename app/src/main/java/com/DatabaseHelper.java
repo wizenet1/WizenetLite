@@ -1773,7 +1773,9 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             db.insert(TABLE_CONTROL_PANEL, null, values);
            // db.close(); // Closing database connection
         }catch (Exception e){
-            e.printStackTrace();
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            //e.printStackTrace();
         }
 
     }

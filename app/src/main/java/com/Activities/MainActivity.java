@@ -128,6 +128,7 @@ public class MainActivity extends Activity {
                     DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
                     Log.e("mytag","isAppsColAdded success");
                 }
+                updateNewFieldsInControlPanel();
 
 
 
@@ -277,6 +278,15 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
 
+
+        }
+    }
+    private void updateNewFieldsInControlPanel(){
+        if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("IS_BUSY")){
+            Log.e("mytag","IS_BUSY exists");
+        }else{
+            Log.e("mytag","IS_BUSY does not exists");
+            DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");
 
         }
     }
