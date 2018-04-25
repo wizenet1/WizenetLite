@@ -1380,7 +1380,8 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         }
 
     }
-    public void addISAction(IS_Action is_action) {
+    public boolean addISAction(IS_Action is_action) {
+        boolean flag = false;
         try{
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -1434,6 +1435,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             values.put("projectDesc",is_action.getProjectDesc());
 
             db.insert("IS_Actions", null, values);
+            flag = true;
             Log.e("MYTAG","added!!" + is_action.toString());
             // Closing database connection
             //db.close();
@@ -1442,9 +1444,9 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             Helper h = new Helper();
             h.LogPrintExStackTrace(e);
             Log.e("MYTAG",e.getMessage());
-            return;
+            //return flag;
         }
-
+        return flag;
     }
 
 

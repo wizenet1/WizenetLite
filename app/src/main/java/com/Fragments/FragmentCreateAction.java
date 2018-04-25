@@ -128,7 +128,20 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addAction();
+                Boolean flag = false;
+                flag = addAction();
+                if (flag == true){
+                    String json = "";
+                    json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
+                    Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
+                        @Override
+                        public void onResult(String str) {
+                            if (str.contains("0")){
+                                Toast.makeText(getContext(), "success uploaded", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -728,7 +741,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 action.setActionSdate(txt_assignment.getText().toString() + " "+ selectedFromHoure + ":00");
                 action.setActionEdate(txt_assignment.getText().toString() + " "+ selectedToHour + ":00");
             }
-            DatabaseHelper.getInstance(getContext()).addISAction(action);
+            ret =DatabaseHelper.getInstance(getContext()).addISAction(action);
             Log.e("mytag",DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString());
             //action.setStatusID(e.getInt("statusID"));
             //action.setDepID(e.getInt("depID"));
