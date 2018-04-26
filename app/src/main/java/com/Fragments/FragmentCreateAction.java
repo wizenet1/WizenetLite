@@ -1,5 +1,6 @@
 package com.Fragments;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -79,6 +80,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     Map<String, IS_Task> tasks_map;
     Map<String, IS_Project> projects_map;
     Map<String, Ccustomer> ccustomers_map;
+    private ProgressDialog pDialog;
 
     String selectedProject,selectedTask,selectedCcustomer,selectedReminder,selectedFromHoure,selectedToHour;
 
@@ -120,7 +122,11 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         setCtypeSpinner();
         setTaskSpinner(0);
         setBtn();
-
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage("Loading... Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         return v;
     };
@@ -131,17 +137,28 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 Boolean flag = false;
                 flag = addAction();
                 if (flag == true){
+                    pDialog.show();
                     String json = "";
                     json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
                     Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
                         @Override
                         public void onResult(String str) {
                             if (str.contains("0")){
-                                Toast.makeText(getContext(), "success uploaded", Toast.LENGTH_LONG).show();
+                                Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+                                    @Override
+                                    public void onResult(String str) {
+                                        refresh();
+                                        Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                pDialog.dismiss();
+                            }else{
+                                pDialog.dismiss();
                             }
                         }
                     });
                 }
+                //pDialog.show();
             }
         });
 

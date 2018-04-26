@@ -723,11 +723,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return flag;
     }
 
-    public boolean delete_IS_Actions_Rows() {
+    public boolean delete_IS_Actions_Rows(String str) {
         boolean flag = false;
         try{
             SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("delete from IS_Actions where actionID < 0");
+            String strSql ="delete from IS_Actions";
+            if(str == "offline"){
+                strSql ="delete from IS_Actions where actionID < 0";
+            }
+            db.execSQL(strSql);
             //db.close();
             flag = true;
         }catch (Exception e){
