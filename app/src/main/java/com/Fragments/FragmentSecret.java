@@ -38,9 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 31/08/2016.
- */
 public class FragmentSecret extends android.support.v4.app.Fragment {
 
 

@@ -1,8 +1,5 @@
 package com.Classes;
 
-/**
- * Created by doron on 17/03/2016.
- */
 public class Ccustomer {
 
 //    String cid, cparentid, cfname, clname, cemail, cphone, ccell, ccompany;

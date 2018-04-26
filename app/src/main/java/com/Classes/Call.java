@@ -1,8 +1,5 @@
 package com.Classes;
 
-/**
- * Created by doron on 17/03/2016.
- */
 public class Call {
 
     int CallID;

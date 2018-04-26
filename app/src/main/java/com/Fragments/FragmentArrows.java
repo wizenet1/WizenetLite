@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 
 import com.Activities.R;
 
-/**
- * Created by bitro on 3/21/2018.
- */
-
 public class FragmentArrows extends android.support.v4.app.Fragment  {
 
     @Override

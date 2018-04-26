@@ -32,11 +32,6 @@ import com.Icon_Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by WIZE02 on 23/05/2017.
- */
-
 /**
  * the position of adapter is to set the content into listview
  * with the paramters we pass it.

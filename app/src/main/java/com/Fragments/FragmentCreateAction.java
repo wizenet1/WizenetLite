@@ -50,9 +50,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Created by User on 31/08/2016.
- */
 public class FragmentCreateAction extends android.support.v4.app.Fragment {
 
 

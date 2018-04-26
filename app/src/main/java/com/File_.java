@@ -17,10 +17,6 @@ import java.io.OutputStreamWriter;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 
-/**
- * Created by WIZE02 on 18/01/2018.
- */
-
 public class File_ {
     public File_(){}
 

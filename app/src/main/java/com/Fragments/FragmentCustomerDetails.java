@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment of the customer details page.
  */
 public class FragmentCustomerDetails extends Fragment {
 

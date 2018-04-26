@@ -65,9 +65,6 @@ import java.util.concurrent.TimeUnit;
 import static com.Activities.MainActivity.ctx;
 import static java.security.AccessController.getContext;
 
-/**
- * Created by User on 31/07/2016.
- */
 public class Helper {
     public Helper() {
     }

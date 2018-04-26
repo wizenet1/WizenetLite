@@ -54,10 +54,6 @@ import java.util.List;
 
 //import com.google.android.gms.maps.model.LatLng;
 
-
-/**
- * Created by doron on 05/03/2016.
- */
 public class FragmentOrders extends android.support.v4.app.Fragment {
     Helper helper;
     String strJson = "";

@@ -71,12 +71,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by User on 20/09/2016.
- */
-
-
-
 public class FragmentMenu extends android.support.v4.app.Fragment {
     TextView tv_username;
     CheckBox cb;

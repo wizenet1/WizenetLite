@@ -25,10 +25,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by WIZE02 on 16/08/2017.
- */
-
 public class ProgressTaskClient extends AsyncTask<String, Integer, String> {
     private ProgressDialog pDialog;
     List<Message> titles;

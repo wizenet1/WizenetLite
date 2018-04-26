@@ -17,9 +17,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 04/08/2016.
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static DatabaseHelper mInstance;

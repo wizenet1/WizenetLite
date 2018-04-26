@@ -34,12 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by User on 20/09/2016.
- */
-
-
-
 public class FragmentWebView extends android.support.v4.app.Fragment  {
     TextView tv_username;
     CheckBox cb;

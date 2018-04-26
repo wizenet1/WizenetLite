@@ -14,10 +14,6 @@ import com.Activities.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by WIZE02 on 23/05/2017.
- */
-
 
 public class NamesAdapter extends ArrayAdapter<String> {
 

@@ -43,11 +43,6 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by WIZE02 on 23/05/2017.
- */
-
 /**
  * the position of adapter is to set the content into listview
  * with the paramters we pass it.

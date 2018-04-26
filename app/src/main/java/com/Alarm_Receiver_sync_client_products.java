@@ -19,9 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by User on 23/08/2016.
- */
 public class Alarm_Receiver_sync_client_products extends BroadcastReceiver {
     NotificationManager nm;
     Notification myNotication;

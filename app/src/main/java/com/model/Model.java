@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by User on 05/09/2016.
- */
 public class Model {
     private final static Model instance = new Model();
     Context context;

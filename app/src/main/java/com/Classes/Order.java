@@ -1,10 +1,5 @@
 package com.Classes;
 
-
-/**
- * Created by WIZE02 on 20/07/2017.
- */
-
 public class Order {
     String pname,pmakat,pprice,poprice,pq,ocomment;
 
