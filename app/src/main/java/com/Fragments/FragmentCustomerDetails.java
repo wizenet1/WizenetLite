@@ -16,7 +16,6 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.Activities.R;
-import com.Adapters.ExpandableListAdapter;
 import com.Classes.Ccustomer;
 import com.Icon_Manager;
 
@@ -29,10 +28,6 @@ import java.util.List;
  */
 public class FragmentCustomerDetails extends Fragment {
 
-
-    private ExpandableListView expandableListViewComments;
-    private ExpandableListView expandableListViewContacts;
-    private ExpandableListAdapter listAdapter;
     private List<String[]> listDataHeaderComments;
     private HashMap<String, List<String>> listHashComments;
     private List<String[]> listDataHeaderContacts;
@@ -177,13 +172,13 @@ public class FragmentCustomerDetails extends Fragment {
         //Setting the comments expandable list. TODO delete if not needed
 //        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
 //        initComments();
-//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
+//        this.listAdapter = new OpportunitiesStatusExpandableListAdapter(context, listDataHeaderComments, listHashComments);
 //        this.expandableListViewComments.setAdapter(this.listAdapter);
 //
 //        //Setting the additional contacts expandable list.
 //        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
 //        initContacts();
-//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
+//        this.listAdapter = new OpportunitiesStatusExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
 //        this.expandableListViewContacts.setAdapter(this.listAdapter);
 
         final TextView commentsIcon = (TextView) view.findViewById(R.id.customer_details_comments_icon);

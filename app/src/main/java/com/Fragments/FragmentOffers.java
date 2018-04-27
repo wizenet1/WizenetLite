@@ -47,6 +47,19 @@ public class FragmentOffers extends Fragment {
             }
         });
 
+        Button opportunityStatusButton = (Button) view.findViewById(R.id.offers_new_opportunity_button);
+        opportunityStatusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentOpportunitiesStatus frag = new FragmentOpportunitiesStatus();
+                ft.replace(R.id.container, frag, "FragmentOpportunitiesStatus");
+                ft.addToBackStack("FragmentOpportunitiesStatus");
+                ft.commit();
+            }
+        });
+
         return view;
     }
 
