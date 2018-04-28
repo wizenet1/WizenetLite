@@ -49,8 +49,10 @@ public class FragmentOpportunitiesStatus extends Fragment {
         //Initialize the data lists.
         initData();
 
+        //Setting the list adapter.
         this.opportunitiesStatusExpandableListAdapter =
-                new OpportunitiesStatusExpandableListAdapter(view.getContext(), this.listDataHeader, this.hashMap);
+                new OpportunitiesStatusExpandableListAdapter(view.getContext(), this.listDataHeader,
+                        this.hashMap, getFragmentManager());
         this.expandableListView.setAdapter(this.opportunitiesStatusExpandableListAdapter);
 
         return view;

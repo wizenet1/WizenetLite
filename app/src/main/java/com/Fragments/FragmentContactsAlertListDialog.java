@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Responsible for handling the UI of the dialog.
  */
 
-public class FragmentAlertListDialog extends DialogFragment {
+public class FragmentContactsAlertListDialog extends DialogFragment {
 
     private ArrayList<String> items;
 

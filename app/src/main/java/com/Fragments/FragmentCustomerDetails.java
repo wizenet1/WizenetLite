@@ -5,18 +5,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.Activities.R;
-import com.Classes.Ccustomer;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
@@ -218,7 +215,7 @@ public class FragmentCustomerDetails extends Fragment {
             @Override
             public void onClick(View view) {
                 additionalContactsIcon.setAnimation(clickAnimation);
-                FragmentAlertListDialog fragmentAlertListDialog = new FragmentAlertListDialog();
+                FragmentContactsAlertListDialog fragmentAlertListDialog = new FragmentContactsAlertListDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString("Title", "רשימת אנשי קשר");
                 fragmentAlertListDialog.setArguments(bundle);
