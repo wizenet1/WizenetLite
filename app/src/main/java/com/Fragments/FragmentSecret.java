@@ -127,13 +127,13 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                alertDialog.setTitle("GPS is settings");
-                alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+                alertDialog.setTitle("האם אתה בטוח שברצונך למחוק את המשימות offline?");
+                alertDialog.setMessage("?");
                 alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Table();
+                        flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");
                         if (flag == true){
-                           // Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

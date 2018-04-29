@@ -118,47 +118,50 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         setProjectSpinner();
         setCtypeSpinner();
         setTaskSpinner(0);
-        setBtn();
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage("Loading... Please wait...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
 
+        setBtn();
         return v;
     };
     private void setBtn(){
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog = new ProgressDialog(getContext());
+                pDialog.setMessage("Loading... Please wait...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
                 Boolean flag = false;
                 flag = addAction();
                 if (flag == true){
                     pDialog.show();
                     String json = "";
                     json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
-                    Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
-                        @Override
-                        public void onResult(String str) {
-                            if (str.contains("0")){
-                                Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
-                                    @Override
-                                    public void onResult(String str) {
-                                        refresh();
-                                        Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                pDialog.dismiss();
-                            }else{
-                                pDialog.dismiss();
+                    try{
+                        Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
+                            @Override
+                            public void onResult(String str) {
+                                if (str.contains("0")){
+                                    Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+                                        @Override
+                                        public void onResult(String str) {
+                                            refresh();
+                                            Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    pDialog.dismiss();
+                                }else{
+                                    pDialog.dismiss();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }catch(Exception e){
+                        pDialog.dismiss();
+                    }
+
                 }
-                //pDialog.show();
             }
         });
-
+        //pDialog.dismiss();
     }
     private void setDialog(){
         myCalendar = Calendar.getInstance();
@@ -691,9 +694,9 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
 
         data2.clear();
         data2=getActionsList("");
-        actionsAdapter=new ActionsAdapter(data2,getContext());
-        myList.setAdapter(actionsAdapter);
-        actionsAdapter.notifyDataSetChanged();
+        //actionsAdapter=new ActionsAdapter(data2,getContext());
+        //myList.setAdapter(actionsAdapter);
+        //actionsAdapter.notifyDataSetChanged();
     }
     private void goToMSGDetailsFrag(String puId)
 

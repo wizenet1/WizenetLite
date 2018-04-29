@@ -169,6 +169,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "internalSN"+ " TEXT, "
                         + "techAnswer"+ " TEXT "
                         + ")";
+        String CREATE_IS_ActionsTime=
+                "CREATE TABLE " + "IS_ActionsTime" + "("
+                        + "ID" +  " TEXT, "
+                        + "CID"+  " TEXT, "
+                        + "ActionID"+ " TEXT, "
+                        + "ActionStart"+ " TEXT, "
+                        + "ActionEnd"+ " TEXT "
+                        + ")";
+
 
         String CREATE_mgnet_calls=
                 "CREATE TABLE " + mgnet_calls + "("
@@ -271,6 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + MsgREAD + " TEXT, "
                         + MsgTYPE + " TEXT "
                         + ")";
+        db.execSQL(CREATE_IS_ActionsTime);
         db.execSQL(CREATE_IS_Actions);
         db.execSQL(CREATE_CallStatus);
         db.execSQL(CREATE_mgnet_items);
@@ -389,6 +399,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
 
+    }
+    public boolean createColumnToISActionsTime(String column,boolean isTableExist){
+        //getTableColumns();
+        String IS_ActionsTime = "IS_ActionsTime";
+        boolean flag = false;
+        Helper h = new Helper();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_IS_ActionsTime=
+                    "CREATE TABLE " + "call_offline" + "("
+                            + "ID" +  " TEXT, "
+                            + "CID"+  " TEXT, "
+                            + "ActionID"+ " TEXT, "
+                            + "ActionStart"+ " TEXT, "
+                            + "ActionEnd"+ " TEXT "
+                            + ")";
+            if (isTableExist){
+                db.execSQL("DROP TABLE IF EXISTS '" + IS_ActionsTime + "_old" + "'");
+                db.execSQL("ALTER TABLE " + IS_ActionsTime + " RENAME TO " + IS_ActionsTime + "_old;");
+                Log.e("mytag","step 1");
+            }
+
+            try{
+                db.execSQL(CREATE_IS_ActionsTime);
+            }catch (Exception e){
+                Log.e("mytag","exception create exe: " + e.getMessage());
+                //String bla = CREATE_mgnet_calls.replace("CREATE TABLE","ALTER TABLE");
+                //db.execSQL(bla);
+            }
+            if (isTableExist){
+                db.execSQL("DROP TABLE " + IS_ActionsTime + "_old;");
+                Log.e("mytag","step 2");
+            }
+
+            //Log.e("mytag","last time: " + columnExistsInTable("mgnet_calls","sla"));
+            if (!columnExistsInTable(IS_ActionsTime,column)){
+                try{
+                    db.execSQL("ALTER TABLE " + IS_ActionsTime + " ADD COLUMN " + column + " TEXT;");
+                    Log.e("mytag","success to add " + column + "to calls");
+
+                }catch (Exception e){
+                    Log.e("mytag","err step 4, " + e.getMessage());
+                    h.LogPrintExStackTrace(e);
+                }
+            }
+
+            flag = true;
+        }catch (Exception e){
+
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
     }
     public boolean createColumnToISActions(String column,boolean isTableExist){
         getTableColumns();
@@ -733,6 +797,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             flag = true;
         }catch (Exception e){
             flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    public boolean add_ISActionTime(IS_ActionTime ct){
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CallID" , ct.getCallID());
+            values.put("CallStartTime", ct.getCallStartTime());
+            values.put("Minute", ct.getMinute());
+            values.put("CTcomment", ct.getCTcomment().trim());
+            values.put("ctq", ct.getCtq());
+            db.insert("IS_ActionsTime", null, values);
+            flag = true;
+        }catch (Exception e){
             e.printStackTrace();
             Log.e("MYTAG",e.getMessage());
         }

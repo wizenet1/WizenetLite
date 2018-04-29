@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
-    LinearLayout layout_details;
+    //LinearLayout layout_details;
     public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
@@ -70,140 +72,83 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     public class ViewHolder {
         //Spinner spNames, spGrades;
         TextView is_actiontxt,is_desc,is_comments,btn_open_details;
-        LinearLayout layout_details;
+        //LinearLayout layout_details;
     }
     @Override
     public View getView(final int pos, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         helper = new Helper();
-        Icon_Manager icon_manager;
-        icon_manager = new Icon_Manager();
+        Icon_Manager icon_manager = new Icon_Manager();
+
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LinearLayout layout_details;
+        final TextView btn_open_details;
+       // holder = new ViewHolder();
         if(convertView==null)
         {
-            holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.is_action, null);
 
-            holder.is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
-            holder.is_desc = (TextView) convertView.findViewById(R.id.is_desc);
-            holder.is_comments = (TextView) convertView.findViewById(R.id.is_comments);
-            holder.btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
-            holder.layout_details = (LinearLayout) convertView.findViewById(R.id.layout_details);
-            holder.is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
-            holder.is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
-            holder.is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-            holder.btn_open_details.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (holder.layout_details.getVisibility() == View.VISIBLE){
-                        holder.layout_details.setVisibility(View.GONE);
-                        holder.btn_open_details.setText("˅");
-                    }else{
-                        holder.layout_details.setVisibility(View.VISIBLE);
-                        holder.btn_open_details.setText("˄");
-                    }
-                }
-            });
-            convertView.setTag(holder);
+            convertView=inflater.inflate(R.layout.is_action, null);
+            convertView.getTag(pos);
+            //convertView.setTag(callsArrayList.get(pos));
+//            holder.is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
+//            holder.is_desc = (TextView) convertView.findViewById(R.id.is_desc);
+//            holder.is_comments = (TextView) convertView.findViewById(R.id.is_comments);
+//            holder.btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+//            holder.layout_details = (LinearLayout) convertView.findViewById(R.id.layout_details);
+//            holder.is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
+//            holder.is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
+//            holder.is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
+//            holder.btn_open_details.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (holder.layout_details.getVisibility() == View.VISIBLE){
+//                        holder.layout_details.setVisibility(View.GONE);
+//                        holder.btn_open_details.setText("˅");
+//                    }else{
+//                        holder.layout_details.setVisibility(View.VISIBLE);
+//                        holder.btn_open_details.setText("˄");
+//                    }
+//                }
+//            });
+
         }
-        //final ViewHolder holder;
-//        edit.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                Toast.makeText(c,"ccell:" + callsArrayList.get(pos).getCcell().replace("null","") +
-//                        "\ncphone:" + callsArrayList.get(pos).getCphone().replace("null","")+
-//                        "\ncontctCcell:" + callsArrayList.get(pos).getContctCell().replace("null","") +
-//                        "\ncontctCphone:" + callsArrayList.get(pos).getContctPhone().replace("null","")
-//                        , Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        });
-//        mobile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String m = "";
-//
-//                if (!(callsArrayList.get(pos).getCcell().trim().contains("null")) && !(callsArrayList.get(pos).getCcell().trim().equals(""))){
-//                    m = callsArrayList.get(pos).getCcell().trim();
-//                }
-//                if (!(callsArrayList.get(pos).getContctCell().trim().contains("null")) && !(callsArrayList.get(pos).getContctCell().trim().equals(""))){
-//                    m =callsArrayList.get(pos).getContctCell().trim();
-//                }
-//
-//                if (m.equals("") ){
-//                    Toast.makeText(c,"no cell", Toast.LENGTH_LONG).show();
-//                }else{
-//                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-//                    callIntent.setData(Uri.parse("tel:" + m));//String.valueOf(callsArrayList.get(pos).getCallID())
-//                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    c.startActivity(callIntent);
-//                }
-//            }
-//        });
-//
-//
-//        telephone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String m = "";
-//
-//                if (!(callsArrayList.get(pos).getCphone().trim().contains("null")) && !(callsArrayList.get(pos).getCphone().trim().equals(""))){
-//                    m = callsArrayList.get(pos).getCphone().trim();
-//                }
-//                if (!(callsArrayList.get(pos).getContctPhone().trim().contains("null")) && !(callsArrayList.get(pos).getContctPhone().trim().equals(""))){
-//                    m =callsArrayList.get(pos).getContctPhone().trim();
-//                }
-//                if (m.equals("") ){
-//                    Toast.makeText(c,"no phone", Toast.LENGTH_LONG).show();
-//                }else{
-//                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-//                    callIntent.setData(Uri.parse("tel:" + m));//String.valueOf(callsArrayList.get(pos).getCallID())
-//                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    c.startActivity(callIntent);
-//                }
-//            }
-//        });
-//
-//        sign.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try
-//                {
-//                    String url = DatabaseHelper.getInstance(c).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(callsArrayList.get(pos).getCallID());
-//
-//                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    c.startActivity(browserIntent);
-//                    //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
-//                }
-//                catch ( ActivityNotFoundException ex  )
-//                {
-//                    Toast.makeText(c, ex.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-//
-//        location.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try
-//                {
-//                    // Launch Waze to look for Hawaii:
-//                    String url = "waze://?q=" + callsArrayList.get(pos).getCaddress() + " " + callsArrayList.get(pos).getCcity();
-//                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    c.startActivity( intent );
-//                }
-//                catch ( ActivityNotFoundException ex  )
-//                {
-//                    // If Waze is not installed, open it in Google Play:
-//                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
-//                    c.startActivity(intent);
-//                }
-//            }
-//        });
+        TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
+        TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
+        TextView btn_play = (TextView) convertView.findViewById(R.id.btn_play);
+        TextView btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
 
-        //#################    TEXTVIEW    ##########################
+        btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+
+        layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
+        TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
+        is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
+        layout_details.setTag(callsArrayList.get(pos).getActionID());
+        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
+
+        is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
+        is_desc.setText(callsArrayList.get(pos).getActionDesc());
+        btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        btn_stop.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+
+        //"@color/wizenetColor"
+        btn_open_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("mytag","Button Tab at Pos "+pos+" "+btn_open_details.getTag()+"");
+                if (layout_details.getVisibility() == View.VISIBLE){
+                    layout_details.setVisibility(View.GONE);
+                    btn_open_details.setText("˅");
+                }else{
+                    layout_details.setVisibility(View.VISIBLE);
+                    btn_open_details.setText("˄");
+                };
+            }
+        });
+        convertView.setTag(convertView.getId(),pos);
+        convertView.getTag(pos);
+
+
+
 
 //        txtsubject.setText(callsArrayList.get(pos).getSubject());
 //        txtCreateDate.setText(callsArrayList.get(pos).getCreateDate().substring(0,10) + " | " + callsArrayList.get(pos).getCreateDate().substring(11,16));
@@ -212,30 +157,6 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 //        txtCcompany.setText(callsArrayList.get(pos).getCcompany());
 //        txtCcity.setText(callsArrayList.get(pos).getCcity());
 //
-//
-//        String type = callsArrayList.get(pos).getState().toString().trim();
-//        if (!type.contains("null")){
-//            stateid.setText(getType(type.trim()));
-//        }else{
-//            stateid.setText("");
-//        }
-//        stateid.setTypeface(stateid.getTypeface(), Typeface.BOLD);
-//
-//        TextView alert = (TextView) convertView.findViewById(R.id.alert);
-//        alert.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-//        alert.setTextSize(30);
-//        alert.setTextColor(Color.parseColor("#FF0000"));
-//        if (!callsArrayList.get(pos).getPriorityID().toLowerCase().contains("h")){
-//            alert.setVisibility(View.GONE);
-//        }
-//
-//        txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime());
-//        if ((callsArrayList.get(pos).getCallStartTime().toLowerCase().contains("null"))){
-//            assigmentlayout.setVisibility(View.GONE);
-//        }else{
-//            txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime().substring(0,10)+"  " +callsArrayList.get(pos).getCallStartTime().substring(11,16)+"-"+callsArrayList.get(pos).getCallEndTime().substring(11,16));;
-//            txtCallStartTime.setTextColor(Color.parseColor("#E94E1B"));
-//        }
 
 
 

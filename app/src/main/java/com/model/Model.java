@@ -15,6 +15,7 @@ import com.Helper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -1433,6 +1434,21 @@ public interface get_mgnet_client_items_Listener{
     public interface Wz_ACTIONS_retList_Listener{
         public void onResult(String str);
     }
+    public boolean StrIsValidJson(String str){
+        boolean res = false;
+        Object json = null;
+        try {
+            json = new JSONTokener(str).nextValue();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (json instanceof JSONObject || json instanceof JSONArray){
+            res = true;
+        }else{
+            Log.e("mytag","new file arrived is error");
+        }
+        return res;
+    }
     //Wz_ACTIONS_retList
     public void Async_Wz_ACTIONS_retList_Listener(final String macAddress, final Wz_ACTIONS_retList_Listener listener) {
         AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
@@ -1451,14 +1467,18 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_ACTIONS_retListResponse", "");
                     myResponse = myResponse.replaceAll("Wz_ACTIONS_retListResult=", "Wz_ACTIONS_retList:");
                     myResponse = myResponse.replaceAll(";", "");
+                    if (StrIsValidJson(myResponse) == false){
+                        Log.e("mytag","myResponse is not valid json: " +myResponse);
+                        return "";
+                    }
 
                     boolean flag = false;
                     File_ f = new File_();
-                    //f.deleteFileExternal(context,"is_actions.txt");
-                    //flag = f.writeTextToFileExternal(context,"is_actions.txt",myResponse);
-                    //if (flag == true){
+                    f.deleteFileExternal(context,"is_actions.txt");
+                    flag = f.writeTextToFileExternal(context,"is_actions.txt",myResponse);
+                    if (flag == true){
                         addActions();
-                    //}
+                    }
                     return myResponse.toString();
                 }catch(Exception e){
                     helper.LogPrintExStackTrace(e);
@@ -1761,7 +1781,6 @@ public interface get_mgnet_client_items_Listener{
         String strJson = "";
         File_ f = new File_();
         strJson = f.readFromFileExternal(context,"is_actions.txt");
-
         JSONObject j = null;
         JSONArray jarray = null;
         try {
