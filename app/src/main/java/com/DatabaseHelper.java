@@ -171,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + ")";
         String CREATE_IS_ActionsTime=
                 "CREATE TABLE " + "IS_ActionsTime" + "("
-                        + "ID" +  " TEXT, "
+                        + "ID" +  " INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + "CID"+  " TEXT, "
                         + "ActionID"+ " TEXT, "
                         + "ActionStart"+ " TEXT, "
@@ -334,7 +334,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return (icount) ;
     }
+    public  List<String> getTablesNames() {
+        List<String> tablesList = new ArrayList<String>();
+        Cursor cursor = null;
+        SQLiteDatabase db = null;
+        try{
+            db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+            if (c.moveToFirst()) {
+                while ( !c.isAfterLast() ) {
+                    tablesList.add(c.getString(0));
+                    //Toast.makeText(mCtx, "Table Name=> "+c.getString(0), Toast.LENGTH_LONG).show();
+                    c.moveToNext();
+                }
+            }
+        }catch(Exception e){
 
+        }
+        return tablesList;
+
+    }
     public  boolean columnExistsInTable(String table, String columnToCheck) {
         Cursor cursor = null;
         SQLiteDatabase db = null;
@@ -409,8 +428,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             String CREATE_IS_ActionsTime=
-                    "CREATE TABLE " + "call_offline" + "("
-                            + "ID" +  " TEXT, "
+                    "CREATE TABLE " + "IS_ActionsTime" + "("
+                            + "ID" +  " INTEGER PRIMARY KEY AUTOINCREMENT, "
                             + "CID"+  " TEXT, "
                             + "ActionID"+ " TEXT, "
                             + "ActionStart"+ " TEXT, "
@@ -438,7 +457,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (!columnExistsInTable(IS_ActionsTime,column)){
                 try{
                     db.execSQL("ALTER TABLE " + IS_ActionsTime + " ADD COLUMN " + column + " TEXT;");
-                    Log.e("mytag","success to add " + column + "to calls");
+                    Log.e("mytag","success to add " + column + "to IS_ActionsTime");
 
                 }catch (Exception e){
                     Log.e("mytag","err step 4, " + e.getMessage());
@@ -807,16 +826,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try{
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("CallID" , ct.getCallID());
-            values.put("CallStartTime", ct.getCallStartTime());
-            values.put("Minute", ct.getMinute());
-            values.put("CTcomment", ct.getCTcomment().trim());
-            values.put("ctq", ct.getCtq());
+            values.put("ID" , ct.getID());
+            values.put("CID", ct.getCID());
+            values.put("actionID", ct.getActionID());
+            values.put("actionStart", ct.getActionStart());
+            values.put("actionEnd", ct.getActionEnd());
             db.insert("IS_ActionsTime", null, values);
             flag = true;
+            Log.e("mytag","ISActionTime added");
         }catch (Exception e){
-            e.printStackTrace();
-            Log.e("MYTAG",e.getMessage());
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
         }
         return flag;
     }
@@ -1046,79 +1066,113 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         Log.e("mytag",e.getMessage());
     }
 }
+    public List<IS_ActionTime> getISActionsTime(String sortby) {
+        List<IS_ActionTime> actionsTime = new ArrayList<IS_ActionTime>();
+        try{
+        String selectQuery ="";
+        selectQuery = "SELECT * FROM IS_ActionsTime where 1=1   " ;
+        //if ((!sortby.trim().equals("") && (sortby != "top1"))){
+        //    selectQuery+=  sortby + "";
+        //    //selectQuery+= "  order by " + sortby + "";
+        //}
+        //if (sortby == "top1"){
+        //    selectQuery+=   " order by actionID limit 1";
+        //}
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+            Log.e("mytag","row count is_actions: " +cursor.getCount());
+        if (cursor.moveToFirst()) {
+            do {
+                IS_ActionTime action= new IS_ActionTime(
+                        cursor.getString(cursor.getColumnIndex("ID")),
+                        cursor.getString(cursor.getColumnIndex("CID")),
+                        cursor.getString(cursor.getColumnIndex("ActionID")),
+                        cursor.getString(cursor.getColumnIndex("ActionStart")),
+                        cursor.getString(cursor.getColumnIndex("ActionEnd"))
+                );
+                actionsTime.add(action);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+        }
+        return actionsTime;
+    }
     public List<IS_Action> getISActions(String sortby) {
         List<IS_Action> actions = new ArrayList<IS_Action>();
         try{
 // Select All Query
-        String selectQuery ="";
-        selectQuery = "SELECT * FROM IS_Actions where 1=1   " ;
-        if ((!sortby.trim().equals("") && (sortby != "top1"))){
-            selectQuery+=  sortby + "";
-            //selectQuery+= "  order by " + sortby + "";
-        }
-        if (sortby == "top1"){
-            selectQuery+=   " order by actionID limit 1";
-        }
-        SQLiteDatabase db = this.getReadableDatabase();
-        //Log.e("mytag","sql: " +selectQuery);
-        Cursor cursor = db.rawQuery(selectQuery, null);
+            String selectQuery ="";
+            selectQuery = "SELECT * FROM IS_Actions where 1=1   " ;
+            if ((!sortby.trim().equals("") && (sortby != "top1"))){
+                selectQuery+=  sortby + "";
+                //selectQuery+= "  order by " + sortby + "";
+            }
+            if (sortby == "top1"){
+                selectQuery+=   " order by actionID limit 1";
+            }
+            SQLiteDatabase db = this.getReadableDatabase();
+            //Log.e("mytag","sql: " +selectQuery);
+            Cursor cursor = db.rawQuery(selectQuery, null);
             Log.e("mytag","row count is_actions: " +cursor.getCount());
 // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                IS_Action action= new IS_Action(
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("actionID"))),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("taskID"))),
-                        cursor.getString(cursor.getColumnIndex("actionDate")),cursor.getString(cursor.getColumnIndex("actionStartDate")),
-                        cursor.getString(cursor.getColumnIndex("actionDue")),
-                        cursor.getString(cursor.getColumnIndex("actionDesc")),
-                        cursor.getString(cursor.getColumnIndex("comments")),
-                        cursor.getString(cursor.getColumnIndex("priorityID")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))),
-                        cursor.getString(cursor.getColumnIndex("reminderID")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerID"))),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("userID"))),
-                        cursor.getString(cursor.getColumnIndex("WorkHours")),
-                        cursor.getString(cursor.getColumnIndex("WorkEstHours")),
-                        cursor.getString(cursor.getColumnIndex("Create")),
-                        cursor.getString(cursor.getColumnIndex("LastUpdate")),
-                        cursor.getString(cursor.getColumnIndex("actionLink")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("depID"))),
-                        cursor.getString(cursor.getColumnIndex("actionRef")),
-                        cursor.getString(cursor.getColumnIndex("userCfname")),
-                        cursor.getString(cursor.getColumnIndex("userClname")),
-                        cursor.getString(cursor.getColumnIndex("userCemail")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("userCtypeID"))),
-                        cursor.getString(cursor.getColumnIndex("ownerCfname")),
-                        cursor.getString(cursor.getColumnIndex("ownerClname")),
-                        cursor.getString(cursor.getColumnIndex("ownerCemail")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerCtypeID"))),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("projectID"))),
-                        cursor.getString(cursor.getColumnIndex("statusName")),
-                        cursor.getString(cursor.getColumnIndex("PriorityName")),
-                        cursor.getString(cursor.getColumnIndex("actionType")),
-                        cursor.getString(cursor.getColumnIndex("actionSdate")),
-                        cursor.getString(cursor.getColumnIndex("actionEdate")),
-                        cursor.getString(cursor.getColumnIndex("WorkHoursM")),
-                        cursor.getString(cursor.getColumnIndex("WorkEstHoursM")),
-                        cursor.getString(cursor.getColumnIndex("actionPrice")),
-                        cursor.getString(cursor.getColumnIndex("statusColor")),
-                        cursor.getString(cursor.getColumnIndex("taskSummery")),
-                        cursor.getString(cursor.getColumnIndex("projectSummery")),
-                        cursor.getString(cursor.getColumnIndex("projectType")),
-                        cursor.getString(cursor.getColumnIndex("actionNum")),
-                        cursor.getString(cursor.getColumnIndex("actionFrom")),
-                        cursor.getString(cursor.getColumnIndex("actionDays")),
-                        Integer.valueOf(cursor.getString(cursor.getColumnIndex("ParentActionID"))),
-                        cursor.getString(cursor.getColumnIndex("remindertime")),
-                        cursor.getString(cursor.getColumnIndex("Expr1")),
-                        cursor.getString(cursor.getColumnIndex("projectDesc"))
-                );
+            if (cursor.moveToFirst()) {
+                do {
+                    IS_Action action= new IS_Action(
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("actionID"))),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("taskID"))),
+                            cursor.getString(cursor.getColumnIndex("actionDate")),cursor.getString(cursor.getColumnIndex("actionStartDate")),
+                            cursor.getString(cursor.getColumnIndex("actionDue")),
+                            cursor.getString(cursor.getColumnIndex("actionDesc")),
+                            cursor.getString(cursor.getColumnIndex("comments")),
+                            cursor.getString(cursor.getColumnIndex("priorityID")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))),
+                            cursor.getString(cursor.getColumnIndex("reminderID")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerID"))),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("userID"))),
+                            cursor.getString(cursor.getColumnIndex("WorkHours")),
+                            cursor.getString(cursor.getColumnIndex("WorkEstHours")),
+                            cursor.getString(cursor.getColumnIndex("Create")),
+                            cursor.getString(cursor.getColumnIndex("LastUpdate")),
+                            cursor.getString(cursor.getColumnIndex("actionLink")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("depID"))),
+                            cursor.getString(cursor.getColumnIndex("actionRef")),
+                            cursor.getString(cursor.getColumnIndex("userCfname")),
+                            cursor.getString(cursor.getColumnIndex("userClname")),
+                            cursor.getString(cursor.getColumnIndex("userCemail")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("userCtypeID"))),
+                            cursor.getString(cursor.getColumnIndex("ownerCfname")),
+                            cursor.getString(cursor.getColumnIndex("ownerClname")),
+                            cursor.getString(cursor.getColumnIndex("ownerCemail")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("ownerCtypeID"))),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("projectID"))),
+                            cursor.getString(cursor.getColumnIndex("statusName")),
+                            cursor.getString(cursor.getColumnIndex("PriorityName")),
+                            cursor.getString(cursor.getColumnIndex("actionType")),
+                            cursor.getString(cursor.getColumnIndex("actionSdate")),
+                            cursor.getString(cursor.getColumnIndex("actionEdate")),
+                            cursor.getString(cursor.getColumnIndex("WorkHoursM")),
+                            cursor.getString(cursor.getColumnIndex("WorkEstHoursM")),
+                            cursor.getString(cursor.getColumnIndex("actionPrice")),
+                            cursor.getString(cursor.getColumnIndex("statusColor")),
+                            cursor.getString(cursor.getColumnIndex("taskSummery")),
+                            cursor.getString(cursor.getColumnIndex("projectSummery")),
+                            cursor.getString(cursor.getColumnIndex("projectType")),
+                            cursor.getString(cursor.getColumnIndex("actionNum")),
+                            cursor.getString(cursor.getColumnIndex("actionFrom")),
+                            cursor.getString(cursor.getColumnIndex("actionDays")),
+                            Integer.valueOf(cursor.getString(cursor.getColumnIndex("ParentActionID"))),
+                            cursor.getString(cursor.getColumnIndex("remindertime")),
+                            cursor.getString(cursor.getColumnIndex("Expr1")),
+                            cursor.getString(cursor.getColumnIndex("projectDesc"))
+                    );
 // Adding contact to list
-                actions.add(action);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+                    actions.add(action);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }catch(Exception e){
             Helper h = new Helper();
             h.LogPrintExStackTrace(e);

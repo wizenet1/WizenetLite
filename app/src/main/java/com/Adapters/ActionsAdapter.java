@@ -27,11 +27,13 @@ import com.Activities.ActivityCallDetails;
 import com.Activities.R;
 import com.Classes.Call;
 import com.Classes.IS_Action;
+import com.Classes.IS_ActionTime;
 import com.DatabaseHelper;
 import com.Helper;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +53,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
+    TextView btn_play,btn_stop;
+    Icon_Manager icon_manager;
     //LinearLayout layout_details;
     public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx) {
         this.c=ctx;
@@ -78,7 +82,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     public View getView(final int pos, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         helper = new Helper();
-        Icon_Manager icon_manager = new Icon_Manager();
+         icon_manager = new Icon_Manager();
 
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final LinearLayout layout_details;
@@ -114,8 +118,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         }
         TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
         TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
-        TextView btn_play = (TextView) convertView.findViewById(R.id.btn_play);
-        TextView btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
+        btn_play = (TextView) convertView.findViewById(R.id.btn_play);
+        btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
 
         btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
 
@@ -123,12 +127,14 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
         is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
         layout_details.setTag(callsArrayList.get(pos).getActionID());
-        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
+
+        btn_open_details.setTag(callsArrayList.get(pos).  getActionID());
 
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
-        btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-        btn_stop.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        set_play(callsArrayList.get(pos).getActionID());
+        set_stop(callsArrayList.get(pos).getActionID());
+
 
         //"@color/wizenetColor"
         btn_open_details.setOnClickListener(new View.OnClickListener() {
@@ -147,9 +153,6 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         convertView.setTag(convertView.getId(),pos);
         convertView.getTag(pos);
 
-
-
-
 //        txtsubject.setText(callsArrayList.get(pos).getSubject());
 //        txtCreateDate.setText(callsArrayList.get(pos).getCreateDate().substring(0,10) + " | " + callsArrayList.get(pos).getCreateDate().substring(11,16));
 //        txtcallid.setText("קריאה: " +String.valueOf(callsArrayList.get(pos).getCallID()));
@@ -162,6 +165,35 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
 
         return convertView;
+    }
+    private void set_play(final int actionID){
+        btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("mytag","play actionID clicked: "+actionID);
+                //String date1 = ct.getCallStartTime();
+                //String fromdateinmillis = String.valueOf(stringToDate(date1,"yyyy-MM-dd HH:mm:ss").getTime());
+                String currentDateTimeString = String.valueOf((new Date().getTime()));
+                DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),currentDateTimeString,null));
+            }
+        });
+    }
+    private void set_stop(final int actionID){
+        btn_stop.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("mytag","stop actionID clicked: "+actionID);
+            }
+        });
+//        String date1 = ct.getCallStartTime();
+//        String fromdateinmillis = String.valueOf(stringToDate(date1,"yyyy-MM-dd HH:mm:ss").getTime());
+//        String currentDateTimeString = String.valueOf((new Date().getTime()));
+//        int dateDifference = (int) helper.getDateDiff(fromdateinmillis, currentDateTimeString);
+
+        //ct.setMinute(String.valueOf(Integer.valueOf(dateDifference)+1));
+        //DatabaseHelper.getInstance(getApplicationContext()).update_calltime(ct);
     }
     public boolean isNumeric(String s) {
         int len = s.length();

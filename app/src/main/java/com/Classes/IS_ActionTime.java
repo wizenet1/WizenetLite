@@ -65,7 +65,11 @@ public class IS_ActionTime {
 
     @Override
     public String toString() {
-        return "ID:"+this.getID()+" ACTIONID:"+this.getActionID()+ " CID:"+this.getCID() ;
+        return "ID:"+this.getID()+
+                " \nCID:"+this.getCID() +
+                "\nACTIONID:"+this.getActionID() +
+                "\nActionStart:"+this.getActionStart()+
+                "\nActionEnd:"+this.getActionEnd()   ;
                 //this.cphone+ "\n,ccell:"+ this.ccell + "\n,ccompany:"+ this.ccompany +"]" ;
     }
 
