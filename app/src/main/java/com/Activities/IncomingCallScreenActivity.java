@@ -73,7 +73,6 @@ public class IncomingCallScreenActivity extends Activity {
                 IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg4);
             }
         });
-
     }
 
     public void sendMessage(String number, Context ctx, String message) {
