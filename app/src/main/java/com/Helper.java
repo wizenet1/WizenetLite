@@ -136,8 +136,6 @@ public class Helper {
                             sons = str.substring(str.indexOf("#")+1,str.length()-1).trim();
                             JSONArray jsonArr = new JSONArray(ctypeids);
                             JSONArray jsonArr2 = new JSONArray(sons);
-                            //Log.e("mytag","jsonArr:" +jsonArr);
-                            //Log.e("mytag","jsonArr2:" +jsonArr2);
                             f.writeTextToFileExternal(ctx,"ctype.txt",ctypeids);
                             f.writeTextToFileExternal(ctx,"sons.txt",sons);
                         }
@@ -153,41 +151,75 @@ public class Helper {
 
         return true;
     }
+    public String getDate(String format){
+       String ret = "";
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c_week = Calendar.getInstance();
+        c_week.add(Calendar.DAY_OF_YEAR, 7);
+        String formatted = df.format(c_week.getTime());
+        return ret;
+    }
+    public boolean isNumeric1(String s) {
+        return s.matches("[-+]?\\d*\\.?\\d+");
+    }
+    public boolean isNumeric(String s) {
+        int len = s.length();
+        for (int i = 0; i < len; ++i) {
+            if (!isNumeric1(String.valueOf(s.charAt(i)))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     public void transferJsonCallTime(final Context ctx){
         Helper h = new Helper();
-        if (h.isNetworkAvailable(ctx)){
-            String countUnClosed = "";
-            countUnClosed = DatabaseHelper.getInstance(ctx).getScalarByCountQuery("SELECT count(*) from Calltime where ctq='-2'");
-            int rowCount = 0;
-            rowCount = DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime").length();
-            if(rowCount > 0 && countUnClosed=="0"){
-                String jsonString = "";
-                jsonString = String.valueOf(DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
-                Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
-                try{
-                    Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
-                        @Override
-                        public void onResult(String str) {
-                           // Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
+        try{
 
-                            //Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
-                            if (str.toLowerCase().contains("java.net")){
-                                Toast.makeText(ctx, "שידור לא הצליח, נא נסה שנית", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(ctx,"נשלח בהצלחה", Toast.LENGTH_LONG).show();
-                                DatabaseHelper.getInstance(ctx).delete_call_time();
+            if (h.isNetworkAvailable(ctx)){
+                String countUnClosed = "";
+                countUnClosed = DatabaseHelper.getInstance(ctx).getScalarByCountQuery("SELECT count(*) from Calltime where ctq='-2'");
+                int unclosed = 1;
+                if (isNumeric(countUnClosed.trim())){
+                    unclosed = Integer.valueOf(countUnClosed.trim());
+                }
+                int rowCount = 0;
+                //rowCount = DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime").length();
+                JSONArray jsonArray = (DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
+                rowCount = jsonArray.length();
+                //Log.e("mytag","countUnClosed:" + countUnClosed +" , rowCount:" +rowCount );
+                if(rowCount > 0 && unclosed==0){
+                    String jsonString = "";
+                    jsonString = String.valueOf(DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
+                    Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
+                    try{
+                        Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
+                            @Override
+                            public void onResult(String str) {
+                                // Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
+
+                                //Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
+                                if (str.toLowerCase().contains("java.net")){
+                                    Toast.makeText(ctx, "שידור לא הצליח, נא נסה שנית", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(ctx,"נשלח בהצלחה", Toast.LENGTH_LONG).show();
+                                    DatabaseHelper.getInstance(ctx).delete_call_time();
+                                }
                             }
-                        }
-                    });
-                }catch (Exception e){
-                    h.LogPrintExStackTrace(e);
+                        });
+                    }catch (Exception e){
+                        h.LogPrintExStackTrace(e);
+                    }
+                }else{
+                    //Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
                 }
             }else{
-                //Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
             }
-        }else{
-            Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
+        }catch(Exception e){
+            h.LogPrintExStackTrace(e);
         }
+
 
     }
 

@@ -90,7 +90,6 @@ TextView lblcount;
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);
         String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓","עיר ↑","עיר ↓","חברה ↑","חברה ↓"};
         spinner.setAdapter(new SpinnerAdapter(this, R.layout.simple_spinner_item, items));
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

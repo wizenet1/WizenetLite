@@ -174,6 +174,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 Log.e("mytag","play actionID clicked: "+actionID);
                 //String date1 = ct.getCallStartTime();
                 //String fromdateinmillis = String.valueOf(stringToDate(date1,"yyyy-MM-dd HH:mm:ss").getTime());
+                helper.getDate("");
                 String currentDateTimeString = String.valueOf((new Date().getTime()));
                 DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),currentDateTimeString,null));
             }
@@ -185,6 +186,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Log.e("mytag","stop actionID clicked: "+actionID);
+                helper.getDate("");
             }
         });
 //        String date1 = ct.getCallStartTime();

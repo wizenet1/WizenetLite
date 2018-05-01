@@ -1654,7 +1654,7 @@ public interface get_mgnet_client_items_Listener{
 
                         String response = cs.Wz_getProjects(macAddress);
                         String myResponse = response;
-                        Log.e("mytag","response:" +response);
+                        //Log.e("mytag","response:" +response);
                         myResponse = myResponse.replaceAll("Wz_getProjectsResponse", "");
                         myResponse = myResponse.replaceAll("Wz_getProjectsResult=", "Wz_getProjects:");
                         myResponse = myResponse.replaceAll(";", "");
@@ -1702,7 +1702,7 @@ public interface get_mgnet_client_items_Listener{
 
                         String response = cs.Wz_getTasks(macAddress);
                         String myResponse = response;
-                        Log.e("mytag","response:" +response);
+                        //Log.e("mytag","response:" +response);
                         myResponse = myResponse.replaceAll("Wz_getTasksResponse", "");
                         myResponse = myResponse.replaceAll("Wz_getTasksResult=", "Wz_getTasks:");
                         myResponse = myResponse.replaceAll(";", "");
