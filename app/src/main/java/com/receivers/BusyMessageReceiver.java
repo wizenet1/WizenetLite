@@ -17,10 +17,6 @@ import java.util.Date;
 
 import static com.Activities.MainActivity.ctx;
 
-/**
- * Created by bitro on 4/23/2018.
- */
-
 public class BusyMessageReceiver extends PhoneCallReceiver {
 
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {

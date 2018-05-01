@@ -25,10 +25,6 @@ import java.util.List;
 
 import static com.Activities.MainActivity.ctx;
 
-/**
- * Created by WIZE02 on 23/05/2017.
- */
-
 
 public class OrdersAdapter extends ArrayAdapter<String> {
 

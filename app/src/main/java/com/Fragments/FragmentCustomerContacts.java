@@ -29,10 +29,6 @@ import java.util.ArrayList;
 
 //import com.google.android.gms.maps.model.LatLng;
 
-
-/**
- * Created by doron on 05/03/2016.
- */
 public class FragmentCustomerContacts extends android.support.v4.app.Fragment{
 
     ListView myList; //mSearchNFilterLv

@@ -1,10 +1,5 @@
 package com.Classes;
 
-
-/**
- * Created by WIZE02 on 31/12/2017.
- */
-
 public class IS_Project {
     int projectID;
     String projectSummery;

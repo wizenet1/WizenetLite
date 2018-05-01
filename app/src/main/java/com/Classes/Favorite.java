@@ -1,8 +1,5 @@
 package com.Classes;
 
-/**
- * Created by User on 31/08/2016.
- */
 public class Favorite {
     String FID;
     String CID;

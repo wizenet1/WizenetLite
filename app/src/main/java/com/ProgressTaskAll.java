@@ -24,10 +24,6 @@ import java.util.List;
 
 import static com.Activities.MainActivity.ctx;
 
-/**
- * Created by WIZE02 on 16/08/2017.
- */
-
 public class ProgressTaskAll extends AsyncTask<String, String, String> {
     private ProgressDialog pDialog;
     List<Message> titles;

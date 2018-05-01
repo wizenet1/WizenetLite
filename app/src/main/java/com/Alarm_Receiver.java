@@ -41,10 +41,6 @@ import java.util.Date;
 import static com.Activities.MainActivity.ctx;
 
 /**
- * Created by User on 23/08/2016.
- */
-
-/**
  * this class built to set push notifications trough alarm manager
  */
 

@@ -38,9 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 11/08/2016.
- */
 public class ControlPanelFragment extends android.support.v4.app.Fragment  {
 
     EditText key_et, val_et;

@@ -45,12 +45,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 20/09/2016.
- */
-
-
-
 public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
     TextView tv;
     CheckBox cb;

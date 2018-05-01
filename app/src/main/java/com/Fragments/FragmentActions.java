@@ -1,5 +1,6 @@
 package com.Fragments;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -40,9 +41,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 31/08/2016.
- */
 public class FragmentActions extends android.support.v4.app.Fragment {
 
 
@@ -61,6 +59,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     private EditText mSearchEdt;
     private TextWatcher mSearchTw;
     Helper helper;
+    private ProgressDialog pDialog;
 private ActionsAdapter actionsAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,22 +77,29 @@ private ActionsAdapter actionsAdapter;
         db = DatabaseHelper.getInstance(getContext());
         Helper h = new Helper();
 
-
-
         myList = (ListView) v.findViewById(R.id.actions_list);
         myList.setClickable(true);
         myList.setLongClickable(true);
-//        data2.clear();
-//        data2=getActionsList("");
-//        actionsAdapter=new ActionsAdapter(data2,getContext());
-//        myList.setAdapter(actionsAdapter);
-        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
-            @Override
-            public void onResult(String str) {
-                refresh();
-                Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
-            }
-        });
+
+        if (helper.isNetworkAvailable(getContext())){
+            pDialog = new ProgressDialog(getContext());
+            pDialog.setMessage("Loading... Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+            chkIfOfflineActionsAndSendItToWizenet();
+            Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+                @Override
+                public void onResult(String str) {
+                    refresh();
+                    pDialog.dismiss();
+                    Toast.makeText(getContext(), "received is_actions ", Toast.LENGTH_LONG).show();
+                }
+            });
+        }else{
+            refresh();
+        }
+
         //refresh();
         //adapter = new CustomAdapter();
         //myList.setAdapter(adapter);
@@ -150,6 +156,55 @@ private ActionsAdapter actionsAdapter;
 
         return actions;
     }
+    public void chkIfOfflineActionsAndSendItToWizenet(){
+
+        int firstActionID = getFirstActionID();//chk if offline rows > 0
+        //send it to wizenet like in openISAction
+        if (firstActionID < 0){ //if id < 0 it means there are offline rows
+            String json = "";
+            json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
+            try{
+                Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        if (str.contains("0")){
+                            Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+                                @Override
+                                public void onResult(String str) {
+                                    refresh();
+                                    Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            pDialog.dismiss();
+                        }else{
+                            pDialog.dismiss();
+                        }
+                    }
+                });
+            }catch(Exception e){
+                pDialog.dismiss();
+            }
+        }
+        DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");//delete from db
+    }
+    public int getFirstActionID(){
+        int ret = 0;
+        List<IS_Action> actions = new ArrayList<IS_Action>() ;
+        try {
+            actions= DatabaseHelper.getInstance(getContext()).getISActions("top1");
+            for (IS_Action a:actions) {
+                ret = a.getActionID();
+            }
+            if (ret > 0){
+                ret = 0;
+            }else{
+
+            }
+        } catch (Exception e) {
+            helper.LogPrintExStackTrace(e);
+        }
+        return ret;
+    }
 
     @Override
     public void onResume() {
@@ -196,6 +251,9 @@ private ActionsAdapter actionsAdapter;
 
         data2.clear();
         data2=getActionsList("");
+        for (IS_Action a:data2) {
+            Log.e("mytag", String.valueOf(a.getActionID()) +  " : " + a.getActionDesc());
+        }
         actionsAdapter=new ActionsAdapter(data2,getContext());
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();

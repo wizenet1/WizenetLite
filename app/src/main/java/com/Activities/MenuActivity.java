@@ -480,7 +480,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             if (alarmRunning == false) {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                // TODO: 05/09/2016  just note the time is every 5 minutes
+                // TODO: just note the time is every 5 minutes
                 alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
             }
         } catch (Exception e) {

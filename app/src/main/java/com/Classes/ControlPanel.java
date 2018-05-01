@@ -2,9 +2,6 @@ package com.Classes;
 
 import android.support.v4.app.Fragment;
 
-/**
- * Created by User on 07/08/2016.
- */
 public class ControlPanel {
     private int id;
     private String key;

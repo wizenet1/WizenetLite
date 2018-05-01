@@ -11,7 +11,7 @@ import com.Activities.MenuActivity;
 import com.Activities.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment of the reports page.
  */
 public class FragmentReports extends Fragment {
 

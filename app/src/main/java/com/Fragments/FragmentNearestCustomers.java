@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment of the nearest customers page.
  */
 public class FragmentNearestCustomers extends Fragment implements IObserver {
 

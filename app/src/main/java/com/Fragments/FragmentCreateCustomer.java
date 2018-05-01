@@ -16,7 +16,7 @@ import com.Activities.R;
 import com.Icon_Manager;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment of the create customer page.
  */
 public class FragmentCreateCustomer extends Fragment {
 

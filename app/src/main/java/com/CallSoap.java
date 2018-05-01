@@ -25,9 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by doron on 05/02/2016.
- */
 public class CallSoap {
     //#############operation name######################
     public  final String USER_Login = "USER_Login";

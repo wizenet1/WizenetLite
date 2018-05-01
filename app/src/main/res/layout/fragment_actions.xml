@@ -61,7 +61,7 @@
         <ListView
             android:id="@+id/actions_list"
             android:layout_width="fill_parent"
-            android:layout_height="480dp"
+            android:layout_height="match_parent"
             android:fastScrollEnabled="true"
             tools:listitem="@layout/is_action"
             android:choiceMode="singleChoice">

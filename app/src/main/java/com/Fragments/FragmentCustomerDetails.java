@@ -5,19 +5,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.Activities.R;
-import com.Adapters.ExpandableListAdapter;
-import com.Classes.Ccustomer;
 import com.Icon_Manager;
 
 import java.util.ArrayList;
@@ -25,14 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment of the customer details page.
  */
 public class FragmentCustomerDetails extends Fragment {
 
-
-    private ExpandableListView expandableListViewComments;
-    private ExpandableListView expandableListViewContacts;
-    private ExpandableListAdapter listAdapter;
     private List<String[]> listDataHeaderComments;
     private HashMap<String, List<String>> listHashComments;
     private List<String[]> listDataHeaderContacts;
@@ -177,13 +169,13 @@ public class FragmentCustomerDetails extends Fragment {
         //Setting the comments expandable list. TODO delete if not needed
 //        this.expandableListViewComments = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_comments);
 //        initComments();
-//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderComments, listHashComments);
+//        this.listAdapter = new OpportunitiesStatusExpandableListAdapter(context, listDataHeaderComments, listHashComments);
 //        this.expandableListViewComments.setAdapter(this.listAdapter);
 //
 //        //Setting the additional contacts expandable list.
 //        this.expandableListViewContacts = (ExpandableListView) view.findViewById(R.id.expandable_listView_additional_contacts);
 //        initContacts();
-//        this.listAdapter = new ExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
+//        this.listAdapter = new OpportunitiesStatusExpandableListAdapter(context, listDataHeaderContacts, listHashContacts);
 //        this.expandableListViewContacts.setAdapter(this.listAdapter);
 
         final TextView commentsIcon = (TextView) view.findViewById(R.id.customer_details_comments_icon);
@@ -223,7 +215,7 @@ public class FragmentCustomerDetails extends Fragment {
             @Override
             public void onClick(View view) {
                 additionalContactsIcon.setAnimation(clickAnimation);
-                FragmentAlertListDialog fragmentAlertListDialog = new FragmentAlertListDialog();
+                FragmentContactsAlertListDialog fragmentAlertListDialog = new FragmentContactsAlertListDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString("Title", "רשימת אנשי קשר");
                 fragmentAlertListDialog.setArguments(bundle);
