@@ -29,7 +29,7 @@ public class IncomingCallScreenActivity extends Activity {
         fa = this;
         final String msg1 = "busy, call later";
         final String msg2 = "In class..";
-        final String msg3 = "try met later yolo...";
+        final String msg3 = "try met later...";
         final String msg4 = "hows it going? im in the middle of something";
         final String number = getIntent().getExtras().getString("INCOMING_NUMBER");;
 
