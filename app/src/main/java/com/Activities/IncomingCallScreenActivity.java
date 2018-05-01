@@ -24,62 +24,68 @@ public class IncomingCallScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_incoming_call_screen);
 
-        fa = this;
-        final String msg1 = "busy, call later";
-        final String msg2 = "In class..";
-        final String msg3 = "try met later...";
-        final String msg4 = "hows it going? im in the middle of something";
-        final String number = getIntent().getExtras().getString("INCOMING_NUMBER");;
+        final DatabaseHelper db = DatabaseHelper.getInstance(IncomingCallScreenActivity.this);
+        boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
 
-        TextView textView1 = (TextView) findViewById(R.id.msg1);
-        textView1.setText(msg1);
-        TextView textView2 = (TextView) findViewById(R.id.msg2);
-        textView2.setText(msg2);
-        TextView textView3 = (TextView) findViewById(R.id.msg3);
-        textView3.setText(msg3);
-        TextView textView4 = (TextView) findViewById(R.id.msg4);
-        textView4.setText(msg4);
+        // If the is_busy is checked, send sms.
+        if(isBusy) {
+            
+            setContentView(R.layout.activity_incoming_call_screen);
+            fa = this;
+            final String msg1 = "busy, call later";
+            final String msg2 = "In class..";
+            final String msg3 = "try met later...";
+            final String msg4 = "hows it going? im in the middle of something";
+            final String number = getIntent().getExtras().getString("INCOMING_NUMBER");;
 
-        LinearLayout l1 = (LinearLayout) findViewById(R.id.msgLinearLayout1);
-        l1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg1);
-            }
-        });
+            TextView textView1 = (TextView) findViewById(R.id.msg1);
+            textView1.setText(msg1);
+            TextView textView2 = (TextView) findViewById(R.id.msg2);
+            textView2.setText(msg2);
+            TextView textView3 = (TextView) findViewById(R.id.msg3);
+            textView3.setText(msg3);
+            TextView textView4 = (TextView) findViewById(R.id.msg4);
+            textView4.setText(msg4);
 
-        LinearLayout l2 = (LinearLayout) findViewById(R.id.msgLinearLayout2);
-        l2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg2);
-            }
-        });
+            LinearLayout l1 = (LinearLayout) findViewById(R.id.msgLinearLayout1);
+            l1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg1);
+                }
+            });
 
-        LinearLayout l3 = (LinearLayout) findViewById(R.id.msgLinearLayout3);
-        l3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg3);
-            }
-        });
+            LinearLayout l2 = (LinearLayout) findViewById(R.id.msgLinearLayout2);
+            l2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg2);
+                }
+            });
 
-        LinearLayout l4 = (LinearLayout) findViewById(R.id.msgLinearLayout4);
-        l4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg4);
-            }
-        });
+            LinearLayout l3 = (LinearLayout) findViewById(R.id.msgLinearLayout3);
+            l3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg3);
+                }
+            });
+
+            LinearLayout l4 = (LinearLayout) findViewById(R.id.msgLinearLayout4);
+            l4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IncomingCallScreenActivity.this.sendMessage(number, IncomingCallScreenActivity.this, msg4);
+                }
+            });
+        }
     }
 
     public void sendMessage(String number, Context ctx, String message) {
 
         final Context context = ctx;
-        final String msg = "Busy, call back later";
-        final DatabaseHelper db = DatabaseHelper.getInstance(ctx);
+        final String msg = message;
         final String phoneNumber = number;
 
         Thread pageTimer = new Thread() {
@@ -91,31 +97,25 @@ public class IncomingCallScreenActivity extends Activity {
                     e.printStackTrace();
                 } finally {
 
-                    boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
 
-                    // If the is_busy is checked, send sms.
-                    if(isBusy) {
+                    Uri uri = Uri.parse("smsto:" + phoneNumber);
+                    try {
 
-                        Uri uri = Uri.parse("smsto:" + phoneNumber);
-                        try {
+                        // Send the short message.
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage(phoneNumber, null, msg, null, null);
 
-                            // Send the short message.
-                            SmsManager smsManager = SmsManager.getDefault();
-                            smsManager.sendTextMessage(phoneNumber, null, msg, null, null);
+                        this.disconnectCall();
 
-                            this.disconnectCall();
+                    } catch (Exception e) {
 
-                        }
-                        catch (Exception e){
+                        e.printStackTrace();
 
-                            e.printStackTrace();
-
-                        }
                     }
                 }
             }
 
-            private void disconnectCall(){
+            private void disconnectCall() {
                 try {
 
                     String serviceManagerName = "android.os.ServiceManager";
