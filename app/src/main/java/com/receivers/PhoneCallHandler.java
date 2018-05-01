@@ -35,11 +35,6 @@ public class PhoneCallHandler extends PhoneCallReceiver {
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    //i.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-                    //i.putExtra("msg1", msg1);
-//                    i.putExtra("msg2", msg2);
-//                    i.putExtra("msg3", msg3);
-//                    i.putExtra("msg4", msg4);
                     i.putExtra("INCOMING_NUMBER", number);
                     i.setAction(Intent.ACTION_MAIN);
                     i.addCategory(Intent.CATEGORY_LAUNCHER);
