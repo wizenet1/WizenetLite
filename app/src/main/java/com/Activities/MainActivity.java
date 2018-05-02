@@ -126,7 +126,6 @@ public class MainActivity extends Activity {
                     Log.e("mytag","isReminderIDColAdded already in");
                 }
                 boolean isAppsColAdded = DatabaseHelper.getInstance(getApplicationContext()).checkIfKeyExistsCP("APPS_CALLS_SUMMARY");
-                Log.e("mytag","isAppsColAdded : " + isAppsColAdded);
                 if (isAppsColAdded == false){
                     DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
                     Log.e("mytag","isAppsColAdded success");
@@ -286,11 +285,12 @@ public class MainActivity extends Activity {
     }
     private void updateNewFieldsInControlPanel(){
         if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("IS_BUSY")){
-            Log.e("mytag","IS_BUSY exists");
         }else{
-            Log.e("mytag","IS_BUSY does not exists");
-            DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");
-
+            DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");Log.e("mytag","IS_BUSY does not exists");
+        }
+        if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("IS_BUSY_OPTION")){
+        }else{
+            DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY_OPTION","ללא");Log.e("mytag","IS_BUSY does not exists,added!");
         }
     }
     private boolean addColumnToTable(String table,String column,boolean isTableExist){

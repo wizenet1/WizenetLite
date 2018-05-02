@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
+
+import com.DatabaseHelper;
+
 import java.util.Date;
 
 /**
@@ -133,16 +136,17 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
+                    if (lastState == TelephonyManager.CALL_STATE_RINGING) {
+                        //Ring but no pickup-  a miss
+                        onMissedCall(context, savedNumber, callStartTime);
+                    } else if (isIncoming) {
+                        onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
+                    } else {
+                        onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
+                    }
 
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
-                if (lastState == TelephonyManager.CALL_STATE_RINGING) {
-                    //Ring but no pickup-  a miss
-                    onMissedCall(context, savedNumber, callStartTime);
-                } else if (isIncoming) {
-                    onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
-                } else {
-                    onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
-                }
+
                 break;
         }
         lastState = state;

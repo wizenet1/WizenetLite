@@ -9,14 +9,13 @@
     <LinearLayout
         android:id="@+id/msgLinearLayout1"
         android:clickable="true"
-        android:layout_width="match_parent"
+        android:layout_width="352dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp">
 
         <TextView
             android:id="@+id/msg1"
@@ -33,14 +32,13 @@
     <LinearLayout
         android:id="@+id/msgLinearLayout2"
         android:clickable="true"
-        android:layout_width="match_parent"
+        android:layout_width="352dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout1"
+        tools:layout_editor_absoluteX="8dp">
 
         <TextView
             android:id="@+id/msg2"
@@ -57,14 +55,13 @@
     <LinearLayout
         android:id="@+id/msgLinearLayout3"
         android:clickable="true"
-        android:layout_width="match_parent"
+        android:layout_width="352dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout2"
+        tools:layout_editor_absoluteX="8dp">
 
         <TextView
             android:id="@+id/msg3"
@@ -83,14 +80,13 @@
     <LinearLayout
         android:id="@+id/msgLinearLayout4"
         android:clickable="true"
-        android:layout_width="match_parent"
+        android:layout_width="352dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout3">
+        app:layout_constraintTop_toBottomOf="@+id/msgLinearLayout3"
+        tools:layout_editor_absoluteX="8dp">
 
         <TextView
             android:id="@+id/msg4"

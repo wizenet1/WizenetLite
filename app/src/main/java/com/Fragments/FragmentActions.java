@@ -192,9 +192,9 @@ private ActionsAdapter actionsAdapter;
         List<IS_Action> actions = new ArrayList<IS_Action>() ;
         try {
             actions= DatabaseHelper.getInstance(getContext()).getISActions("top1");
-            for (IS_Action a:actions) {
-                ret = a.getActionID();
-            }
+            //for (IS_Action a:actions) {
+            //    ret = a.getActionID();
+            //}
             if (ret > 0){
                 ret = 0;
             }else{
@@ -251,9 +251,9 @@ private ActionsAdapter actionsAdapter;
 
         data2.clear();
         data2=getActionsList("");
-        for (IS_Action a:data2) {
-            Log.e("mytag", String.valueOf(a.getActionID()) +  " : " + a.getActionDesc());
-        }
+        //for (IS_Action a:data2) {
+        //    Log.e("mytag", String.valueOf(a.getActionID()) +  " : " + a.getActionDesc());
+        //}
         actionsAdapter=new ActionsAdapter(data2,getContext());
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();

@@ -62,7 +62,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     Helper helper;
     EditText table;
     TextView id1,id2,id3,id4,btn_action_time;
-    Button btn_delete_offline_actions;
+    Button btn_delete_offline_actions,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
     @Override
@@ -82,6 +82,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id2 = (TextView) v.findViewById(R.id.id2) ;
         id4 = (TextView) v.findViewById(R.id.id4) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
+        btn_delete_rows =(Button) v.findViewById(R.id.btn_delete_rows) ;
 
         btn_action_time.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id4.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
@@ -149,6 +150,28 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                         flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");
                         if (flag == true){
                             Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+        btn_delete_rows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("האם אתה בטוח שברצונך למחוק שורות מ" + table.getText().toString() + "?");
+                alertDialog.setMessage("?");
+                alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        flag =DatabaseHelper.getInstance(getContext()).delete_Table_Rows(table.getText().toString());
+                        if (flag == true){
+                            Toast.makeText(getContext(), "deleted successfully from " + table.getText().toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -174,9 +174,9 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 Log.e("mytag","play actionID clicked: "+actionID);
                 //String date1 = ct.getCallStartTime();
                 //String fromdateinmillis = String.valueOf(stringToDate(date1,"yyyy-MM-dd HH:mm:ss").getTime());
-                helper.getDate("");
+                helper.getDate("yyyy-MM-dd HH:mm:ss");
                 String currentDateTimeString = String.valueOf((new Date().getTime()));
-                DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),currentDateTimeString,null));
+                DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),helper.getDate("yyyy-MM-dd HH:mm:ss"),null));
             }
         });
     }
@@ -186,6 +186,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Log.e("mytag","stop actionID clicked: "+actionID);
+                //DatabaseHelper.getInstance(c).getISActionTimeByActionID(actionID);
                 helper.getDate("");
             }
         });

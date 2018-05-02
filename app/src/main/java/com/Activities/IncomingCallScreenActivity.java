@@ -14,11 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
+import com.Helper;
 
 import java.lang.reflect.Method;
 
 public class IncomingCallScreenActivity extends Activity {
-
+    public Helper helper;
     public static Activity fa;
 
     @Override
@@ -26,11 +27,19 @@ public class IncomingCallScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         final DatabaseHelper db = DatabaseHelper.getInstance(IncomingCallScreenActivity.this);
-        boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
+        boolean isBusy = false;//db.getValueByKey("IS_BUSY").equals("1");
+
+        try{
+            String IS_BUSY_OPTION =  db.getValueByKey("IS_BUSY_OPTION");
+            final String number1 = getIntent().getExtras().getString("INCOMING_NUMBER");
+            if (!IS_BUSY_OPTION.contains("ללא"))
+                IncomingCallScreenActivity.this.sendMessage(number1, IncomingCallScreenActivity.this, IS_BUSY_OPTION);
+        }catch (Exception ex){
+            helper.LogPrintExStackTrace(ex);
+        }
 
         // If the is_busy is checked, send sms.
-        if(isBusy) {
-            
+         if (isBusy) {
             setContentView(R.layout.activity_incoming_call_screen);
             fa = this;
             final String msg1 = "busy, call later";
@@ -94,6 +103,7 @@ public class IncomingCallScreenActivity extends Activity {
                 try {
                     sleep(1500);
                 } catch (InterruptedException e) {
+                    helper.LogPrintExStackTrace(e);
                     e.printStackTrace();
                 } finally {
 
@@ -145,6 +155,7 @@ public class IncomingCallScreenActivity extends Activity {
                     telephonyEndCall.invoke(telephonyObject);
 
                 } catch (Exception e) {
+                    helper.LogPrintExStackTrace(e);
                     e.printStackTrace();
                 }
             }

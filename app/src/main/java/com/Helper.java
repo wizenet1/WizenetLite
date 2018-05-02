@@ -155,8 +155,9 @@ public class Helper {
        String ret = "";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar c_week = Calendar.getInstance();
-        c_week.add(Calendar.DAY_OF_YEAR, 7);
+        //c_week.add(Calendar.DAY_OF_YEAR, 7);
         String formatted = df.format(c_week.getTime());
+        ret = formatted;
         return ret;
     }
     public boolean isNumeric1(String s) {
@@ -1070,6 +1071,16 @@ public class Helper {
         ft.replace(R.id.container,frag,"FragmentSecret");
         //tv.setVisibility(TextView.GONE);
         ft.addToBackStack("FragmentSecret");
+        ft.commit();
+    }
+    public void goToFragmentAutoSMS(Context context){
+
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentAutoSMS frag = new FragmentAutoSMS();
+        ft.replace(R.id.container,frag,"FragmentAutoSMS");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentAutoSMS");
         ft.commit();
     }
     public void goTocustomers(Context context){

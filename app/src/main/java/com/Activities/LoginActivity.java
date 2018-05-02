@@ -104,7 +104,7 @@ public class LoginActivity extends FragmentActivity {
 //        });
 
         if (flag){
-            Toast.makeText(getApplicationContext(),"internet valid", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"internet valid", Toast.LENGTH_LONG).show();
 
 
         }else{
@@ -248,7 +248,7 @@ public class LoginActivity extends FragmentActivity {
                 @Override
                 public void onResult(String str) {
                     if(!str.contains("error")){
-                        Toast.makeText(getApplicationContext(),"success load project", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"success load project", Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"error load project", Toast.LENGTH_LONG).show();
 
@@ -259,7 +259,7 @@ public class LoginActivity extends FragmentActivity {
                 @Override
                 public void onResult(String str) {
                     if(!str.contains("error")){
-                        Toast.makeText(getApplicationContext(),"success load tasks", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"success load tasks", Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"error load tasks", Toast.LENGTH_LONG).show();
 

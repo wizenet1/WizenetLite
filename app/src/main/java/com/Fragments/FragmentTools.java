@@ -73,7 +73,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
         id1 = (TextView) v.findViewById(R.id.id1);
         id2 = (TextView) v.findViewById(R.id.id2);
         id3 = (TextView) v.findViewById(R.id.id3);
-        //id4 = (TextView) v.findViewById(R.id.idsynccustomers);
+        id4 = (TextView) v.findViewById(R.id.id4);
         //id5 = (TextView) v.findViewById(R.id.id5);
         //btn_order= (TextView) v.findViewById(R.id.btn_order);
         //idsyncproducts = (TextView) v.findViewById(R.id.idsyncproducts);
@@ -85,6 +85,8 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
 
         id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+        id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+
         //id.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
 //        iddeleteproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         //id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
@@ -94,6 +96,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
         id1.setTextSize(60);
         id2.setTextSize(60);
         id3.setTextSize(60);
+        id4.setTextSize(60);
         //lbldivuah.setTextSize(60);
         //id4.setTextSize(60);
         //btn_order.setTextSize(60);
@@ -130,6 +133,15 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
             public void onClick(View v) {
 
                 helper.goToFragmentSecret(getContext());
+                //goTocustomers();
+                //helper.goToCustomerFragment1(getContext());
+            }
+        });
+        id4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                helper.goToFragmentAutoSMS(getContext());
                 //goTocustomers();
                 //helper.goToCustomerFragment1(getContext());
             }

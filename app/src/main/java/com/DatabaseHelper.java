@@ -802,7 +802,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
+    public boolean delete_Table_Rows(String tableName) {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String strSql ="delete from " + tableName + "";
 
+            db.execSQL(strSql);
+            //db.close();
+            flag = true;
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
     public boolean delete_IS_Actions_Rows(String str) {
         boolean flag = false;
         try{
@@ -1442,7 +1457,34 @@ public void addNewCall(Call call) {
     }
 
 //endregion
+public IS_ActionTime getISActionTimeByActionID(String actionid){
 
+    IS_ActionTime at = new IS_ActionTime();
+
+    try {
+        String selectQuery = "";
+        selectQuery = "SELECT * FROM IS_ActionsTime where actionID= '" + actionid + "' LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.rawQuery(selectQuery, null);
+        if (cursor.getCount() == 0){
+            return at;
+        }
+        if (cursor.moveToFirst()) {
+            at.setID((cursor.getString(cursor.getColumnIndex("ID"))));
+            at.setCID((cursor.getString(cursor.getColumnIndex("CID"))));
+            at.setActionID((cursor.getString(cursor.getColumnIndex("ActionID"))));
+            at.setActionStart((cursor.getString(cursor.getColumnIndex("ActionStart"))));
+            at.setActionEnd((cursor.getString(cursor.getColumnIndex("ActionEnd"))));
+        }
+                cursor.close();
+        return at;
+    }
+    catch(Exception e) {
+        Helper h = new Helper();
+        h.LogPrintExStackTrace(e);
+        return at;
+    }
+}
 public Calltime getCalltimeByCallidAndAction(String callid,String action,String openClose){
 
     Calltime calltime = new Calltime();
