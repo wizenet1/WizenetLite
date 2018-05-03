@@ -787,11 +787,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
-    public boolean delete_IS_Actions_Table() {
+    public boolean deleteTableByName(String tableName) {
         boolean flag = false;
         try{
             SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("DROP TABLE IF EXISTS IS_Actions");
+            db.execSQL("DROP TABLE IF EXISTS " + tableName + "");
             //db.delete("IS_Actions", null, null);
             //db.close();
             flag = true;
@@ -836,25 +836,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
-    public boolean add_ISActionTime(IS_ActionTime ct){
-        boolean flag = false;
-        try{
-            SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("ID" , ct.getID());
-            values.put("CID", ct.getCID());
-            values.put("actionID", ct.getActionID());
-            values.put("actionStart", ct.getActionStart());
-            values.put("actionEnd", ct.getActionEnd());
-            db.insert("IS_ActionsTime", null, values);
-            flag = true;
-            Log.e("mytag","ISActionTime added");
-        }catch (Exception e){
-            Helper h = new Helper();
-            h.LogPrintExStackTrace(e);
-        }
-        return flag;
-    }
+
     //region calltime
     public boolean add_calltime(Calltime ct){
         boolean flag = false;
@@ -874,6 +856,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
+
+    //endregion
     public boolean update_calltime(Calltime ct) {
         //Log.e("mytag",ct.toString());
         boolean flag = false;
@@ -895,8 +879,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return flag;
 
     }
-    //endregion
-
    //region call_offline
     public boolean add_call_offline(Call_offline co){
         boolean flag = false;
@@ -1081,6 +1063,7 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         Log.e("mytag",e.getMessage());
     }
 }
+
     public List<IS_ActionTime> getISActionsTime(String sortby) {
         List<IS_ActionTime> actionsTime = new ArrayList<IS_ActionTime>();
         try{
@@ -1457,17 +1440,36 @@ public void addNewCall(Call call) {
     }
 
 //endregion
+public boolean add_ISActionTime(IS_ActionTime ct){
+    boolean flag = false;
+    try{
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put("ID" , ct.getID());
+        values.put("CID", ct.getCID());
+        values.put("actionID", ct.getActionID());
+        values.put("actionStart", ct.getActionStart());
+        values.put("actionEnd", ct.getActionEnd());
+        db.insert("IS_ActionsTime", null, values);
+        flag = true;
+        Log.e("mytag","ISActionTime added");
+    }catch (Exception e){
+        Helper h = new Helper();
+        h.LogPrintExStackTrace(e);
+    }
+    return flag;
+}
 public IS_ActionTime getISActionTimeByActionID(String actionid){
 
     IS_ActionTime at = new IS_ActionTime();
 
     try {
         String selectQuery = "";
-        selectQuery = "SELECT * FROM IS_ActionsTime where actionID= '" + actionid + "' LIMIT 1";
+        selectQuery = "SELECT * FROM IS_ActionsTime where actionID= '" + actionid + "' order by ID desc  LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.rawQuery(selectQuery, null);
         if (cursor.getCount() == 0){
-            return at;
+            return null;
         }
         if (cursor.moveToFirst()) {
             at.setID((cursor.getString(cursor.getColumnIndex("ID"))));
@@ -1482,9 +1484,29 @@ public IS_ActionTime getISActionTimeByActionID(String actionid){
     catch(Exception e) {
         Helper h = new Helper();
         h.LogPrintExStackTrace(e);
-        return at;
+        return null;
     }
 }
+    public boolean updateISActionTime(IS_ActionTime at) {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("ID" , at.getID());
+            values.put("CID", at.getCID());
+            values.put("ActionID", at.getActionID());
+            values.put("ActionStart", at.getActionStart());
+            values.put("ActionEnd", at.getActionEnd());
+            db.update("IS_ActionsTime", values, "ID = " + at.getID(), null);
+            flag = true;
+        }catch (Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+
+    }
 public Calltime getCalltimeByCallidAndAction(String callid,String action,String openClose){
 
     Calltime calltime = new Calltime();
@@ -1615,7 +1637,7 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
 
             db.insert("IS_Actions", null, values);
             flag = true;
-            Log.e("MYTAG","added!!" + is_action.toString());
+            //Log.e("MYTAG","added!!" + is_action.toString());
             // Closing database connection
             //db.close();
         }catch (Exception e){

@@ -85,36 +85,14 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
          icon_manager = new Icon_Manager();
 
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView=inflater.inflate(R.layout.is_action, null); /////// this is solve the problem!!
         final LinearLayout layout_details;
         final TextView btn_open_details;
        // holder = new ViewHolder();
         if(convertView==null)
         {
-
-            convertView=inflater.inflate(R.layout.is_action, null);
-            convertView.getTag(pos);
-            //convertView.setTag(callsArrayList.get(pos));
-//            holder.is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
-//            holder.is_desc = (TextView) convertView.findViewById(R.id.is_desc);
-//            holder.is_comments = (TextView) convertView.findViewById(R.id.is_comments);
-//            holder.btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
-//            holder.layout_details = (LinearLayout) convertView.findViewById(R.id.layout_details);
-//            holder.is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
-//            holder.is_desc.setText(String.valueOf(callsArrayList.get(pos).getActionDesc()) );
-//            holder.is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-//            holder.btn_open_details.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (holder.layout_details.getVisibility() == View.VISIBLE){
-//                        holder.layout_details.setVisibility(View.GONE);
-//                        holder.btn_open_details.setText("˅");
-//                    }else{
-//                        holder.layout_details.setVisibility(View.VISIBLE);
-//                        holder.btn_open_details.setText("˄");
-//                    }
-//                }
-//            });
-
+            //convertView=inflater.inflate(R.layout.is_action, null);
+            //convertView.getTag(pos);
         }
         TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
         TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
@@ -122,19 +100,21 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
 
         btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
-
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
         is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
+
+
         layout_details.setTag(callsArrayList.get(pos).getActionID());
-
-        btn_open_details.setTag(callsArrayList.get(pos).  getActionID());
-
+        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
+
+        //chk_if_play(callsArrayList.get(pos).getActionID());
         set_play(callsArrayList.get(pos).getActionID());
         set_stop(callsArrayList.get(pos).getActionID());
-
+        btn_play.setTag(pos);
+        btn_stop.setTag(pos);
 
         //"@color/wizenetColor"
         btn_open_details.setOnClickListener(new View.OnClickListener() {
@@ -153,30 +133,23 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         convertView.setTag(convertView.getId(),pos);
         convertView.getTag(pos);
 
-//        txtsubject.setText(callsArrayList.get(pos).getSubject());
-//        txtCreateDate.setText(callsArrayList.get(pos).getCreateDate().substring(0,10) + " | " + callsArrayList.get(pos).getCreateDate().substring(11,16));
-//        txtcallid.setText("קריאה: " +String.valueOf(callsArrayList.get(pos).getCallID()));
-//        txtstatusname.setText(callsArrayList.get(pos).getStatusName());
-//        txtCcompany.setText(callsArrayList.get(pos).getCcompany());
-//        txtCcity.setText(callsArrayList.get(pos).getCcity());
-//
-
-
-
-
         return convertView;
     }
     private void set_play(final int actionID){
         btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        String countUnClosed = "";
+        countUnClosed = DatabaseHelper.getInstance(c).getScalarByCountQuery("SELECT count(ID) from IS_ActionsTime where ActionID = '" + actionID + "' and ActionEnd  IS NULL OR ActionEnd = '' order by ID desc limit 1");
+        if (Integer.valueOf(countUnClosed) > 0){
+            btn_play.setBackgroundColor(Color.parseColor("#E94E1B"));
+            //id1.setTextColor(Color.parseColor("black"));
+        }
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("mytag","play actionID clicked: "+actionID);
-                //String date1 = ct.getCallStartTime();
-                //String fromdateinmillis = String.valueOf(stringToDate(date1,"yyyy-MM-dd HH:mm:ss").getTime());
-                helper.getDate("yyyy-MM-dd HH:mm:ss");
-                String currentDateTimeString = String.valueOf((new Date().getTime()));
                 DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),helper.getDate("yyyy-MM-dd HH:mm:ss"),null));
+                Toast.makeText(c,"btn_play successfully",Toast.LENGTH_LONG).show();
+                btn_play.setBackgroundColor(Color.parseColor("#E94E1B"));
             }
         });
     }
@@ -186,8 +159,18 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 Log.e("mytag","stop actionID clicked: "+actionID);
-                //DatabaseHelper.getInstance(c).getISActionTimeByActionID(actionID);
-                helper.getDate("");
+                IS_ActionTime at = DatabaseHelper.getInstance(c).getISActionTimeByActionID(String.valueOf(actionID));
+                if (at != null){
+                    at.setActionEnd(helper.getDate("yyyy-MM-dd HH:mm:ss"));
+                    boolean flag = false;
+                     flag = DatabaseHelper.getInstance(c).updateISActionTime(at);
+                    if (flag == true){
+                        btn_play.setBackgroundColor(Color.parseColor("black"));
+                        Toast.makeText(c,"updated successfully",Toast.LENGTH_LONG).show();
+                    }
+                   // updateISActionTime
+                }
+
             }
         });
 //        String date1 = ct.getCallStartTime();

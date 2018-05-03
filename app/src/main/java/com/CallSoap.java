@@ -105,7 +105,7 @@ public class CallSoap {
     public  final String Wz_createISAction_SOAP_ACTION = "http://tempuri.org/Wz_createISAction";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
-
+    Helper h = new Helper();
     //public  final String URL =readTextFromFile();
     String suffix = "/webservices/freelance.asmx";
 
@@ -138,6 +138,8 @@ public class CallSoap {
             response = envelope.bodyIn;
         }catch (Exception exception)
         {
+            //response = "error";
+            //return response.toString();
             //response=exception.toString();
         }
         try{
@@ -169,11 +171,14 @@ public String Call4(String mac_address)
             response = envelope.bodyIn;
         }
         catch (Exception exception)
-        {}
+        {
+            response = "error";
+            return response.toString();
+        }
         try{
             return response.toString();
         }catch (Exception e){
-            e.printStackTrace();
+            h.LogPrintExStackTrace(e);
             return "Error";
         }
     }
@@ -199,7 +204,7 @@ public String Call4(String mac_address)
         try{
             return response.toString();
         }catch (Exception e){
-            e.printStackTrace();
+            h.LogPrintExStackTrace(e);
             return "Error";
         }
     }
@@ -231,7 +236,7 @@ public String Call4(String mac_address)
         }
         catch (Exception exception)
         {
-            //response=exception.toString();
+            h.LogPrintExStackTrace(exception);
         }
         return response.toString();
     }
@@ -259,7 +264,9 @@ public String Call4(String mac_address)
         }
         catch (Exception exception)
         {
-            //response=exception.toString();
+
+            h.LogPrintExStackTrace(exception);
+            return exception.toString();
         }
         return response.toString();
 
@@ -284,6 +291,7 @@ public String Call4(String mac_address)
         }
         catch (Exception exception)
         {
+            h.LogPrintExStackTrace(exception);
             response=exception.toString();
         }
         return response.toString();
@@ -369,6 +377,7 @@ public String Call4(String mac_address)
         }
         catch (Exception exception)
         {
+            h.LogPrintExStackTrace(exception);
             response=exception.toString();
         }
         return response.toString();
@@ -394,6 +403,7 @@ public String Call4(String mac_address)
         }
         catch (Exception exception)
         {
+            h.LogPrintExStackTrace(exception);
             response=exception.toString();
         }
         return response.toString();
@@ -420,6 +430,7 @@ public String Wz_Calls_List(String mac_address,int CallStatusID)
     }
     catch (Exception exception)
     {
+        h.LogPrintExStackTrace(exception);
         response=exception.toString();
     }
     return response.toString();

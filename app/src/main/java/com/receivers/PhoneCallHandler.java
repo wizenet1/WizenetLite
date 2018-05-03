@@ -38,11 +38,13 @@ public class PhoneCallHandler extends PhoneCallReceiver {
                     i.putExtra("INCOMING_NUMBER", number);
                     i.setAction(Intent.ACTION_MAIN);
                     i.addCategory(Intent.CATEGORY_LAUNCHER);
-                    context.startActivity(i);
+                    //context.startActivity(i);
+
                 }
             }
         };
         pageTimer.start();
+
     }
 
     @Override
@@ -59,7 +61,10 @@ public class PhoneCallHandler extends PhoneCallReceiver {
     protected void onMissedCall(Context ctx, String number, Date start) {
         try {
             //Close the incoming call screen.
+            //IncomingCallScreenActivity.fa.finish();
             IncomingCallScreenActivity.fa.finish();
+
+            //IncomingCallScreenActivity.fa.;
         } catch (NullPointerException e) {
         }
 

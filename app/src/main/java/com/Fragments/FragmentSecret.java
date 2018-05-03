@@ -62,7 +62,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     Helper helper;
     EditText table;
     TextView id1,id2,id3,id4,btn_action_time;
-    Button btn_delete_offline_actions,btn_delete_rows;
+    Button btn_delete_table,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
     @Override
@@ -90,7 +90,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id1.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
 
         table.setText("IS_Actions");
-        btn_delete_offline_actions = (Button) v.findViewById(R.id.btn_delete_offline_actions);
+        btn_delete_table = (Button) v.findViewById(R.id.btn_delete_table);
         db = DatabaseHelper.getInstance(getContext());
 
         layout = (LinearLayout) v.findViewById(R.id.placeHolderFragment);
@@ -139,17 +139,19 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 Toast.makeText(getContext(), "is created? ->" + flag1, Toast.LENGTH_LONG).show();
             }
         });
-        btn_delete_offline_actions.setOnClickListener(new View.OnClickListener() {
+        btn_delete_table.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                alertDialog.setTitle("האם אתה בטוח שברצונך למחוק את המשימות offline?");
+                alertDialog.setTitle("האם אתה בטוח שברצונך למחוק את טבלת" + table.getText().toString() + "?");
                 alertDialog.setMessage("?");
                 alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        flag =DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");
+                        flag =DatabaseHelper.getInstance(getContext()).deleteTableByName(table.getText().toString());
                         if (flag == true){
                             Toast.makeText(getContext(), "deleted successfully", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getContext(), "did not deleted", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

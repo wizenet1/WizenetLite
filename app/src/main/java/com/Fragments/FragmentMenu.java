@@ -468,28 +468,35 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     }
 
     private int getCustomerListLength() {
-        Helper helper = new Helper();
-        File_ f = new File_();
-        //myString = f.readFromFileInternal(getContext(),"customers.txt");
-        String myString = f.readFromFileExternal(getContext(), "customers.txt");
-        //Log.e("mytag", myString);
-        JSONObject j = null;
-        int length = 0;
         Ccustomer[] ccustomers;//= new Ccustomer[5];
-        try {
-            j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
-            length = jarray.length();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            length = 0 ;
-        }
-        if (length == 0){
+        try{
+            Helper helper = new Helper();
+            File_ f = new File_();
+            //myString = f.readFromFileInternal(getContext(),"customers.txt");
+            String myString = f.readFromFileExternal(getContext(), "customers.txt");
+            //Log.e("mytag", myString);
+            JSONObject j = null;
+            int length = 0;
+
+            try {
+                j = new JSONObject(myString);
+                JSONArray jarray = j.getJSONArray("Wz_Clients_List");
+                length = jarray.length();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                length = 0 ;
+            }
+            if (length == 0){
+                return 0;
+            }
+            ccustomers = new Ccustomer[length];
+            ccustomers = helper.getCustomersFromJson2(myString);
+            return ccustomers.length;
+        }catch (Exception e){
             return 0;
         }
-        ccustomers = new Ccustomer[length];
-        ccustomers = helper.getCustomersFromJson2(myString);
-        return ccustomers.length;
+
+        // ccustomers.length;
     }
 
     private int getCallsListLength() {

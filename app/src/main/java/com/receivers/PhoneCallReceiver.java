@@ -124,7 +124,10 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
                 isIncoming = true;
                 callStartTime = new Date();
                 savedNumber = number;
-                onIncomingCallStarted(context, number, callStartTime);
+                if (DatabaseHelper.getInstance(context).getValueByKey("IS_BUSY").contains("1")){
+                    //onIncomingCallStarted(context, number, callStartTime);
+                }
+
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
 

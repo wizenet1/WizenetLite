@@ -230,7 +230,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="יצירת משימה"
+                    android:text="unset"
                     android:textSize="15dp" />
 
                 <!--<Button-->

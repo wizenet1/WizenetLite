@@ -235,6 +235,7 @@ public class LoginActivity extends FragmentActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    helper.LogPrintExStackTrace(e);
                 }
             }
         });
