@@ -2,6 +2,7 @@ package com.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,16 +11,20 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +34,14 @@ import com.Classes.Call;
 import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
 import com.DatabaseHelper;
+import com.Fragments.FragmentActions;
 import com.Helper;
 import com.Icon_Manager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,11 +64,14 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> filterList;
     TextView btn_play,btn_stop;
     Icon_Manager icon_manager;
+    FragmentActions fragment;
+    Spinner spinner;
     //LinearLayout layout_details;
-    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx) {
+    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions fragmentActions) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
         this.filterList= (ArrayList<IS_Action>) callsArrayList;
+        this.fragment = fragmentActions;
     }
     @Override
     public int getCount() {
@@ -94,16 +106,18 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //convertView=inflater.inflate(R.layout.is_action, null);
             //convertView.getTag(pos);
         }
+
         TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
         TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
         btn_play = (TextView) convertView.findViewById(R.id.btn_play);
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
-
+        spinner = (Spinner) convertView.findViewById(R.id.spinner);
         btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
-        is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-
+        is_comments.setText(Html.fromHtml(String.valueOf(callsArrayList.get(pos).getComments()) ));
+        //is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
+        setStaticSpinners();
 
         layout_details.setTag(callsArrayList.get(pos).getActionID());
         btn_open_details.setTag(callsArrayList.get(pos).getActionID());
@@ -120,7 +134,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         btn_open_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("mytag","Button Tab at Pos "+pos+" "+btn_open_details.getTag()+"");
+                //Log.e("mytag","Button Tab at Pos "+pos+" "+btn_open_details.getTag()+"");
                 if (layout_details.getVisibility() == View.VISIBLE){
                     layout_details.setVisibility(View.GONE);
                     btn_open_details.setText("˅");
@@ -135,12 +149,33 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
         return convertView;
     }
+    private void setStaticSpinners(){
+        String[] arraySpinner = new String[] {
+                "שינוי סטטוס","עדיין לא גמור"
+        };
+        ArrayList<String> ar = new ArrayList<String>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, arraySpinner);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //selectedReminder =(String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
     private void set_play(final int actionID){
         btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         String countUnClosed = "";
         countUnClosed = DatabaseHelper.getInstance(c).getScalarByCountQuery("SELECT count(ID) from IS_ActionsTime where ActionID = '" + actionID + "' and ActionEnd  IS NULL OR ActionEnd = '' order by ID desc limit 1");
         if (Integer.valueOf(countUnClosed) > 0){
-            btn_play.setBackgroundColor(Color.parseColor("#E94E1B"));
+            btn_play.setTextColor(Color.parseColor("#E94E1B"));
             //id1.setTextColor(Color.parseColor("black"));
         }
         btn_play.setOnClickListener(new View.OnClickListener() {
@@ -149,9 +184,11 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 Log.e("mytag","play actionID clicked: "+actionID);
                 DatabaseHelper.getInstance(c).add_ISActionTime(new IS_ActionTime("-1","-1",String.valueOf(actionID),helper.getDate("yyyy-MM-dd HH:mm:ss"),null));
                 Toast.makeText(c,"btn_play successfully",Toast.LENGTH_LONG).show();
-                btn_play.setBackgroundColor(Color.parseColor("#E94E1B"));
+                btn_play.setTextColor(Color.parseColor("#E94E1B"));
+                fragment.refresh();
             }
         });
+
     }
     private void set_stop(final int actionID){
         btn_stop.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
@@ -167,6 +204,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                     if (flag == true){
                         btn_play.setBackgroundColor(Color.parseColor("black"));
                         Toast.makeText(c,"updated successfully",Toast.LENGTH_LONG).show();
+                        helper.sendAsyncActionsTime(c);
+                        fragment.refresh();
                     }
                    // updateISActionTime
                 }

@@ -704,9 +704,10 @@ public class Ccustomer {
         this.Ccompany = ccompany;
 
     }
-    public Ccustomer(String CID,String Cfname){
+    public Ccustomer(String CID,String Cfname,int CTypeID){
         this.CID = CID;
         this.Cfname = Cfname;
+        this.CTypeID = String.valueOf(CTypeID);
     }
 
     public Ccustomer(String cfname, String clname, String cemail, String cphone, String ccell, String ccompany, String cid) {
@@ -747,7 +748,7 @@ public class Ccustomer {
     @Override
     public String toString() {
         return "\n[cfname:" + this.getCID() + "\nclname:" + this.getCfname()+ "\n,cemail:" + this.getCemail()+ "\n,cphone:" +
-                this.getCphone() + "\n,ccell:" + this.getCcell()+ "\n,ccompany:" + this.getCcompany()+ "]";
+                this.getCphone() + "\n,ccell:" + this.getCcell()+ "\n,ccompany:" + this.getCcompany()+"\n,CTypeID:" + this.getCTypeID()+ "]";
     }
 
 

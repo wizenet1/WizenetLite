@@ -1735,7 +1735,7 @@ public interface get_mgnet_client_items_Listener{
         public void onResult(String str);
     }
     //Wz_getProjects
-    public void Async_Wz_createISAction(final String macAddress,final String jsonString, final Wz_getTasks_Listener listener) {
+    public void Async_Wz_createISAction(final String macAddress,final String jsonString, final Wz_createISAction_Listener listener) {
         try{
             AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
@@ -1777,6 +1777,55 @@ public interface get_mgnet_client_items_Listener{
 
     }
     //endregion
+    public interface Wz_createISActionTime_Listener{
+        public void onResult(String str);
+    }
+    //Wz_createISActionTime
+    public void Async_Wz_createISActionTime(final String macAddress,final String jsonString, final Wz_createISActionTime_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
+
+                        String response = cs.Wz_createISActionTime(macAddress,jsonString);
+                        String myResponse = response;
+                        Log.e("mytag","response:" +response);
+                        myResponse = myResponse.replaceAll("Wz_createISActionTimeResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_createISActionTimeResult=", "Wz_createISActionTime:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        //boolean flag = helper.writeCtypeIDandSons(context,myResponse);
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
+
+
+
     private void addActions(){
         String strJson = "";
         File_ f = new File_();

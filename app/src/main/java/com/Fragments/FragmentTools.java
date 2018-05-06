@@ -118,14 +118,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
         id3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v4.app.FragmentManager fm = getFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentCreateAction frag = new FragmentCreateAction();
-                ft.replace(R.id.container, frag, "FragmentCreateAction");
-                ft.addToBackStack("FragmentCreateAction");
-                ft.commit();
-                //Intent intent = new Intent(getContext(), ScannerActivity.class);
-                //startActivity(intent);
+                helper.goToFragmentCreateAction(getContext());
             }
         });
         id2.setOnClickListener(new View.OnClickListener() {

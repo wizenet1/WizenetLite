@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -38,7 +40,10 @@ import com.model.Model;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FragmentActions extends android.support.v4.app.Fragment {
@@ -60,7 +65,8 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     private TextWatcher mSearchTw;
     Helper helper;
     private ProgressDialog pDialog;
-private ActionsAdapter actionsAdapter;
+    private ActionsAdapter actionsAdapter;
+    private FloatingActionButton fab;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -76,7 +82,8 @@ private ActionsAdapter actionsAdapter;
 
         db = DatabaseHelper.getInstance(getContext());
         Helper h = new Helper();
-
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        setFloutingButton();
         myList = (ListView) v.findViewById(R.id.actions_list);
         myList.setClickable(true);
         myList.setLongClickable(true);
@@ -87,13 +94,18 @@ private ActionsAdapter actionsAdapter;
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+            //1. send new actions to wizenet
+            //2. send actionstimes to wizenet
             chkIfOfflineActionsAndSendItToWizenet();
+            h.sendAsyncActionsTime(getContext());
+
             Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
                 @Override
                 public void onResult(String str) {
                     refresh();
                     pDialog.dismiss();
-                    Toast.makeText(getContext(), "received is_actions ", Toast.LENGTH_LONG).show();
+                    Log.e("mytag","received is_actions ");
+                    //Toast.makeText(getContext(), "received is_actions ", Toast.LENGTH_LONG).show();
                 }
             });
         }else{
@@ -138,6 +150,14 @@ private ActionsAdapter actionsAdapter;
         mSearchEdt.addTextChangedListener(mSearchTw);
         return v;
     };
+    private void setFloutingButton(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helper.goToFragmentCreateAction(getContext());
+            }
+        });
+    }
     private List<IS_Action> getActionsList(String sortby){
 
         JSONObject j = null;
@@ -156,25 +176,29 @@ private ActionsAdapter actionsAdapter;
 
         return actions;
     }
+
+
     public void chkIfOfflineActionsAndSendItToWizenet(){
 
         int firstActionID = getFirstActionID();//chk if offline rows > 0
         //send it to wizenet like in openISAction
-        if (firstActionID < 0){ //if id < 0 it means there are offline rows
-            String json = "";
-            json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
+        Log.e("mytag","firstActionID: " +firstActionID);
+        String json = "";
+        json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
+        Log.e("mytag","json.contains([])?: " +json.contains("[]"));
+        //if (!(firstActionID>0) || json.contains("[]")){ //if id < 0 it means there are offline rows
+        if (!(json.contains("[]"))){ //if id < 0 it means there are offline rows
+            Log.e("mytag","inside the function");
+            //Log.e("mytag","json sent from Async_Wz_createISAction: " +json);
             try{
-                Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_getTasks_Listener() {
+                Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_createISAction_Listener() {
                     @Override
                     public void onResult(String str) {
                         if (str.contains("0")){
-                            Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
-                                @Override
-                                public void onResult(String str) {
-                                    refresh();
-                                    Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            Log.e("mytag","offline actions created--------------------------------------------------");
+                            boolean flag = DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");//delete from db
+                            Log.e("mytag","offline actions deleted from db after sent?  "+ flag);
+                            returnListAndRefresh();
                             pDialog.dismiss();
                         }else{
                             pDialog.dismiss();
@@ -184,26 +208,43 @@ private ActionsAdapter actionsAdapter;
             }catch(Exception e){
                 pDialog.dismiss();
             }
+        }else{
+            returnListAndRefresh();
         }
-        DatabaseHelper.getInstance(getContext()).delete_IS_Actions_Rows("offline");//delete from db
+
+    }
+    private void returnListAndRefresh(){
+        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+            @Override
+            public void onResult(String str) {
+                refresh();
+                //Log.e("mytag","arrived new actions");
+                Log.e("mytag","success to add is_actions from ws");
+                //Toast.makeText(getContext(), "success to add is_actions ", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     public int getFirstActionID(){
-        int ret = 0;
-        List<IS_Action> actions = new ArrayList<IS_Action>() ;
-        try {
-            actions= DatabaseHelper.getInstance(getContext()).getISActions("top1");
-            //for (IS_Action a:actions) {
-            //    ret = a.getActionID();
-            //}
-            if (ret > 0){
-                ret = 0;
-            }else{
+            int ret = 0;
 
+            List<IS_Action> actions = new ArrayList<IS_Action>() ;
+            try {
+                actions= DatabaseHelper.getInstance(getContext()).getISActions("top1");
+                for (IS_Action a:actions) {
+                    //Log.e("mytag","list " +a.getActionID());
+                    ret = a.getActionID();
+                }
+                if (ret > 0){
+                    //return ret;
+                }else{
+                    ret = ret;
+                }
+            } catch (Exception e) {
+                Log.e("mytag","sdf " +e.getMessage());
+                helper.LogPrintExStackTrace(e);
             }
-        } catch (Exception e) {
-            helper.LogPrintExStackTrace(e);
-        }
-        return ret;
+            Log.e("mytag","getFirstActionID():" + String.valueOf(ret) );
+            return ret;
     }
 
     @Override
@@ -246,15 +287,10 @@ private ActionsAdapter actionsAdapter;
 
 
     public void refresh(){
-        //List<IS_Action> data = new ArrayList<IS_Action>() ;
-        //List<IS_Action> cps=  db.getISActions("");  // getCustomersFromJson(myBundle);
 
         data2.clear();
         data2=getActionsList("");
-        //for (IS_Action a:data2) {
-        //    Log.e("mytag", String.valueOf(a.getActionID()) +  " : " + a.getActionDesc());
-        //}
-        actionsAdapter=new ActionsAdapter(data2,getContext());
+        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
     }

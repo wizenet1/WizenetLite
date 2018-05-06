@@ -61,6 +61,7 @@ public class CallSoap {
     public  final String Wz_getProjects = "Wz_getProjects";
     public  final String Wz_getTasks = "Wz_getTasks";
     public  final String Wz_createISAction = "Wz_createISAction";
+    public  final String Wz_createISActionTime = "Wz_createISActionTime";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -103,6 +104,7 @@ public class CallSoap {
     public  final String Wz_getProjects_SOAP_ACTION = "http://tempuri.org/Wz_getProjects";
     public  final String Wz_getTasks_SOAP_ACTION = "http://tempuri.org/Wz_getTasks";
     public  final String Wz_createISAction_SOAP_ACTION = "http://tempuri.org/Wz_createISAction";
+    public  final String Wz_createISActionTime_SOAP_ACTION = "http://tempuri.org/Wz_createISActionTime";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
     Helper h = new Helper();
@@ -1010,4 +1012,27 @@ public String Wz_Forgot(String mac_address,String Email)
         return response.toString();
     }
     //endregion
+    // region Wz_createISActionTime
+    public String Wz_createISActionTime(String mac_address,String jsonString)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_createISActionTime);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+        request.addProperty("jsonString",jsonString);
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_createISActionTime_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+//endregion
 }

@@ -16,6 +16,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
@@ -66,6 +67,7 @@ import static com.Activities.MainActivity.ctx;
 import static java.security.AccessController.getContext;
 
 public class Helper {
+    String jsonTimes = "";
     public Helper() {
     }
 
@@ -120,6 +122,33 @@ public class Helper {
             //e.printStackTrace();
         }
         return ret;
+    }
+    public void sendAsyncActionsTime(final Context context){
+
+        jsonTimes = String.valueOf(DatabaseHelper.getInstance(context).getJsonResultsFromTable("IS_ActionsTime"," where 1=1 and ActionEnd IS NOT NULL AND ActionEnd <> ''"));
+        Log.e("mytag","jsonTimes: " + jsonTimes);
+        if (!(jsonTimes.contains("[]"))){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    Model.getInstance().Async_Wz_createISActionTime(getMacAddr(), jsonTimes, new Model.Wz_createISActionTime_Listener() {
+                        @Override
+                        public void onResult(String str) {
+                            if (str.contains("0")){
+                                boolean flag = DatabaseHelper.getInstance(context).delete_Table_Rows("IS_ActionsTime"," where 1=1 and ActionEnd IS NOT NULL AND ActionEnd <> ''");
+                                if (flag == true){
+                                    Log.e("mytag","is_actionTime deleted from db");
+                                    Log.e("mytag","is_actionsTime: " + str);
+                                    //Toast.makeText(context, "is_actionsTime: " + str, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    });
+                }
+            }, 2000);
+
+        }
+
     }
     public boolean writeCtypeIDandSons(final Context ctx){
         try{
@@ -1073,6 +1102,17 @@ public class Helper {
         ft.addToBackStack("FragmentSecret");
         ft.commit();
     }
+    public void goToFragmentCreateAction(Context context){
+
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        FragmentCreateAction frag = new FragmentCreateAction();
+        ft.replace(R.id.container,frag,"FragmentCreateAction");
+        //tv.setVisibility(TextView.GONE);
+        ft.addToBackStack("FragmentCreateAction");
+        ft.commit();
+    }
+
     public void goToFragmentAutoSMS(Context context){
 
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();

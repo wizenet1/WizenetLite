@@ -310,7 +310,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Cursor mcursor = db.rawQuery(count, null);
             mcursor.moveToFirst();
             icount = mcursor.getInt(0);
-            Log.e("mytag",Integer.toString(icount));
+            //Log.e("mytag",Integer.toString(icount));
         }catch(Exception e){
             helper.LogPrintExStackTrace(e);
         }
@@ -818,6 +818,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return flag;
     }
+    public boolean delete_Table_Rows(String tableName,String where) {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String strSql ="delete from " + tableName + " " + where;
+
+            db.execSQL(strSql);
+            //db.close();
+            flag = true;
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
     public boolean delete_IS_Actions_Rows(String str) {
         boolean flag = false;
         try{
@@ -901,8 +917,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return flag;
     }
 
-    public JSONArray getJsonResultsFromTable(String tableName)
-    {
+    public JSONArray getJsonResultsFromTable(String tableName) {
         //Log.e("mytag","hello from db");
         SQLiteDatabase db = this.getReadableDatabase();
         String searchQuery = "";
@@ -913,6 +928,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             searchQuery = "SELECT  * FROM " + tableName;
 
         }
+        Cursor cursor = db.rawQuery(searchQuery, null );
+
+        JSONArray resultSet = new JSONArray();
+
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                {
+                    try
+                    {
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+                    }
+                    catch( Exception e )
+                    {
+                        Log.d("TAG_NAME", e.getMessage()  );
+                    }
+                }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString() );
+        return resultSet;
+    }
+    public JSONArray getJsonResultsFromTable(String tableName,String where) {
+        //Log.e("mytag","hello from db");
+        SQLiteDatabase db = this.getReadableDatabase();
+        String searchQuery = "";
+        searchQuery = "SELECT  * FROM " + tableName + " " + where;
         Cursor cursor = db.rawQuery(searchQuery, null );
 
         JSONArray resultSet = new JSONArray();
@@ -1069,16 +1128,10 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         try{
         String selectQuery ="";
         selectQuery = "SELECT * FROM IS_ActionsTime where 1=1   " ;
-        //if ((!sortby.trim().equals("") && (sortby != "top1"))){
-        //    selectQuery+=  sortby + "";
-        //    //selectQuery+= "  order by " + sortby + "";
-        //}
-        //if (sortby == "top1"){
-        //    selectQuery+=   " order by actionID limit 1";
-        //}
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-            Log.e("mytag","row count is_actions: " +cursor.getCount());
+            //Log.e("mytag","row count is_actions: " +cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
                 IS_ActionTime action= new IS_ActionTime(
@@ -1114,7 +1167,7 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
             SQLiteDatabase db = this.getReadableDatabase();
             //Log.e("mytag","sql: " +selectQuery);
             Cursor cursor = db.rawQuery(selectQuery, null);
-            Log.e("mytag","row count is_actions: " +cursor.getCount());
+            //Log.e("mytag","row count is_actions: " +cursor.getCount());
 // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {

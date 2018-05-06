@@ -51,13 +51,16 @@
             android:textSize="20sp"
             android:focusableInTouchMode="true"/>
     </LinearLayout>
-
-    <LinearLayout
-
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/placeHolderFragment"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:src="@drawable/plus_icon"
+            android:layout_margin="16dp" />
         <ListView
             android:id="@+id/actions_list"
             android:layout_width="fill_parent"
@@ -66,6 +69,17 @@
             tools:listitem="@layout/is_action"
             android:choiceMode="singleChoice">
         </ListView>
+    </android.support.design.widget.CoordinatorLayout>
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/placeHolderFragment"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:orientation="vertical">
+
+
+
     </LinearLayout>
 
 </LinearLayout>
