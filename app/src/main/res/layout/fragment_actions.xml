@@ -38,9 +38,9 @@
             android:layout_height="40dp"
             android:background="@drawable/btn_circle2"
             android:layout_gravity="left"
-            android:id="@+id/lblcallhistory"
+            android:id="@+id/lblsearch"
             android:gravity="center"
-            android:text="@string/fa_icon_paper"/>
+            android:text="@string/fa_icon_search2"/>
         <EditText
             android:visibility="visible"
             android:layout_width="fill_parent"
@@ -50,6 +50,22 @@
             android:id="@+id/mSearchEdt"
             android:textSize="20sp"
             android:focusableInTouchMode="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/gradient"
+        android:layout_width="fill_parent"
+        android:layout_gravity="right"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_marginRight="20dp"
+            android:text="משימות להיום"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chk_actions_today"
+             />
     </LinearLayout>
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

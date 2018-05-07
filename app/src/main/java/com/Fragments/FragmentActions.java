@@ -2,6 +2,7 @@ package com.Fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.LocationManager;
@@ -27,24 +28,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.ActionsAdapter;
 import com.Adapters.CallsAdapter;
 import com.Classes.Call;
+import com.Classes.Ccustomer;
+import com.Classes.Ctype;
 import com.Classes.IS_Action;
+import com.Classes.IS_Status;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.File_;
 import com.Helper;
+import com.Icon_Manager;
 import com.model.Model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FragmentActions extends android.support.v4.app.Fragment {
 
@@ -67,13 +78,20 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     private ProgressDialog pDialog;
     private ActionsAdapter actionsAdapter;
     private FloatingActionButton fab;
+    public Map<String, String> isStatus_map;
+    private TextView lblsearch;
+    public String[] is_status_list;
+    Icon_Manager iconManager;
+    CheckBox chk_actions_today;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
+        iconManager = new Icon_Manager();
         View v = inflater.inflate(R.layout.fragment_actions, null);
         //setHasOptionsMenu(true);
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
+        lblsearch = (TextView)  v.findViewById(R.id.lblsearch);
+        setLblSearch();
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
         helper= new Helper();
@@ -83,7 +101,10 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         db = DatabaseHelper.getInstance(getContext());
         Helper h = new Helper();
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        chk_actions_today = (CheckBox) v.findViewById(R.id.chk_actions_today);
+        setChkActionsToday();
         setFloutingButton();
+        getISStatusList();
         myList = (ListView) v.findViewById(R.id.actions_list);
         myList.setClickable(true);
         myList.setLongClickable(true);
@@ -112,25 +133,6 @@ public class FragmentActions extends android.support.v4.app.Fragment {
             refresh();
         }
 
-        //refresh();
-        //adapter = new CustomAdapter();
-        //myList.setAdapter(adapter);
-        //myList.setBackgroundColor(Color.parseColor("#cdebf9"));
-        //((MenuActivity)getActivity()).initialIcons();
-        //ImageView message = (ImageView)getActivity().findViewById(R.id.arrows);
-        //message.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-
-        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent intent = new Intent(getActivity().getApplicationContext(),FragmentMessageDetails.class);
-                //intent.putExtra("id",data2.get(position).getMsgID());
-                //goToMSGDetailsFrag(data2.get(position).getMsgID().toString());
-                //Toast.makeText(getActivity(), data2.get(position).getMsgID(), Toast.LENGTH_LONG).show();
-                //startActivity(intent);
-            }
-        });
-
         mSearchTw=new TextWatcher() {
 
             @Override
@@ -150,6 +152,45 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         mSearchEdt.addTextChangedListener(mSearchTw);
         return v;
     };
+    private void setChkActionsToday(){
+
+        chk_actions_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(!chk_actions_today.isChecked()){
+                //cancel
+                refresh();
+                Log.e("myTag","stop APPS_CALLS_SUMMARY");
+            }else{
+                //active
+                //SELECT * FROM IS_Actions where 1=1
+                String dateWithFormat = helper.getDate("yyyy-MM-dd");
+                refresh(" and actionSdate like '%"+ dateWithFormat +"%'");
+                Log.e("myTag","start APPS_CALLS_SUMMARY");
+                //}
+            }
+            }
+        });
+    }
+    private void setLblSearch(){
+        lblsearch.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
+        lblsearch.setTextSize(30);
+        lblsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //iframe.aspx?control=modulesProjects/mytasks
+                Intent intent = new Intent(getContext(), ActivityWebView.class);
+                Bundle b = new Bundle();
+                b.putInt("callid", -1);
+                b.putInt("cid", -1);
+                b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
+                b.putString("action", "dynamic");
+                b.putString("specialurl", "iframe.aspx?control=modulesProjects/mytasks");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
     private void setFloutingButton(){
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +216,59 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         }
 
         return actions;
+    }
+    public Map<String,String> getIS_Status(){
+        return this.isStatus_map;
+    }
+   //public String[] getIS_StatusArray(){
+   //    String[] arraySpinner = new String[] {
+   //            "שינוי סטטוס",""
+   //    };
+   //    List<IS_Status> is_statusList = new ArrayList<IS_Status>();
+   //    is_statusList = getISStatusList();
+   //    String[] items1 = new String[is_statusList.size()+1];
+   //    for (int i = 0; i < is_statusList.size(); i++) {
+   //        items1[i+1] = is_statusList.get(i).getStatusName();
+   //        //Log.e("mytag",ctypeList.get(i).getCtypeName());
+   //    }
+   //    for (String s:items1){
+   //        Log.e("mytag",s);
+   //    }
+   //    return items1;
+   //}
+    private List<IS_Status> getISStatusList(){
+        List<IS_Status> list = new ArrayList<IS_Status>() ;
+        JSONArray jarray = null;
+        try {
+            String strJson = "";
+            File_ f = new File_();
+            strJson = f.readFromFileExternal(getContext(),"is_status.txt");
+            jarray =  new JSONArray(strJson);
+            isStatus_map = new HashMap<String, String>(jarray.length());
+
+        } catch (JSONException e) {
+            helper.LogPrintExStackTrace(e);
+            Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
+            return list;
+        }
+        for (int i = 0; i < jarray.length(); i++) {
+            final JSONObject e;
+            String name = "";
+            try {
+                e = jarray.getJSONObject(i);
+                    isStatus_map.put(e.getString("statusName"),e.getString("statusID"));
+                    list.add(new IS_Status(e.getString("statusID"),e.getString("statusName")));
+            } catch (JSONException e1) {
+                helper.LogPrintExStackTrace(e1);
+                e1.printStackTrace();
+                return list;
+            }
+        }
+        for (String s:isStatus_map.keySet()){
+            Log.e("mytag",s);
+
+        }
+        return list;
     }
 
 
@@ -213,7 +307,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         }
 
     }
-    private void returnListAndRefresh(){
+    public void returnListAndRefresh(){
         Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
             @Override
             public void onResult(String str) {
@@ -285,15 +379,28 @@ public class FragmentActions extends android.support.v4.app.Fragment {
 
 
 
-
-    public void refresh(){
-
+    public void refresh(String param){
         data2.clear();
-        data2=getActionsList("");
+        data2=getActionsList(param);
         actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
     }
+    public void refresh(){
+        data2.clear();
+        String additional = "";
+        if(chk_actions_today.isChecked()) {
+            String dateWithFormat = helper.getDate("yyyy-MM-dd");
+            additional =" and actionSdate like '%" + dateWithFormat + "%'";
+
+        }
+
+        data2=getActionsList(additional);
+        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+        myList.setAdapter(actionsAdapter);
+        actionsAdapter.notifyDataSetChanged();
+    }
+
     private void goToMSGDetailsFrag(String puId)
 
     {
