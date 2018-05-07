@@ -177,12 +177,31 @@ public class Helper {
         }catch(Exception e){
             Toast.makeText(ctx, "שגיאה בwriteCtypeIDandSons", Toast.LENGTH_LONG).show();
         }
+        return true;
+    }
+    public boolean writeIS_Statuses(final Context ctx){
+        if (isNetworkAvailable(ctx)){
+            try{
+                Model.getInstance().Async_Wz_getIS_StatusList(getMacAddr(), new Model.Wz_getIS_StatusList_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        File_ f = new File_();
+                        String myJsonArray = str;
+                        myJsonArray = myJsonArray.substring(21,str.length()-1);
+                        f.writeTextToFileExternal(ctx,"is_status.txt",myJsonArray);
+                    }
+                });
+            }catch (Exception e){
+                Toast.makeText(ctx, "שגיאה ", Toast.LENGTH_LONG).show();
 
+                LogPrintExStackTrace(e);
+            }
+        }
         return true;
     }
     public String getDate(String format){
        String ret = "";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat(format);
         Calendar c_week = Calendar.getInstance();
         //c_week.add(Calendar.DAY_OF_YEAR, 7);
         String formatted = df.format(c_week.getTime());

@@ -47,6 +47,8 @@ public class CallSoap {
     public  final String Wz_timeReport = "Wz_timeReport";
     public  final String Wz_getState = "Wz_getState";
     public  final String Wz_Update_Call_Field = "Wz_Update_Call_Field";
+    public  final String Wz_Update_Action_Field = "Wz_Update_Action_Field";
+
     public  final String Wz_Get_Client_Item_List = "Wz_Get_Client_Item_List";
     public  final String Wz_getUrl = "Wz_getUrl";
     public  final String Wz_retClientFavorites = "Wz_retClientFavorites";
@@ -62,6 +64,7 @@ public class CallSoap {
     public  final String Wz_getTasks = "Wz_getTasks";
     public  final String Wz_createISAction = "Wz_createISAction";
     public  final String Wz_createISActionTime = "Wz_createISActionTime";
+    public  final String Wz_getIS_StatusList = "Wz_getIS_StatusList";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -105,6 +108,9 @@ public class CallSoap {
     public  final String Wz_getTasks_SOAP_ACTION = "http://tempuri.org/Wz_getTasks";
     public  final String Wz_createISAction_SOAP_ACTION = "http://tempuri.org/Wz_createISAction";
     public  final String Wz_createISActionTime_SOAP_ACTION = "http://tempuri.org/Wz_createISActionTime";
+    public  final String Wz_getIS_StatusList_SOAP_ACTION = "http://tempuri.org/Wz_getIS_StatusList";
+    public  final String Wz_Update_Action_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Action_Field";
+
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
     Helper h = new Helper();
@@ -658,7 +664,34 @@ public String Wz_Forgot(String mac_address,String Email)
 
     }
     //endregion
+//region Wz_Update_Call_Field
+    public String Wz_Update_Action_Field(String mac_address,String actionid,String field,String value)
+    {
+        SoapObject request = new SoapObject(NAMESPACE, Wz_Update_Action_Field);//namespace , operation
+        request.addProperty("MACaddress",mac_address);
+        request.addProperty("actionid",actionid);
+        request.addProperty("field",field);
+        request.addProperty("value",value);
 
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+        Object response=null;
+        try
+        {
+            httpTransport.call(Wz_Update_Action_Field_SOAP_ACTION, envelope);
+            response = envelope.bodyIn;
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+
+    }
+    //endregion
     //region Wz_Get_Client_Item_List
     public String Wz_Get_Client_Item_List(String mac_address,String cid)
     {
@@ -1034,5 +1067,27 @@ public String Wz_Forgot(String mac_address,String Email)
         }
         return response.toString();
     }
+//endregion
+// region Wz_createISActionTime
+public String Wz_getIS_StatusList(String mac_address)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_getIS_StatusList);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_getIS_StatusList_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
 //endregion
 }

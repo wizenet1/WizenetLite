@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -21,6 +22,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
@@ -31,19 +33,26 @@ import android.widget.Toast;
 import com.Activities.ActivityCallDetails;
 import com.Activities.R;
 import com.Classes.Call;
+import com.Classes.Ctype;
 import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
+import com.Classes.IS_Status;
 import com.DatabaseHelper;
 import com.Fragments.FragmentActions;
 import com.Helper;
 import com.Icon_Manager;
+import com.ProgressTaskClient;
+import com.model.Model;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * the position of adapter is to set the content into listview
@@ -57,15 +66,18 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     private WebView URL1;
     TextView myccell,mycphone;
     Context c;
-    TextView edit,mobile,sign,location,telephone,parts, goToSms,goToCustomers;
+    TextView edit;
     Helper helper;
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
-    TextView btn_play,btn_stop;
+    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment;
     Icon_Manager icon_manager;
     FragmentActions fragment;
     Spinner spinner;
+    String update_action_id,update_status_id;
+    boolean flag ;
+    Button btn_update_status;
     //LinearLayout layout_details;
     public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions fragmentActions) {
         this.c=ctx;
@@ -95,7 +107,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         final ViewHolder holder;
         helper = new Helper();
          icon_manager = new Icon_Manager();
-
+        flag = false;
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView=inflater.inflate(R.layout.is_action, null); /////// this is solve the problem!!
         final LinearLayout layout_details;
@@ -106,60 +118,144 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //convertView=inflater.inflate(R.layout.is_action, null);
             //convertView.getTag(pos);
         }
-
+        txt_owner = (TextView) convertView.findViewById(R.id.txt_owner);
+        txt_user = (TextView) convertView.findViewById(R.id.txt_user);
+        txt_destination= (TextView) convertView.findViewById(R.id.txt_destination);
+        txt_assignment= (TextView) convertView.findViewById(R.id.txt_assignment);
         TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
-        TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
+        //TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
+        edit = (TextView) convertView.findViewById(R.id.edit);
         btn_play = (TextView) convertView.findViewById(R.id.btn_play);
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
+        btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
+        txtcreatedate = (TextView) convertView.findViewById(R.id.txtcreatedate);
         spinner = (Spinner) convertView.findViewById(R.id.spinner);
         btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
-        is_comments.setText(Html.fromHtml(String.valueOf(callsArrayList.get(pos).getComments()) ));
+
+        String result = "";
+        try {
+            String string = callsArrayList.get(pos).getComments();
+            byte[] utf8 = string.getBytes("UTF-8");
+            string = new String(utf8, "UTF-8");
+            //Log.e("mytag", (String.valueOf(string)));
+            result= String.valueOf(string);
+            //is_comments.setText(Html.fromHtml(String.valueOf(string)), TextView.BufferType.SPANNABLE);
+            //is_comments.setText(Html.fromHtml(String.valueOf(string) ));
+
+        } catch (UnsupportedEncodingException e) {
+            helper.LogPrintExStackTrace(e);
+        }
+        setEdit(result);
+        txt_destination.setText("");
+        txt_assignment.setText("");
+        txt_owner.setText(callsArrayList.get(pos).getOwnerCfname()+" "+callsArrayList.get(pos).getOwnerClname());
+        txt_user.setText(callsArrayList.get(pos).getUserCfname()+" "+callsArrayList.get(pos).getUserClname());
+
+                        txtcreatedate.setText(callsArrayList.get(pos).getCreate());
         //is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-        setStaticSpinners();
+        setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
 
         layout_details.setTag(callsArrayList.get(pos).getActionID());
         btn_open_details.setTag(callsArrayList.get(pos).getActionID());
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
-
+        is_desc.setTypeface(is_desc.getTypeface(), Typeface.BOLD_ITALIC);
+        is_desc.setTextSize(20);
+        setBtn_update_status();
         //chk_if_play(callsArrayList.get(pos).getActionID());
         set_play(callsArrayList.get(pos).getActionID());
         set_stop(callsArrayList.get(pos).getActionID());
         btn_play.setTag(pos);
         btn_stop.setTag(pos);
 
-        //"@color/wizenetColor"
-        btn_open_details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.e("mytag","Button Tab at Pos "+pos+" "+btn_open_details.getTag()+"");
-                if (layout_details.getVisibility() == View.VISIBLE){
-                    layout_details.setVisibility(View.GONE);
-                    btn_open_details.setText("˅");
-                }else{
-                    layout_details.setVisibility(View.VISIBLE);
-                    btn_open_details.setText("˄");
-                };
-            }
-        });
+
+
         convertView.setTag(convertView.getId(),pos);
         convertView.getTag(pos);
 
         return convertView;
     }
-    private void setStaticSpinners(){
-        String[] arraySpinner = new String[] {
-                "שינוי סטטוס","עדיין לא גמור"
-        };
-        ArrayList<String> ar = new ArrayList<String>();
+    private void setBtn_update_status(){
+        btn_update_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 if (helper.isNetworkAvailable(c)){
+                     Model.getInstance().Async_Wz_Update_Action_Field_Listener(helper.getMacAddr(), update_action_id, "statusID", update_status_id, new Model.Wz_Update_Action_Field_Listener() {
+                         @Override
+                         public void onResult(String str) {
+                             Log.e("mytag","status changed");
+                             fragment.returnListAndRefresh();
+                             //fragment.refresh();
+                         }
+                     });
+                 }else{
+                     Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
+                 }
+                 }
+                });
+
+
+
+
+    }
+    private void setEdit(final String html){
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(c);
+                //alert.setTitle("title");
+                WebView wv = new WebView(c);
+                wv.loadData("<html><body style='direction: rtl;'>" + html + "</body></html>", "text/html; charset=UTF-8", null);
+                wv.setWebViewClient(new WebViewClient()
+                {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url)
+                    {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+                alert.setView(wv);
+                alert.setNegativeButton("סגור", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+            }
+        });
+
+
+    }
+    private void setStatusSpinner(String statName, final String actionid){
+        int i = fragment.getIS_Status().size();
+        String[] arraySpinner = new String[i];
+        int counter = 0;
+        for (String s:fragment.getIS_Status().keySet()) {
+            arraySpinner[counter] = s;
+            counter++;
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, arraySpinner);
         spinner.setAdapter(adapter);
+        try{
+            int selectionPosition2 = adapter.getPosition(statName.trim());
+            spinner.setSelection(selectionPosition2);
+        }catch(Exception e){statName.trim(); helper.LogPrintExStackTrace(e);}
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //selectedReminder =(String) parent.getItemAtPosition(position);
+                String select = parent.getItemAtPosition(position).toString().trim();
+                if (helper.isNetworkAvailable(c)){
+                    Log.e("mytag","actionid:"+actionid + "  statusID="+fragment.getIS_Status().get(select));
+                    update_action_id = actionid;
+                    update_status_id = fragment.getIS_Status().get(select);
+                    //AlertDialogConfirm(actionid,select);
+
+                }
+
+
             }
 
             @Override
@@ -172,10 +268,12 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     }
     private void set_play(final int actionID){
         btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        btn_play.setTextSize(30);
         String countUnClosed = "";
         countUnClosed = DatabaseHelper.getInstance(c).getScalarByCountQuery("SELECT count(ID) from IS_ActionsTime where ActionID = '" + actionID + "' and ActionEnd  IS NULL OR ActionEnd = '' order by ID desc limit 1");
         if (Integer.valueOf(countUnClosed) > 0){
             btn_play.setTextColor(Color.parseColor("#E94E1B"));
+
             //id1.setTextColor(Color.parseColor("black"));
         }
         btn_play.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +290,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     }
     private void set_stop(final int actionID){
         btn_stop.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
+        btn_stop.setTextSize(30);
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,15 +391,11 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 //CONSTARINT TO UPPER
                 constraint=constraint.toString().toUpperCase();
                 ArrayList<IS_Action> filters=new ArrayList<IS_Action>();
-                //get specific items
-                //||
-                //String.valueOf(filterList.get(i).getCallID()).contains(constraint)||
-                //String.valueOf(filterList.get(i).getCcompany()).contains(constraint)||
-                //String.valueOf(filterList.get(i).getCname()).contains(constraint)
                 for(int i=0;i<filterList.size();i++)
                 {
-                    if(String.valueOf(filterList.get(i).getActionID()).contains(constraint)
-                            )
+                    if(String.valueOf(filterList.get(i).getActionID()).contains(constraint)||
+                       String.valueOf(filterList.get(i).getActionDesc()).contains(constraint) ||
+                       String.valueOf(filterList.get(i).getComments()).contains(constraint))
                     {//filterList.get(i).
                         IS_Action action=new IS_Action(
                                 filterList.get(i).getActionID(),
@@ -375,86 +470,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         }
     }
 
-    public void AlertDialogWeb(String callid){
-//        AlertDialog.Builder alert = new AlertDialog.Builder(c);
-//        alert.setTitle("Title here");
-//
-//        WebView wv = new WebView(c);
-//        wv.loadUrl("http:\\www.google.com");
-//        wv.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//
-//                return true;
-//            }
-//        });
-//
-//        alert.setView(wv);
-//        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.dismiss();
-//            }
-//        });
-//        alert.show();
-//        Dialog dialog2 = new Dialog(c, R.style.DialogTheme);
-//        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog2.getWindow().setBackgroundDrawable(null);
-//        dialog2.setContentView(R.layout.activity_main);
-//        WindowManager.LayoutParams lp = dialog2.getWindow().getAttributes();
-//        Window window = dialog2.getWindow();
-//        lp.copyFrom(window.getAttributes());
-//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-//        window.setAttributes(lp);
-//        lp.gravity = Gravity.CENTER;
 
 
-//        final ImageView imgprofile=(ImageView)dialog2.findViewById(R.id.img_centre);
-//        Picasso.with(context)
-//                .load(arrayImages.get(position).get("image"))
-//                .resize(800,1000)
-//                .centerInside()
-//                .into(imgprofile, new Callback() {
-//
-//                    @Override
-//                    public void onSuccess() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                        imgprofile.setImageResource(R.drawable.user);
-//                    }
-                //});
-        //dialog2.show();
-        //Dialog dialog = new Dialog(this.c.getApplicationContext());
-        //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog.Builder alert = new AlertDialog.Builder(c.getApplicationContext());
-        alert.setTitle("Title here");
-        WebView wv = new WebView(this.c.getApplicationContext());
-        String url = DatabaseHelper.getInstance(c).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(callid);
-        //String url = DatabaseHelper.getInstance(c).getValueByKey("URL") + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + callid + "&class=CallsFiles_appCell&mobile=True";
-
-        wv.loadUrl(url);
-        wv.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-
-                return true;
-            }
-        });
-        alert.setView(wv);
-        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-        alert.show();
-    }
 
 
 

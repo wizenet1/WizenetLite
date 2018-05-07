@@ -110,6 +110,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         //The drawer layout which covers the entire fragment.
         //this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
         helper.writeCtypeIDandSons(getContext());
+        helper.writeIS_Statuses(getContext());
         this.initializeBadgeDictionary(v);
 
         // Set the badge of customer.
@@ -462,7 +463,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
-
+                Log.e("mytag","write call statuses");
             }
         });
     }

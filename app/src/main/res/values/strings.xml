@@ -46,6 +46,7 @@
     <string name="fa_icon_compose">&#xf12c;</string>
     <string name="fa_icon_filling">&#xf429;</string>
     <string name="fa_icon_cash">&#xf316;</string>
+    <string name="fa_icon_search2">&#xf2f5;</string>
 
 
     <string name="action_settings">Settings</string>

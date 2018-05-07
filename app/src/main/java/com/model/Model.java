@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1137,7 +1138,45 @@ public interface get_mgnet_client_items_Listener{
         task.execute();
     }
     //endregion
+// region Wz_Update_Action_Field_Listener
+    public interface Wz_Update_Action_Field_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_Update_Action_Field_Listener(final String macAddress,final String actionid,final String field,final String value,final Wz_Update_Action_Field_Listener listener) {
+        AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+            @Override
+            protected String doInBackground(String... params) {
+                // USER_ClientsResponse
+                try{
 
+
+                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
+                    String response = cs.Wz_Update_Action_Field(macAddress,actionid,field,value);
+                    try{
+                        String myResponse = response;
+
+                        myResponse = myResponse.replaceAll("Wz_Update_Action_Field_ListenerResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_Update_Action_Field_ListenerResult=", "Wz_Update_Action_Field_Listener:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        myResponse= myResponse.replaceAll("\\<[^>]*>","");
+                        return myResponse.toString().trim();
+                    }catch(Exception e){
+                        return "nothing? "+e.getMessage();
+                    }
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    return "error";
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                listener.onResult(result);
+            }
+        };
+        task.execute();
+    }
+    //endregion
 
     //region get_mgnet_client_item
     public interface Wz_Get_Client_Item_List_Listener{
@@ -1823,7 +1862,52 @@ public interface get_mgnet_client_items_Listener{
 
     }
     //endregion
+    public interface Wz_getIS_StatusList_Listener{
+        public void onResult(String str);
+    }
+    //Wz_createISActionTime
+    public void Async_Wz_getIS_StatusList(final String macAddress, final Wz_getIS_StatusList_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
+
+                        String response = cs.Wz_getIS_StatusList(macAddress);
+                        String myResponse = response;
+                        Log.e("mytag","response:" +response);
+                        myResponse = myResponse.replaceAll("Wz_getIS_StatusListResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_getIS_StatusListResult=", "Wz_getIS_StatusList:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        //boolean flag = helper.writeCtypeIDandSons(context,myResponse);
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
 
 
     private void addActions(){
@@ -1868,7 +1952,16 @@ public interface get_mgnet_client_items_Listener{
                 action.setActionStartDate(e.getString("actionStartDate"));
                 action.setActionDue(e.getString("actionDue"));
                 action.setActionDesc(e.getString("actionDesc"));
-                action.setComments(e.getString("comments"));
+                String result=e.getString("comments");
+                try {
+                    String string = e.getString("comments");
+                    byte[] utf8 = string.getBytes("UTF-8");
+                    string = new String(utf8, "UTF-8");
+                    result= String.valueOf(string);
+                } catch (UnsupportedEncodingException ee) {
+                    helper.LogPrintExStackTrace(ee);
+                }
+                action.setComments(result);
                 action.setPriorityID(e.getString("priorityID"));
 
                 action.setReminderID(e.getString("reminderID"));
