@@ -17,6 +17,10 @@ import java.util.Date;
 
 import static com.Activities.MainActivity.ctx;
 
+/**
+ * Created by bitro on 4/23/2018.
+ */
+
 public class BusyMessageReceiver extends PhoneCallReceiver {
 
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {
@@ -56,7 +60,6 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
                     telephonyObject = serviceMethod.invoke(null, retbinder);
                     telephonyEndCall = telephonyClass.getMethod("endCall");
                     telephonyEndCall.invoke(telephonyObject);
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
