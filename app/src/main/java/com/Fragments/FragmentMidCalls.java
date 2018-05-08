@@ -177,7 +177,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     }
     public void setDBcurrentCalls(){
         if (helper.isNetworkAvailable(getContext())){
-            Model.getInstance().Async_Wz_Calls_List_Listener(getContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+            Model.getInstance().Async_Wz_Calls_List_Listener(getContext(),helper.getMacAddr(getContext()), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
                     try{
@@ -197,7 +197,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         if (helper.isNetworkAvailable(ctx1)){
             Log.e("mytag","size: " + arr_Call_offline.size());
             if (arr_Call_offline.size()>0){
-                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx1).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(getContext()), DatabaseHelper.getInstance(ctx1).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
                     @Override
                     public void onResult(String str) {
                         if (str.contains("0")){
@@ -231,7 +231,7 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
     }
     public void call_Async_Wz_calls_Summary_Listener(){
         try{
-            Model.getInstance().Async_Wz_calls_Summary_Listener(helper.getMacAddr(), new Model.Wz_calls_Summary_Listener() {
+            Model.getInstance().Async_Wz_calls_Summary_Listener(helper.getMacAddr(getContext()), new Model.Wz_calls_Summary_Listener() {
                 @Override
                 public void onResult(String str) {
                     try {

@@ -229,7 +229,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Model.getInstance().Async_Wz_getUrl_Listener(helper.getMacAddr(), txt_enter_code.getText().toString(), new Model.Wz_getUrl_Listener() {
+                Model.getInstance().Async_Wz_getUrl_Listener(helper.getMacAddr(getApplicationContext()), txt_enter_code.getText().toString(), new Model.Wz_getUrl_Listener() {
                     @Override
                     public void onResult(String str) {
                         JSONObject j = null;

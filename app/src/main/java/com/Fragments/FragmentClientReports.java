@@ -67,7 +67,7 @@ public class FragmentClientReports extends android.support.v4.app.Fragment {
          layout = (LinearLayout ) v.findViewById(R.id.placeHolderFragment);
 
 
-        Model.getInstance().Async_Wz_retClientReports_Listener(helper.getMacAddr(), new Model.Wz_retClientReports_Listener() {
+        Model.getInstance().Async_Wz_retClientReports_Listener(helper.getMacAddr(getContext()), new Model.Wz_retClientReports_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag",str);

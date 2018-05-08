@@ -135,7 +135,7 @@ public class LoginActivity extends FragmentActivity {
         login_forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(), email.getText().toString(), new Model.Wz_Forgot_Listener() {
+                Model.getInstance().Async_Wz_Forgot_Listener(helper.getMacAddr(getApplicationContext()), email.getText().toString(), new Model.Wz_Forgot_Listener() {
                     @Override
                     public void onResult(String str) {
                         Log.e("mytag",str.trim());

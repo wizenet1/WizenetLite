@@ -135,7 +135,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
             public void onClick(View v) {
                 if (helper.isNetworkAvailable(getContext())){
                     Toast.makeText(getActivity(),"מסנכרן לקוחות",Toast.LENGTH_SHORT).show();
-                    Model.getInstance().Async_Wz_Clients_List_Listener(helper.getMacAddr(), -1, -1, new Model.Wz_Clients_List_Listener() {
+                    Model.getInstance().Async_Wz_Clients_List_Listener(helper.getMacAddr(getContext()), -1, -1, new Model.Wz_Clients_List_Listener() {
                         @Override
                         public void onResult(String str) {
                             File_ f = new File_();
@@ -166,7 +166,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
             public void onClick(View v) {
                 if (db.mgnet_items_isEmpty("all")){
                     //new ProgressTaskAll(context).execute();
-                    Model.getInstance().Async_Get_mgnet_items_Listener(helper.getMacAddr(), new Model.get_mgnet_items_Listener() {
+                    Model.getInstance().Async_Get_mgnet_items_Listener(helper.getMacAddr(getContext()), new Model.get_mgnet_items_Listener() {
                         @Override
                         public void onResult(String str) {
                             Log.e("myTag","str:" + str);
@@ -226,7 +226,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
         id5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().Async_Wz_Calls_List_Listener(context,helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+                Model.getInstance().Async_Wz_Calls_List_Listener(context,helper.getMacAddr(getContext()), -2, new Model.Wz_Calls_List_Listener() {
                     @Override
                     public void onResult(String str) {
                         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
@@ -402,7 +402,7 @@ public class FragmentMenuOffline extends android.support.v4.app.Fragment  {
                     CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
                     //String response = cs.Call(mac_address, memail, mpass);
                     try{
-                        String response = cs.get_mgnet_client_items_list(helper.getMacAddr(),c);
+                        String response = cs.get_mgnet_client_items_list(helper.getMacAddr(getContext()),c);
                         String myResponse = response;
                         myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResponse", "");
                         myResponse = myResponse.replaceAll("PRODUCTS_CLIENTS_ITEMS_LISTResult=", "Orders:");

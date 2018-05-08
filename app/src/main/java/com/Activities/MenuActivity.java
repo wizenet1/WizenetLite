@@ -499,7 +499,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             s_longtitude = Double.toString(gps.getLongitude());
             s_latitude = Double.toString(gps.getLatitude());
             //new AsynchCallSoap().execute();
-            Model.getInstance().AsyncStatus(helper.getMacAddr(), s_longtitude, s_latitude, new Model.StatusListener() {
+            Model.getInstance().AsyncStatus(helper.getMacAddr(getApplicationContext()), s_longtitude, s_latitude, new Model.StatusListener() {
                 @Override
                 public void onResult(String str) {
                     //Log.e("myTag","return from asyncStatus: " +str);

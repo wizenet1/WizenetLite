@@ -75,7 +75,7 @@ public class FragmentFavorite extends android.support.v4.app.Fragment {
         layout = (LinearLayout) v.findViewById(R.id.placeHolderFragment);
 
 
-        Model.getInstance().Async_Wz_retClientFavorites_Listener(helper.getMacAddr(), new Model.Wz_retClientFavorites_Listener() {
+        Model.getInstance().Async_Wz_retClientFavorites_Listener(helper.getMacAddr(getContext()), new Model.Wz_retClientFavorites_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag", str);

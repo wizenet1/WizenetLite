@@ -285,7 +285,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 id_missions.startAnimation(clickAnimation);
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentActions frag = new FragmentActions();
+                FragmentActions2 frag = new FragmentActions2();
                 ft.replace(R.id.container, frag, "FragmentActions");
                 ft.addToBackStack("FragmentActions");
                 ft.commit();
@@ -460,7 +460,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     }
 
     private void getCallStatuses() {
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(getContext()), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag","write call statuses");
@@ -595,7 +595,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
     protected void setUsername() {
         try {
-            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
+            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(getContext()), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
                     tv_username.setText("שלום " + str);
@@ -762,15 +762,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
         if (helper.isNetworkAvailable(context)) {
             //Log.e("mytag","isNetworkAvailable");
-            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
-                @Override
-                public void onResult(String str) {
-                    menu_bar_welcome_txt.setText(" שלום " + str);
-                    if (str.contains("[]")){
-                        ((MenuActivity) getActivity()).finish();
+            try{
+                Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(context), new Model.User_Details_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        menu_bar_welcome_txt.setText(" שלום " + str);
+                        if (str.contains("[]")){
+                            ((MenuActivity) getActivity()).finish();
+                        }
                     }
-                }
-            });
+                });
+            }catch (Exception e){
+                helper.LogPrintExStackTrace(e);
+            }
+
         } else {
             Log.e("mytag", "is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));

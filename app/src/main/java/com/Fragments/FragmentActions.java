@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -106,8 +107,9 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         setFloutingButton();
         getISStatusList();
         myList = (ListView) v.findViewById(R.id.actions_list);
-        myList.setClickable(true);
-        myList.setLongClickable(true);
+
+        //myList.setClickable(true);
+        //myList.setLongClickable(true);
 
         if (helper.isNetworkAvailable(getContext())){
             pDialog = new ProgressDialog(getContext());
@@ -120,7 +122,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
             chkIfOfflineActionsAndSendItToWizenet();
             h.sendAsyncActionsTime(getContext());
 
-            Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+            Model.getInstance().Async_Wz_ACTIONS_retList_Listener(h.getMacAddr(getContext()), new Model.Wz_ACTIONS_retList_Listener() {
                 @Override
                 public void onResult(String str) {
                     refresh();
@@ -185,7 +187,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
                 b.putInt("cid", -1);
                 b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getContext()).getValueByKey("CID"))));
                 b.putString("action", "dynamic");
-                b.putString("specialurl", "iframe.aspx?control=modulesProjects/mytasks");
+                b.putString("specialurl", "iframe.aspx?control=modulesProjects/mytasks&mobile=1");
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -220,22 +222,22 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     public Map<String,String> getIS_Status(){
         return this.isStatus_map;
     }
-   //public String[] getIS_StatusArray(){
-   //    String[] arraySpinner = new String[] {
-   //            "שינוי סטטוס",""
-   //    };
-   //    List<IS_Status> is_statusList = new ArrayList<IS_Status>();
-   //    is_statusList = getISStatusList();
-   //    String[] items1 = new String[is_statusList.size()+1];
-   //    for (int i = 0; i < is_statusList.size(); i++) {
-   //        items1[i+1] = is_statusList.get(i).getStatusName();
-   //        //Log.e("mytag",ctypeList.get(i).getCtypeName());
-   //    }
-   //    for (String s:items1){
-   //        Log.e("mytag",s);
-   //    }
-   //    return items1;
-   //}
+   public String[] getIS_StatusArray(){
+       String[] arraySpinner = new String[] {
+               "שינוי סטטוס",""
+       };
+       List<IS_Status> is_statusList = new ArrayList<IS_Status>();
+       is_statusList = getISStatusList();
+       String[] items1 = new String[is_statusList.size()+1];
+       for (int i = 0; i < is_statusList.size(); i++) {
+           items1[i+1] = is_statusList.get(i).getStatusName();
+           //Log.e("mytag",ctypeList.get(i).getCtypeName());
+       }
+       for (String s:items1){
+           Log.e("mytag",s);
+       }
+       return items1;
+   }
     private List<IS_Status> getISStatusList(){
         List<IS_Status> list = new ArrayList<IS_Status>() ;
         JSONArray jarray = null;
@@ -285,7 +287,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
             Log.e("mytag","inside the function");
             //Log.e("mytag","json sent from Async_Wz_createISAction: " +json);
             try{
-                Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_createISAction_Listener() {
+                Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(getContext()), json, new Model.Wz_createISAction_Listener() {
                     @Override
                     public void onResult(String str) {
                         if (str.contains("0")){
@@ -308,7 +310,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
 
     }
     public void returnListAndRefresh(){
-        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(getContext()), new Model.Wz_ACTIONS_retList_Listener() {
             @Override
             public void onResult(String str) {
                 refresh();
@@ -382,7 +384,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
     public void refresh(String param){
         data2.clear();
         data2=getActionsList(param);
-        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+        //actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
     }
@@ -396,7 +398,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         }
 
         data2=getActionsList(additional);
-        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+        //actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
     }

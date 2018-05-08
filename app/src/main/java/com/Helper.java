@@ -868,7 +868,19 @@ public class Helper {
             h.LogPrintExStackTrace(e);
             return "";
         }
+    }
 
+        public static String getMacAddr(Context ctx1) {
+            try{
+                TelephonyManager tm = (TelephonyManager) ctx1.getSystemService(Context.TELEPHONY_SERVICE);
+                String device_id = tm.getDeviceId();
+                return device_id;
+            }catch(Exception e){
+                Helper h = new Helper();
+                h.LogPrintExStackTrace(e);
+                return "";
+            }
+        }
 //        try {
 //            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
 //            for (NetworkInterface nif : all) {
@@ -892,7 +904,7 @@ public class Helper {
 //        } catch (Exception ex) {
 //        }
 //        return "02:00:00:00:00:00";
-    }
+
 
 
 //endregion

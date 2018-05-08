@@ -1702,6 +1702,29 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         }
         return flag;
     }
+    public boolean updateISAction(IS_Action is_action) {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("statusID",is_action.getStatusID());
+            values.put("statusName",is_action.getStatusName());
+            values.put("Expr1",is_action.getExpr1());
+
+            db.update("IS_Actions", values,"actionID = " + String.valueOf(is_action.getActionID()),null );
+            flag = true;
+            //Log.e("MYTAG","added!!" + is_action.toString());
+            // Closing database connection
+            //db.close();
+        }catch (Exception e){
+            //e.printStackTrace();
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            Log.e("MYTAG",e.getMessage());
+            //return flag;
+        }
+        return flag;
+    }
 
 
     //region CallStatus

@@ -139,11 +139,11 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                     json = DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString();
                     if (helper.isNetworkAvailable(getContext())){
                         try{
-                            Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(), json, new Model.Wz_createISAction_Listener() {
+                            Model.getInstance().Async_Wz_createISAction(helper.getMacAddr(getContext()), json, new Model.Wz_createISAction_Listener() {
                                 @Override
                                 public void onResult(String str) {
                                     if (str.contains("0")){
-                                        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(), new Model.Wz_ACTIONS_retList_Listener() {
+                                        Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(getContext()), new Model.Wz_ACTIONS_retList_Listener() {
                                             @Override
                                             public void onResult(String str) {
                                                 refresh();

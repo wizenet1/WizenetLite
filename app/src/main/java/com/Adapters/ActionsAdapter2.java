@@ -2,31 +2,19 @@ package com.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
@@ -34,37 +22,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.Activities.ActivityCallDetails;
 import com.Activities.R;
-import com.Classes.Call;
-import com.Classes.Ctype;
 import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
-import com.Classes.IS_Status;
 import com.DatabaseHelper;
-import com.File_;
-import com.Fragments.FragmentActionChangeStatus;
 import com.Fragments.FragmentActions;
 import com.Fragments.FragmentActions2;
 import com.Helper;
 import com.Icon_Manager;
-import com.ProgressTaskClient;
-import com.model.Model;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * the position of adapter is to set the content into listview
@@ -73,7 +42,7 @@ import java.util.TimerTask;
  *  ctx - the context we must pass it (relationship between classes and fragments/activities)
  *  Filterable is the additional built in interface that's allow us to implement the filter edit text
  */
-public class ActionsAdapter extends BaseAdapter implements Filterable {
+public class ActionsAdapter2 extends BaseAdapter implements Filterable {
     private Dialog WebDialog1;
     private WebView URL1;
     TextView myccell,mycphone;
@@ -83,7 +52,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
-    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment,txt_status;
+    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment;
     Icon_Manager icon_manager;
     FragmentActions2 fragment;
     Spinner spinner;
@@ -91,7 +60,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     boolean flag ;
     Button btn_update_status;
     //LinearLayout layout_details;
-    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions2 fragmentActions) {
+    public ActionsAdapter2(List<IS_Action> callsArrayList, Context ctx, FragmentActions2 fragmentActions) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
         this.filterList= (ArrayList<IS_Action>) callsArrayList;
@@ -122,7 +91,6 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         flag = false;
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView=inflater.inflate(R.layout.is_action, null); /////// this is solve the problem!!
-
         final LinearLayout layout_details;
         final TextView btn_open_details;
        // holder = new ViewHolder();
@@ -131,7 +99,6 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //convertView=inflater.inflate(R.layout.is_action, null);
             //convertView.getTag(pos);
         }
-        txt_status = (TextView) convertView.findViewById(R.id.txt_status);
         txt_owner = (TextView) convertView.findViewById(R.id.txt_owner);
         txt_user = (TextView) convertView.findViewById(R.id.txt_user);
         txt_destination= (TextView) convertView.findViewById(R.id.txt_destination);
@@ -141,7 +108,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         edit = (TextView) convertView.findViewById(R.id.edit);
         btn_play = (TextView) convertView.findViewById(R.id.btn_play);
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
-       // btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
+        //btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         txtcreatedate = (TextView) convertView.findViewById(R.id.txtcreatedate);
         spinner = (Spinner) convertView.findViewById(R.id.spinner);
         btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
@@ -153,15 +120,17 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             String string = callsArrayList.get(pos).getComments();
             byte[] utf8 = string.getBytes("UTF-8");
             string = new String(utf8, "UTF-8");
+            //Log.e("mytag", (String.valueOf(string)));
             result= String.valueOf(string);
+            //is_comments.setText(Html.fromHtml(String.valueOf(string)), TextView.BufferType.SPANNABLE);
             //is_comments.setText(Html.fromHtml(String.valueOf(string) ));
-        } catch (UnsupportedEncodingException e) {helper.LogPrintExStackTrace(e);}
-        setEdit(result);
-        try{
-            txt_destination.setText(callsArrayList.get(pos).getActionDate().substring(0,10));
-            txt_assignment.setText(callsArrayList.get(pos).getActionSdate().substring(0,10));
-        }catch (Exception e){helper.LogPrintExStackTrace(e);}
 
+        } catch (UnsupportedEncodingException e) {
+            helper.LogPrintExStackTrace(e);
+        }
+        setEdit(result);
+        txt_destination.setText(callsArrayList.get(pos).getActionDate().substring(0,10));
+        //txt_assignment.setText(callsArrayList.get(pos).getActionSdate().substring(0,10));
         txt_owner.setText(callsArrayList.get(pos).getOwnerCfname()+" "+callsArrayList.get(pos).getOwnerClname());
         txt_user.setText(callsArrayList.get(pos).getUserCfname()+" "+callsArrayList.get(pos).getUserClname());
 
@@ -175,11 +144,10 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
         is_desc.setTypeface(is_desc.getTypeface(), Typeface.BOLD_ITALIC);
         is_desc.setTextSize(20);
-        setStatusChange(String.valueOf(callsArrayList.get(pos).getActionID()));
+        setBtn_update_status();
         //chk_if_play(callsArrayList.get(pos).getActionID());
         set_play(callsArrayList.get(pos).getActionID());
         set_stop(callsArrayList.get(pos).getActionID());
-
         btn_play.setTag(pos);
         btn_stop.setTag(pos);
 
@@ -190,96 +158,42 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
         return convertView;
     }
-    private void setStatusChange(final String actionid){
+    private void setBtn_update_status(){
 
-        txt_status.setOnClickListener(new View.OnClickListener() {
+        btn_update_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (helper.isNetworkAvailable(c)){
-                    alertBuilderSpinner(actionid);
-                    //Model.getInstance().Async_Wz_Update_Action_Field_Listener(helper.getMacAddr(c), update_action_id, "statusID", update_status_id, new Model.Wz_Update_Action_Field_Listener() {
-                    //    @Override
-                    //    public void onResult(String str) {
-                    //        Log.e("mytag","status changed");
-                    //        fragment.returnListAndRefresh();
-                    //        //fragment.refresh();
-                    //    }
-                    //});
-//                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(c);
-//                    LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View dialogView = inflater.inflate(R.layout.change_status, null);
-//                    dialogBuilder.setView(dialogView);
-//
-//                    Spinner  spinner_status = (Spinner) dialogView.findViewById(R.id.spinner_status);
-//                    TextView  btn_update_status = (TextView) dialogView.findViewById(R.id.btn_update_status);
-//
-//                    List<IS_Status> is_statusList = new ArrayList<IS_Status>();
-//                    is_statusList = getISStatusList();
-//                    String[] items1 = new String[is_statusList.size()+1];
-//                    for (int i = 0; i < is_statusList.size(); i++) {
-//                        items1[i+1] = is_statusList.get(i).getStatusName();
-//                        Log.e("mytag",is_statusList.get(i).getStatusName());
-//                    }
-//                    //spinner = (Spinner)findViewById(R.id.spinner1);
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, items1);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);                    //
-//                    spinner_status.setAdapter(adapter);
-//
-//                    btn_update_status.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Log.e("mytag","clicked");
-//                        }
-//                    });
-//                    AlertDialog alertDialog = dialogBuilder.create();
-//                    alertDialog.show();
-                }else{
-                    Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-    public void alertBuilderSpinner(String actionid){
+                 if (helper.isNetworkAvailable(c)){
+                     //Model.getInstance().Async_Wz_Update_Action_Field_Listener(helper.getMacAddr(c), update_action_id, "statusID", update_status_id, new Model.Wz_Update_Action_Field_Listener() {
+                     //    @Override
+                     //    public void onResult(String str) {
+                     //        Log.e("mytag","status changed");
+                     //        fragment.returnListAndRefresh();
+                     //        //fragment.refresh();
+                     //    }
+                     //});
+                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(c);
+                    // ...Irrelevant code for customizing the buttons and title
+                     //LayoutInflater inflater = c.getLayoutInflater();
+                     LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        FragmentActionChangeStatus fr = new FragmentActionChangeStatus();
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)c).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle = new Bundle();
+                     View dialogView = inflater.inflate(R.layout.change_status, null);
+                     dialogBuilder.setView(dialogView);
 
-        bundle.putString("actionid",actionid);
-        fr.setArguments(bundle);
-        ft.replace(R.id.container,fr,"FragmentActionChangeStatus");
-        ft.addToBackStack("FragmentActionChangeStatus");
-        ft.commit();
+                     //EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+                     //editText.setText("test label");
+                     AlertDialog alertDialog = dialogBuilder.create();
+                     alertDialog.show();
+                 }else{
+                     Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
+                 }
+                 }
+                });
+
+
 
 
     }
-    private List<IS_Status> getISStatusList(){
-        List<IS_Status> list = new ArrayList<IS_Status>() ;
-        JSONArray jarray = null;
-        try {
-            String strJson = "";
-            File_ f = new File_();
-            strJson = f.readFromFileExternal(c,"is_status.txt");
-            jarray =  new JSONArray(strJson);
-
-        } catch (JSONException e) {
-            helper.LogPrintExStackTrace(e);
-            return list;
-        }
-        for (int i = 0; i < jarray.length(); i++) {
-            final JSONObject e;
-            try {
-                e = jarray.getJSONObject(i);
-                list.add(new IS_Status(e.getString("statusID"),e.getString("statusName")));
-            } catch (JSONException e1) {
-                helper.LogPrintExStackTrace(e1);
-                return list;
-            }
-        }
-        return list;
-    }
-
     private void setEdit(final String html){
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,13 +224,13 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
     }
     private void setStatusSpinner(String statName, final String actionid){
-        //int i = fragment.getIS_Status().size();
-        //String[] arraySpinner = new String[i];
-        //int counter = 0;
-        //for (String s:fragment.getIS_Status().keySet()) {
-        //    arraySpinner[counter] = s;
-        //    counter++;
-        //}
+//        int i = fragment.getIS_Status().size();
+//        String[] arraySpinner = new String[i];
+//        int counter = 0;
+//        for (String s:fragment.getIS_Status().keySet()) {
+//            arraySpinner[counter] = s;
+//            counter++;
+//        }
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, arraySpinner);
         //spinner.setAdapter(adapter);
         //try{
