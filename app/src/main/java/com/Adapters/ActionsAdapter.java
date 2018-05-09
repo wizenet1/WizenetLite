@@ -2,31 +2,18 @@ package com.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
@@ -34,37 +21,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.Activities.ActivityCallDetails;
 import com.Activities.R;
-import com.Classes.Call;
-import com.Classes.Ctype;
 import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
 import com.Classes.IS_Status;
 import com.DatabaseHelper;
 import com.File_;
-import com.Fragments.FragmentActionChangeStatus;
 import com.Fragments.FragmentActions;
-import com.Fragments.FragmentActions2;
+
 import com.Helper;
 import com.Icon_Manager;
-import com.ProgressTaskClient;
-import com.model.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * the position of adapter is to set the content into listview
@@ -85,13 +59,13 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> filterList;
     TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment,txt_status,txt_project_desc;
     Icon_Manager icon_manager;
-    FragmentActions2 fragment;
+    FragmentActions fragment;
     Spinner spinner;
     String update_action_id,update_status_id;
     boolean flag ;
     Button btn_update_status;
     //LinearLayout layout_details;
-    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions2 fragmentActions) {
+    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions fragmentActions) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
         this.filterList= (ArrayList<IS_Action>) callsArrayList;

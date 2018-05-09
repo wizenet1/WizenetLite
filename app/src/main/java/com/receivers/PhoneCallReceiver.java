@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.DatabaseHelper;
+import com.Helper;
 
 import java.util.Date;
 
@@ -27,7 +29,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        Log.e("mytag","-----------------reveiced here-----------------");
         //We listen to two intents.  The new outgoing call only tells us of an outgoing call,
         //We use it to get the number.
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
@@ -124,9 +126,17 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
                 isIncoming = true;
                 callStartTime = new Date();
                 savedNumber = number;
-                if (DatabaseHelper.getInstance(context).getValueByKey("IS_BUSY").contains("1")){
-                    //onIncomingCallStarted(context, number, callStartTime);
+                try{
+                    String option = "";
+                    option = DatabaseHelper.getInstance(context).getValueByKey("IS_BUSY_OPTION");
+                    if (!option.contains("ללא")){
+                        onIncomingCallStarted(context, number, callStartTime);
+                    }
+                }catch(Exception e){
+                    Helper h = new Helper();
+                    h.LogPrintExStackTrace(e);
                 }
+
 
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:

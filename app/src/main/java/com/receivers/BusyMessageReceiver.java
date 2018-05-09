@@ -26,7 +26,10 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {
 
         final Context context = ctx;
-        final String msg = "Busy, call back later";
+        String msg = "Busy, call back later";
+
+        String option = "";
+        option = DatabaseHelper.getInstance(context).getValueByKey("IS_BUSY_OPTION");
         final DatabaseHelper db = DatabaseHelper.getInstance(ctx);
         final String phoneNumber = number;
 
@@ -73,17 +76,18 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
                     e.printStackTrace();
                 } finally {
 
-                    boolean isBusy = db.getValueByKey("IS_BUSY").equals("1");
+                    boolean isBusy = true;//db.getValueByKey("IS_BUSY").equals("1");
 
                     // If the is_busy is checked, send sms.
                     if(isBusy) {
 
                         Uri uri = Uri.parse("smsto:" + phoneNumber);
                         try {
-
+                            String option = "";
+                            option = DatabaseHelper.getInstance(context).getValueByKey("IS_BUSY_OPTION");
                             // Send the short message.
                             SmsManager smsManager = SmsManager.getDefault();
-                            smsManager.sendTextMessage(phoneNumber, null, msg, null, null);
+                            smsManager.sendTextMessage(phoneNumber, null, option, null, null);
 
                             this.disconnectCall();
 
