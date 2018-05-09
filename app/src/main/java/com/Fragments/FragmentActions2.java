@@ -88,15 +88,13 @@ public class FragmentActions2 extends android.support.v4.app.Fragment {
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         myList = (ListView) v.findViewById(R.id.actions_list);
+        helper.sendChangedActionsToWizenet(getContext());
         setLblSearch();
         setChkActionsToday();
         setFloutingButton();
         setTextWatcher();
 
-
-
         refresh();
-
         return v;
     }
 

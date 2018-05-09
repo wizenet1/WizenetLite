@@ -338,7 +338,9 @@ public class Model {
                 myResponse = myResponse.replaceAll("USER_DetailsResponse", "");
                 myResponse = myResponse.replaceAll("USER_DetailsResult=", "DetailsResult:");
                 myResponse = myResponse.replaceAll(";", "");
+                Log.e("mytag","myResponse: "+myResponse);
                 return myResponse.toString();
+
                 //return response.toString();
             }
 
@@ -362,6 +364,9 @@ public class Model {
                     }
                     if(!DatabaseHelper.getInstance(context).getValueByKey("Cfname").equals(fname+" "+lname)){
                         DatabaseHelper.getInstance(context).updateValue("Cfname",fname+" "+lname);
+                    }
+                    if(!DatabaseHelper.getInstance(context).getValueByKey("CtypeName").equals(jarray.getJSONObject(0).getString("CtypeName"))){
+                        DatabaseHelper.getInstance(context).updateValue("CtypeName",jarray.getJSONObject(0).getString("CtypeName"));
                     }
                     myStr = fname+" "+lname;
                     //myStr=(jarray.getJSONObject(0).getString("Cfname"));//.concat(" ");//1 or 0

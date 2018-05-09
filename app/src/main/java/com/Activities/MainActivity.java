@@ -295,6 +295,10 @@ public class MainActivity extends Activity {
         }else{
             DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY_OPTION","ללא");Log.e("mytag","IS_BUSY does not exists,added!");
         }
+        if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("CtypeName")){
+        }else{
+            DatabaseHelper.getInstance(ctx).addControlPanel("CtypeName","");Log.e("mytag","CtypeName does not exists,added!");
+        }
     }
     private boolean addColumnToTable(String table,String column,boolean isTableExist){
         boolean flag = false;

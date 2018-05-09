@@ -111,7 +111,7 @@ public class ActionsAdapter2 extends BaseAdapter implements Filterable {
         //btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         txtcreatedate = (TextView) convertView.findViewById(R.id.txtcreatedate);
         spinner = (Spinner) convertView.findViewById(R.id.spinner);
-        btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+        //btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
 
@@ -139,7 +139,7 @@ public class ActionsAdapter2 extends BaseAdapter implements Filterable {
         setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
 
         layout_details.setTag(callsArrayList.get(pos).getActionID());
-        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
+        //btn_open_details.setTag(callsArrayList.get(pos).getActionID());
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
         is_desc.setTypeface(is_desc.getTypeface(), Typeface.BOLD_ITALIC);

@@ -48,6 +48,6 @@ public class ControlPanel {
 
     @Override
     public String toString() {
-        return "control panel No"+this.id+"   ["+this.key + "\n," + this.value+ "\n," + this.description + "]" ;
+        return "control panel No"+this.id+"   ["+this.key + "\n," + this.value+ "\n," + this.description + "]\n" ;
     }
 }

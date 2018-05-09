@@ -531,7 +531,7 @@ public class IS_Action {
 
     @Override
     public String toString() {
-        return "ACTIONID:"+this.getActionID()+ " status:"+this.getStatusName() ;
+        return "ACTIONID:"+this.getActionID()+ " \nstatusName:"+this.getStatusName()+ " \nstatusID:"+this.getStatusID()+ " \nExpr1:"+this.getExpr1() ;
                 //this.cphone+ "\n,ccell:"+ this.ccell + "\n,ccompany:"+ this.ccompany +"]" ;
     }
 

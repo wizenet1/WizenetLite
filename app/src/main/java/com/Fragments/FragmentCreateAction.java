@@ -79,6 +79,8 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     Map<String, Ccustomer> ccustomers_map;
     Map<String, Ctype> ctype_map;
     private ProgressDialog pDialog;
+    ArrayAdapter<String> adapter;
+    ArrayAdapter<String> adapter2;
 
     String selectedProject,selectedTask,selectedCcustomer,selectedReminder,selectedFromHoure,selectedToHour;
 
@@ -119,10 +121,37 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         setProjectSpinner();
         setCtypeSpinner();
         setTaskSpinner(0);
-
+        //CID","");
+        //CtypeID",
+        //CtypeName
         setBtn();
+
+        //try{
+        //    Log.e("mytag",DatabaseHelper.getInstance(getContext()).getValueByKey("Cfname"));
+        //    //int selectionPosition = adapter.getPosition(db.getValueByKey("CtypeName"));
+        //    //dynamicSpinner.setSelection(selectionPosition);;
+        //
+        //
+        //    Log.e("mytag",db.getValueByKey("Cfname")+ " "  + "selectionPosition:"  + " dynamicSpinner2:" + selectionPosition2);
+        //}catch(Exception e){
+        //    helper.LogPrintExStackTrace(e);
+        //}
+
         return v;
     };
+
+
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            Log.e("mytag","spinner.getItemAtPosition(i).toString(): " +spinner.getItemAtPosition(i).toString() + " " + myString);
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return 0;
+    }
     private void setBtn(){
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +202,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 }
             }
         });
+
         //pDialog.dismiss();
     }
     private void setDialog(){
@@ -249,11 +279,11 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         }
         String[] stringArray = ar.toArray(new String[0]);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arraySpinner);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arraySpinner);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, stringArray);
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, stringArray);
 
-        stat1.setAdapter(adapter);
+        stat1.setAdapter(adapter1);
         stat2.setAdapter(adapter2);
         stat3.setAdapter(adapter3);
         DateFormat df = new SimpleDateFormat("HH");
@@ -268,7 +298,6 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             int pos1 = adapter2.getPosition(formatted + ":00");
             stat2.setSelection(pos1);
             int pos2 = adapter3.getPosition(formatted + ":30");
-
             stat3.setSelection(pos2);
         }catch(Exception e){
 
@@ -332,10 +361,12 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
                 //Log.e("mytag",ctypeList.get(i).getCtypeName());
             }
             items1[0]="בחר";
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items1);
+             adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items1);
             dynamicSpinner.setAdapter(adapter);
             int selectionPosition = adapter.getPosition("");
             dynamicSpinner.setSelection(selectionPosition);
+            dynamicSpinner.setSelection(getIndex(dynamicSpinner, db.getValueByKey("CtypeName")));
+
             dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -388,7 +419,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             }
             items3[projectsList.size()]="";
 
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items3);
+            adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items3);
             spinnerProjects.setAdapter(adapter2);
             int selectionPosition2 = adapter2.getPosition("");
             spinnerProjects.setSelection(selectionPosition2);
@@ -498,6 +529,14 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         dynamicSpinner2.setAdapter(adapter2);
         int selectionPosition2 = adapter2.getPosition("");
         dynamicSpinner2.setSelection(selectionPosition2);
+        try{
+            String _Cfname = db.getValueByKey("Cfname");
+            dynamicSpinner2.setSelection(getIndex(dynamicSpinner2,_Cfname ));
+            selectedCcustomer = _Cfname;
+        }catch (Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
         dynamicSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,

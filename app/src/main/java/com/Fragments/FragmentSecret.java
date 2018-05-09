@@ -27,8 +27,10 @@ import android.widget.Toast;
 import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Classes.ControlPanel;
 import com.Classes.Ctype;
 import com.Classes.Favorite;
+import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
 import com.Classes.Message;
 import com.DatabaseHelper;
@@ -61,7 +63,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,id3,id4,btn_action_time;
+    TextView id1,id2,id3,id4,btn_action_time,btn_actions;
     Button btn_delete_table,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
@@ -81,6 +83,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
         id4 = (TextView) v.findViewById(R.id.id4) ;
+        btn_actions = (TextView) v.findViewById(R.id.btn_actions) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
         btn_delete_rows =(Button) v.findViewById(R.id.btn_delete_rows) ;
 
@@ -191,6 +194,13 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 drawActionsTimes();
             }
         });
+        btn_actions.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                drawActions();
+            }
+        });
         setSpinner();
         return v;
     }
@@ -251,6 +261,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
     private void drawActionsTimes(){
+        layout.removeAllViewsInLayout();
         List<IS_ActionTime> actionsTime = new ArrayList<IS_ActionTime>();
         actionsTime = DatabaseHelper.getInstance(getContext()).getISActionsTime("");
         for (final IS_ActionTime f : actionsTime) {
@@ -260,7 +271,6 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
             rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             rowTextView.setTextSize(20);
             //rowTextView.setHeight(30);
-
             // add the textview to the linearlayout
             layout.addView(rowTextView);
             rowTextView.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +281,50 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
             });
         }
     }
+    private void drawControlPanel(){
+        layout.removeAllViewsInLayout();
+        //layout.
+        List<IS_Action> actions = new ArrayList<IS_Action>();
+        actions = DatabaseHelper.getInstance(getContext()).getISActions("");
+        for (final IS_Action f : actions) {
+            //Log.e("mytag",f.toString());
+            final TextView rowTextView = new TextView(getContext());
+            rowTextView.setText(f.toString());
+            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            rowTextView.setTextSize(20);
+            //rowTextView.setHeight(30);
+            // add the textview to the linearlayout
+            layout.addView(rowTextView);
+            rowTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+        }
+    }
+    private void drawActions(){
+        layout.removeAllViewsInLayout();
+        //layout.
+        List<ControlPanel> actions = new ArrayList<ControlPanel>();
+        actions = DatabaseHelper.getInstance(getContext()).getAllKeysAndValues();
+        for (final ControlPanel f : actions) {
+            //Log.e("mytag",f.toString());
+            final TextView rowTextView = new TextView(getContext());
+            rowTextView.setText(f.toString());
+            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            rowTextView.setTextSize(20);
+            //rowTextView.setHeight(30);
+            // add the textview to the linearlayout
+            layout.addView(rowTextView);
+            rowTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+    }
     public Favorite[] getFavorite(String json) {
 
 

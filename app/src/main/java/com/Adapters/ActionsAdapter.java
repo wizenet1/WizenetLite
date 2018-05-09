@@ -83,7 +83,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
-    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment,txt_status;
+    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment,txt_status,txt_project_desc;
     Icon_Manager icon_manager;
     FragmentActions2 fragment;
     Spinner spinner;
@@ -131,6 +131,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //convertView=inflater.inflate(R.layout.is_action, null);
             //convertView.getTag(pos);
         }
+        txt_project_desc = (TextView) convertView.findViewById(R.id.txt_project_desc);
         txt_status = (TextView) convertView.findViewById(R.id.txt_status);
         txt_owner = (TextView) convertView.findViewById(R.id.txt_owner);
         txt_user = (TextView) convertView.findViewById(R.id.txt_user);
@@ -144,7 +145,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
        // btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         txtcreatedate = (TextView) convertView.findViewById(R.id.txtcreatedate);
         spinner = (Spinner) convertView.findViewById(R.id.spinner);
-        btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+        //btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
 
@@ -160,17 +161,21 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         try{
             txt_destination.setText(callsArrayList.get(pos).getActionDate().substring(0,10));
             txt_assignment.setText(callsArrayList.get(pos).getActionSdate().substring(0,10));
-        }catch (Exception e){helper.LogPrintExStackTrace(e);}
+        }catch (Exception e){
+            txt_assignment.setText("ללא");
+        }
 
         txt_owner.setText(callsArrayList.get(pos).getOwnerCfname()+" "+callsArrayList.get(pos).getOwnerClname());
-        txt_user.setText(callsArrayList.get(pos).getUserCfname()+" "+callsArrayList.get(pos).getUserClname());
+        txt_project_desc.setText("פרוייקט: "+callsArrayList.get(pos).getProjectSummery());
 
+        txt_user.setText(callsArrayList.get(pos).getUserCfname()+" "+callsArrayList.get(pos).getUserClname());
+        txt_status.setText(callsArrayList.get(pos).getStatusName());
         txtcreatedate.setText(callsArrayList.get(pos).getCreate());
         //is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-        setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
-
+        //setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
+        txt_status.setTag(callsArrayList.get(pos).getActionID());
         layout_details.setTag(callsArrayList.get(pos).getActionID());
-        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
+        //btn_open_details.setTag(callsArrayList.get(pos).getActionID());
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
         is_desc.setTypeface(is_desc.getTypeface(), Typeface.BOLD_ITALIC);
@@ -195,65 +200,15 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         txt_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                helper.goToChangeStatusAction(actionid,c);
                 if (helper.isNetworkAvailable(c)){
-                    alertBuilderSpinner(actionid);
-                    //Model.getInstance().Async_Wz_Update_Action_Field_Listener(helper.getMacAddr(c), update_action_id, "statusID", update_status_id, new Model.Wz_Update_Action_Field_Listener() {
-                    //    @Override
-                    //    public void onResult(String str) {
-                    //        Log.e("mytag","status changed");
-                    //        fragment.returnListAndRefresh();
-                    //        //fragment.refresh();
-                    //    }
-                    //});
-//                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(c);
-//                    LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View dialogView = inflater.inflate(R.layout.change_status, null);
-//                    dialogBuilder.setView(dialogView);
-//
-//                    Spinner  spinner_status = (Spinner) dialogView.findViewById(R.id.spinner_status);
-//                    TextView  btn_update_status = (TextView) dialogView.findViewById(R.id.btn_update_status);
-//
-//                    List<IS_Status> is_statusList = new ArrayList<IS_Status>();
-//                    is_statusList = getISStatusList();
-//                    String[] items1 = new String[is_statusList.size()+1];
-//                    for (int i = 0; i < is_statusList.size(); i++) {
-//                        items1[i+1] = is_statusList.get(i).getStatusName();
-//                        Log.e("mytag",is_statusList.get(i).getStatusName());
-//                    }
-//                    //spinner = (Spinner)findViewById(R.id.spinner1);
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, items1);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);                    //
-//                    spinner_status.setAdapter(adapter);
-//
-//                    btn_update_status.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Log.e("mytag","clicked");
-//                        }
-//                    });
-//                    AlertDialog alertDialog = dialogBuilder.create();
-//                    alertDialog.show();
                 }else{
                     Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-    public void alertBuilderSpinner(String actionid){
 
-        FragmentActionChangeStatus fr = new FragmentActionChangeStatus();
-        android.support.v4.app.FragmentManager fm = ((FragmentActivity)c).getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        Bundle bundle = new Bundle();
-
-        bundle.putString("actionid",actionid);
-        fr.setArguments(bundle);
-        ft.replace(R.id.container,fr,"FragmentActionChangeStatus");
-        ft.addToBackStack("FragmentActionChangeStatus");
-        ft.commit();
-
-
-    }
     private List<IS_Status> getISStatusList(){
         List<IS_Status> list = new ArrayList<IS_Status>() ;
         JSONArray jarray = null;
@@ -309,46 +264,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
 
     }
-    private void setStatusSpinner(String statName, final String actionid){
-        //int i = fragment.getIS_Status().size();
-        //String[] arraySpinner = new String[i];
-        //int counter = 0;
-        //for (String s:fragment.getIS_Status().keySet()) {
-        //    arraySpinner[counter] = s;
-        //    counter++;
-        //}
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, arraySpinner);
-        //spinner.setAdapter(adapter);
-        //try{
-        //    int selectionPosition2 = adapter.getPosition(statName.trim());
-        //    spinner.setSelection(selectionPosition2);
-        //}catch(Exception e){statName.trim(); helper.LogPrintExStackTrace(e);}
 
-
-        //spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        //    @Override
-        //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //        Log.e("mytag","onItemSelected");
-        //        String select = parent.getItemAtPosition(position).toString().trim();
-        //        if (helper.isNetworkAvailable(c)){
-        //            Log.e("mytag","actionid:"+actionid + "  statusID="+fragment.getIS_Status().get(select));
-        //            update_action_id = actionid;
-        //            update_status_id = fragment.getIS_Status().get(select);
-        //            //AlertDialogConfirm(actionid,select);
-//
-        //        }
-//
-//
-        //    }
-//
-        //    @Override
-        //    public void onNothingSelected(AdapterView<?> parent) {
-//
-        //    }
-        //});
-
-
-    }
     private void set_play(final int actionID){
         btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         btn_play.setTextSize(30);
@@ -478,7 +394,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 {
                     if(String.valueOf(filterList.get(i).getActionID()).contains(constraint)||
                        String.valueOf(filterList.get(i).getActionDesc()).contains(constraint) ||
-                       String.valueOf(filterList.get(i).getComments()).contains(constraint))
+                       String.valueOf(filterList.get(i).getComments()).contains(constraint) ||
+                       String.valueOf(filterList.get(i).getProjectSummery()).contains(constraint))
                     {//filterList.get(i).
                         IS_Action action=new IS_Action(
                                 filterList.get(i).getActionID(),

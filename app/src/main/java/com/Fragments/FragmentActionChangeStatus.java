@@ -89,12 +89,15 @@ public class FragmentActionChangeStatus extends android.support.v4.app.Fragment 
             @Override
             public void onClick(View v) {
                 IS_Action action = new IS_Action();
-                action.setActionID(Integer.valueOf(txt_actionid.getText().toString()));
+                action.setActionID(Integer.valueOf(txt_actionid.getText().toString().trim()));
                 action.setStatusID(Integer.valueOf(selected));
-                action.setStatusName(statusName);
+                action.setStatusName(statusName.trim());
                 action.setExpr1("0");
+                Log.e("mytag","doron test: " +action.toString());
                 boolean flag = DatabaseHelper.getInstance(getContext()).updateISAction(action);
                 if (flag == true){
+                    Log.e("mytag","action " + txt_actionid.getText().toString() + " changed");
+
                     getFragmentManager().popBackStack();
                 }
 
