@@ -34,28 +34,31 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".CustomersActivity"
+        <activity
+            android:name=".CustomersActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ControlPanelActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ControlPanelActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".SettingsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".MessageActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".MessageActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityCallDetails"
-            android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityCalls"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -65,37 +68,56 @@
         <receiver android:name="com.Alarm_Receiver_Text_File" />
         <receiver android:name="com.Alarm_Receiver_sync_client_products" />
 
-        <receiver
-            android:name="com.receivers.PhoneCallHandler"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
+        <!-- <receiver -->
+        <!-- android:name="com.receivers.PhoneCallHandler" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter android:priority="1000"> -->
+        <!-- <action android:name="android.intent.action.PHONE_STATE" /> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter android:priority="1000"> -->
+        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
-        <!--<receiver-->
-            <!--android:name="com.receivers.BusyMessageReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.PHONE_STATE" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+
+        <!-- <receiver -->
+        <!-- android:name="com.receivers.BusyMessageReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PHONE_STATE" /> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
         <activity android:name=".MenuOfflineActivity" />
         <activity android:name=".ScannerActivity" />
-        <activity android:name=".ActivityWebView"
+        <activity
+            android:name=".ActivityWebView"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".IncomingCallScreenActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".IncomingCallScreenActivity"
+            android:theme="@android:style/Theme.Holo.Dialog" />
+
+        <receiver android:name="com.wizenetlite.Wizenet_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/wizenet_widget_info" />
+        </receiver>
+
+        <activity android:name="com.wizenetlite.Wizenet_widgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
