@@ -103,17 +103,17 @@
             android:name=".IncomingCallScreenActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
 
-        <receiver android:name="com.wizenetlite.Wizenet_widget">
+        <receiver android:name="com.wizenetlite.wizenet_app_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/wizenet_widget_info" />
+                android:resource="@xml/wizenet_app_widget_info" />
         </receiver>
 
-        <activity android:name="com.wizenetlite.Wizenet_widgetConfigureActivity">
+        <activity android:name="com.wizenetlite.wizenet_app_widgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

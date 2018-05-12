@@ -12,17 +12,17 @@ import android.widget.EditText;
 import com.Activities.R;
 
 /**
- * The configuration screen for the {@link Wizenet_widget Wizenet_widget} AppWidget.
+ * The configuration screen for the {@link wizenet_app_widget wizenet_app_widget} AppWidget.
  */
-public class Wizenet_widgetConfigureActivity extends Activity {
+public class wizenet_app_widgetConfigureActivity extends Activity {
 
-    private static final String PREFS_NAME = "com.wizenetlite.Wizenet_widget";
+    private static final String PREFS_NAME = "com.wizenetlite.wizenet_app_widget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     EditText mAppWidgetText;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            final Context context = Wizenet_widgetConfigureActivity.this;
+            final Context context = wizenet_app_widgetConfigureActivity.this;
 
             // When the button is clicked, store the string locally
             String widgetText = mAppWidgetText.getText().toString();
@@ -30,7 +30,7 @@ public class Wizenet_widgetConfigureActivity extends Activity {
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            Wizenet_widget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+            wizenet_app_widget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
             // Make sure we pass back the original appWidgetId
             Intent resultValue = new Intent();
@@ -40,7 +40,7 @@ public class Wizenet_widgetConfigureActivity extends Activity {
         }
     };
 
-    public Wizenet_widgetConfigureActivity() {
+    public wizenet_app_widgetConfigureActivity() {
         super();
     }
 
@@ -77,7 +77,7 @@ public class Wizenet_widgetConfigureActivity extends Activity {
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
 
-        setContentView(R.layout.wizenet_widget_configure);
+        setContentView(R.layout.wizenet_app_widget_configure);
         mAppWidgetText = (EditText) findViewById(R.id.appwidget_text);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
@@ -95,7 +95,7 @@ public class Wizenet_widgetConfigureActivity extends Activity {
             return;
         }
 
-        mAppWidgetText.setText(loadTitlePref(Wizenet_widgetConfigureActivity.this, mAppWidgetId));
+        mAppWidgetText.setText(loadTitlePref(wizenet_app_widgetConfigureActivity.this, mAppWidgetId));
     }
 }
 
