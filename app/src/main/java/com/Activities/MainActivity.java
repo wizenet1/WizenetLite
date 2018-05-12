@@ -229,7 +229,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Model.getInstance().Async_Wz_getUrl_Listener(helper.getMacAddr(), txt_enter_code.getText().toString(), new Model.Wz_getUrl_Listener() {
+                Model.getInstance().Async_Wz_getUrl_Listener(helper.getMacAddr(getApplicationContext()), txt_enter_code.getText().toString(), new Model.Wz_getUrl_Listener() {
                     @Override
                     public void onResult(String str) {
                         JSONObject j = null;
@@ -294,6 +294,10 @@ public class MainActivity extends Activity {
         if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("IS_BUSY_OPTION")){
         }else{
             DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY_OPTION","ללא");Log.e("mytag","IS_BUSY does not exists,added!");
+        }
+        if (DatabaseHelper.getInstance(ctx).checkIfKeyExistsCP("CtypeName")){
+        }else{
+            DatabaseHelper.getInstance(ctx).addControlPanel("CtypeName","");Log.e("mytag","CtypeName does not exists,added!");
         }
     }
     private boolean addColumnToTable(String table,String column,boolean isTableExist){

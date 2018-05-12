@@ -88,50 +88,54 @@
 
 
     <LinearLayout
+        android:id="@+id/assigmentlayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
-        android:id="@+id/assigmentlayout1"
+        android:textDirection="rtl"
         android:orientation="horizontal">
-        <TextView
-            android:textColor="@color/whiteColor"
-            android:id="@+id/edit"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_border"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:layout_weight="0.5">
+            <TextView
+                android:id="@+id/txt_project_desc"
+                android:textStyle="italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="20dp"
 
-            android:text="הערות משימה"
-            />
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/is_comments"
+                android:gravity="center_vertical"
+                android:text="הערות"
+                />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
-            android:layout_weight="0.8"
-            android:gravity="center_vertical"
-            android:text="הערות" />
-        <TextView
-            android:visibility="gone"
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="7dp"
-            android:background="@drawable/btn_circle2"
-            android:id="@+id/btn_open_details"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:text="˅"/>
+            android:layout_weight="0.5">
+            <TextView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_border"
+                android:text="+"
+                android:textColor="@color/whiteColor"
+                android:textSize="8pt" />
+        </LinearLayout>
+
+
+
 
 
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layoutDirection="rtl"
         android:layout_width="match_parent"
@@ -248,18 +252,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5">
-            <Button
-                android:id="@+id/btn_update_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="עדכן"/>
-            <Spinner
+
+            <TextView
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/spinner"
-                ></Spinner>
+                android:layout_height="wrap_content"
+                android:text="סטטוס"
+                android:textSize="15dp"
+                android:id="@+id/txt_status"
+                ></TextView>
         </LinearLayout>
 
 

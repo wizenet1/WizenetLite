@@ -402,13 +402,13 @@ public class ActivityCallDetails extends FragmentActivity {
                 DatabaseHelper.getInstance(getApplicationContext()).updateSpecificValueInTable2("mgnet_calls","CallID",String.valueOf(callid),"internalSN","'" +txt_internalsn.getText().toString() + "'");
 
                 if (helper.isNetworkAvailable(getApplicationContext())){
-                    Model.getInstance().Async_Wz_Update_Call_Field_Listener(helper.getMacAddr(), (callid), "internalSN", "'" + txt_internalsn.getText().toString() + "'", new Model.Wz_Update_Call_Field_Listener() {
+                    Model.getInstance().Async_Wz_Update_Call_Field_Listener(helper.getMacAddr(getApplicationContext()), (callid), "internalSN", "'" + txt_internalsn.getText().toString() + "'", new Model.Wz_Update_Call_Field_Listener() {
                         @Override
                         public void onResult(String str) {
 
                         }
                     });
-                    Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(), Integer.valueOf(callid), statusID,
+                    Model.getInstance().Async_Wz_Call_Update_Listener(helper.getMacAddr(getApplicationContext()), Integer.valueOf(callid), statusID,
                         txttechanswer.getText().toString(), new Model.Wz_Call_Update_Listener() {
                             @Override
                             public void onResult(String str) {
@@ -573,7 +573,7 @@ public class ActivityCallDetails extends FragmentActivity {
 //          }
       }
       private void getStateAsync(String callid){
-          Model.getInstance().Async_Wz_Call_getTime_Listener(helper.getMacAddr(), Integer.valueOf(callid), "", new Model.Wz_Call_getTime_Listener() {
+          Model.getInstance().Async_Wz_Call_getTime_Listener(helper.getMacAddr(getApplicationContext()), Integer.valueOf(callid), "", new Model.Wz_Call_getTime_Listener() {
               @Override
               public void onResult(String str) {
                   JSONObject j = null;

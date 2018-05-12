@@ -1,29 +1,17 @@
 package com.Fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -40,9 +28,6 @@ import com.Activities.ActivityCalls;
 import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
-import com.Adapters.SideNavigationMenuAdapter;
-import com.Adapters.SideNavigationMenuAdapter;
-import com.AlertBadgeEnum;
 import com.Classes.Call;
 import com.Classes.Ccustomer;
 import com.DatabaseHelper;
@@ -460,7 +445,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
     }
 
     private void getCallStatuses() {
-        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(), new Model.Wz_Call_Statuses_Listener() {
+        Model.getInstance().Wz_Call_Statuses_Listener(helper.getMacAddr(getContext()), new Model.Wz_Call_Statuses_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag","write call statuses");
@@ -595,7 +580,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
     protected void setUsername() {
         try {
-            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
+            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(getContext()), new Model.User_Details_Listener() {
                 @Override
                 public void onResult(String str) {
                     tv_username.setText("שלום " + str);
@@ -762,15 +747,20 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
         if (helper.isNetworkAvailable(context)) {
             //Log.e("mytag","isNetworkAvailable");
-            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
-                @Override
-                public void onResult(String str) {
-                    menu_bar_welcome_txt.setText(" שלום " + str);
-                    if (str.contains("[]")){
-                        ((MenuActivity) getActivity()).finish();
+            try{
+                Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(context), new Model.User_Details_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        menu_bar_welcome_txt.setText(" שלום " + str);
+                        if (str.contains("[]")){
+                            ((MenuActivity) getActivity()).finish();
+                        }
                     }
-                }
-            });
+                });
+            }catch (Exception e){
+                helper.LogPrintExStackTrace(e);
+            }
+
         } else {
             Log.e("mytag", "is not NetworkAvailable");
             menu_bar_welcome_txt.setText(" שלום " + DatabaseHelper.getInstance(context).getValueByKey("Cfname"));

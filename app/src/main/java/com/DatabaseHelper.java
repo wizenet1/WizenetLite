@@ -13,6 +13,7 @@ import com.Classes.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.ksoap2.HeaderProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1702,6 +1703,37 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         }
         return flag;
     }
+    public boolean updateISAction(IS_Action is_action) {
+        boolean flag = false;
+//        try{
+//            SQLiteDatabase db = this.getWritableDatabase();
+//            String strSQL = "UPDATE  IS_Actions  SET statusID = " + is_action.getStatusID() + ",";
+//            strSQL += " statusName = '" + is_action.getStatusName()+"',";
+//            strSQL += " Expr1 = '" + is_action.getExpr1()+"'";
+//            strSQL += " WHERE   actionID =  " + String.valueOf(is_action.getActionID()) + "";
+//            Log.e("mytag",strSQL);
+//            db.execSQL(strSQL);
+//            flag = true;
+//            Log.e("mytag","success to update value2");
+//        }catch (Exception e){
+//            Log.e("mytag",e.getMessage());
+//        }
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("statusID",is_action.getStatusID());
+            values.put("statusName",is_action.getStatusName());
+            values.put("Expr1",is_action.getExpr1());
+            db.update("IS_Actions", values,"actionID = " + String.valueOf(is_action.getActionID()),null );
+            flag = true;
+            // Closing database connection
+        }catch (Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            //return flag;
+        }
+        return flag;
+    }
 
 
     //region CallStatus
@@ -2171,7 +2203,9 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
                 //db.close();
                 return cp.getValue();
             } catch(Exception e) {
-                e.printStackTrace();
+                Helper h = new Helper();
+                h.LogPrintExStackTrace(e);
+                //e.printStackTrace();
             }
         }catch(Exception e){
             Log.e("mytag",e.getMessage());

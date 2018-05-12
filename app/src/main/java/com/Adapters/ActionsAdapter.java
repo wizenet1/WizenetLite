@@ -2,25 +2,16 @@ package com.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Filter;
@@ -30,29 +21,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.Activities.ActivityCallDetails;
 import com.Activities.R;
-import com.Classes.Call;
-import com.Classes.Ctype;
 import com.Classes.IS_Action;
 import com.Classes.IS_ActionTime;
 import com.Classes.IS_Status;
 import com.DatabaseHelper;
+import com.File_;
 import com.Fragments.FragmentActions;
+
 import com.Helper;
 import com.Icon_Manager;
-import com.ProgressTaskClient;
-import com.model.Model;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * the position of adapter is to set the content into listview
@@ -71,7 +57,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
     ArrayList<IS_Action> filterList;
-    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment;
+    TextView btn_play,btn_stop,txtcreatedate,txt_owner,txt_user,txt_destination,txt_assignment,txt_status,txt_project_desc;
     Icon_Manager icon_manager;
     FragmentActions fragment;
     Spinner spinner;
@@ -110,6 +96,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         flag = false;
         LayoutInflater inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView=inflater.inflate(R.layout.is_action, null); /////// this is solve the problem!!
+
         final LinearLayout layout_details;
         final TextView btn_open_details;
        // holder = new ViewHolder();
@@ -118,6 +105,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //convertView=inflater.inflate(R.layout.is_action, null);
             //convertView.getTag(pos);
         }
+        txt_project_desc = (TextView) convertView.findViewById(R.id.txt_project_desc);
+        txt_status = (TextView) convertView.findViewById(R.id.txt_status);
         txt_owner = (TextView) convertView.findViewById(R.id.txt_owner);
         txt_user = (TextView) convertView.findViewById(R.id.txt_user);
         txt_destination= (TextView) convertView.findViewById(R.id.txt_destination);
@@ -127,10 +116,10 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         edit = (TextView) convertView.findViewById(R.id.edit);
         btn_play = (TextView) convertView.findViewById(R.id.btn_play);
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
-        btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
+       // btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         txtcreatedate = (TextView) convertView.findViewById(R.id.txtcreatedate);
         spinner = (Spinner) convertView.findViewById(R.id.spinner);
-        btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
+        //btn_open_details = (TextView) convertView.findViewById(R.id.btn_open_details);
         layout_details=(LinearLayout) convertView.findViewById(R.id.layout_details);;
         TextView is_desc =(TextView) convertView.findViewById(R.id.is_desc);
 
@@ -139,34 +128,37 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             String string = callsArrayList.get(pos).getComments();
             byte[] utf8 = string.getBytes("UTF-8");
             string = new String(utf8, "UTF-8");
-            //Log.e("mytag", (String.valueOf(string)));
             result= String.valueOf(string);
-            //is_comments.setText(Html.fromHtml(String.valueOf(string)), TextView.BufferType.SPANNABLE);
             //is_comments.setText(Html.fromHtml(String.valueOf(string) ));
-
-        } catch (UnsupportedEncodingException e) {
-            helper.LogPrintExStackTrace(e);
-        }
+        } catch (UnsupportedEncodingException e) {helper.LogPrintExStackTrace(e);}
         setEdit(result);
-        txt_destination.setText("");
-        txt_assignment.setText("");
+        try{
+            txt_destination.setText(callsArrayList.get(pos).getActionDate().substring(0,10));
+            txt_assignment.setText(callsArrayList.get(pos).getActionSdate().substring(0,10));
+        }catch (Exception e){
+            txt_assignment.setText("ללא");
+        }
+
         txt_owner.setText(callsArrayList.get(pos).getOwnerCfname()+" "+callsArrayList.get(pos).getOwnerClname());
+        txt_project_desc.setText("פרוייקט: "+callsArrayList.get(pos).getProjectSummery());
+
         txt_user.setText(callsArrayList.get(pos).getUserCfname()+" "+callsArrayList.get(pos).getUserClname());
-
-                        txtcreatedate.setText(callsArrayList.get(pos).getCreate());
+        txt_status.setText(callsArrayList.get(pos).getStatusName());
+        txtcreatedate.setText(callsArrayList.get(pos).getCreate());
         //is_comments.setText(String.valueOf(callsArrayList.get(pos).getComments()) );
-        setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
-
+        //setStatusSpinner(callsArrayList.get(pos).getStatusName(),String.valueOf(callsArrayList.get(pos).getActionID()));
+        txt_status.setTag(callsArrayList.get(pos).getActionID());
         layout_details.setTag(callsArrayList.get(pos).getActionID());
-        btn_open_details.setTag(callsArrayList.get(pos).getActionID());
+        //btn_open_details.setTag(callsArrayList.get(pos).getActionID());
         is_actiontxt.setText(String.valueOf(callsArrayList.get(pos).getActionID()) );
         is_desc.setText(callsArrayList.get(pos).getActionDesc());
         is_desc.setTypeface(is_desc.getTypeface(), Typeface.BOLD_ITALIC);
         is_desc.setTextSize(20);
-        setBtn_update_status();
+        setStatusChange(String.valueOf(callsArrayList.get(pos).getActionID()));
         //chk_if_play(callsArrayList.get(pos).getActionID());
         set_play(callsArrayList.get(pos).getActionID());
         set_stop(callsArrayList.get(pos).getActionID());
+
         btn_play.setTag(pos);
         btn_stop.setTag(pos);
 
@@ -177,29 +169,46 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
         return convertView;
     }
-    private void setBtn_update_status(){
-        btn_update_status.setOnClickListener(new View.OnClickListener() {
+    private void setStatusChange(final String actionid){
+
+        txt_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 if (helper.isNetworkAvailable(c)){
-                     Model.getInstance().Async_Wz_Update_Action_Field_Listener(helper.getMacAddr(), update_action_id, "statusID", update_status_id, new Model.Wz_Update_Action_Field_Listener() {
-                         @Override
-                         public void onResult(String str) {
-                             Log.e("mytag","status changed");
-                             fragment.returnListAndRefresh();
-                             //fragment.refresh();
-                         }
-                     });
-                 }else{
-                     Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
-                 }
-                 }
-                });
-
-
-
-
+                helper.goToChangeStatusAction(actionid,c);
+                if (helper.isNetworkAvailable(c)){
+                }else{
+                    Toast.makeText(c, "offline - no internet", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
+
+    private List<IS_Status> getISStatusList(){
+        List<IS_Status> list = new ArrayList<IS_Status>() ;
+        JSONArray jarray = null;
+        try {
+            String strJson = "";
+            File_ f = new File_();
+            strJson = f.readFromFileExternal(c,"is_status.txt");
+            jarray =  new JSONArray(strJson);
+
+        } catch (JSONException e) {
+            helper.LogPrintExStackTrace(e);
+            return list;
+        }
+        for (int i = 0; i < jarray.length(); i++) {
+            final JSONObject e;
+            try {
+                e = jarray.getJSONObject(i);
+                list.add(new IS_Status(e.getString("statusID"),e.getString("statusName")));
+            } catch (JSONException e1) {
+                helper.LogPrintExStackTrace(e1);
+                return list;
+            }
+        }
+        return list;
+    }
+
     private void setEdit(final String html){
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,43 +238,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
 
 
     }
-    private void setStatusSpinner(String statName, final String actionid){
-        int i = fragment.getIS_Status().size();
-        String[] arraySpinner = new String[i];
-        int counter = 0;
-        for (String s:fragment.getIS_Status().keySet()) {
-            arraySpinner[counter] = s;
-            counter++;
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, arraySpinner);
-        spinner.setAdapter(adapter);
-        try{
-            int selectionPosition2 = adapter.getPosition(statName.trim());
-            spinner.setSelection(selectionPosition2);
-        }catch(Exception e){statName.trim(); helper.LogPrintExStackTrace(e);}
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String select = parent.getItemAtPosition(position).toString().trim();
-                if (helper.isNetworkAvailable(c)){
-                    Log.e("mytag","actionid:"+actionid + "  statusID="+fragment.getIS_Status().get(select));
-                    update_action_id = actionid;
-                    update_status_id = fragment.getIS_Status().get(select);
-                    //AlertDialogConfirm(actionid,select);
 
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-    }
     private void set_play(final int actionID){
         btn_play.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         btn_play.setTextSize(30);
@@ -395,7 +368,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 {
                     if(String.valueOf(filterList.get(i).getActionID()).contains(constraint)||
                        String.valueOf(filterList.get(i).getActionDesc()).contains(constraint) ||
-                       String.valueOf(filterList.get(i).getComments()).contains(constraint))
+                       String.valueOf(filterList.get(i).getComments()).contains(constraint) ||
+                       String.valueOf(filterList.get(i).getProjectSummery()).contains(constraint))
                     {//filterList.get(i).
                         IS_Action action=new IS_Action(
                                 filterList.get(i).getActionID(),

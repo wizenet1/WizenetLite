@@ -69,7 +69,7 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         mSearchEdt = (EditText) v.findViewById(R.id.mSearchEdt);
         //initUI
         Helper helper = new Helper();
-        String mac = helper.getMacAddr();
+        String mac = helper.getMacAddr(getContext());
 
 //        ActionBar actionBar = getActivity().getActionBar();
 //        actionBar.setDisplayShowTitleEnabled(false);

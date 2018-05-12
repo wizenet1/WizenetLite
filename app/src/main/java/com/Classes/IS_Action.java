@@ -426,7 +426,12 @@ public class IS_Action {
     public void setProjectDesc(String projectDesc) {
         this.projectDesc = projectDesc;
     }
-
+    public IS_Action(int actionID,int statusID,String statusName ,String Expr1){
+        this.actionID = actionID;
+        this.statusID = statusID;
+        this.statusName = statusName;
+        this.Expr1 = Expr1;
+    }
     public IS_Action(
             int actionID,
             int taskID,
@@ -526,7 +531,7 @@ public class IS_Action {
 
     @Override
     public String toString() {
-        return "ACTIONID:"+this.getActionID()+ " status:"+this.getStatusName() ;
+        return "ACTIONID:"+this.getActionID()+ " \nstatusName:"+this.getStatusName()+ " \nstatusID:"+this.getStatusID()+ " \nExpr1:"+this.getExpr1() ;
                 //this.cphone+ "\n,ccell:"+ this.ccell + "\n,ccompany:"+ this.ccompany +"]" ;
     }
 

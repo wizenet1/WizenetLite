@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.Activities.R;
 import com.Classes.Ccustomer;
+import com.Classes.IS_Action;
 import com.Classes.Order;
 import com.Fragments.*;
 
@@ -869,7 +870,19 @@ public class Helper {
             h.LogPrintExStackTrace(e);
             return "";
         }
+    }
 
+        public static String getMacAddr(Context ctx1) {
+            try{
+                TelephonyManager tm = (TelephonyManager) ctx1.getSystemService(Context.TELEPHONY_SERVICE);
+                String device_id = tm.getDeviceId();
+                return device_id;
+            }catch(Exception e){
+                Helper h = new Helper();
+                h.LogPrintExStackTrace(e);
+                return "";
+            }
+        }
 //        try {
 //            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
 //            for (NetworkInterface nif : all) {
@@ -893,7 +906,7 @@ public class Helper {
 //        } catch (Exception ex) {
 //        }
 //        return "02:00:00:00:00:00";
-    }
+
 
 
 //endregion
@@ -1164,6 +1177,21 @@ public class Helper {
         fragmentTransaction.commit();
 
     }
+    public void goToChangeStatusAction(String actionid,Context c){
+
+        FragmentActionChangeStatus fr = new FragmentActionChangeStatus();
+        android.support.v4.app.FragmentManager fm = ((FragmentActivity)c).getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("actionid",actionid);
+        fr.setArguments(bundle);
+        ft.replace(R.id.container,fr,"FragmentActionChangeStatus");
+        ft.addToBackStack("FragmentActionChangeStatus");
+        ft.commit();
+
+
+    }
 
     public void goToMenuFragment(Context context){
         android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
@@ -1183,6 +1211,22 @@ public class Helper {
         //tv.setVisibility(TextView.GONE);
         ft.addToBackStack("FragmentTools");
         ft.commit();
+    }
+    public void sendChangedActionsToWizenet(Context c){
+        String countChanged = "";
+        countChanged = DatabaseHelper.getInstance(c).getScalarByCountQuery("SELECT count(actionID) from IS_Actions where Expr1='0' ");
+        if (Integer.valueOf(countChanged) > 0){
+            List<IS_Action> actions = new ArrayList<IS_Action>();
+            actions = DatabaseHelper.getInstance(c).getISActions(" and  Expr1='0' ");
+            for(IS_Action is :actions){
+                Model.getInstance().Async_Wz_Update_Action_Field_Listener(getMacAddr(c), (String.valueOf(is.getActionID())), "statusID", "" + String.valueOf(is.getStatusID()) + "", new Model.Wz_Update_Action_Field_Listener() {
+                    @Override
+                    public void onResult(String str) {
+                        Log.e("mytag","status changed");
+                    }
+                });
+            }
+        }
     }
 //    public void goToCallsFragment(Context context){
 //        android.support.v4.app.FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();

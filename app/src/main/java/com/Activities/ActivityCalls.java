@@ -146,7 +146,7 @@ TextView lblcount;
 
 
         Helper helper = new Helper();
-        String mac = helper.getMacAddr();
+        String mac = helper.getMacAddr(getApplicationContext());
 
 
 
@@ -266,7 +266,7 @@ TextView lblcount;
         if (helper.isNetworkAvailable(ctx)){
             Log.e("mytag","size: " + arr_Call_offline.size());
             if (arr_Call_offline.size()>0){
-                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(getApplicationContext()), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
                     @Override
                     public void onResult(String str) {
                         if (str.contains("0")){
@@ -301,7 +301,7 @@ TextView lblcount;
     public  void change(){
 
         if (helper.isNetworkAvailable(ctx)){
-            Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(), -2, new Model.Wz_Calls_List_Listener() {
+            Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(getApplicationContext()), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
                     //f

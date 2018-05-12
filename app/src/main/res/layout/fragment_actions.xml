@@ -1,101 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-
-    android:layoutDirection="ltr"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:gravity="center_horizontal"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!--android:descendantFocusability="blocksDescendants"-->
+
+
+    android:background="@android:color/white"
+    tools:context="com.Activities.ActivityCalls">
+
+
+    <!--<ScrollView android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--&gt;-->
 
     <LinearLayout
-        android:layout_marginBottom="20dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="רשימת משימות"
-            android:gravity="center"
-            android:id="@+id/customer_name"
-            android:textSize="30sp"/>
-        <ImageButton
-            android:layout_width="20px"
-            android:layout_height="20px"
-            android:src="@drawable/info"/>
-    </LinearLayout>
-    <LinearLayout
-        android:background="@drawable/gradient"
-        android:layout_width="fill_parent"
-        android:layout_gravity="right"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="7dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_circle2"
-            android:layout_gravity="left"
-            android:id="@+id/lblsearch"
-            android:gravity="center"
-            android:text="@string/fa_icon_search2"/>
-        <EditText
-            android:visibility="visible"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="חיפוש"
-            android:gravity="center"
-            android:id="@+id/mSearchEdt"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
-    </LinearLayout>
-    <LinearLayout
-        android:background="@drawable/gradient"
-        android:layout_width="fill_parent"
-        android:layout_gravity="right"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        android:layout_height="wrap_content">
-        <CheckBox
-            android:layout_marginRight="20dp"
-            android:text="משימות להיום"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/chk_actions_today"
-             />
-    </LinearLayout>
-    <android.support.design.widget.CoordinatorLayout
+        android:layoutDirection="ltr"
+
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:src="@drawable/plus_icon"
-            android:layout_margin="16dp" />
-        <ListView
-            android:id="@+id/actions_list"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:layout_marginBottom="20dp"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:fastScrollEnabled="true"
-            tools:listitem="@layout/is_action"
-            android:choiceMode="singleChoice">
-        </ListView>
-    </android.support.design.widget.CoordinatorLayout>
-    <LinearLayout
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="רשימת משימות"
+                android:gravity="center"
+                android:id="@+id/customer_name"
+                android:textSize="30sp"/>
 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/placeHolderFragment"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:orientation="vertical">
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/gradient"
+            android:layout_width="fill_parent"
+            android:layout_gravity="right"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_circle2"
+                android:layout_gravity="left"
+                android:id="@+id/lblsearch"
+                android:gravity="center"
+                android:text="@string/fa_icon_search2"/>
+            <EditText
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="חיפוש"
+                android:gravity="center"
+                android:id="@+id/mSearchEdt"
+                android:textSize="20sp"
+                android:focusableInTouchMode="true"/>
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/gradient"
+            android:layout_width="fill_parent"
+            android:layout_gravity="right"
+            android:layoutDirection="rtl"
+            android:textDirection="rtl"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_marginRight="20dp"
+                android:text="משימות להיום"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chk_actions_today"
+                />
+        </LinearLayout>
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:src="@drawable/plus_icon"
+                android:layout_margin="16dp" />
+            <ListView
 
+                android:id="@+id/actions_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:dividerHeight="15dp"
+                android:fastScrollEnabled="true"
+                tools:listitem="@layout/is_action"></ListView>
+        </android.support.design.widget.CoordinatorLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/placeHolderFragment"-->
+        <!--android:scrollbarAlwaysDrawVerticalTrack="true">-->
+        <!--</LinearLayout>-->
 
 
     </LinearLayout>
+
+
+
+    <!--</ScrollView>-->
+
 
 </LinearLayout>
