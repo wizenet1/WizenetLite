@@ -32,10 +32,10 @@ public class wizenet_app_widget extends AppWidgetProvider {
         views = new RemoteViews(context.getPackageName(), R.layout.wizenet_app_widget);
 
         // Insert the text to the buttons of widget.
-        views.setTextViewText(R.id.btn1, msg.msgList.get(0));
-        views.setTextViewText(R.id.btn2, msg.msgList.get(1));
-        views.setTextViewText(R.id.btn3, msg.msgList.get(2));
-        views.setTextViewText(R.id.btn4, msg.msgList.get(3));
+        views.setTextViewText(R.id.btn1, msg.msgList.get(0).split(" ")[0]);
+        views.setTextViewText(R.id.btn2, msg.msgList.get(1).split(" ")[0]);
+        views.setTextViewText(R.id.btn3, msg.msgList.get(2).split(" ")[0]);
+        views.setTextViewText(R.id.btn4, msg.msgList.get(3).split(" ")[0]);
 
         // Initialize on click for buttons.
         Intent intent1 = new Intent(context, wizenet_app_widget.class);
@@ -80,6 +80,7 @@ public class wizenet_app_widget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
 
+        Messages msg = new Messages();
         views = new RemoteViews(context.getPackageName(), R.layout.wizenet_app_widget);
         //this.initButtonColors(views);
         // Get Database helper.
@@ -90,32 +91,33 @@ public class wizenet_app_widget extends AppWidgetProvider {
         final String actionName3 = "btn3";
         final String actionName4 = "btn4";
 
+        // Find the relevant action to perform.
         switch(action) {
             case actionName1:
                 db.getInstance(context).updateValue("IS_BUSY","1");
-                // TODO: Needs to change the selected message in DB to this option.
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(0));
                 views.setInt(R.id.btn1, "setBackgroundColor", Color.parseColor("#FFFFFF"));
                 Toast.makeText(context, "button 1", Toast.LENGTH_LONG).show();
                 break;
 
             case actionName2:
                 db.getInstance(context).updateValue("IS_BUSY","1");
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(1));
                 views.setInt(R.id.btn2, "setBackgroundColor", Color.parseColor("#FFFFFF"));
-                // TODO: Needs to change the selected message in DB to this option.
                 Toast.makeText(context, "button 2", Toast.LENGTH_LONG).show();
                 break;
 
             case actionName3:
                 db.getInstance(context).updateValue("IS_BUSY","1");
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(2));
                 views.setInt(R.id.btn3, "setBackgroundColor", Color.parseColor("#FFFFFF"));
-                // TODO: Needs to change the selected message in DB to this option.
                 Toast.makeText(context, "button 3", Toast.LENGTH_LONG).show();
                 break;
 
             case actionName4:
                 db.getInstance(context).updateValue("IS_BUSY","1");
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(3));
                 views.setInt(R.id.btn4, "setBackgroundColor", Color.parseColor("#FFFFFF"));
-                // TODO: Needs to change the selected message in DB to this option.
                 Toast.makeText(context, "button 4", Toast.LENGTH_LONG).show();
                 break;
 

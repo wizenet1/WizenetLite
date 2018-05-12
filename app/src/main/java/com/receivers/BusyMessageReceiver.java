@@ -22,8 +22,8 @@ public class BusyMessageReceiver extends PhoneCallReceiver {
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {
 
         final Context context = ctx;
-        final String msg = "Busy, call back later";
         final DatabaseHelper db = DatabaseHelper.getInstance(ctx);
+        final String msg = db.getValueByKey("BUSY_MESSAGE");
         final String phoneNumber = number;
 
         Thread pageTimer = new Thread() {
