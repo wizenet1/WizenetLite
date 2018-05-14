@@ -62,7 +62,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/fa_icon_scanner"
+                    android:text="@string/fa_icon_earth"
                     android:textAlignment="center"
                     android:textSize="15dp" />
 
@@ -167,7 +167,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/fa_icon_scanner"
+                    android:text="@string/fa_icon_sms"
                     android:textAlignment="center"
                     android:textSize="15dp" />
 
@@ -196,7 +196,7 @@
                     android:layout_gravity="center"
 
                     android:gravity="center"
-                    android:text="@string/fa_icon_scanner"
+                    android:text="@string/fa_icon_email"
                     android:textAlignment="center"
                     android:textSize="15dp" />
 

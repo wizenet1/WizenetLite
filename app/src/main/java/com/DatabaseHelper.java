@@ -2052,18 +2052,20 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
     public void addControlPanel(String key,String val) {
 
         try{
-            SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(KEY, key);
-            values.put(VALUE, val);
-            values.put(DESCRIPTION, "");
-            // Inserting Row
-            db.insert(TABLE_CONTROL_PANEL, null, values);
-           // db.close(); // Closing database connection
+            String count = "";
+            count = getScalarByCountQuery("SELECT count(*) from ControlPanel where _key='"+key+"'");
+            Log.e("mytag","key: "+key+ "-count:" +count);
+            if (Integer.valueOf(count)==0){
+                SQLiteDatabase db = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(KEY, key);
+                values.put(VALUE, val);
+                values.put(DESCRIPTION, "");
+                db.insert(TABLE_CONTROL_PANEL, null, values);
+            }
         }catch (Exception e){
             Helper h = new Helper();
             h.LogPrintExStackTrace(e);
-            //e.printStackTrace();
         }
 
     }

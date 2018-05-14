@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -125,55 +126,92 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ת.יעד:"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="0.4">
             <EditText
                 android:id="@+id/txt_destination"
                 android:background="@drawable/rectangle"
                 android:clickable="true"
                 android:editable="false"
-                android:layout_weight="0.9"
 
                 android:hint=""
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
 
         </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ת.שיבוץ:"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="0.6">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="ת.יעד:"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:layout_weight="0.4"
+            >
             <EditText
                 android:id="@+id/txt_assignment"
-                android:background="@drawable/rectangle"
+
                 android:clickable="true"
                 android:editable="false"
-                android:layout_weight="0.9"
-
                 android:hint=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent" />
+                android:layout_width="match_parent"
+                android:layout_weight="0.8" />
+
+            <Button
+                android:background="@android:color/transparent"
+                android:id="@+id/btn_hide"
+                android:layout_width="40dp"
+                android:layout_height="33dp"
+                android:text="Search"
+                android:drawableBottom="@android:drawable/ic_menu_close_clear_cancel"
+                android:textSize="20dp"
+                />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:layout_weight="0.6">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="ת.שיבוץ:"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
@@ -197,9 +235,11 @@
                 android:orientation="horizontal"
                 android:layout_weight="0.5">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="תזכורת לפני (בדקות):"/>
+
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -336,12 +376,12 @@
             <EditText
                 android:id="@+id/txt_action_comments"
                 android:background="@drawable/rectangle"
-
                 android:layout_weight="0.9"
-
                 android:hint=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent" />
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:lines="2" />
         </LinearLayout>
 
     </LinearLayout>

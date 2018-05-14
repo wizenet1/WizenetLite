@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -71,7 +72,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     Spinner dynamicSpinner,dynamicSpinner2,spinnerProjects,spinnerTasks,stat1,stat2,stat3;
     private ActionsAdapter actionsAdapter;
     Calendar myCalendar;
-    Button btn_add;
+    Button btn_add,btn_hide;
     DatePickerDialog.OnDateSetListener date,date2;
     EditText txt_destination,txt_assignment,txt_action_desc,txt_action_comments;
     Map<String, IS_Task> tasks_map;
@@ -81,6 +82,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     private ProgressDialog pDialog;
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> adapter2;
+    LinearLayout layout4,layout5,layout6;
 
     String selectedProject,selectedTask,selectedCcustomer,selectedReminder,selectedFromHoure,selectedToHour;
 
@@ -93,7 +95,11 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         //Turn all the action bar icons off to their original color.
         //((MenuActivity) getActivity()).turnActionBarMissionsIconOn();
         db = DatabaseHelper.getInstance(getContext());
+        layout4 = (LinearLayout) v.findViewById(R.id.layout4);
+        layout5 = (LinearLayout) v.findViewById(R.id.layout5);
+        layout6 = (LinearLayout) v.findViewById(R.id.layout6);
         btn_add = (Button) v.findViewById(R.id.btn_add);
+        btn_hide = (Button) v.findViewById(R.id.btn_hide);
         dynamicSpinner = (Spinner) v.findViewById(R.id.spinner_ctype);
         dynamicSpinner2 = (Spinner) v.findViewById(R.id.spinner_cid);
         spinnerProjects = (Spinner) v.findViewById(R.id.spinnerProjects);
@@ -110,7 +116,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         //c_week.add(Calendar.DAY_OF_YEAR, 7);
         String formatted = df.format(c_week.getTime());
         txt_destination.setText(formatted);
-        txt_assignment.setText(formatted);
+        //txt_assignment.setText(formatted);
 
         stat1 = (Spinner) v.findViewById(R.id.spinner3);
         stat2 = (Spinner) v.findViewById(R.id.spinner4);
@@ -121,26 +127,24 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         setProjectSpinner();
         setCtypeSpinner();
         setTaskSpinner(0);
-        //CID","");
-        //CtypeID",
-        //CtypeName
-        setBtn();
 
-        //try{
-        //    Log.e("mytag",DatabaseHelper.getInstance(getContext()).getValueByKey("Cfname"));
-        //    //int selectionPosition = adapter.getPosition(db.getValueByKey("CtypeName"));
-        //    //dynamicSpinner.setSelection(selectionPosition);;
-        //
-        //
-        //    Log.e("mytag",db.getValueByKey("Cfname")+ " "  + "selectionPosition:"  + " dynamicSpinner2:" + selectionPosition2);
-        //}catch(Exception e){
-        //    helper.LogPrintExStackTrace(e);
-        //}
+        hideAssigmentLayouts();
+        setBtn();
+        setBtnHide();
 
         return v;
     };
 
+    private void setBtnHide(){
+        btn_hide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideAssigmentLayouts();
+                txt_assignment.setText("");
+            }
+        });
 
+    }
     //private method of your class
     private int getIndex(Spinner spinner, String myString){
         for (int i=0;i<spinner.getCount();i++){
@@ -151,6 +155,16 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
         }
 
         return 0;
+    }
+    private void hideAssigmentLayouts(){
+        layout4.setVisibility(View.GONE);
+        layout5.setVisibility(View.GONE);
+        layout6.setVisibility(View.GONE);
+    }
+    private void showAssigmentLayouts(){
+        layout4.setVisibility(View.VISIBLE);
+        layout5.setVisibility(View.VISIBLE);
+        layout6.setVisibility(View.VISIBLE);
     }
     private void setBtn(){
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -347,8 +361,8 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     private void updateLabel2() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         txt_assignment.setText(sdf.format(myCalendar.getTime()));
+        showAssigmentLayouts();
     }
 
     private void setCtypeSpinner(){

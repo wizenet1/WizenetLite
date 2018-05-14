@@ -46,7 +46,7 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
     EditText myEditText2;
     //BarCodeActivity barCodeActivity;
     Helper helper;
-    TextView id1,id2,id3,id4,id5,id6,idsyncproducts,btn_order,iddeleteproducts,iddeleteclientproducts,idsyncclientproducts,lbldivuah,btn_reminders;
+    TextView id1,id2,id3,id4,btn_reminders;
     DatabaseHelper db;
     Icon_Manager icon_manager;
 
@@ -146,9 +146,6 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
                 helper.goToMessagesFragment(getContext());
             }
         });
-
-
-
 
         return v;
     }

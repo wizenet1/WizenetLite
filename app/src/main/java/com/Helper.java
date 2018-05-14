@@ -75,6 +75,7 @@ public class Helper {
 
     public void addInitialfirst(Context ctx){
 
+        DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY_OPTION","ללא");
         DatabaseHelper.getInstance(ctx).addControlPanel("Cfname","");
         DatabaseHelper.getInstance(ctx).addControlPanel("AUTO_LOGIN","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("CID","");

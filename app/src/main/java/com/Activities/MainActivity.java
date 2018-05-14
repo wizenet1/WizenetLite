@@ -126,14 +126,15 @@ public class MainActivity extends Activity {
                     Log.e("mytag","isReminderIDColAdded already in");
                 }
                 // midCall ----- SUMMERY CALLS page.
-                boolean isAppsColAdded = DatabaseHelper.getInstance(getApplicationContext()).checkIfKeyExistsCP("APPS_CALLS_SUMMARY");
-                if (isAppsColAdded == false){
-                    DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","0");
-                    Log.e("mytag","isAppsColAdded success");
-                }else{
-                    DatabaseHelper.getInstance(ctx).updateValue("APPS_CALLS_SUMMARY","0");
-                }
-                updateNewFieldsInControlPanel();
+                //boolean isAppsColAdded = DatabaseHelper.getInstance(getApplicationContext()).checkIfKeyExistsCP("APPS_CALLS_SUMMARY");
+                //if (isAppsColAdded == false){
+                //    DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","0");
+                //    Log.e("mytag","isAppsColAdded success");
+                //}else{
+                //    DatabaseHelper.getInstance(ctx).updateValue("APPS_CALLS_SUMMARY","0");
+                //}
+                helper.addInitialfirst(ctx);
+                //updateNewFieldsInControlPanel();
 
 
 

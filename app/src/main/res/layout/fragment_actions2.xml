@@ -81,18 +81,18 @@
             <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"
-                android:src="@drawable/plus_icon"
-                android:layout_margin="16dp" />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:src="@drawable/plus_icon"
+                    android:layout_margin="16dp" />
                 <ListView
 
                     android:id="@+id/actions_list"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="398dp"
                     android:choiceMode="singleChoice"
                     android:dividerHeight="15dp"
                     android:fastScrollEnabled="true"
