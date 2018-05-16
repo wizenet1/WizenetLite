@@ -47,6 +47,14 @@
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
 
     </style>
+    <!--<style name="dividerBase">-->
+        <!--<item name="android:background">?android:attr/listDivider</item>-->
+    <!--</style>-->
+
+    <!--<style name="dividerVertical" parent="dividerBase">-->
+        <!--<item name="android:layout_width">1dp</item>-->
+        <!--<item name="android:layout_height">match_parent</item>-->
+    <!--</style>-->
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
 

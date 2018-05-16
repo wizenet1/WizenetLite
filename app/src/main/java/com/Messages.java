@@ -12,10 +12,12 @@ public class Messages {
 
     public Messages(){
         this.msgList = new ArrayList<>();
-        this.msgList.add("Driving at the moment, sorry!");
-        this.msgList.add("Call you back very soon..");
-        this.msgList.add("I can't talk now");
-        this.msgList.add("Busy will call back");
+        this.msgList.add("עסוק כרגע לא..");
+        this.msgList.add("אני בחופשה נא..");
+        this.msgList.add("אני בישיבה נא..");
+        this.msgList.add("אני בנהיגה אחזור..");
+        this.msgList.add("אני עסוק כרגע");
+        this.msgList.add("ללא");
     }
 
 }

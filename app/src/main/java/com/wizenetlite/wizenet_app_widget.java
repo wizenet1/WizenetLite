@@ -32,31 +32,41 @@ public class wizenet_app_widget extends AppWidgetProvider {
         views = new RemoteViews(context.getPackageName(), R.layout.wizenet_app_widget);
 
         // Insert the text to the buttons of widget.
-        views.setTextViewText(R.id.btn1, msg.msgList.get(0).split(" ")[0]);
-        views.setTextViewText(R.id.btn2, msg.msgList.get(1).split(" ")[0]);
-        views.setTextViewText(R.id.btn3, msg.msgList.get(2).split(" ")[0]);
-        views.setTextViewText(R.id.btn4, msg.msgList.get(3).split(" ")[0]);
+        views.setTextViewText(R.id.btn1, msg.msgList.get(0));
+        views.setTextViewText(R.id.btn2, msg.msgList.get(1));
+        views.setTextViewText(R.id.btn3, msg.msgList.get(2));
+        views.setTextViewText(R.id.btn4, msg.msgList.get(3));
+        views.setTextViewText(R.id.btn5, msg.msgList.get(4));
+        views.setTextViewText(R.id.btn6, msg.msgList.get(5));
 
         // Initialize on click for buttons.
         Intent intent1 = new Intent(context, wizenet_app_widget.class);
         Intent intent2 = new Intent(context, wizenet_app_widget.class);
         Intent intent3 = new Intent(context, wizenet_app_widget.class);
         Intent intent4 = new Intent(context, wizenet_app_widget.class);
+        Intent intent5 = new Intent(context, wizenet_app_widget.class);
+        Intent intent6 = new Intent(context, wizenet_app_widget.class);
 
         intent1.setAction("btn1");
         intent2.setAction("btn2");
         intent3.setAction("btn3");
         intent4.setAction("btn4");
+        intent5.setAction("btn5");
+        intent6.setAction("btn6");
 
         PendingIntent pendingIntent1 = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context, 0, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent4 = PendingIntent.getBroadcast(context, 0, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent5 = PendingIntent.getBroadcast(context, 0, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent6 = PendingIntent.getBroadcast(context, 0, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
 
         views.setOnClickPendingIntent(R.id.btn1, pendingIntent1);
         views.setOnClickPendingIntent(R.id.btn2, pendingIntent2);
         views.setOnClickPendingIntent(R.id.btn3, pendingIntent3);
         views.setOnClickPendingIntent(R.id.btn4, pendingIntent4);
+        views.setOnClickPendingIntent(R.id.btn5, pendingIntent5);
+        views.setOnClickPendingIntent(R.id.btn6, pendingIntent6);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -90,13 +100,16 @@ public class wizenet_app_widget extends AppWidgetProvider {
         final String actionName2 = "btn2";
         final String actionName3 = "btn3";
         final String actionName4 = "btn4";
+        final String actionName5 = "btn5";
+        final String actionName6 = "btn6";
 
         // Find the relevant action to perform.
         switch(action) {
             case actionName1:
+                views.setInt(R.id.widget_layout_1, "setBackgroundColor", Color.RED);
                 db.getInstance(context).updateValue("IS_BUSY","1");
                 db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(0));
-                views.setInt(R.id.btn1, "setBackgroundColor", Color.parseColor("#FFFFFF"));
+//                views.setInt(R.id.btn1, "setBackgroundColor", Color.parseColor("#FFFFFF"));
                 Toast.makeText(context, "button 1", Toast.LENGTH_LONG).show();
                 break;
 
@@ -119,6 +132,20 @@ public class wizenet_app_widget extends AppWidgetProvider {
                 db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(3));
                 views.setInt(R.id.btn4, "setBackgroundColor", Color.parseColor("#FFFFFF"));
                 Toast.makeText(context, "button 4", Toast.LENGTH_LONG).show();
+                break;
+
+            case actionName5:
+                db.getInstance(context).updateValue("IS_BUSY","1");
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(4));
+                views.setInt(R.id.btn5, "setBackgroundColor", Color.parseColor("#FFFFFF"));
+                Toast.makeText(context, "button 5", Toast.LENGTH_LONG).show();
+                break;
+
+            case actionName6:
+                db.getInstance(context).updateValue("IS_BUSY","1");
+                db.getInstance(context).updateValue("BUSY_MESSAGE", msg.msgList.get(5));
+                views.setInt(R.id.btn6, "setBackgroundColor", Color.parseColor("#FFFFFF"));
+                Toast.makeText(context, "button 6", Toast.LENGTH_LONG).show();
                 break;
 
             default:
