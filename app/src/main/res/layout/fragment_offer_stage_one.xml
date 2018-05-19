@@ -15,76 +15,76 @@
             android:id="@+id/offer_stage_one_welcome_ConstraintLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/offer_stage_one_constraintLayout_stage_menu"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/offer_stage_one_constraintLayout_stage_menu"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/offer_stage_one_welcome_fragment_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="הצעות"
+                android:textAlignment="center"
                 android:textColor="#ada9a9"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_welcome_stage_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="שלב"
-                android:textSize="18sp"
-                android:textColor="#ada9a9"
-                android:textAlignment="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="שלב"
+                android:textAlignment="center"
+                android:textColor="#ada9a9"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_welcome_fragment_name"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_welcome_number_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="18sp"
-                android:textColor="#d84626"
-                android:textAlignment="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="1"
+                android:textAlignment="center"
+                android:textColor="#d84626"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_welcome_stage_txt"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_welcome_task_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="בחירת לקוח"
-                android:textSize="18sp"
-                android:textColor="#ada9a9"
-                android:textAlignment="center"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_welcome_number_txt"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp" />
+                android:gravity="center"
+                android:text="בחירת לקוח"
+                android:textAlignment="center"
+                android:textColor="#ada9a9"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_welcome_number_txt"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -103,15 +103,16 @@
                 android:id="@+id/constraintLayout_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="70dp"
-                android:background="@drawable/customers_list_round_rectangle_gray"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="6dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginStart="8dp"
-                app:layout_constraintLeft_toLeftOf="parent">
+                android:layout_marginTop="70dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <TextView
                     android:id="@+id/offer_stage_one_image"
                     android:layout_width="50dp"
@@ -133,14 +134,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/customers_list_round_rectangle_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_image"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <EditText
                         android:id="@+id/offer_stage_one_name_editText"
@@ -151,7 +152,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/transparent"
-                        android:hint="שם הלקוח או חברה"
+                        android:hint="שם הלקוח"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textAlignment="center"
@@ -182,18 +183,122 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_name">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_company_editText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="הכנס שם חברה"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_company_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/list_icon_circle_white"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_briefcase"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_company_editText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_company">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_email_editText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="הכנס דואר אלקטרוני"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_email_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/list_icon_circle_white"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_mail"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_email_editText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout_cell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/customers_list_round_rectangle_gray"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_name"
                 android:layout_marginEnd="6dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginStart="8dp"
-                app:layout_constraintLeft_toLeftOf="parent">
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_email">
 
                 <EditText
                     android:id="@+id/offer_stage_one_cell_editText"
@@ -201,6 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
@@ -210,8 +316,7 @@
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="8dp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/offer_stage_one_cell_icon"
@@ -235,39 +340,39 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout_email"
+                android:id="@+id/constraintLayout_landline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/customers_list_round_rectangle_gray"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_cell"
                 android:layout_marginEnd="6dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginStart="8dp"
-                app:layout_constraintLeft_toLeftOf="parent">
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_cell">
 
                 <EditText
-                    android:id="@+id/offer_stage_one_email_editText"
+                    android:id="@+id/offer_stage_one_landline_editText"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
-                    android:hint="הכנס דואר אלקטרוני"
-                    android:inputType="textEmailAddress"
+                    android:hint="הכנס טלפון נייח"
+                    android:inputType="phone"
                     android:maxLines="1"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="8dp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/offer_stage_one_email_icon"
+                    android:id="@+id/offer_stage_one_landline_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
@@ -276,50 +381,51 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/list_icon_circle_white"
+                    android:background="@drawable/list_icon_circle_gray_light"
                     android:gravity="center"
-                    android:text="@string/fa_icon_mail"
+                    android:text="@string/fa_icon_telephone"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_email_editText"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_landline_editText"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout_additional_email"
+                android:id="@+id/constraintLayout_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/customers_list_round_rectangle_gray"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_email"
                 android:layout_marginEnd="6dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginStart="8dp"
-                app:layout_constraintLeft_toLeftOf="parent">
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_landline">
 
                 <EditText
-                    android:id="@+id/offer_stage_one_additional_email_editText"
+                    android:id="@+id/offer_stage_one_city_editText"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
-                    android:hint="הכנס דואר אלקטרוני נוסף"
-                    android:inputType="textEmailAddress"
+                    android:hint="הכנס עיר"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="8dp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/offer_stage_one_additional_email_icon"
+                    android:id="@+id/offer_stage_one_city_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
@@ -329,12 +435,206 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/list_icon_circle_white"
-                    android:textColor="@color/colorGray"
                     android:gravity="center"
-                    android:text="@string/fa_icon_mail"
+                    android:text="@string/fa_icon_location"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_additional_email_editText"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_city_editText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_city">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_address_editText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="הכנס כתובת"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_address_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/list_icon_circle_white"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_location"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_address_editText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_customer_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_address">
+
+                <TextView
+                    android:id="@+id/offer_stage_one_customer_number_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="מספר לקוח"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_customer_number_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="-1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_customer_number_label"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_erp_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_customer_number">
+
+                <TextView
+                    android:id="@+id/offer_stage_one_erp_number_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="מספר ERP"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_erp_number_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="-1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_erp_number_label"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/offer_stage_one_constraintLayout_add_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_button_background_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_erp_number">
+
+                <TextView
+                    android:id="@+id/offer_stage_one_add_contacts_txt"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="הוסף אנשי קשר"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_add_contacts_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_contacts_book"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_add_contacts_txt"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
@@ -343,24 +643,24 @@
                 android:id="@+id/offer_stage_one_constraintLayout_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button_background_orange"
-                android:layout_marginTop="64dp"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_additional_email"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/rounded_button_background_orange"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="32dp">
+                app:layout_constraintTop_toBottomOf="@+id/offer_stage_one_constraintLayout_add_contacts"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:id="@+id/offer_stage_one_save_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="עבור לשלב הבא"
@@ -369,27 +669,27 @@
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_save_icon"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.555" />
 
                 <TextView
                     android:id="@+id/offer_stage_one_save_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/list_icon_circle_white"
+                    android:gravity="center"
                     android:text="@string/fa_icon_approval"
                     android:textAlignment="center"
-                    android:gravity="center"
                     android:textColor="#d84626"
-                    android:background="@drawable/list_icon_circle_white"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="8dp" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
@@ -412,82 +712,82 @@
                 android:id="@+id/offer_stage_one_circle_one"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/list_icon_circle_orange"
                 android:gravity="center"
                 android:text="1"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_circle_two"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/list_icon_circle_gray_light"
                 android:gravity="center"
                 android:text="2"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_one"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_one"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_circle_three"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/list_icon_circle_gray_light"
                 android:gravity="center"
                 android:text="3"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_two"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_two"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offer_stage_one_circle_four"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/list_icon_circle_gray_light"
                 android:gravity="center"
                 android:text="4"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:layout_marginRight="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_circle_three"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintVertical_bias="0.0"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintVertical_bias="0.0" />
 
         </android.support.constraint.ConstraintLayout>
 

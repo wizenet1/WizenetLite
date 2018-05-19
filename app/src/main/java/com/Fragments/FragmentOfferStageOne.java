@@ -50,17 +50,33 @@ public class FragmentOfferStageOne extends Fragment {
         searchIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         searchIcon.setTextSize(30);
 
-        TextView cellIcon = (TextView) view.findViewById(R.id.offer_stage_one_cell_icon);
-        cellIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        cellIcon.setTextSize(30);
+        TextView companyIcon = (TextView) view.findViewById(R.id.offer_stage_one_company_icon);
+        companyIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        companyIcon.setTextSize(30);
 
         TextView emailIcon = (TextView) view.findViewById(R.id.offer_stage_one_email_icon);
         emailIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         emailIcon.setTextSize(30);
 
-        TextView additionalEmailIcon = (TextView) view.findViewById(R.id.offer_stage_one_additional_email_icon);
-        additionalEmailIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        additionalEmailIcon.setTextSize(30);
+        TextView cellIcon = (TextView) view.findViewById(R.id.offer_stage_one_cell_icon);
+        cellIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        cellIcon.setTextSize(30);
+
+        TextView landlineIcon = (TextView) view.findViewById(R.id.offer_stage_one_landline_icon);
+        landlineIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        landlineIcon.setTextSize(30);
+
+        TextView cityIcon = (TextView) view.findViewById(R.id.offer_stage_one_city_icon);
+        cityIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        cityIcon.setTextSize(30);
+
+        TextView addressIcon = (TextView) view.findViewById(R.id.offer_stage_one_address_icon);
+        addressIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        addressIcon.setTextSize(30);
+
+        TextView addContactsIcon = (TextView) view.findViewById(R.id.offer_stage_one_add_contacts_icon);
+        addContactsIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        addContactsIcon.setTextSize(30);
 
         TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_one_save_icon);
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
