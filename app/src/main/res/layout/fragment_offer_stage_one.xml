@@ -287,7 +287,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout_cell"
+                android:id="@+id/constraintLayout_landline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -299,6 +299,59 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout_email">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_landline_editText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="הכנס טלפון נייח"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer_stage_one_landline_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/list_icon_circle_gray"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_telephone"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_landline_editText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_cell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_landline">
 
                 <EditText
                     android:id="@+id/offer_stage_one_cell_editText"
@@ -340,59 +393,6 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout_landline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/customers_list_round_rectangle_gray"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_cell">
-
-                <EditText
-                    android:id="@+id/offer_stage_one_landline_editText"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:hint="הכנס טלפון נייח"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/offer_stage_one_landline_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/list_icon_circle_gray_light"
-                    android:gravity="center"
-                    android:text="@string/fa_icon_telephone"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/offer_stage_one_landline_editText"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -404,7 +404,7 @@
                 android:background="@drawable/customers_list_round_rectangle_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_landline">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_cell">
 
                 <EditText
                     android:id="@+id/offer_stage_one_city_editText"

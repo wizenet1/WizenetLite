@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.Activities.MenuActivity;
@@ -83,12 +84,17 @@ public class FragmentOfferStageOne extends Fragment {
         saveIcon.setTextSize(30);
 
         ConstraintLayout nextStageButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_one_constraintLayout_save);
+        final View fragmentView = view;
         nextStageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 FragmentOfferStageTwo frag = new FragmentOfferStageTwo();
+
+                //Gather the data from the input fields.
+                Bundle bundle = gatherFieldsData(fragmentView);
+                frag.setArguments(bundle);
                 ft.replace(R.id.container, frag, "FragmentOfferStageTwo");
                 ft.addToBackStack("FragmentOfferStageTwo");
                 ft.commit();
@@ -96,6 +102,67 @@ public class FragmentOfferStageOne extends Fragment {
         });
 
         return view;
+    }
+
+    /**
+     * Gathers all the data from the input fields into a bundle.
+     * @param view view
+     * @return bundle
+     */
+    private Bundle gatherFieldsData(View view){
+        Bundle bundle = new Bundle();
+        EditText editText;
+        TextView textView;
+        String text;
+
+        //Add customer name.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_name_editText);
+        text = editText.getText().toString();
+        bundle.putString("CustomerName", text);
+
+        //Add company.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_company_editText);
+        text = editText.getText().toString();
+        bundle.putString("Company", text);
+
+        //Add email.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_email_editText);
+        text = editText.getText().toString();
+        bundle.putString("Email", text);
+
+        //Add landline.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_landline_editText);
+        text = editText.getText().toString();
+        bundle.putString("Landline", text);
+
+        //Add cell.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_cell_editText);
+        text = editText.getText().toString();
+        bundle.putString("Cell", text);
+
+        //Add city.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_city_editText);
+        text = editText.getText().toString();
+        bundle.putString("City", text);
+
+        //Add address.
+        editText = (EditText)view.findViewById(R.id.offer_stage_one_address_editText);
+        text = editText.getText().toString();
+        bundle.putString("Address", text);
+
+        // Add customer number.
+        textView = (TextView) view.findViewById(R.id.offer_stage_one_customer_number_text);
+        text = textView.getText().toString();
+        bundle.putString("CustomerNumber", text);
+
+        //Add ERP number.
+        textView = (TextView) view.findViewById(R.id.offer_stage_one_erp_number_text);
+        text = textView.getText().toString();
+        bundle.putString("ERP", text);
+
+        //TODO add additional contacts list
+
+        return bundle;
     }
 
 }

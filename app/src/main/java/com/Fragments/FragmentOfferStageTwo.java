@@ -38,6 +38,7 @@ public class FragmentOfferStageTwo extends Fragment {
         ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
 
         Context context = getContext();
+        Bundle bundle = getArguments();
         Icon_Manager iconManager = new Icon_Manager();
 
         //Set the icons.
