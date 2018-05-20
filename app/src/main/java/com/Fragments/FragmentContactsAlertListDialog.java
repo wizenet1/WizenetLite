@@ -3,12 +3,14 @@ package com.Fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,10 +58,25 @@ public class FragmentContactsAlertListDialog extends DialogFragment {
         ListView listView = (ListView)view.findViewById(R.id.customer_details_dialog_listView);
         AdditionalContactsAdapter adapter = new AdditionalContactsAdapter(getContext(), items);
         listView.setAdapter(adapter);
+        final int[] id = new int[1];
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                id[0] = i;
+            }
+        });
 
         //builder.setItems(this.items, this);
 
         builder.setNegativeButton("בטל", null);
+
+        //Passing back the selected item.
+        int resultCode = 1;
+        Intent intent = new Intent();
+        String name = items.get(id[0]);
+        intent.putExtra("CustomerName", name);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
+
         return builder.create();
     }
 

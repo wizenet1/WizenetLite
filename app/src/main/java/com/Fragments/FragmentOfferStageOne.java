@@ -2,6 +2,7 @@ package com.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Adapters.AddContactsAdapter;
 import com.Icon_Manager;
 
 /**
@@ -21,6 +24,8 @@ import com.Icon_Manager;
  */
 public class FragmentOfferStageOne extends Fragment {
 
+    private ListView addContactsListView;
+    private AddContactsAdapter addContactsAdapter;
 
     public FragmentOfferStageOne() {
         // Required empty public constructor
@@ -31,7 +36,7 @@ public class FragmentOfferStageOne extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_offer_stage_one, container, false);
+        View view = inflater.inflate(R.layout.fragment_offer_stage_one, container, false);
 
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
@@ -83,6 +88,19 @@ public class FragmentOfferStageOne extends Fragment {
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         saveIcon.setTextSize(30);
 
+        this.addContactsListView = (ListView)view.findViewById(R.id.offer_stage_one_additional_contacts_list);
+        this.addContactsAdapter = new AddContactsAdapter(context);
+        this.addContactsListView.setAdapter(this.addContactsAdapter);
+
+        //Set add contacts onClick listener.
+        ConstraintLayout addContactsButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_one_constraintLayout_add_contacts_button);
+        addContactsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addContactsButtonClick();
+            }
+        });
+
         ConstraintLayout nextStageButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_one_constraintLayout_save);
         final View fragmentView = view;
         nextStageButton.setOnClickListener(new View.OnClickListener() {
@@ -104,49 +122,72 @@ public class FragmentOfferStageOne extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            if(resultCode == 1){
+                String name = data.getStringExtra("CustomerName");
+                this.addContactsAdapter.addContact(name);
+            }
+        }
+    }
+
+    /**
+     * The method that is called in the event of an add contacts button click.
+     */
+    private void addContactsButtonClick(){
+        FragmentContactsAlertListDialog fragmentAlertListDialog = new FragmentContactsAlertListDialog();
+        fragmentAlertListDialog.setTargetFragment(this, 1);
+        Bundle bundle = new Bundle();
+        bundle.putString("Title", "בחר איש קשר");
+        fragmentAlertListDialog.setArguments(bundle);
+        fragmentAlertListDialog.show(getFragmentManager(), "contacts");
+    }
+
     /**
      * Gathers all the data from the input fields into a bundle.
+     *
      * @param view view
      * @return bundle
      */
-    private Bundle gatherFieldsData(View view){
+    private Bundle gatherFieldsData(View view) {
         Bundle bundle = new Bundle();
         EditText editText;
         TextView textView;
         String text;
 
         //Add customer name.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_name_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_name_editText);
         text = editText.getText().toString();
         bundle.putString("CustomerName", text);
 
         //Add company.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_company_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_company_editText);
         text = editText.getText().toString();
         bundle.putString("Company", text);
 
         //Add email.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_email_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_email_editText);
         text = editText.getText().toString();
         bundle.putString("Email", text);
 
         //Add landline.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_landline_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_landline_editText);
         text = editText.getText().toString();
         bundle.putString("Landline", text);
 
         //Add cell.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_cell_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_cell_editText);
         text = editText.getText().toString();
         bundle.putString("Cell", text);
 
         //Add city.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_city_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_city_editText);
         text = editText.getText().toString();
         bundle.putString("City", text);
 
         //Add address.
-        editText = (EditText)view.findViewById(R.id.offer_stage_one_address_editText);
+        editText = (EditText) view.findViewById(R.id.offer_stage_one_address_editText);
         text = editText.getText().toString();
         bundle.putString("Address", text);
 
