@@ -1,6 +1,7 @@
 package com.Adapters;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +79,18 @@ public class AddProductsAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.add_products_row_name);
         name.setText(this.productsList.get(i)[0]);
 
-        //Set amount
+        //Set amount.
         TextView amount = (TextView) view.findViewById(R.id.add_products_row_amount);
         amount.setText(this.productsList.get(i)[1]);
+
+        //Set update product button onClick listener.
+        ConstraintLayout updateButton = (ConstraintLayout)view.findViewById(R.id.add_products_row_ConstraintLayout_update);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragment.updateProduct(productsList.get(i));
+            }
+        });
 
         return view;
     }
@@ -99,6 +109,17 @@ public class AddProductsAdapter extends BaseAdapter {
             double price = Double.parseDouble(product[2]);
 
             sum += price * quantity;
+        }
+
+        return sum;
+    }
+
+    public int getTotalProductsQuantity(){
+
+        int sum = 0;
+
+        for (String product[] : this.productsList){
+            sum += Integer.parseInt(product[1]);
         }
 
         return sum;
@@ -124,6 +145,6 @@ public class AddProductsAdapter extends BaseAdapter {
         listView.setLayoutParams(params);
         listView.requestLayout();
 
-        this.fragment.updateTotalPrice();
+        this.fragment.updateTotalPurchase();
     }
 }

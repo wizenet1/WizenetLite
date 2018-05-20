@@ -33,6 +33,7 @@ public class FragmentOfferStageTwo extends Fragment {
     private EditText quantity;
     private EditText price;
     private TextView totalPrice;
+    private TextView totalQuantity;
 
     public FragmentOfferStageTwo() {
         // Required empty public constructor
@@ -104,21 +105,41 @@ public class FragmentOfferStageTwo extends Fragment {
     /**
      * Updates the total price of the selected products.
      */
-    public void updateTotalPrice(){
+    public void updateTotalPurchase(){
         double price = this.addProductsAdapter.getTotalProductsPrice();
+        int quantity = this.addProductsAdapter.getTotalProductsQuantity();
+
         this.totalPrice.setText(String.format("%.2f", price));
+        this.totalQuantity.setText(String.format("%d", quantity));
+    }
+
+    /**
+     * Fills the input fields with the given product's data to update it.
+     * @param product product
+     */
+    public void updateProduct(String product[]){
+        //TODO extract all the product data and fill all the input fields
+        String name = product[0];
+        String quantity = product[1];
+        String price = product[2];
+
+        this.productName.setText(name);
+        this.quantity.setText(quantity);
+        this.price.setText(price);
     }
 
     /**
      * Assigns all the data fields to class members for future usage.
      */
     private void assignDataFields(){
+
         this.productName = (EditText)view.findViewById(R.id.offer_stage_two_name_editText);
         this.serialNumber = (EditText)view.findViewById(R.id.offer_stage_two_serial_number_editText);
         this.description = (EditText)view.findViewById(R.id.offer_stage_two_description_editText);
         this.quantity = (EditText)view.findViewById(R.id.offer_stage_two_quantity_editText);
         this.price = (EditText)view.findViewById(R.id.offer_stage_two_price_editText);
-        this.totalPrice = (TextView)view.findViewById(R.id.offer_stage_two_products_total_text);
+        this.totalPrice = (TextView)view.findViewById(R.id.offer_stage_two_products_total_price_text);
+        this.totalQuantity = (TextView)view.findViewById(R.id.offer_stage_two_products_total_quantity_text);
     }
 
     /**
@@ -137,6 +158,8 @@ public class FragmentOfferStageTwo extends Fragment {
         //Get product price.
         product[2] = this.price.getText().toString();
 
+        //TODO before adding a new product, check if it already exists
+
         //Add the product to the listView.
         this.addProductsAdapter.addProduct(product);
 
@@ -144,7 +167,7 @@ public class FragmentOfferStageTwo extends Fragment {
         this.cleanDataFields();
 
         //Update total price.
-        this.updateTotalPrice();
+        this.updateTotalPurchase();
     }
 
     /**
