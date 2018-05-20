@@ -3,22 +3,30 @@ package com.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Icon_Manager;
 
+import java.util.ArrayList;
+
 /**
  * The fragment represents the third stage of an offer page.
  */
 public class FragmentOfferStageThree extends Fragment {
 
+    private Spinner commentsSpinner;
+    private ArrayList<String> commentTopcis;
 
     public FragmentOfferStageThree() {
         // Required empty public constructor
@@ -40,35 +48,32 @@ public class FragmentOfferStageThree extends Fragment {
         Context context = getContext();
         Icon_Manager iconManager = new Icon_Manager();
 
-        //Set the icons.
-        TextView customerImage = (TextView) view.findViewById(R.id.offer_stage_three_customer_image);
-        customerImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        customerImage.setTextSize(50);
+        this.initCommentsTopics();
 
-        TextView productImage = (TextView) view.findViewById(R.id.offer_stage_three_product_image);
-        productImage.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        productImage.setTextSize(30);
+        //Initialize spinner.
+        this.commentsSpinner = (Spinner) view.findViewById(R.id.offer_stage_three_spinner);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, commentTopcis.toArray(new String[0])) {
+            @NonNull
+            public View getView(int position, View convertView, ViewGroup parent) {
 
-        TextView serialNumberIcon = (TextView) view.findViewById(R.id.offer_stage_three_serial_number_icon);
-        serialNumberIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        serialNumberIcon.setTextSize(30);
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextSize(16);
 
-        TextView descriptionIcon = (TextView) view.findViewById(R.id.offer_stage_three_description_icon);
-        descriptionIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        descriptionIcon.setTextSize(30);
+                return v;
+            }
 
-        TextView unitPriceIcon = (TextView) view.findViewById(R.id.offer_stage_three_unit_price_icon);
-        unitPriceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        unitPriceIcon.setTextSize(25);
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
 
-        TextView quantityIcon = (TextView) view.findViewById(R.id.offer_stage_three_quantity_icon);
-        quantityIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        quantityIcon.setTextSize(30);
+                View v = super.getDropDownView(position, convertView, parent);
+                ((TextView) v).setGravity(Gravity.END);
 
-        TextView totalPriceIcon = (TextView) view.findViewById(R.id.offer_stage_three_total_price_icon);
-        totalPriceIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
-        totalPriceIcon.setTextSize(25);
+                return v;
+            }
+        };
+        this.commentsSpinner.setAdapter(arrayAdapter);
 
+        //Set icon.
         TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_three_save_icon);
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         saveIcon.setTextSize(30);
@@ -88,6 +93,17 @@ public class FragmentOfferStageThree extends Fragment {
         });
 
         return view;
+    }
+
+    /**
+     * Initializes the list of comment topics which appear in the spinner.
+     */
+    private void initCommentsTopics() {
+
+        this.commentTopcis = new ArrayList<>();
+        this.commentTopcis.add("נושא 1");
+        this.commentTopcis.add("נושא 2");
+        this.commentTopcis.add("נושא 3");
     }
 
 }
