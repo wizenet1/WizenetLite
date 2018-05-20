@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.Activities.R;
@@ -20,15 +22,16 @@ import java.util.ArrayList;
 public class AddContactsAdapter extends BaseAdapter {
 
     private Context context;
+    private ListView listView;
     private LayoutInflater layoutInflater;
     //TODO need to change the list from string to Contact object.
     private ArrayList<String> contactsList;
     private Icon_Manager iconManager;
 
-
-    public AddContactsAdapter(Context context){
+    public AddContactsAdapter(Context context, ListView listView){
 
         this.context = context;
+        this.listView = listView;
         this.layoutInflater = LayoutInflater.from(context);
         this.contactsList = new ArrayList<>();
         this.iconManager = new Icon_Manager();
@@ -50,7 +53,7 @@ public class AddContactsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         view = this.layoutInflater.inflate(R.layout.add_contacts_row, viewGroup, false);
 
@@ -63,7 +66,9 @@ public class AddContactsAdapter extends BaseAdapter {
         deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO implement
+                contactsList.remove(i);
+                notifyDataSetChanged();
+                setListViewHeightBasedOnChildren(listView);
             }
         });
 
@@ -77,6 +82,29 @@ public class AddContactsAdapter extends BaseAdapter {
     public void addContact(String name){
         this.contactsList.add(name);
         this.notifyDataSetChanged();
+        this.setListViewHeightBasedOnChildren(this.listView);
+    }
+
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 
 }

@@ -62,20 +62,21 @@ public class FragmentContactsAlertListDialog extends DialogFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //Passing back the selected item.
                 id[0] = i;
+                int resultCode = 1;
+                Intent intent = new Intent();
+                String name = items.get(id[0]);
+                intent.putExtra("CustomerName", name);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
+                dismiss();
             }
         });
 
         //builder.setItems(this.items, this);
 
         builder.setNegativeButton("בטל", null);
-
-        //Passing back the selected item.
-        int resultCode = 1;
-        Intent intent = new Intent();
-        String name = items.get(id[0]);
-        intent.putExtra("CustomerName", name);
-        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
 
         return builder.create();
     }

@@ -64,12 +64,12 @@ public class AdditionalContactsAdapter extends BaseAdapter {
         name.setText(this.contacts.get(i));
 
         //Setting view clickListener.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, contacts.get(i), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(context, contacts.get(i), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return view;
     }

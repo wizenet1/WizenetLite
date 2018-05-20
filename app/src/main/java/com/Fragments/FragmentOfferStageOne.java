@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -88,8 +89,8 @@ public class FragmentOfferStageOne extends Fragment {
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         saveIcon.setTextSize(30);
 
-        this.addContactsListView = (ListView)view.findViewById(R.id.offer_stage_one_additional_contacts_list);
-        this.addContactsAdapter = new AddContactsAdapter(context);
+        this.addContactsListView = (ListView) view.findViewById(R.id.offer_stage_one_additional_contacts_list);
+        this.addContactsAdapter = new AddContactsAdapter(context, this.addContactsListView);
         this.addContactsListView.setAdapter(this.addContactsAdapter);
 
         //Set add contacts onClick listener.
@@ -124,8 +125,9 @@ public class FragmentOfferStageOne extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1){
-            if(resultCode == 1){
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                //Add the selected contact to the list.
                 String name = data.getStringExtra("CustomerName");
                 this.addContactsAdapter.addContact(name);
             }
@@ -135,7 +137,7 @@ public class FragmentOfferStageOne extends Fragment {
     /**
      * The method that is called in the event of an add contacts button click.
      */
-    private void addContactsButtonClick(){
+    private void addContactsButtonClick() {
         FragmentContactsAlertListDialog fragmentAlertListDialog = new FragmentContactsAlertListDialog();
         fragmentAlertListDialog.setTargetFragment(this, 1);
         Bundle bundle = new Bundle();
