@@ -8,14 +8,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.AddProductsAdapter;
 import com.Icon_Manager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The fragment represents the second stage of an offer page.
@@ -27,7 +34,7 @@ public class FragmentOfferStageTwo extends Fragment {
     private Icon_Manager iconManager;
     private ListView addProductsListView;
     private AddProductsAdapter addProductsAdapter;
-    private EditText productName;
+    private AutoCompleteTextView productAutoComplete;
     private EditText serialNumber;
     private EditText description;
     private EditText quantity;
@@ -44,7 +51,7 @@ public class FragmentOfferStageTwo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        this.view =  inflater.inflate(R.layout.fragment_offer_stage_two, container, false);
+        this.view = inflater.inflate(R.layout.fragment_offer_stage_two, container, false);
 
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
@@ -62,8 +69,11 @@ public class FragmentOfferStageTwo extends Fragment {
         //Assign data fields.
         this.assignDataFields();
 
+        //Initialize the products autocomplete feature.
+        this.setProductAutoComplete();
+
         //Setting products list.
-        this.addProductsListView = (ListView)view.findViewById(R.id.offer_stage_two_add_products_list);
+        this.addProductsListView = (ListView) view.findViewById(R.id.offer_stage_two_add_products_list);
         this.addProductsAdapter = new AddProductsAdapter(this.context, this.addProductsListView, this);
         this.addProductsListView.setAdapter(this.addProductsAdapter);
 
@@ -81,7 +91,7 @@ public class FragmentOfferStageTwo extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //TODO implement
+                //TODO implement
             }
         });
 
@@ -105,7 +115,7 @@ public class FragmentOfferStageTwo extends Fragment {
     /**
      * Updates the total price of the selected products.
      */
-    public void updateTotalPurchase(){
+    public void updateTotalPurchase() {
         double price = this.addProductsAdapter.getTotalProductsPrice();
         int quantity = this.addProductsAdapter.getTotalProductsQuantity();
 
@@ -115,15 +125,16 @@ public class FragmentOfferStageTwo extends Fragment {
 
     /**
      * Fills the input fields with the given product's data to update it.
+     *
      * @param product product
      */
-    public void updateProduct(String product[]){
+    public void updateProduct(String product[]) {
         //TODO extract all the product data and fill all the input fields
         String name = product[0];
         String quantity = product[1];
         String price = product[2];
 
-        this.productName.setText(name);
+        this.productAutoComplete.setText(name);
         this.quantity.setText(quantity);
         this.price.setText(price);
     }
@@ -131,26 +142,26 @@ public class FragmentOfferStageTwo extends Fragment {
     /**
      * Assigns all the data fields to class members for future usage.
      */
-    private void assignDataFields(){
+    private void assignDataFields() {
 
-        this.productName = (EditText)view.findViewById(R.id.offer_stage_two_name_editText);
-        this.serialNumber = (EditText)view.findViewById(R.id.offer_stage_two_serial_number_editText);
-        this.description = (EditText)view.findViewById(R.id.offer_stage_two_description_editText);
-        this.quantity = (EditText)view.findViewById(R.id.offer_stage_two_quantity_editText);
-        this.price = (EditText)view.findViewById(R.id.offer_stage_two_price_editText);
-        this.totalPrice = (TextView)view.findViewById(R.id.offer_stage_two_products_total_price_text);
-        this.totalQuantity = (TextView)view.findViewById(R.id.offer_stage_two_products_total_quantity_text);
+        this.productAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.offer_stage_two_name_autoCompleteTextView);
+        this.serialNumber = (EditText) view.findViewById(R.id.offer_stage_two_serial_number_editText);
+        this.description = (EditText) view.findViewById(R.id.offer_stage_two_description_editText);
+        this.quantity = (EditText) view.findViewById(R.id.offer_stage_two_quantity_editText);
+        this.price = (EditText) view.findViewById(R.id.offer_stage_two_price_editText);
+        this.totalPrice = (TextView) view.findViewById(R.id.offer_stage_two_products_total_price_text);
+        this.totalQuantity = (TextView) view.findViewById(R.id.offer_stage_two_products_total_quantity_text);
     }
 
     /**
      * The method is called in the event of an add product button click.
      */
-    private void addProductButtonClick(){
+    private void addProductButtonClick() {
         //TODO create an actual product object
         String product[] = new String[3];
 
         //Get product name.
-        product[0] = this.productName.getText().toString();
+        product[0] = this.productAutoComplete.getText().toString();
 
         //Get products amount.
         product[1] = this.quantity.getText().toString();
@@ -173,9 +184,9 @@ public class FragmentOfferStageTwo extends Fragment {
     /**
      * Cleans the text from all the data fields.
      */
-    private void cleanDataFields(){
+    private void cleanDataFields() {
 
-        this.productName.setText("");
+        this.productAutoComplete.setText("");
         this.serialNumber.setText("");
         this.description.setText("");
         this.quantity.setText("");
@@ -184,9 +195,48 @@ public class FragmentOfferStageTwo extends Fragment {
     }
 
     /**
+     * User's products hashMap getter.
+     *
+     * @return customers hashMap
+     */
+    private Map<String, String[]> getCustomersDictionary() {
+        //TODO get a real products list.
+        Map<String, String[]> products = new HashMap<>();
+        products.put("fff", new String[]{"aaa", "111"});
+        products.put("fgg", new String[]{"bbb", "222"});
+
+        return products;
+    }
+
+    /**
+     * Sets the products names autocomplete feature.
+     */
+    private void setProductAutoComplete() {
+        //Get users's products.
+        final Map<String, String[]> products = getCustomersDictionary();
+
+        //Extract the names of the products for the autocomplete.
+        final String names[] = products.keySet().toArray(new String[products.keySet().size()]);
+
+        //Initialize the textViewAutoComplete adapter.
+        this.productAutoComplete.setAdapter(new ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, names));
+
+        //Set an onItemClick listener.
+        this.productAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //When a product is selected from the list, fill all the data fields with it's values.
+                //TODO get all the values from a real product object
+                String serialNumberText = products.get(productAutoComplete.getText().toString())[1];
+                serialNumber.setText(serialNumberText);
+            }
+        });
+    }
+
+    /**
      * Sets all the icons that appear in the fragment.
      */
-    private void setIcons(){
+    private void setIcons() {
         TextView image = (TextView) view.findViewById(R.id.offer_stage_two_image);
         image.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         image.setTextSize(30);

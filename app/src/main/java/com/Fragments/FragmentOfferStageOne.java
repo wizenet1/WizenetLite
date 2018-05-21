@@ -74,6 +74,7 @@ public class FragmentOfferStageOne extends Fragment {
         //Assign all the data fields.
         this.assignDataFields();
 
+        //Initialize the customers autocomplete feature.
         this.setNameAutoComplete();
 
         //Initialize the additional contacts listView.
@@ -204,9 +205,10 @@ public class FragmentOfferStageOne extends Fragment {
 
     /**
      * User's customers hashMap getter.
+     *
      * @return customers hashMap
      */
-    private Map<String, String[]> getCustomersDictionary(){
+    private Map<String, String[]> getCustomersDictionary() {
         //TODO get a real customers list.
         Map<String, String[]> customers = new HashMap<>();
         customers.put("fff", new String[]{"אבי כהן", "אדידס"});
@@ -218,7 +220,7 @@ public class FragmentOfferStageOne extends Fragment {
     /**
      * Sets the customers names autocomplete feature.
      */
-    private void setNameAutoComplete(){
+    private void setNameAutoComplete() {
 
         //Get users's customers.
         final Map<String, String[]> customers = getCustomersDictionary();
@@ -237,7 +239,6 @@ public class FragmentOfferStageOne extends Fragment {
                 //TODO get all the values from a real customer object
                 String companyName = customers.get(nameAutoComplete.getText().toString())[1];
                 company.setText(companyName);
-                Toast.makeText(context, names[i], Toast.LENGTH_SHORT).show();
             }
         });
     }
