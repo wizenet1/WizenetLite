@@ -199,7 +199,7 @@ public class FragmentOfferStageTwo extends Fragment {
      *
      * @return customers hashMap
      */
-    private Map<String, String[]> getCustomersDictionary() {
+    private Map<String, String[]> getProductsDictionary() {
         //TODO get a real products list.
         Map<String, String[]> products = new HashMap<>();
         products.put("fff", new String[]{"aaa", "111"});
@@ -213,7 +213,7 @@ public class FragmentOfferStageTwo extends Fragment {
      */
     private void setProductAutoComplete() {
         //Get users's products.
-        final Map<String, String[]> products = getCustomersDictionary();
+        final Map<String, String[]> products = getProductsDictionary();
 
         //Extract the names of the products for the autocomplete.
         final String names[] = products.keySet().toArray(new String[products.keySet().size()]);
