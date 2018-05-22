@@ -2,6 +2,7 @@ package com.Fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class FragmentOfferStageFour extends Fragment {
     private Icon_Manager iconManager;
     private TextView downloadLink;
     private TextView thumbImage;
+    private Button updateEmailButton;
     private TextView sendIcon;
 
     public FragmentOfferStageFour() {
@@ -59,7 +62,17 @@ public class FragmentOfferStageFour extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO download the actual pdf file
+                downloadLink.setTextColor(Color.BLUE);
                 Toast.makeText(context, "מוריד קובץ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Set update email button onClick listener.
+        this.updateEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO update email
+                Toast.makeText(context, "דואר אלקטרוני עודכן", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,6 +94,7 @@ public class FragmentOfferStageFour extends Fragment {
     private void assignDataFields() {
         this.downloadLink = (TextView) view.findViewById(R.id.offer_stage_four_download_link);
         this.downloadLink.setPaintFlags(downloadLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        this.updateEmailButton = (Button)view.findViewById(R.id.offer_stage_four_update_button);
     }
 
     private void setIcons() {

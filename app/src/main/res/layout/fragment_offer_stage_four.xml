@@ -97,7 +97,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/offer_stage_four_thumb_image"
@@ -162,7 +164,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="אימייל לקוח"
+                android:text="דואל של הלקוח"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:textSize="18sp"
@@ -209,6 +211,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_button_background_orange"
+                android:textColor="@android:color/white"
                 android:text="עדכן"
                 app:layout_constraintRight_toLeftOf="@+id/constraintLayout_email"
                 app:layout_constraintTop_toBottomOf="@+id/offer_stage_four_offer_email_label"

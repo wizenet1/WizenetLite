@@ -22,7 +22,14 @@ import android.widget.Toast;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.AddContactsAdapter;
+import com.Classes.Ccustomer;
+import com.File_;
+import com.Helper;
 import com.Icon_Manager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -204,15 +211,43 @@ public class FragmentOfferStageOne extends Fragment {
     }
 
     /**
+     * Gets the customers from a file on the device.
+     * @return customer array
+     */
+    private Ccustomer[] getCustomerList() {
+        Helper helper = new Helper();
+        File_ f = new File_();
+        //myString = f.readFromFileInternal(getContext(),"customers.txt");
+        String s = f.readFromFileExternal(getContext(), "customers.txt");
+        //Log.e("mytag", myString);
+        JSONObject j = null;
+        int length = 0;
+        Ccustomer[] ccustomers;//= new Ccustomer[5];
+        try {
+            j = new JSONObject(s);
+            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
+            length = jarray.length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ccustomers = new Ccustomer[length];
+        ccustomers = helper.getCustomersFromJson2(s);
+
+        return ccustomers;
+    }
+
+    /**
      * User's customers hashMap getter.
      *
      * @return customers hashMap
      */
-    private Map<String, String[]> getCustomersDictionary() {
-        //TODO get a real customers list.
-        Map<String, String[]> customers = new HashMap<>();
-        customers.put("fff", new String[]{"אבי כהן", "אדידס"});
-        customers.put("fgg", new String[]{"משה כהן", "נייק"});
+    private Map<String, Ccustomer> getCustomersDictionary() {
+        Map<String, Ccustomer> customers = new HashMap<>();
+
+        for(Ccustomer ccustomer : getCustomerList()){
+            String fullName = ccustomer.getCfname() + " " + ccustomer.getClname();
+            customers.put(fullName, ccustomer);
+        }
 
         return customers;
     }
@@ -222,8 +257,8 @@ public class FragmentOfferStageOne extends Fragment {
      */
     private void setNameAutoComplete() {
 
-        //Get users's customers.
-        final Map<String, String[]> customers = getCustomersDictionary();
+        //Get users's customers in a dictionary.
+        final Map<String, Ccustomer> customers = getCustomersDictionary();
 
         //Extract the names of the customers for the autocomplete.
         final String names[] = customers.keySet().toArray(new String[customers.keySet().size()]);
@@ -236,9 +271,13 @@ public class FragmentOfferStageOne extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //When a customer is selected from the list, fill all the data fields with it's values.
-                //TODO get all the values from a real customer object
-                String companyName = customers.get(nameAutoComplete.getText().toString())[1];
-                company.setText(companyName);
+                Ccustomer ccustomer = customers.get(nameAutoComplete.getText().toString());
+                company.setText(ccustomer.getCcompany());
+                email.setText(ccustomer.getCemail());
+                landline.setText(ccustomer.getCphone());
+                cell.setText(ccustomer.getCcell());
+                city.setText(ccustomer.getCcity());
+                address.setText(ccustomer.getCaddress());
             }
         });
     }
