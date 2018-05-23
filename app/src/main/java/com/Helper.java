@@ -264,13 +264,14 @@ public class Helper {
                         h.LogPrintExStackTrace(e);
                     }
                 }else{
-                    //Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
                 }
             }else{
                 Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
             }
         }catch(Exception e){
             h.LogPrintExStackTrace(e);
+            Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 

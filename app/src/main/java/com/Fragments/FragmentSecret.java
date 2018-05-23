@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.Activities.ActivityWebView;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Classes.Call_offline;
+import com.Classes.Calltime;
 import com.Classes.ControlPanel;
 import com.Classes.Ctype;
 import com.Classes.Favorite;
@@ -63,7 +65,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,id3,id4,btn_action_time,btn_actions;
+    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions;
     Button btn_delete_table,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
@@ -82,6 +84,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         table = (EditText)   v.findViewById(R.id.table);
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
+        btn_offline_calls = (TextView) v.findViewById(R.id.btn_offline_calls) ;
         id4 = (TextView) v.findViewById(R.id.id4) ;
         btn_actions = (TextView) v.findViewById(R.id.btn_actions) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
@@ -91,6 +94,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id4.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id2.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id1.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
+        btn_offline_calls.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
 
         table.setText("IS_Actions");
         btn_delete_table = (Button) v.findViewById(R.id.btn_delete_table);
@@ -101,9 +105,9 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean isISActionsEsixts = DatabaseHelper.getInstance(getContext()).isTableExists("IS_Actions") ? true : false;
+                Boolean isISActionsEsixts = DatabaseHelper.getInstance(getContext()).isTableExists(table.getText().toString()) ? true : false;
                 if (isISActionsEsixts == true){
-                    Toast.makeText(getContext(), " IS_Actions קיים", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), " " + table.getText().toString() +" קיים", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -202,9 +206,35 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
             }
         });
         setSpinner();
+        setBtnCalltime();
         return v;
     }
+    private void setBtnCalltime(){
+        btn_offline_calls.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.removeAllViewsInLayout();
+                List<Calltime> calltimeList = new ArrayList<Calltime>();
+                calltimeList = DatabaseHelper.getInstance(getContext()).getCalltimes("");
+                for (final Calltime f : calltimeList) {
+                    //Log.e("mytag",f.toString());
+                    final TextView rowTextView = new TextView(getContext());
+                    rowTextView.setText(f.toString());
+                    rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                    rowTextView.setTextSize(20);
+                    //rowTextView.setHeight(30);
+                    // add the textview to the linearlayout
+                    layout.addView(rowTextView);
+                    rowTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
+                        }
+                    });
+                }
+            }
+        });
+    }
     private void setSpinner(){
         try{
 
