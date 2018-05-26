@@ -50,6 +50,8 @@
     <string name="fa_icon_map">&#xf203;</string>
     <string name="fa_icon_earth">&#xf276;</string>
     <string name="fa_icon_email">&#xf422;</string>
+    <string name="fa_icon_info">&#xf19f;</string>
+    <string name="fa_icon_close">&#xf2d7;</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>

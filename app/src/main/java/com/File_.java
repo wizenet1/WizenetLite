@@ -45,12 +45,21 @@ public class File_ {
         }
         return file;
     }
-    public boolean isSubDirectoryExist(Context c,String subDirectory){
+    public boolean isSubDirectoryExist(String subDirectory){
         File file;
         boolean flag = false;
         file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator  +"wizenet/"+subDirectory + "/");
         if(file.exists()) {
                 flag = true;
+        }
+        return flag;
+    }
+    public boolean isFileExist(String fileWithPrefix){
+        File file;
+        boolean flag = false;
+        file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator  +"wizenet/"+fileWithPrefix);
+        if(file.exists()) {
+            flag = true;
         }
         return flag;
     }

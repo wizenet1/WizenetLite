@@ -61,6 +61,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -263,13 +264,14 @@ public class Helper {
                         h.LogPrintExStackTrace(e);
                     }
                 }else{
-                    //Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
                 }
             }else{
                 Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
             }
         }catch(Exception e){
             h.LogPrintExStackTrace(e);
+            Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
@@ -862,25 +864,66 @@ public class Helper {
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getMacAddr() {
+        String device_id = "";
         try{
             TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-            String device_id = tm.getDeviceId();
-            return device_id;
+             device_id = tm.getDeviceId();
+            if (!(device_id.trim() == "")){
+                return device_id;
+            }else{
+                device_id = getGUID();
+                return device_id;
+            }
         }catch(Exception e){
             Helper h = new Helper();
             h.LogPrintExStackTrace(e);
-            return "";
+            device_id = getGUID();
+            return device_id;
         }
     }
 
         public static String getMacAddr(Context ctx1) {
+            String device_id = "";
             try{
-                TelephonyManager tm = (TelephonyManager) ctx1.getSystemService(Context.TELEPHONY_SERVICE);
-                String device_id = tm.getDeviceId();
-                return device_id;
+                TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+                device_id = tm.getDeviceId();
+                if (!(device_id.trim() == "")){
+                    return device_id;
+                }else{
+                    device_id = getGUID();
+                    return device_id;
+                }
             }catch(Exception e){
                 Helper h = new Helper();
                 h.LogPrintExStackTrace(e);
+                device_id = getGUID();
+                return device_id;
+            }
+            //try{
+            //    TelephonyManager tm = (TelephonyManager) ctx1.getSystemService(Context.TELEPHONY_SERVICE);
+            //    String device_id = tm.getDeviceId();
+            //    return device_id;
+            //}catch(Exception e){
+            //    Helper h = new Helper();
+            //    h.LogPrintExStackTrace(e);
+            //    return "";
+            //}
+        }
+        private static String getGUID(){
+            String device_id = "";
+            try{
+                File_ f= new File_();
+                if (f.isFileExist("guid.txt") == true){
+                    device_id = f.readFromFileExternal(ctx,"guid.txt");
+                    return device_id;
+                }else{
+                    UUID uuid = UUID.randomUUID();
+                    String uuidInString = uuid.toString();
+                    f.writeTextToFileExternal(ctx,"guid.txt",uuidInString);
+                    device_id = f.readFromFileExternal(ctx,"guid.txt");
+                    return device_id;
+                }
+            }catch (Exception e){
                 return "";
             }
         }

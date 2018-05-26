@@ -1561,6 +1561,35 @@ public IS_ActionTime getISActionTimeByActionID(String actionid){
         return flag;
 
     }
+    public List<Calltime> getCalltimes(String sortby) {
+        List<Calltime> calltimeList = new ArrayList<Calltime>();
+        try{
+            String selectQuery ="";
+            selectQuery = "SELECT * FROM Calltime where 1=1   " ;
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            //Log.e("mytag","row count is_actions: " +cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    Calltime action= new Calltime(
+                            cursor.getInt(cursor.getColumnIndex("CTID")),
+                            cursor.getInt(cursor.getColumnIndex("CallID")),
+                            cursor.getString(cursor.getColumnIndex("CallStartTime")),
+                            cursor.getString(cursor.getColumnIndex("Minute")),
+                            cursor.getString(cursor.getColumnIndex("CTcomment")),
+                            cursor.getString(cursor.getColumnIndex("ctq"))
+                    );
+                    calltimeList.add(action);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+        }
+        return calltimeList;
+    }
 public Calltime getCalltimeByCallidAndAction(String callid,String action,String openClose){
 
     Calltime calltime = new Calltime();
