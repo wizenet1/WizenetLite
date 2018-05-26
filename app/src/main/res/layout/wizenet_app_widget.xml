@@ -14,7 +14,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/widget_layout_1">
+            android:id="@+id/widget_layout_1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn1"
@@ -33,11 +34,13 @@
         <TextView
             android:layout_width="2dp"
             android:layout_height="match_parent"
+            android:id="@+id/h"
             android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn2"
@@ -60,7 +63,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn3"
@@ -83,7 +87,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn4"
@@ -106,7 +111,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn5"
@@ -125,23 +131,30 @@
         <TextView
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start">
 
-            <Button
-                android:id="@+id/btn6"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="42dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:background="@drawable/rounded_button"
-                android:maxWidth="4dp"
-                android:textColor="@color/whiteColor"
-                android:textSize="12sp"
-                android:textStyle="bold|italic" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/wizenet_logo_big" />
+
+                <Button
+                    android:id="@+id/btn6"
+                    android:layout_width="42dp"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold|italic" />
 
         </LinearLayout>
 
