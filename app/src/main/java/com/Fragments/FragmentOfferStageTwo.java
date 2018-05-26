@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ public class FragmentOfferStageTwo extends Fragment {
     private EditText price;
     private TextView totalPrice;
     private TextView totalQuantity;
+    private boolean isEditable;
 
     public FragmentOfferStageTwo() {
         // Required empty public constructor
@@ -186,12 +189,13 @@ public class FragmentOfferStageTwo extends Fragment {
      */
     private void cleanDataFields() {
 
-        this.productAutoComplete.setText("");
+        //this.productAutoComplete.setText("");
         this.serialNumber.setText("");
         this.description.setText("");
         this.quantity.setText("");
         this.price.setText("");
-        this.totalPrice.setText("0");
+        //TODO maybe make a separate method for cleaning the total price
+        //this.totalPrice.setText("0");
     }
 
     /**
@@ -221,6 +225,8 @@ public class FragmentOfferStageTwo extends Fragment {
         //Initialize the textViewAutoComplete adapter.
         this.productAutoComplete.setAdapter(new ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, names));
 
+        this.isEditable = true;
+
         //Set an onItemClick listener.
         this.productAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -229,8 +235,49 @@ public class FragmentOfferStageTwo extends Fragment {
                 //TODO get all the values from a real product object
                 String serialNumberText = products.get(productAutoComplete.getText().toString())[1];
                 serialNumber.setText(serialNumberText);
+
+                //Disable editing the data fields.
+                setFieldsIsEditable(false);
+                isEditable = false;
             }
         });
+
+        //Set a text changed listener.
+        this.productAutoComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                //Clean the data fields.
+                cleanDataFields();
+
+                //Check if editing is disabled.
+                if (!isEditable){
+
+                    //Enable editing the data fields.
+                    setFieldsIsEditable(true);
+                    isEditable = true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    /**
+     * Sets the is editing enabled for the input fields.
+     * @param isEditable is editable
+     */
+    private void setFieldsIsEditable(boolean isEditable){
+        this.serialNumber.setEnabled(isEditable);
+        this.description.setEnabled(isEditable);
     }
 
     /**

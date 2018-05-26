@@ -84,7 +84,8 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         table = (EditText)   v.findViewById(R.id.table);
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
-        btn_offline_calls = (TextView) v.findViewById(R.id.btn_offline_calls) ;
+        //TODO currently the btn_offline_calls is missing, uncomment this after adding it
+        //btn_offline_calls = (TextView) v.findViewById(R.id.btn_offline_calls) ;
         id4 = (TextView) v.findViewById(R.id.id4) ;
         btn_actions = (TextView) v.findViewById(R.id.btn_actions) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;

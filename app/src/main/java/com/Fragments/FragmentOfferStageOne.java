@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -278,8 +280,45 @@ public class FragmentOfferStageOne extends Fragment {
                 cell.setText(ccustomer.getCcell());
                 city.setText(ccustomer.getCcity());
                 address.setText(ccustomer.getCaddress());
+                customerNumber.setText(ccustomer.getCcID());
+                erpNumber.setText(ccustomer.getCusername());
             }
         });
+
+        //Set a text changed listener.
+        this.nameAutoComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                //Clean the fields when the user is typing.
+                cleanFields();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    /**
+     * Cleans all the data fields and sets their initial value back.
+     */
+    private void cleanFields(){
+
+        company.setText("");
+        email.setText("");
+        landline.setText("");
+        cell.setText("");
+        city.setText("");
+        address.setText("");
+        customerNumber.setText("-1");
+        erpNumber.setText("-1");
     }
 
     /**
