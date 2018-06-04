@@ -183,7 +183,8 @@ public class ActivityWebView extends FragmentActivity {
             case "customercase" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
-                        + "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True"
+                        +"/iframe.aspx?control=modules/tableextrafields&table=calls&pk=callid&pkvalue=" + String.valueOf(callid) + ""
+                        //+ "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True"
                         +"&MACAddress=" + helper.getMacAddr();
                 Log.e("mytag","url: " + url);
                 break;
