@@ -705,8 +705,12 @@ public class ActivityCallDetails extends FragmentActivity {
     private void goToSign(){
         try
         {
-            String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
-
+            String url = "";//DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
+            url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                    +"/IN.aspx?url="
+                    + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID())
+                    +"&MACAddress=" + helper.getMacAddr();
+            Log.e("mytag",url);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(browserIntent);
             //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
