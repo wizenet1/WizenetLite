@@ -86,6 +86,22 @@
                     android:textSize="20sp"/>
             </LinearLayout>
             <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/gradient"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl">
+
+                <CheckBox
+                    android:id="@+id/chk_calls_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:checked="true"
+                    android:text="קריאות להיום" />
+            </LinearLayout>
+            <LinearLayout
 
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

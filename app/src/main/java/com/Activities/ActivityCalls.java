@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +60,7 @@ TextView lblcount;
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
+    private CheckBox chk_calls_today;
     String ss = "";
 
     String s = "";
@@ -75,6 +77,7 @@ TextView lblcount;
         ctx = this;
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
+        chk_calls_today = (CheckBox) findViewById(R.id.chk_calls_today);
         mSearchEdt = (EditText) findViewById(R.id.mSearchEdt);
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
@@ -168,9 +171,17 @@ TextView lblcount;
             }
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
-
+        setChkShibutz();
     }
+   private void setChkShibutz(){
+       chk_calls_today.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
 
+               change();
+           }
+       });
+   }
 //region notinuse
     //endregion
 
@@ -368,7 +379,14 @@ TextView lblcount;
 
         List<Call> calls = new ArrayList<Call>() ;
         try {
-            calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
+            if (chk_calls_today.isChecked() == true){
+                String date = helper.getDate("yyyy-MM-dd");
+                calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls("and callStartTime like '%" + date + "%' " +sortby);
+
+            }else{
+                calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
+
+            }
             length = calls.size();
         } catch (Exception e) {
             Log.e("mytag","sdf " +e.getMessage());
