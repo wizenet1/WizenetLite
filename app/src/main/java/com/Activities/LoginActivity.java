@@ -76,7 +76,7 @@ public class LoginActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
-        mac_address = helper.getMacAddr();
+        mac_address = helper.getMacAddr(getApplicationContext());
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
         setContentView(R.layout.activity_login);

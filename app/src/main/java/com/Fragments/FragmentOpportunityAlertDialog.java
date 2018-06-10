@@ -13,10 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.Activities.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.model.Model;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class FragmentOpportunityAlertDialog extends DialogFragment {
 
     //The comments text area.
     private EditText comments;
-
+    private TextView opportunities_status_alert_dialog_previous_comments;
     //The update button.
     private Button updateButton;
 
@@ -50,6 +52,10 @@ public class FragmentOpportunityAlertDialog extends DialogFragment {
 
         //The headers list.
         String headersInJson = bundle.getString("HeadersInJson");
+
+        String OID = String.valueOf(bundle.getInt("OID"));
+        String Ocomment = bundle.getString("Ocomment");
+
         List<String> listDataHeaders = new Gson().fromJson(headersInJson,
                 new TypeToken<List<String>>(){}.getType());
 
@@ -71,13 +77,17 @@ public class FragmentOpportunityAlertDialog extends DialogFragment {
         this.spinner.setSelection(groupId);
 
         //TODO take the text from here
+        this.opportunities_status_alert_dialog_previous_comments = (TextView)view.findViewById(R.id.opportunities_status_alert_dialog_previous_comments);
+        opportunities_status_alert_dialog_previous_comments.setText(Ocomment);
         this.comments = (EditText)view.findViewById(R.id.opportunities_status_alert_dialog_comments);
+
 
         this.updateButton = (Button)view.findViewById(R.id.opportunities_status_alert_dialog_update_button);
         this.updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO implement
+                //Model.getInstance().Async_Wz_Update_Lead_Field();
             }
         });
 

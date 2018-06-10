@@ -88,6 +88,12 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
 
         Icon_Manager icon_manager = new Icon_Manager();
         getCallStatuses();
+        Model.getInstance().Async_Wz_getOstatusList(helper.getMacAddr(context), new Model.Wz_getOstatusList_Listener() {
+            @Override
+            public void onResult(String str) {
+                Toast.makeText(getContext(), "success to add Ostatus", Toast.LENGTH_LONG).show();
+            }
+        });
         helper = new Helper();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
         menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));

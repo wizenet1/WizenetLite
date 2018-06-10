@@ -88,8 +88,9 @@ public class MainActivity extends Activity {
                 Boolean isCalltimeEsixts = DatabaseHelper.getInstance(ctx).isTableExists("Calltime") ? true : false;
                 Boolean isISActionsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("IS_Actions") ? true : false;
                 Boolean isISActionsTimeEsixts = DatabaseHelper.getInstance(ctx).isTableExists("IS_ActionsTime") ? true : false;
+                Boolean isLeadsEsixts = DatabaseHelper.getInstance(ctx).isTableExists("Leads") ? true : false;
 
-                Log.e("mytag","is is_actions table exists? "+String.valueOf(isISActionsEsixts));
+                //Log.e("mytag","is is_actions table exists? "+String.valueOf(isISActionsEsixts));
                 DatabaseHelper.getInstance(ctx).getTableColumns();
                 //--------- add tables -------------
                 if (!isCallOfllineEsixts)
@@ -102,6 +103,8 @@ public class MainActivity extends Activity {
                     DatabaseHelper.getInstance(ctx).createColumnToISActions("",isISActionsEsixts);
                 if (!isISActionsTimeEsixts)
                     DatabaseHelper.getInstance(ctx).createColumnToISActionsTime("",isISActionsTimeEsixts);
+                if (!isLeadsEsixts)
+                    DatabaseHelper.getInstance(ctx).createColumnToLeads("",isLeadsEsixts);
                 if (!isControlPanelEsixts){
                     DatabaseHelper.getInstance(ctx).createColumnToCP("",isControlPanelEsixts);
                     helper.addInitialfirst(ctx);

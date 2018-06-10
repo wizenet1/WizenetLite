@@ -66,6 +66,9 @@ public class CallSoap {
     public  final String Wz_createISActionTime = "Wz_createISActionTime";
     public  final String Wz_getIS_StatusList = "Wz_getIS_StatusList";
     public  final String Wz_User_Details = "Wz_User_Details";
+    public  final String Wz_getOstatusList = "Wz_getOstatusList";
+    public  final String Wz_getLeadsList = "Wz_getLeadsList";
+    public  final String Wz_Update_Lead_Field = "Wz_Update_Lead_Field";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -112,6 +115,9 @@ public class CallSoap {
     public  final String Wz_getIS_StatusList_SOAP_ACTION = "http://tempuri.org/Wz_getIS_StatusList";
     public  final String Wz_Update_Action_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Action_Field";
     public  final String Wz_User_Details_SOAP_ACTION = "http://tempuri.org/Wz_User_Details";
+    public  final String Wz_getOstatusList_SOAP_ACTION = "http://tempuri.org/Wz_getOstatusList";
+    public  final String Wz_getLeadsList_SOAP_ACTION = "http://tempuri.org/Wz_getLeadsList";
+    public  final String Wz_Update_Lead_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Lead_Field";
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
     Helper h = new Helper();
@@ -1105,6 +1111,75 @@ public String Wz_User_Details(String mac_address)
     try
     {
         httpTransport.call(Wz_User_Details_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
+// region Wz_getOstatusList
+public String Wz_getOstatusList(String mac_address)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_getOstatusList);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_getOstatusList_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
+// region Wz_getLeadsList
+public String Wz_getLeadsList(String mac_address)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_getLeadsList);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_getLeadsList_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
+// region Wz_Update_Lead_Field
+public String Wz_Update_Lead_Field(String mac_address,String oid,String field,String value)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_Update_Lead_Field);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    request.addProperty("oid",oid);
+    request.addProperty("field",field);
+    request.addProperty("value",value);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_Update_Lead_Field_SOAP_ACTION, envelope);
         response = envelope.bodyIn;
     }
     catch (Exception exception)

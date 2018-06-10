@@ -104,6 +104,78 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String CREATE_Leads = "CREATE TABLE " + "Leads" + "("
+        +"OID" +  " TEXT, "
+        +"CID" +  " TEXT, "
+        +"Odate" +  " TEXT, "
+        +"ccName" +  " TEXT, "
+        +"ccID" +  " TEXT, "
+        +"ccType" +  " TEXT, "
+        +"ccNum" +  " TEXT, "
+        +"ccExp" +  " TEXT, "
+        +"CCpayment" +  " TEXT, "
+        +"Oshipping" +  " TEXT, "
+        +"Osum" +  " TEXT, "
+        +"Sfname" +  " TEXT, "
+        +"Slname" +  " TEXT, "
+        +"Saddress" +  " TEXT, "
+        +"Scity" +  " TEXT, "
+        +"Scountry" +  " TEXT, "
+        +"Sstate" +  " TEXT, "
+        +"Szip" +  " TEXT, "
+        +"Sphone" +  " TEXT, "
+        +"Scell" +  " TEXT, "
+        +"Semail" +  " TEXT, "
+        +"Scomment" +  " TEXT, "
+        +"Oprint" +  " TEXT, "
+        +"Ofile" +  " TEXT, "
+        +"PStypeID" +  " TEXT, "
+        +"PSaleID" +  " TEXT, "
+        +"Ostatus" +  " TEXT, "
+        +"OBstatus" +  " TEXT, "
+        +"OpaymentType" +  " TEXT, "
+        +"LNG" +  " TEXT, "
+        +"PsupplierID" +  " TEXT, "
+        +"Ocard" +  " TEXT, "
+        +"Oinvoice" +  " TEXT, "
+        +"OnotHome" +  " TEXT, "
+        +"OtimeShipping" +  " TEXT, "
+        +"OdateShipping" +  " TEXT, "
+        +"Orate" +  " TEXT, "
+        +"Ocoin" +  " TEXT, "
+        +"Expr1" +  " TEXT, "
+        +"OstatusName" +  " TEXT, "
+        +"CparentName" +  " TEXT, "
+        +"CParentID" +  " TEXT, "
+        +"CparentUsername" +  " TEXT, "
+        +"Ocomment" +  " TEXT, "
+        +"Otax" +  " TEXT, "
+        +"Sfax" +  " TEXT, "
+        +"Omakats" +  " TEXT, "
+        +"Cfax" +  " TEXT, "
+        +"OwnerID" +  " TEXT, "
+        +"Ofname" +  " TEXT, "
+        +"Olname" +  " TEXT, "
+        +"Ccompany" +  " TEXT, "
+        +"ProdSum" +  " TEXT, "
+        +"CJoinerID" +  " TEXT, "
+        +"PsupplierNAME" +  " TEXT, "
+        +"SUsername" +  " TEXT, "
+        +"PsupplierLOGO" +  " TEXT, "
+        +"SPassword" +  " TEXT, "
+        +"Cusername" +  " TEXT, "
+        +"Oemail" +  " TEXT, "
+        +"OUdate" +  " TEXT, "
+        +"OTdate" +  " TEXT, "
+        +"CTypeID" +  " TEXT, "
+        +"CTypeName" +  " TEXT, "
+        +"OcommentID" +  " TEXT, "
+        +"SID" +  " TEXT, "
+        +"Oref" +  " TEXT, "
+        +"Cusername2" +  " TEXT "
+        + ")";
+
+
         String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
        + "actionID" + " INTEGER,"
         +"taskID"+ " INTEGER,"
@@ -281,6 +353,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + MsgREAD + " TEXT, "
                         + MsgTYPE + " TEXT "
                         + ")";
+        db.execSQL(CREATE_Leads);
+
         db.execSQL(CREATE_IS_ActionsTime);
         db.execSQL(CREATE_IS_Actions);
         db.execSQL(CREATE_CallStatus);
@@ -419,6 +493,122 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
 
+    }
+    public boolean createColumnToLeads(String column,boolean isTableExist){
+        //getTableColumns();
+        String IS_ActionsTime = "Leads";
+        boolean flag = false;
+        Helper h = new Helper();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_Leads = "CREATE TABLE " + "Leads" + "("
+                    +"OID" +  " TEXT, "
+                    +"CID" +  " TEXT, "
+                    +"Odate" +  " TEXT, "
+                    +"ccName" +  " TEXT, "
+                    +"ccID" +  " TEXT, "
+                    +"ccType" +  " TEXT, "
+                    +"ccNum" +  " TEXT, "
+                    +"ccExp" +  " TEXT, "
+                    +"CCpayment" +  " TEXT, "
+                    +"Oshipping" +  " TEXT, "
+                    +"Osum" +  " TEXT, "
+                    +"Sfname" +  " TEXT, "
+                    +"Slname" +  " TEXT, "
+                    +"Saddress" +  " TEXT, "
+                    +"Scity" +  " TEXT, "
+                    +"Scountry" +  " TEXT, "
+                    +"Sstate" +  " TEXT, "
+                    +"Szip" +  " TEXT, "
+                    +"Sphone" +  " TEXT, "
+                    +"Scell" +  " TEXT, "
+                    +"Semail" +  " TEXT, "
+                    +"Scomment" +  " TEXT, "
+                    +"Oprint" +  " TEXT, "
+                    +"Ofile" +  " TEXT, "
+                    +"PStypeID" +  " TEXT, "
+                    +"PSaleID" +  " TEXT, "
+                    +"Ostatus" +  " TEXT, "
+                    +"OBstatus" +  " TEXT, "
+                    +"OpaymentType" +  " TEXT, "
+                    +"LNG" +  " TEXT, "
+                    +"PsupplierID" +  " TEXT, "
+                    +"Ocard" +  " TEXT, "
+                    +"Oinvoice" +  " TEXT, "
+                    +"OnotHome" +  " TEXT, "
+                    +"OtimeShipping" +  " TEXT, "
+                    +"OdateShipping" +  " TEXT, "
+                    +"Orate" +  " TEXT, "
+                    +"Ocoin" +  " TEXT, "
+                    +"Expr1" +  " TEXT, "
+                    +"OstatusName" +  " TEXT, "
+                    +"CparentName" +  " TEXT, "
+                    +"CParentID" +  " TEXT, "
+                    +"CparentUsername" +  " TEXT, "
+                    +"Ocomment" +  " TEXT, "
+                    +"Otax" +  " TEXT, "
+                    +"Sfax" +  " TEXT, "
+                    +"Omakats" +  " TEXT, "
+                    +"Cfax" +  " TEXT, "
+                    +"OwnerID" +  " TEXT, "
+                    +"Ofname" +  " TEXT, "
+                    +"Olname" +  " TEXT, "
+                    +"Ccompany" +  " TEXT, "
+                    +"ProdSum" +  " TEXT, "
+                    +"CJoinerID" +  " TEXT, "
+                    +"PsupplierNAME" +  " TEXT, "
+                    +"SUsername" +  " TEXT, "
+                    +"PsupplierLOGO" +  " TEXT, "
+                    +"SPassword" +  " TEXT, "
+                    +"Cusername" +  " TEXT, "
+                    +"Oemail" +  " TEXT, "
+                    +"OUdate" +  " TEXT, "
+                    +"OTdate" +  " TEXT, "
+                    +"CTypeID" +  " TEXT, "
+                    +"CTypeName" +  " TEXT, "
+                    +"OcommentID" +  " TEXT, "
+                    +"SID" +  " TEXT, "
+                    +"Oref" +  " TEXT, "
+                    +"Cusername2" +  " TEXT "
+                    + ")";
+            if (isTableExist){
+                db.execSQL("DROP TABLE IF EXISTS '" + IS_ActionsTime + "_old" + "'");
+                db.execSQL("ALTER TABLE " + IS_ActionsTime + " RENAME TO " + IS_ActionsTime + "_old;");
+                Log.e("mytag","step 1");
+            }
+
+            try{
+                db.execSQL(CREATE_Leads);
+            }catch (Exception e){
+                Log.e("mytag","exception create exe: " + e.getMessage());
+                //String bla = CREATE_mgnet_calls.replace("CREATE TABLE","ALTER TABLE");
+                //db.execSQL(bla);
+            }
+            if (isTableExist){
+                db.execSQL("DROP TABLE " + IS_ActionsTime + "_old;");
+                Log.e("mytag","step 2");
+            }
+
+            //Log.e("mytag","last time: " + columnExistsInTable("mgnet_calls","sla"));
+            if (!columnExistsInTable(IS_ActionsTime,column)){
+                try{
+                    db.execSQL("ALTER TABLE " + IS_ActionsTime + " ADD COLUMN " + column + " TEXT;");
+                    Log.e("mytag","success to add " + column + "to IS_ActionsTime");
+
+                }catch (Exception e){
+                    Log.e("mytag","err step 4, " + e.getMessage());
+                    h.LogPrintExStackTrace(e);
+                }
+            }
+
+            flag = true;
+        }catch (Exception e){
+
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
     }
     public boolean createColumnToISActionsTime(String column,boolean isTableExist){
         //getTableColumns();
@@ -1152,6 +1342,104 @@ public void updateSpecificValueInTable2(String table,String primarykey,String pr
         }
         return actionsTime;
     }
+    public List<Lead> getLeadsByOstatus(String sortby) {
+        List<Lead> leadList = new ArrayList<Lead>();
+        try{
+            String selectQuery ="";
+            selectQuery = "SELECT * FROM Leads where 1=1" ;
+            if (sortby.trim() != ""){
+                selectQuery += "  and Ostatus='" + sortby + "'";
+            }
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            //Log.e("mytag","row count is_actions: " +cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    Lead lead= new Lead(
+                            cursor.getString(cursor.getColumnIndex("OID")),
+                                    cursor.getString(cursor.getColumnIndex("CID")),
+                                    cursor.getString(cursor.getColumnIndex("Odate")),
+                                    cursor.getString(cursor.getColumnIndex("ccName")),
+                                    cursor.getString(cursor.getColumnIndex("ccID")),
+                                    cursor.getString(cursor.getColumnIndex("ccType")),
+                                    cursor.getString(cursor.getColumnIndex("ccNum")),
+                                    cursor.getString(cursor.getColumnIndex("ccExp")),
+                                    cursor.getString(cursor.getColumnIndex("CCpayment")),
+                                    cursor.getString(cursor.getColumnIndex("Oshipping")),
+                                    cursor.getString(cursor.getColumnIndex("Osum")),
+                                    cursor.getString(cursor.getColumnIndex("Sfname")),
+                                    cursor.getString(cursor.getColumnIndex("Slname")),
+                                    cursor.getString(cursor.getColumnIndex("Saddress")),
+                                    cursor.getString(cursor.getColumnIndex("Scity")),
+                                    cursor.getString(cursor.getColumnIndex("Scountry")),
+                                    cursor.getString(cursor.getColumnIndex("Sstate")),
+                                    cursor.getString(cursor.getColumnIndex("Szip")),
+                                    cursor.getString(cursor.getColumnIndex("Sphone")),
+                                    cursor.getString(cursor.getColumnIndex("Scell")),
+                                    cursor.getString(cursor.getColumnIndex("Semail")),
+                                    cursor.getString(cursor.getColumnIndex("Scomment")),
+                                    cursor.getString(cursor.getColumnIndex("Oprint")),
+                                    cursor.getString(cursor.getColumnIndex("Ofile")),
+                                    cursor.getString(cursor.getColumnIndex("PStypeID")),
+                                    cursor.getString(cursor.getColumnIndex("PSaleID")),
+                                    cursor.getString(cursor.getColumnIndex("Ostatus")),
+                                    cursor.getString(cursor.getColumnIndex("OBstatus")),
+                                    cursor.getString(cursor.getColumnIndex("OpaymentType")),
+                                    cursor.getString(cursor.getColumnIndex("LNG")),
+                                    cursor.getString(cursor.getColumnIndex("PsupplierID")),
+                                    cursor.getString(cursor.getColumnIndex("Ocard")),
+                                    cursor.getString(cursor.getColumnIndex("Oinvoice")),
+                                    cursor.getString(cursor.getColumnIndex("OnotHome")),
+                                    cursor.getString(cursor.getColumnIndex("OtimeShipping")),
+                                    cursor.getString(cursor.getColumnIndex("OdateShipping")),
+                                    cursor.getString(cursor.getColumnIndex("Orate")),
+                                    cursor.getString(cursor.getColumnIndex("Ocoin")),
+                                    cursor.getString(cursor.getColumnIndex("Expr1")),
+                                    cursor.getString(cursor.getColumnIndex("OstatusName")),
+                                    cursor.getString(cursor.getColumnIndex("CparentName")),
+                                    cursor.getString(cursor.getColumnIndex("CParentID")),
+                                    cursor.getString(cursor.getColumnIndex("CparentUsername")),
+                                    cursor.getString(cursor.getColumnIndex("Ocomment")),
+                                    cursor.getString(cursor.getColumnIndex("Otax")),
+                                    cursor.getString(cursor.getColumnIndex("Sfax")),
+                                    cursor.getString(cursor.getColumnIndex("Omakats")),
+                                    cursor.getString(cursor.getColumnIndex("Cfax")),
+                                    cursor.getString(cursor.getColumnIndex("OwnerID")),
+                                    cursor.getString(cursor.getColumnIndex("Ofname")),
+                                    cursor.getString(cursor.getColumnIndex("Olname")),
+                                    cursor.getString(cursor.getColumnIndex("Ccompany")),
+                                    cursor.getString(cursor.getColumnIndex("ProdSum")),
+                                    cursor.getString(cursor.getColumnIndex("CJoinerID")),
+                                    cursor.getString(cursor.getColumnIndex("PsupplierNAME")),
+                                    cursor.getString(cursor.getColumnIndex("SUsername")),
+                                    cursor.getString(cursor.getColumnIndex("PsupplierLOGO")),
+                                    cursor.getString(cursor.getColumnIndex("SPassword")),
+                                    cursor.getString(cursor.getColumnIndex("Cusername")),
+                                    cursor.getString(cursor.getColumnIndex("Oemail")),
+                                    cursor.getString(cursor.getColumnIndex("OUdate")),
+                                    cursor.getString(cursor.getColumnIndex("OTdate")),
+                                    cursor.getString(cursor.getColumnIndex("CTypeID")),
+                                    cursor.getString(cursor.getColumnIndex("CTypeName")),
+                                    cursor.getString(cursor.getColumnIndex("OcommentID")),
+                                    cursor.getString(cursor.getColumnIndex("SID")),
+                                    cursor.getString(cursor.getColumnIndex("Oref")),
+                                    cursor.getString(cursor.getColumnIndex("Cusername2")))
+
+                            ;
+                    leadList.add(lead);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+        }
+        return leadList;
+    }
+
+
+
     public List<IS_Action> getISActions(String sortby) {
         List<IS_Action> actions = new ArrayList<IS_Action>();
         try{
@@ -1492,7 +1780,21 @@ public void addNewCall(Call call) {
         }
         return flag;
     }
+    public boolean deleteAllLeads() {
+        boolean flag = true;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
 
+            db.delete("Leads", null, null);
+            //db.close();
+
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
 //endregion
 public boolean add_ISActionTime(IS_ActionTime ct){
     boolean flag = false;
@@ -1663,6 +1965,98 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
             Log.e("MYTAG",e.getMessage());
         }
 
+    }
+
+    public boolean addLead(Lead lead) {
+        boolean flag = false;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("OID",lead.getOID());
+            values.put("CID",lead.getCID());
+            values.put("Odate",lead.getOdate());
+            values.put("ccName",lead.getCcName());
+            values.put("ccID",lead.getCcID());
+            values.put("ccType",lead.getCcType());
+            values.put("ccNum",lead.getCcNum());
+            values.put("ccExp",lead.getCcExp());
+            values.put("CCpayment",lead.getCCpayment());
+            values.put("Oshipping",lead.getOshipping());
+            values.put("Osum",lead.getOsum());
+            values.put("Sfname",lead.getSfname());
+            values.put("Slname",lead.getSlname());
+            values.put("Saddress",lead.getSaddress());
+            values.put("Scity",lead.getScity());
+            values.put("Scountry",lead.getScountry());
+            values.put("Sstate",lead.getSstate());
+            values.put("Szip",lead.getSzip());
+            values.put("Sphone",lead.getSphone());
+            values.put("Scell",lead.getScell());
+            values.put("Semail",lead.getSemail());
+            values.put("Scomment",lead.getScomment());
+            values.put("Oprint",lead.getOprint());
+            values.put("Ofile",lead.getOfile());
+            values.put("PStypeID",lead.getPStypeID());
+            values.put("PSaleID",lead.getPSaleID());
+            values.put("Ostatus",lead.getOstatus());
+            values.put("OBstatus",lead.getOBstatus());
+            values.put("OpaymentType",lead.getOpaymentType());
+            values.put("LNG",lead.getLNG());
+            values.put("PsupplierID",lead.getPsupplierID());
+            values.put("Ocard",lead.getOcard());
+            values.put("Oinvoice",lead.getOinvoice());
+            values.put("OnotHome",lead.getOnotHome());
+
+            values.put("OtimeShipping",lead.getOtimeShipping());
+            values.put("OdateShipping",lead.getOdateShipping());
+            values.put("Orate",lead.getOrate());
+            values.put("Ocoin",lead.getOcoin());
+            values.put("Expr1",lead.getExpr1());
+            values.put("OstatusName",lead.getOstatusName());
+            values.put("CparentName",lead.getCparentName());
+            values.put("CParentID",lead.getCParentID());
+            values.put("CparentUsername",lead.getCparentUsername());
+            values.put("Ocomment",lead.getOcomment());
+            values.put("Otax",lead.getOtax());
+            values.put("Sfax",lead.getSfax());
+            values.put("Omakats",lead.getOmakats());
+            values.put("Cfax",lead.getCfax());
+            values.put("OwnerID",lead.getOwnerID());
+
+
+            values.put("Ofname",lead.getOfname());
+            values.put("Olname",lead.getOlname());
+            values.put("Ccompany",lead.getCcompany());
+            values.put("ProdSum",lead.getProdSum());
+            values.put("CJoinerID",lead.getCJoinerID());
+            values.put("PsupplierNAME",lead.getPsupplierNAME());
+            values.put("SUsername",lead.getSUsername());
+            values.put("PsupplierLOGO",lead.getPsupplierLOGO());
+            values.put("SPassword",lead.getSPassword());
+            values.put("Cusername",lead.getCusername());
+            values.put("Oemail",lead.getOemail());
+            values.put("OUdate",lead.getOUdate());
+            values.put("OTdate",lead.getOTdate());
+            values.put("CTypeID",lead.getCTypeID());
+            values.put("CTypeName",lead.getCTypeName());
+            values.put("OcommentID",lead.getOcommentID());
+            values.put("SID",lead.getSID());
+            values.put("Oref",lead.getOref());
+            values.put("Cusername2",lead.getCusername2());
+            db.insert("Leads", null, values);
+            flag = true;
+            //Log.e("MYTAG","added!!" + is_action.toString());
+            // Closing database connection
+            //db.close();
+        }catch (Exception e){
+            //e.printStackTrace();
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            Log.e("MYTAG",e.getMessage());
+            //return flag;
+        }
+        return flag;
     }
     public boolean addISAction(IS_Action is_action) {
         boolean flag = false;

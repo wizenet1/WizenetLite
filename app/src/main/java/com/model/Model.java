@@ -1913,8 +1913,153 @@ public interface get_mgnet_client_items_Listener{
 
     }
     //endregion
+    //Wz_getOstatusList
+    public interface Wz_getOstatusList_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_getOstatusList(final String macAddress, final Wz_getOstatusList_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
 
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
 
+                        String response = cs.Wz_getOstatusList(macAddress);
+                        String myResponse = response;
+                        myResponse = myResponse.replaceAll("Wz_getOstatusListResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_getOstatusListResult=", "Wz_getOstatusList:");
+                        //myResponse = myResponse.substring(1);
+                        //myResponse = myResponse.replace(myResponse.substring(myResponse.length()-1), "");
+                        myResponse = myResponse.replaceAll(";", "");
+                        File_ f= new File_();
+                        Log.e("mytag","response:" +response);
+
+                        f.writeTextToFileExternal(context,"ostatus.txt",myResponse);
+                        //boolean flag = helper.writeCtypeIDandSons(context,myResponse);
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
+    //Wz_getLeadsList
+    public interface Wz_getLeadsList_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_getLeadsList(final String macAddress, final Wz_getLeadsList_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
+
+                        String response = cs.Wz_getLeadsList(macAddress);
+                        String myResponse = response;
+                        myResponse = myResponse.replaceAll("Wz_getLeadsListResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_getLeadsListResult=", "Wz_getLeadsList:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        File_ f= new File_();
+                        Log.e("mytag","response:" +response);
+
+                        f.writeTextToFileExternal(context,"leads.txt",myResponse);
+                        //boolean flag = helper.writeCtypeIDandSons(context,myResponse);
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
+    //Wz_getLeadsList
+    public interface Wz_Update_Lead_Field_Listener{
+        public void onResult(String str);
+    }
+    public void Async_Wz_Update_Lead_Field(final String macAddress,final String oid,final String field,final String value, final Wz_Update_Lead_Field_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
+
+                        String response = cs.Wz_Update_Lead_Field(macAddress,oid,field,value);
+                        String myResponse = response;
+                        myResponse = myResponse.replaceAll("Wz_Update_Lead_FieldResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_Update_Lead_FieldResult=", "Wz_Update_Lead_Field:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        File_ f= new File_();
+                        Log.e("mytag","response:" +response);
+
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
     private void addActions(){
         String strJson = "";
         File_ f = new File_();

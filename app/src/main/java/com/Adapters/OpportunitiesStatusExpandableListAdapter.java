@@ -117,7 +117,16 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
 
         final String opportunityNumber = ((String[]) getChild(i, i1))[0];
-        final String opportunityDescription = ((String[]) getChild(i, i1))[1];
+        final String opportunityDescription = ((String[]) getChild(i, i1))[1];//getCcompany
+        final String opportunitySname = ((String[]) getChild(i, i1))[2];//getSfname+getSlname
+        final String opportunityOdate = ((String[]) getChild(i, i1))[3];//getOdate
+        final String opportunitySphone = ((String[]) getChild(i, i1))[4];//getSphone
+        final String opportunityScell = ((String[]) getChild(i, i1))[5];//getScell
+        final String opportunitySemail = ((String[]) getChild(i, i1))[6];//getSemail
+        final String opportunityOcomment = ((String[]) getChild(i, i1))[7];//getOcomment
+        //final String opportunityDescription = ((String[]) getChild(i, i1))[1];
+
+        //l.getOID(), l.getCcompany(),l.getSfname()+" "+l.getSlname(),l.getOdate(),l.getSphone(),l.getScell(),l.getSemail(),l.getOcomment()
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -129,20 +138,39 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
         opportunityNumberText.setText(opportunityNumber);
 
         //Setting opportunity description.
-        TextView opportunityDescriptionText = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_description_text);
-        opportunityDescriptionText.setText(opportunityDescription);
+        TextView opportunities_status_expandable_list_item_description_text = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_description_text);
+        opportunities_status_expandable_list_item_description_text.setText(opportunityDescription);
+        TextView opportunities_status_expandable_list_item_date = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_date);
+        opportunities_status_expandable_list_item_date.setText(opportunityOdate);
+        TextView opportunities_status_expandable_list_item_contct = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_contct);
+        opportunities_status_expandable_list_item_contct.setText(opportunitySname);
+        TextView opportunities_status_expandable_list_item_phone = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_phone);
+        opportunities_status_expandable_list_item_phone.setText(opportunitySphone);
+        TextView opportunities_status_expandable_list_item_cell = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_cell);
+        opportunities_status_expandable_list_item_cell.setText(opportunityScell);
+        TextView opportunities_status_expandable_list_item_email = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_email);
+        opportunities_status_expandable_list_item_email.setText(opportunitySemail);
 
+        opportunities_status_expandable_list_item_contct.setTextDirection(View.TEXT_DIRECTION_RTL);
+        opportunities_status_expandable_list_item_phone.setTextDirection(View.TEXT_DIRECTION_RTL);
+        opportunities_status_expandable_list_item_cell.setTextDirection(View.TEXT_DIRECTION_RTL);
+        opportunities_status_expandable_list_item_email.setTextDirection(View.TEXT_DIRECTION_RTL);
+
+
+        //textview.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
         //Setting the edit icon.
         TextView editIcon = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_edit_icon);
         editIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         editIcon.setTextSize(30);
+
+
 
         final int groupId = i;
 
         editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAlertDialog(groupId);
+                openAlertDialog(groupId,Integer.valueOf(opportunityNumber),opportunityOcomment);
             }
         });
 
@@ -154,9 +182,11 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
      *
      * @param groupId group id
      */
-    private void openAlertDialog(int groupId) {
+    private void openAlertDialog(int groupId,int OID,String Ocomment) {
         Bundle bundle = new Bundle();
         bundle.putInt("HeaderId", groupId);
+        bundle.putInt("OID", OID);
+        bundle.putString("Ocomment", Ocomment);
         List<String> TitlesOnly = getOnlyFirstStrings();
         String headersInJson = new Gson().toJson(TitlesOnly);
         bundle.putString("HeadersInJson", headersInJson);
