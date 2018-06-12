@@ -195,7 +195,7 @@ public class ActivityCallDetails extends FragmentActivity {
 
         txtcreatedate.setText(call.getCreateDate().trim());
         txtcallstarttime.setText(call.getCallStartTime().trim());
-        txtccity.setText(isContainNull(call.getCcity().trim()));
+        txtccity.setText(isContainNull(call.getCcity().trim())+ " " + isContainNull(call.getCaddress().trim()));
         txtcalltypename.setText(isContainNull(call.getCallTypeName().trim()));
 
         id1 = (TextView) findViewById(R.id.id1);
@@ -388,6 +388,12 @@ public class ActivityCallDetails extends FragmentActivity {
             @Override
             public void onClick(View v) {
              goToWaze();
+            }
+        });
+        txtccity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToWaze();
             }
         });
 

@@ -143,41 +143,55 @@
         android:layout_height="wrap_content"
         android:layoutDirection="ltr"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5">
+            android:layout_height="wrap_content">
+
             <TextView
-                android:layout_marginTop="3dp"
+                android:id="@+id/sign"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="7dp"
-                android:background="@drawable/btn_circle2"
-                android:id="@+id/sign"
-                android:gravity="center"
-                android:text="@string/fa_icon_sign"/>
-            <TextView
                 android:layout_marginTop="3dp"
-                android:layout_marginLeft="20dp"
-
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
                 android:background="@drawable/btn_circle2"
+                android:gravity="center"
+                android:text="@string/fa_icon_sign" />
+
+            <TextView
                 android:id="@+id/telephone"
-                android:gravity="center"
-                android:text="@string/fa_icon_telephone"/>
-            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="3dp"
+                android:background="@drawable/btn_circle2"
+                android:gravity="center"
+                android:text="@string/fa_icon_telephone" />
+
+            <TextView
+                android:id="@+id/mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
 
-                android:id="@+id/mobile"
-                android:textColor="@color/wizenetColor"
-                android:gravity="center"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/btn_circle2"
-                android:text="@string/fa_icon_mobile"/>
+                android:gravity="center"
+                android:text="@string/fa_icon_mobile"
+                android:textColor="@color/wizenetColor" />
+
+            <TextView
+                android:id="@+id/alert"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/btn_circle2"
+                android:gravity="center"
+                android:text="@string/fa_icon_alert"
+                android:textColor="@color/wizenetColor" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -185,18 +199,18 @@
             android:textDirection="rtl"
             android:layout_gravity="right"
             android:weightSum="0.5">
-
             <TextView
-                android:id="@+id/alert"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="100dp"
-                android:background="@drawable/btn_circle2"
-                android:gravity="center"
-                android:text="@string/fa_icon_alert"
+                android:id="@+id/txtstatusname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:text="סטטוס"
                 android:textColor="@color/wizenetColor"
-                 />
+                android:textStyle="bold" />
+            >
+
         </LinearLayout>
 
 
@@ -226,7 +240,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
             <TextView
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
@@ -243,7 +258,8 @@
                 android:layout_height="35dp"
                 android:layout_marginRight="3dp"
                 android:gravity="center"
-                android:text="עיר" />
+                android:text="עיר"
+                android:layout_weight="1.68" />
         </LinearLayout>
 
         <LinearLayout
@@ -261,16 +277,8 @@
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:text="@string/fa_icon_asterisk"/>
-            <TextView
-                android:id="@+id/txtstatusname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_marginTop="13dp"
-                android:textColor="@color/wizenetColor"
-                android:text="סטטוס"
-                android:textStyle="bold"/>
-            >
+
+
             <!--android:layout_marginTop="14dp"-->
         </LinearLayout>
         <LinearLayout

@@ -37,8 +37,9 @@ public class FragmentOpportunitiesStatus extends Fragment {
     private OpportunitiesStatusExpandableListAdapter opportunitiesStatusExpandableListAdapter;
     private List<String[]> listDataHeader;
     private HashMap<String, List<String[]>> hashMap;
-File_ f;
+    File_ f;
     Helper helper;
+    View this_view;
     public FragmentOpportunitiesStatus() {
         // Required empty public constructor
     }
@@ -51,7 +52,7 @@ File_ f;
         helper = new Helper();
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_opportunities_status, container, false);
-
+        this_view =view;
         // Load the action bar.
         getActivity().findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
 
@@ -60,6 +61,11 @@ File_ f;
 
         this.expandableListView = (ExpandableListView) view.findViewById(R.id.opportunities_status_expandableListView);
         initData();
+        updatedInitData();
+
+        return view;
+    }
+    public void updatedInitData(){
         if (helper.isNetworkAvailable(getContext())){
             try{
 
@@ -75,22 +81,14 @@ File_ f;
                     Toast.makeText(getContext(),"פעולה הושלמה", Toast.LENGTH_SHORT).show();
                     //Initialize the data lists.
                     initData();
-                    setListAdapter(view);
+                    setListAdapter(this_view);
                 }
             });
         }else{
             //Initialize the data lists.
             initData();
-            setListAdapter(view);
+            setListAdapter(this_view);
         }
-
-
-
-
-
-
-
-        return view;
     }
     //Setting the list adapter.
     private void setListAdapter(View view){
@@ -103,38 +101,35 @@ File_ f;
     /**
      * Initializes the headers list and the hash map that holds the header with its list of items.
      */
+
     private void initData() {
 
         this.listDataHeader = new ArrayList<>();
         this.hashMap = new HashMap<>();
 
-        //TODO dynamically initialize the counters
-        //The counters that appear next to each opportunity header type.
-        int counterNew = 2;
-        int counterWaiting = 5;
-        int counterClosing = 3;
+
         //dynamic init
         List<Ostatus> OstatusList = new ArrayList<>();
         OstatusList = getOstatusList();
         for (Ostatus o: OstatusList ) {
             String count =  DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("select count(*) from Leads where Ostatus='" + o.getOstatusID() + "'");
-            Log.e("mytag","Leads count: "+ count);
-            this.listDataHeader.add(new String[]{o.getOstatusName(), count});
+            if (Integer.valueOf(count) > 0){
+                this.listDataHeader.add(new String[]{o.getOstatusName(), count});
+            }
         }
-        //this.listDataHeader.add(new String[]{"ליד חדש", Integer.toString(counterNew)});
-        //this.listDataHeader.add(new String[]{"ממתין", Integer.toString(counterWaiting)});
-        //this.listDataHeader.add(new String[]{"לפני סגירה", Integer.toString(counterClosing)});
-
-
+        //load exactly who gotmore then 0
+        //now loading the sub lists while we loop only who got more then 0.
         List<List<String[]>> csvList = new ArrayList<List<String[]>>();
         for (Ostatus o: OstatusList ) {
-            List<Lead> new_list_from_db = new ArrayList<>();
-            new_list_from_db = DatabaseHelper.getInstance(getContext()).getLeadsByOstatus(String.valueOf(o.getOstatusID()));
-            List<String[]> new_list = new ArrayList<>();
-            for (Lead l:new_list_from_db) {
-                new_list.add(new String[]{l.getOID(), l.getCcompany(),l.getSfname()+" "+l.getSlname(),l.getOdate(),l.getSphone(),l.getScell(),l.getSemail(),l.getOcomment()});
+                List<Lead> new_list_from_db = new ArrayList<>();
+                new_list_from_db = DatabaseHelper.getInstance(getContext()).getLeadsByOstatus(String.valueOf(o.getOstatusID()));
+            if (new_list_from_db.size() > 0){
+                List<String[]> new_list = new ArrayList<>();
+                for (Lead l:new_list_from_db) {
+                    new_list.add(new String[]{l.getOID(), l.getCcompany(),l.getSfname()+" "+l.getSlname(),l.getOdate(),l.getSphone(),l.getScell(),l.getSemail(),l.getOcomment()});
+                }
+                csvList.add(new_list);
             }
-            csvList.add(new_list);
         }
 //        int counter = 0;
 //        for (List<String[]> list: csvList) {
@@ -144,26 +139,7 @@ File_ f;
             this.hashMap.put(this.listDataHeader.get(i)[0], csvList.get(i));
         }
 
-        //The inner lists that appear inside the opportunity types.
-        //List<String[]> newOpportunity = new ArrayList<>();
-        //newOpportunity.add(new String[]{"111", "ליד חדש 1"});
-        //newOpportunity.add(new String[]{"222", "ליד חדש 2"});
-//
-        //List<String[]> waitingOpportunity = new ArrayList<>();
-        //waitingOpportunity.add(new String[]{"111", "ליד ממתין 1"});
-        //waitingOpportunity.add(new String[]{"222", "ליד ממתין 2"});
-        //waitingOpportunity.add(new String[]{"333", "ליד ממתין 3"});
-        //waitingOpportunity.add(new String[]{"444", "ליד ממתין 4"});
-//
-        //List<String[]> closingOpportunity = new ArrayList<>();
-        //closingOpportunity.add(new String[]{"777", "ליד נסגר 1"});
-        //closingOpportunity.add(new String[]{"888", "ליד נסגר 2"});
-        //closingOpportunity.add(new String[]{"999", "ליד נסגר 3"});
-//
-        ////Inserting the lists with their headers to the hash.
-        //this.hashMap.put(this.listDataHeader.get(0)[0], newOpportunity);
-        //this.hashMap.put(this.listDataHeader.get(1)[0], waitingOpportunity);
-        //this.hashMap.put(this.listDataHeader.get(2)[0], closingOpportunity);
+
     }
     private List<Ostatus> getOstatusList(){
         String json = f.readFromFileExternal(getContext(),"ostatus.txt");

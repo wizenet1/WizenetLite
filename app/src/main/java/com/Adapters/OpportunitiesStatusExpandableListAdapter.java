@@ -1,15 +1,25 @@
 package com.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Activities.ActivityWebView;
 import com.Activities.R;
+import com.DatabaseHelper;
 import com.Fragments.FragmentOpportunityAlertDialog;
 import com.Icon_Manager;
 import com.google.gson.Gson;
@@ -30,7 +40,10 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
     private HashMap<String, List<String[]>> listHashMap;
     private Icon_Manager iconManager;
     private android.support.v4.app.FragmentManager fragmentManager;
-
+    TextView opportunities_status_expandable_list_item_comment;
+    TextView opportunities_status_expandable_list_item_link;
+    TextView opportunities_status_expandable_list_item_phone;
+    TextView opportunities_status_expandable_list_item_cell;
     /**
      * Constructor.
      *
@@ -144,17 +157,35 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
         opportunities_status_expandable_list_item_date.setText(opportunityOdate);
         TextView opportunities_status_expandable_list_item_contct = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_contct);
         opportunities_status_expandable_list_item_contct.setText(opportunitySname);
-        TextView opportunities_status_expandable_list_item_phone = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_phone);
+
+        opportunities_status_expandable_list_item_phone = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_phone);
         opportunities_status_expandable_list_item_phone.setText(opportunitySphone);
-        TextView opportunities_status_expandable_list_item_cell = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_cell);
+        opportunities_status_expandable_list_item_cell = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_cell);
         opportunities_status_expandable_list_item_cell.setText(opportunityScell);
+
+        setOpportunities_status_expandable_list_item_phone(opportunitySphone);
+        setOpportunities_status_expandable_list_item_cell(opportunityScell);
+
+
+
         TextView opportunities_status_expandable_list_item_email = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_email);
         opportunities_status_expandable_list_item_email.setText(opportunitySemail);
+        //opportunities_status_expandable_list_item_comment
+        opportunities_status_expandable_list_item_comment = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_comment);
+        opportunities_status_expandable_list_item_link = (TextView) view.findViewById(R.id.opportunities_status_expandable_list_item_link);
+
+        setOpportunities_status_expandable_list_item_comment(opportunityOcomment);
+        setOpportunities_status_expandable_list_item_link(opportunityNumber);
+
+        opportunities_status_expandable_list_item_description_text.setGravity(Gravity.RIGHT);
 
         opportunities_status_expandable_list_item_contct.setTextDirection(View.TEXT_DIRECTION_RTL);
         opportunities_status_expandable_list_item_phone.setTextDirection(View.TEXT_DIRECTION_RTL);
         opportunities_status_expandable_list_item_cell.setTextDirection(View.TEXT_DIRECTION_RTL);
         opportunities_status_expandable_list_item_email.setTextDirection(View.TEXT_DIRECTION_RTL);
+
+        opportunities_status_expandable_list_item_phone.setPaintFlags(opportunities_status_expandable_list_item_phone.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        opportunities_status_expandable_list_item_cell.setPaintFlags(opportunities_status_expandable_list_item_cell.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
 
         //textview.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
@@ -163,7 +194,7 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
         editIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         editIcon.setTextSize(30);
 
-
+        opportunities_status_expandable_list_item_comment.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
 
         final int groupId = i;
 
@@ -176,7 +207,74 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
 
         return view;
     }
+    private void setOpportunities_status_expandable_list_item_phone(final String cell){
+        opportunities_status_expandable_list_item_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToDialScreen(cell);
+            }
+        });
+    }
+    private void setOpportunities_status_expandable_list_item_cell(final String cell){
+        opportunities_status_expandable_list_item_cell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToDialScreen(cell);
+            }
+        });
+    }
+    private void setOpportunities_status_expandable_list_item_link(final String OID){
+        opportunities_status_expandable_list_item_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivityWebView.class);
+                Bundle b = new Bundle();
+                b.putInt("callid", -1);
+                b.putInt("cid", -1);
+                b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(context).getValueByKey("CID"))));
+                b.putString("action", "dynamic");
+                b.putString("specialurl", "iframe.aspx?control=modulsorder/OrderUpdate&OID=" + OID + "&orderType=HE&connect=true");
+                intent.putExtras(b);
+                context.startActivity(intent);
+            }
+        });
+    }
+    private void setOpportunities_status_expandable_list_item_comment(final String html){
+        opportunities_status_expandable_list_item_comment.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
+        opportunities_status_expandable_list_item_comment.setTextSize(30);
+          opportunities_status_expandable_list_item_comment.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                  //alert.setTitle("title");
+                  WebView wv = new WebView(context);
+                  wv.loadData("<html><body style='direction: rtl;'>" + html + "</body></html>", "text/html; charset=UTF-8", null);
+                  wv.setWebViewClient(new WebViewClient()
+                  {
+                      public boolean shouldOverrideUrlLoading(WebView view, String url)
+                      {
+                          view.loadUrl(url);
+                          return true;
+                      }
+                  });
+                  alert.setView(wv);
+                  alert.setNegativeButton("סגור", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int id) {
+                          dialog.dismiss();
+                      }
+                  });
+                  alert.show();
 
+
+              }
+          });
+      }
+      private void goToDialScreen(String tel){
+          Intent intent = new Intent(Intent.ACTION_DIAL);
+          intent.setData(Uri.parse("tel:" + tel + ""));
+          context.startActivity(intent);
+      }
     /**
      * Opens an edit alert dialog.
      *
@@ -186,7 +284,7 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
         Bundle bundle = new Bundle();
         bundle.putInt("HeaderId", groupId);
         bundle.putInt("OID", OID);
-        bundle.putString("Ocomment", Ocomment);
+        bundle.putString("Ocomment", "");//Ocomment);
         List<String> TitlesOnly = getOnlyFirstStrings();
         String headersInJson = new Gson().toJson(TitlesOnly);
         bundle.putString("HeadersInJson", headersInJson);

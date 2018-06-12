@@ -224,23 +224,15 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                    // Launch Waze to look for Hawaii:
-                    String url = "waze://?q=" + callsArrayList.get(pos).getCaddress() + " " + callsArrayList.get(pos).getCcity();
-                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    c.startActivity( intent );
-                }
-                catch ( ActivityNotFoundException ex  )
-                {
-                    // If Waze is not installed, open it in Google Play:
-                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
-                    c.startActivity(intent);
-                }
+                goToWaze(pos);
             }
         });
-
+        txtCcity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToWaze(pos);
+            }
+        });
         //#################    TEXTVIEW    ##########################
 
         txtsubject.setText(callsArrayList.get(pos).getSubject());
@@ -248,7 +240,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         txtcallid.setText("קריאה: " +String.valueOf(callsArrayList.get(pos).getCallID()));
         txtstatusname.setText(callsArrayList.get(pos).getStatusName());
         txtCcompany.setText(callsArrayList.get(pos).getCcompany());
-        txtCcity.setText(callsArrayList.get(pos).getCcity());
+        txtCcity.setText(callsArrayList.get(pos).getCcity()+ " " + callsArrayList.get(pos).getCaddress());
 
 
         String type = callsArrayList.get(pos).getState().toString().trim();
@@ -279,6 +271,22 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
 
 
         return convertView;
+    }
+    private void goToWaze(int pos){
+        try
+        {
+            // Launch Waze to look for Hawaii:
+            String url = "waze://?q=" + callsArrayList.get(pos).getCaddress() + " " + callsArrayList.get(pos).getCcity();
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            c.startActivity( intent );
+        }
+        catch ( ActivityNotFoundException ex  )
+        {
+            // If Waze is not installed, open it in Google Play:
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+            c.startActivity(intent);
+        }
     }
     public boolean isNumeric(String s) {
         int len = s.length();
