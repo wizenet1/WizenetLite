@@ -248,7 +248,7 @@ public class OpportunitiesStatusExpandableListAdapter extends BaseExpandableList
                   AlertDialog.Builder alert = new AlertDialog.Builder(context);
                   //alert.setTitle("title");
                   WebView wv = new WebView(context);
-                  wv.loadData("<html><body style='direction: rtl;'>" + html + "</body></html>", "text/html; charset=UTF-8", null);
+                  wv.loadData("<html><body style='direction: rtl;'>" + html.replace("#","<br>") + "</body></html>", "text/html; charset=UTF-8", null);
                   wv.setWebViewClient(new WebViewClient()
                   {
                       public boolean shouldOverrideUrlLoading(WebView view, String url)

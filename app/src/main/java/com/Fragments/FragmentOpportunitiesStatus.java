@@ -117,7 +117,7 @@ public class FragmentOpportunitiesStatus extends Fragment {
                 this.listDataHeader.add(new String[]{o.getOstatusName(), count});
             }
         }
-        //load exactly who gotmore then 0
+        //load exactly who go tmore then 0
         //now loading the sub lists while we loop only who got more then 0.
         List<List<String[]>> csvList = new ArrayList<List<String[]>>();
         for (Ostatus o: OstatusList ) {
