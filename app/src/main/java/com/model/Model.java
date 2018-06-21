@@ -736,12 +736,19 @@ public interface get_mgnet_client_items_Listener{
                                     call.setPname(e.getString("Pname"));
                                      call.setContractID(e.getString("contractID"));
                                     call.setCphone(e.getString("Cphone"));
-                                    call.setOriginID(e.getInt("OriginID"));
-                                     call.setProblemTypeID(e.getInt("ProblemTypeID"));
-                                     call.setCallTypeID(e.getInt("CallTypeID"));
+                                    // take care for erp cases where fields are null
+                                    call.setOriginID(!e.getString("OriginID").contains("null") ? e.getInt("OriginID") : -1);
+                                    call.setProblemTypeID(!e.getString("ProblemTypeID").contains("null") ? e.getInt("ProblemTypeID") : -1);
+                                    call.setCallTypeID(!e.getString("CallTypeID").contains("null") ? e.getInt("CallTypeID") : -1);
+
+
+                                    call.setPriorityID(e.getString("priorityID"));
+
+
+
                                      call.setPriorityID(e.getString("priorityID"));
                                      call.setOriginName(e.getString("OriginName"));
-                                   call.setProblemTypeName(e.getString("problemTypeName"));
+                                     call.setProblemTypeName(e.getString("problemTypeName"));
                                      call.setCallTypeName(e.getString("CallTypeName"));
                                      call.setCname(e.getString("Cname"));
                                      call.setCemail(e.getString("Cemail"));

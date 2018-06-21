@@ -1721,7 +1721,12 @@ public void addNewCall(Call call) {
                 values.put("Pname", call.getPname());
                 values.put("contractID", call.getContractID());
                 values.put("Cphone", call.getCphone());
-                values.put("OriginID", call.getOriginID());
+                if (String.valueOf(call.getOriginID()).toLowerCase().contains("null")){
+
+                }else{
+                    values.put("OriginID", call.getOriginID());
+
+                }
                 values.put("ProblemTypeID" , call.getProblemTypeID());
                 values.put("CallTypeID", call.getCallTypeID());
                 values.put("priorityID", call.getPriorityID());
