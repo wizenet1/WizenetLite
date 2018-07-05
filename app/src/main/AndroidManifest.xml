@@ -68,30 +68,31 @@
         <receiver android:name="com.Alarm_Receiver_Text_File" />
         <receiver android:name="com.Alarm_Receiver_sync_client_products" />
 
-        <!-- <receiver -->
-        <!-- android:name="com.receivers.PhoneCallHandler" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter android:priority="1000"> -->
-        <!-- <action android:name="android.intent.action.PHONE_STATE" /> -->
-        <!-- </intent-filter> -->
-        <!-- <intent-filter android:priority="1000"> -->
-        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
+        <!-- was commented -->
+         <receiver
+         android:name="com.receivers.PhoneCallHandler"
+         android:enabled="true"
+         android:exported="true">
+         <intent-filter android:priority="1000">
+         <action android:name="android.intent.action.PHONE_STATE" />
+         </intent-filter>
+         <intent-filter android:priority="1000">
+         <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+         </intent-filter>
+         </receiver>
 
-
-        <!-- <receiver -->
-        <!-- android:name="com.receivers.BusyMessageReceiver" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.PHONE_STATE" /> -->
-        <!-- </intent-filter> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
+        <!-- was commented -->
+         <receiver
+         android:name="com.receivers.BusyMessageReceiver"
+         android:enabled="true"
+         android:exported="true">
+         <intent-filter>
+         <action android:name="android.intent.action.PHONE_STATE" />
+         </intent-filter>
+         <intent-filter>
+         <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+         </intent-filter>
+         </receiver>
 
         <activity android:name=".MenuOfflineActivity" />
         <activity android:name=".ScannerActivity" />

@@ -252,6 +252,7 @@ public class Model {
                     myResponse = myResponse.replaceAll("REMINDERS_retAlertResponse", "");
                     myResponse = myResponse.replaceAll("REMINDERS_retAlertResult=", "retAlertResult:");
                     myResponse = myResponse.replaceAll(";", "");
+                    Log.e("mytag","myResponse messages: " + myResponse);
                 }
 
                     return myResponse.toString();
@@ -291,6 +292,7 @@ public class Model {
                                 msgDate = jarray.getJSONObject(i).getString("msgDate");
                                 msgRead = jarray.getJSONObject(i).getString("msgRead");
                                 msgType = jarray.getJSONObject(i).getString("msgType");
+                                Log.e("myTag","msgComment: " + msgComment);
                                 Message m = new Message(msgID,msgSubject,msgComment,msgUrl,msgDate,msgRead,msgType);
                                 DatabaseHelper.getInstance(context).addMessage(m);
                             }
@@ -938,7 +940,7 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse = myResponse.replaceAll("\\<[^>]*>","");
-                    Log.e("mytag","callstatuses: " );//myResponse
+                    Log.e("mytag","callstatuses: " + myResponse);//myResponse
                     File_ f = new File_();
                     boolean flag = false;
                     if (helper.isJSONValid(myResponse)){
@@ -970,7 +972,9 @@ public interface get_mgnet_client_items_Listener{
                                 CallStatus callStatus= new CallStatus();//Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("AID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CID"))), cursor.getString(cursor.getColumnIndex("CreateDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))), cursor.getString(cursor.getColumnIndex("CallPriority")), cursor.getString(cursor.getColumnIndex("subject")), cursor.getString(cursor.getColumnIndex("comments")), cursor.getString(cursor.getColumnIndex("CallUpdate")), cursor.getString(cursor.getColumnIndex("cntrctDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("TechnicianID"))), cursor.getString(cursor.getColumnIndex("statusName")), cursor.getString(cursor.getColumnIndex("internalSN")), cursor.getString(cursor.getColumnIndex("Pmakat")), cursor.getString(cursor.getColumnIndex("Pname")), cursor.getString(cursor.getColumnIndex("contractID")), cursor.getString(cursor.getColumnIndex("Cphone")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("OriginID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("ProblemTypeID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallTypeID"))), cursor.getString(cursor.getColumnIndex("priorityID")), cursor.getString(cursor.getColumnIndex("OriginName")), cursor.getString(cursor.getColumnIndex("problemTypeName")), cursor.getString(cursor.getColumnIndex("CallTypeName")), cursor.getString(cursor.getColumnIndex("Cname")), cursor.getString(cursor.getColumnIndex("Cemail")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("contctCode"))), cursor.getString(cursor.getColumnIndex("callStartTime")), cursor.getString(cursor.getColumnIndex("callEndTime")), cursor.getString(cursor.getColumnIndex("Ccompany")), cursor.getString(cursor.getColumnIndex("Clocation")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("callOrder"))), cursor.getString(cursor.getColumnIndex("Caddress")), cursor.getString(cursor.getColumnIndex("Ccity")), cursor.getString(cursor.getColumnIndex("Ccomments")), cursor.getString(cursor.getColumnIndex("Cfname")), cursor.getString(cursor.getColumnIndex("Clname")), cursor.getString(cursor.getColumnIndex("techName")), cursor.getString(cursor.getColumnIndex("Aname")), cursor.getString(cursor.getColumnIndex("ContctName")), cursor.getString(cursor.getColumnIndex("ContctAddress")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("ContctCell")), cursor.getString(cursor.getColumnIndex("ContctPhone")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("Ccell")), cursor.getString(cursor.getColumnIndex("techColor")), cursor.getString(cursor.getColumnIndex("ContctCemail")), cursor.getString(cursor.getColumnIndex("CallParentID")));
                                 callStatus.setCallStatusID(e.getInt("CallStatusID"));
                                 callStatus.setCallStatusName(e.getString("CallStatusName"));
-                                callStatus.setCallStatusOrder(e.getInt("CallStatusOrder"));
+                                if (e.has("CallStatusOrder")) {
+                                    callStatus.setCallStatusOrder(e.getInt("CallStatusOrder"));
+                                }
                                  DatabaseHelper.getInstance(context).addCallStatus(callStatus);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();

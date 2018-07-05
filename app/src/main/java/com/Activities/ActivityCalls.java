@@ -60,9 +60,10 @@ TextView lblcount;
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
-    private CheckBox chk_calls_today;
+    private CheckBox chk_calls_today,chk_calls_work;
+    private TextView lblopencall,lblpriority,lblcalltype;
     String ss = "";
-
+    Icon_Manager icon_manager;
     String s = "";
     Bundle extras;
     String condition = "";
@@ -77,11 +78,14 @@ TextView lblcount;
         ctx = this;
         db = DatabaseHelper.getInstance(getApplicationContext());
         helper= new Helper();
+        lblopencall = (TextView)   findViewById(R.id.lblopencall);
         chk_calls_today = (CheckBox) findViewById(R.id.chk_calls_today);
+        chk_calls_work = (CheckBox) findViewById(R.id.chk_calls_work);
+
         mSearchEdt = (EditText) findViewById(R.id.mSearchEdt);
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
-        Icon_Manager icon_manager = new Icon_Manager();
+        icon_manager = new Icon_Manager();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -91,7 +95,7 @@ TextView lblcount;
         //-------------------------------------
         //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);
-        String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓","עיר ↑","עיר ↓","חברה ↑","חברה ↓"};
+        String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓","עיר ↑","עיר ↓","חברה ↑","חברה ↓","מס סריאלי ↑","מס סריאלי ↓","שיבוץ ↑","שיבוץ ↓"};
         spinner.setAdapter(new SpinnerAdapter(this, R.layout.simple_spinner_item, items));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -119,6 +123,15 @@ TextView lblcount;
                     getFilteredList(condition+"Ccompany asc");
                 }else if(s.equals("חברה ↓")){
                     getFilteredList(condition+"Ccompany desc");
+                }else if(s.equals("מס סריאלי ↑")){
+                    getFilteredList(condition+"internalSN asc");
+                }else if(s.equals("מס סריאלי ↓")){
+                    getFilteredList(condition+"internalSN desc");
+                }else if(s.equals("שיבוץ ↑")){
+                    getFilteredList(condition+"callStartTime asc");
+                }else if(s.equals("שיבוץ ↓")){
+                    getFilteredList(condition+"callStartTime desc");
+
                 }
             }
             @Override
@@ -172,7 +185,28 @@ TextView lblcount;
         };
         mSearchEdt.addTextChangedListener(mSearchTw);
         setChkShibutz();
+        setlblopencall();
+        setChkWork();
     }
+    private void setlblopencall(){
+        lblopencall.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
+        lblopencall.setTextSize(30);
+        lblopencall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+                Bundle b = new Bundle();
+                b.putInt("callid", -1);
+                b.putInt("cid", -1);
+                b.putInt("technicianid", Integer.parseInt(String.valueOf(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("CID"))));
+                b.putString("action", "dynamic");
+                b.putString("specialurl", "/mobile/control.aspx?control=modulesService/newCall");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
+
    private void setChkShibutz(){
        chk_calls_today.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -182,6 +216,15 @@ TextView lblcount;
            }
        });
    }
+    private void setChkWork(){
+        chk_calls_work.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                change();
+            }
+        });
+    }
 //region notinuse
     //endregion
 
@@ -379,10 +422,12 @@ TextView lblcount;
 
         List<Call> calls = new ArrayList<Call>() ;
         try {
-            if (chk_calls_today.isChecked() == true){
+            if (chk_calls_today.isChecked() == true) {
                 String date = helper.getDate("yyyy-MM-dd");
-                calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls("and callStartTime like '%" + date + "%' " +sortby);
-
+                calls = DatabaseHelper.getInstance(getApplicationContext()).getCalls("and callStartTime like '%" + date + "%' " + sortby);
+            }else if (chk_calls_work.isChecked() == true){
+                String callsInWork = DatabaseHelper.getInstance(getBaseContext()).getCallsInWork();
+                calls = DatabaseHelper.getInstance(getApplicationContext()).getCalls("and callid in (" + callsInWork + ")");
             }else{
                 calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
 

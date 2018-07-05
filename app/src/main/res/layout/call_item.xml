@@ -29,7 +29,10 @@
                 android:text="קריאה: 12345"
                 android:textColor="@color/wizenetColor"
                 android:textSize="16dp" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblsla"/>
             <TextView
                 android:id="@+id/stateid"
                 android:layout_width="wrap_content"
@@ -118,6 +121,35 @@
         <TextView
             android:layout_marginLeft="20dp"
             android:id="@+id/txtcallstarttime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="1900-01-01"
+            />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:id="@+id/lblpriority"
+            android:text="משובץ ל:" />
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/lblcalltype"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

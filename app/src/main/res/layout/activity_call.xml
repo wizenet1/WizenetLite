@@ -76,6 +76,16 @@
                     android:id="@+id/lblcallhistory"
                     android:gravity="center"
                     android:text="@string/fa_icon_paper"/>
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_circle2"
+                    android:layout_gravity="left"
+                    android:id="@+id/lblopencall"
+                    android:gravity="center"
+                    android:text="@string/fa_icon_plus"/>
                 <EditText
                     android:visibility="visible"
                     android:layout_width="fill_parent"
@@ -100,6 +110,13 @@
                     android:layout_marginRight="20dp"
                     android:checked="false"
                     android:text="קריאות להיום" />
+                <CheckBox
+                    android:id="@+id/chk_calls_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:checked="false"
+                    android:text="קריאות בעבודה" />
             </LinearLayout>
             <LinearLayout
 

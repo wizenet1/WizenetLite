@@ -65,7 +65,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions;
+    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders;
     Button btn_delete_table,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
@@ -89,7 +89,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         btn_actions = (TextView) v.findViewById(R.id.btn_actions) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
         btn_delete_rows =(Button) v.findViewById(R.id.btn_delete_rows) ;
-
+        btn_reminders = (TextView) v.findViewById(R.id.btn_reminders) ;
         btn_action_time.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id4.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id2.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
@@ -207,6 +207,12 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         });
         setSpinner();
         setBtnCalltime();
+        btn_reminders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawMessagesReminders();
+            }
+        });
         return v;
     }
     private void setBtnCalltime(){
@@ -339,6 +345,28 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         List<ControlPanel> actions = new ArrayList<ControlPanel>();
         actions = DatabaseHelper.getInstance(getContext()).getAllKeysAndValues();
         for (final ControlPanel f : actions) {
+            //Log.e("mytag",f.toString());
+            final TextView rowTextView = new TextView(getContext());
+            rowTextView.setText(f.toString());
+            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            rowTextView.setTextSize(20);
+            //rowTextView.setHeight(30);
+            // add the textview to the linearlayout
+            layout.addView(rowTextView);
+            rowTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+    }
+    private void drawMessagesReminders(){
+        layout.removeAllViewsInLayout();
+        //layout.
+        List<Message> actions = new ArrayList<Message>();
+        actions = DatabaseHelper.getInstance(getContext()).getAllMessages();
+        for (final Message f : actions) {
             //Log.e("mytag",f.toString());
             final TextView rowTextView = new TextView(getContext());
             rowTextView.setText(f.toString());

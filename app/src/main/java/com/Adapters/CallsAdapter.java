@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
@@ -55,7 +57,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
     private WebView URL1;
     TextView myccell,mycphone;
     Context c;
-    TextView edit,mobile,sign,location,telephone,parts, goToSms,goToCustomers;
+    TextView edit,mobile,sign,location,telephone,parts, goToSms,goToCustomers,lblcalltype,lblpriority,lblsla;
     Helper helper;
     ArrayList<Call> callsArrayList;
     CustomFilter filter;
@@ -109,6 +111,10 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         sign = (TextView) convertView.findViewById(R.id.sign);
         location = (TextView) convertView.findViewById(R.id.location);
 
+        lblpriority = (TextView)   convertView.findViewById(R.id.lblpriority);
+        lblcalltype = (TextView)   convertView.findViewById(R.id.lblcalltype);
+        lblsla = (TextView)   convertView.findViewById(R.id.lblsla);
+
         //Log.e("mytag",callsArrayList.get(pos).getState().toString());
 //        mobile.setBackgroundResource(R.drawable.btn_circle2);
 //        telephone.setBackgroundResource(R.drawable.btn_circle2);
@@ -125,6 +131,9 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         sign.setTextSize(30);
         location.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         location.setTextSize(30);
+
+        lblcalltype.setText( "סוג קריאה: " +callsArrayList.get(pos).getCallTypeName().trim());
+        lblpriority.setText("עדיפות: "+callsArrayList.get(pos).getPriorityID().trim());
 
 
 
@@ -207,15 +216,27 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 try
                 {
-                    String url = DatabaseHelper.getInstance(c).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(callsArrayList.get(pos).getCallID());
-
+                    String url = "";//DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
+                    url = DatabaseHelper.getInstance(c).getValueByKey("URL")
+                            +"/IN.aspx?url="
+                            + "/modulesSign/sign.aspx?callID=" + String.valueOf(callsArrayList.get(pos).getCallID())
+                            +"&MACAddress=" + helper.getMacAddr(c);
+                    Log.e("mytag",url);
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity(browserIntent);
                     //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
+
+                    //does not valid
+                    //String url = DatabaseHelper.getInstance(c).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(callsArrayList.get(pos).getCallID());
+                    //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    //browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //c.startActivity(browserIntent);
+                    //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
                 }
                 catch ( ActivityNotFoundException ex  )
                 {
+                    //Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -266,7 +287,18 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
             txtCallStartTime.setText(callsArrayList.get(pos).getCallStartTime().substring(0,10)+"  " +callsArrayList.get(pos).getCallStartTime().substring(11,16)+"-"+callsArrayList.get(pos).getCallEndTime().substring(11,16));;
             txtCallStartTime.setTextColor(Color.parseColor("#E94E1B"));
         }
-
+        //int mysla = isNumeric1(callsArrayList.get(pos).getSla().trim()) ? Integer.valueOf(callsArrayList.get(pos).getSla().trim()) : 0;
+        if ((callsArrayList.get(pos).getSla().trim().contains("-"))){
+            lblsla.setText("SLA");//callsArrayList.get(pos).getSla().trim());
+            Animation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(300); //You can manage the blinking time with this parameter
+            anim.setStartOffset(20);
+            anim.setRepeatMode(Animation.REVERSE);
+            anim.setRepeatCount(Animation.INFINITE);
+            lblsla.startAnimation(anim);
+        }else{
+            lblsla.setText("");
+        }
 
 
 

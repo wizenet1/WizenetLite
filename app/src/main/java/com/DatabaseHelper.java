@@ -2163,13 +2163,11 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         return flag;
     }
 
-
-    //region CallStatus
     public List<CallStatus> getCallStausList() {
         List<CallStatus> statusList = new ArrayList<CallStatus>();
 // Select All Query
         String selectQuery = "";
-            selectQuery = "SELECT * FROM CallStatus";
+        selectQuery = "SELECT * FROM CallStatus";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -2186,6 +2184,37 @@ public CallStatus getCallStatusByCallStatusName(String CallStatusName){
         cursor.close();
         //db.close();
         return statusList;
+    }
+    //region CallStatus
+    public String getCallsInWork() {
+
+        List<CallStatus> statusList = new ArrayList<CallStatus>();
+        String callsList = " ";
+// Select All Query
+        String selectQuery = "";
+        selectQuery = "select callid from Calltime where ctq='-2'";
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    callsList += String.valueOf(cursor.getInt(0)) +",";
+                } while (cursor.moveToNext());
+            }
+            callsList = callsList.substring(0, callsList.length() - 1);
+            callsList = callsList.trim();
+            if (callsList.length() == 0){
+                callsList = "-1";
+            }
+            cursor.close();
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            callsList = "-1";
+        }
+        Log.e("mytag","callsList:" + callsList);
+        //db.close();
+        return callsList;
     }
     public boolean deleteCallStatuses() {
         boolean flag = true;
