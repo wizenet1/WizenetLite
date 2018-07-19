@@ -1,11 +1,18 @@
 package com.Fragments;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Activities.ActivityWebView;
+import com.Activities.MainActivity;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Call_offline;
@@ -47,6 +55,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static com.Activities.MainActivity.ctx;
 
 public class FragmentSecret extends android.support.v4.app.Fragment {
 
@@ -65,7 +77,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders;
+    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders,btn_notification;
     Button btn_delete_table,btn_delete_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
@@ -90,11 +102,37 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
         btn_delete_rows =(Button) v.findViewById(R.id.btn_delete_rows) ;
         btn_reminders = (TextView) v.findViewById(R.id.btn_reminders) ;
+        btn_notification = (TextView) v.findViewById(R.id.btn_notification) ;
         btn_action_time.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id4.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id2.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         id1.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         btn_offline_calls.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
+        btn_notification.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
+        btn_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (helper.isNetworkAvailable(getContext())){
+                    try{
+
+                        Model.getInstance().AsyncReminder(getMacAddr1(), new Model.ReminderListener() {
+                            @Override
+                            public void onResult(String str, String str2, int size,String msgID) {
+                                if(size==1){
+                                    pushNotification(str,str2,msgID);
+                                }else{
+                                    pushNotification("Wizenet",size+" new messages",msgID);
+                                }
+                            }
+                        });
+                    }catch (Exception e){
+                        helper.LogPrintExStackTrace(e);
+                    }
+
+                }
+            }
+        });
+
 
         table.setText("IS_Actions");
         btn_delete_table = (Button) v.findViewById(R.id.btn_delete_table);
@@ -441,6 +479,72 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
 
 
         return FavoriteList;
+    }
+    public  String getMacAddr1() {
+        String device_id = "";
+        try{
+            TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            device_id = tm.getDeviceId();
+            if (!(device_id.trim() == "")){
+                return device_id;
+            }else{
+                device_id = getGUID();
+                return device_id;
+            }
+        }catch(Exception e){
+            Helper h = new Helper();
+            h.LogPrintExStackTrace(e);
+            device_id = getGUID();
+            return device_id;
+        }
+    }
+    private  String getGUID(){
+        String device_id = "";
+        try{
+            File_ f= new File_();
+            if (f.isFileExist("guid.txt") == true){
+                device_id = f.readFromFileExternal(ctx,"guid.txt");
+                return device_id;
+            }else{
+                UUID uuid = UUID.randomUUID();
+                String uuidInString = uuid.toString();
+                f.writeTextToFileExternal(ctx,"guid.txt",uuidInString);
+                device_id = f.readFromFileExternal(ctx,"guid.txt");
+                return device_id;
+            }
+        }catch (Exception e){
+            return "";
+        }
+    }
+    private void pushNotification(String title,String text,String msgID) {
+        long[] vibrate = {400, 400, 200, 200, 200};
+        Model.getInstance().init(getContext());
+        Intent notificationIntent = new Intent(getContext(), MenuActivity.class);
+// set intent so it does not start a new activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.addFlags(FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra("puId", String.valueOf(msgID));
+        PendingIntent intent = PendingIntent.getActivity(getContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager notificationManager = (NotificationManager) getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder notification = new Notification.Builder(getContext());
+        notification.setAutoCancel(true);
+        notification.setContentIntent(intent);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        String url = helper.extractLinks(text)[0];
+        //builder.setTicker("this is ticker text");
+        notification.setContentTitle(title);
+        notification.setContentText(text.replace(url,""));
+        notification.setSmallIcon(R.drawable.face);
+        notification.setSound(alarmSound);
+        notification.setOngoing(true);
+        notification.setVibrate(vibrate);
+
+
+        Notification notificationn = notification.getNotification();
+        notificationManager.notify(0, notificationn);
+
+
     }
 
 

@@ -231,7 +231,7 @@ public class Model {
     }
 
     public interface ReminderListener{
-        public void onResult(String str,String str2,int size);
+        public void onResult(String str,String str2,int size,String msgID);
     }
     //###################################
     //ASYNCH REMINDER CALL
@@ -297,10 +297,10 @@ public class Model {
                                 DatabaseHelper.getInstance(context).addMessage(m);
                             }
                             if(mySize == 1){
-                                listener.onResult(msgSubject,msgComment,1);
+                                listener.onResult(msgSubject,msgComment,1,msgID);
                                 //pushNotification(msgSubject,msgComment);
                             }else{
-                                listener.onResult("Wizenet",mySize+" new messages",mySize);
+                                listener.onResult("Wizenet",mySize+" new messages",mySize,msgID);
                                 //pushNotification("Wizenet",mySize+" new messages");
                             }
 

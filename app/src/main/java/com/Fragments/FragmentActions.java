@@ -154,7 +154,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         helper.sendAsyncActionsTime(getContext()); // send offline actionsTimes
         data2.clear();
         data2=getActionsList(param);
-        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this,getFragmentManager());
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
         retNewActions();
@@ -171,7 +171,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         //}
         data2=getActionsList(additional);
         data2= chk_actions_today.isChecked()==true? getActionsList(" and actionSdate like '%"+ dateWithFormat +"%'"):getActionsList("") ;
-        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this,getFragmentManager());
         myList.setAdapter(actionsAdapter);
         actionsAdapter.notifyDataSetChanged();
         retNewActions();
@@ -185,7 +185,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
                         data2.clear();
                         String dateWithFormat = helper.getDate("yyyy-MM-dd");
                         data2= chk_actions_today.isChecked()==true? getActionsList(" and actionSdate like '%"+ dateWithFormat +"%'"):getActionsList("") ;
-                        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this);
+                        actionsAdapter=new ActionsAdapter(data2,getContext(),FragmentActions.this,getFragmentManager());
                         myList.setAdapter(actionsAdapter);
                         actionsAdapter.notifyDataSetChanged();
                     }

@@ -197,20 +197,15 @@ public class FragmentMessage extends android.support.v4.app.Fragment {
     }
 
     private void goToMSGDetailsFrag(String puId)
-
     {
 
         FragmentMessageDetails fr = new FragmentMessageDetails();
         android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-
-
         Bundle bundle = new Bundle();
         //bundle.putString("receiver", dataName);
         bundle.putString("puId", puId);
-
         fr.setArguments(bundle);
-
         ft.replace(R.id.container, fr, "FragmentMessageDetails");
         ft.addToBackStack("FragmentMessageDetails");
         ft.commit();

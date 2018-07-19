@@ -63,9 +63,10 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     Spinner spinner;
     String update_action_id,update_status_id;
     boolean flag ;
+    android.support.v4.app.FragmentManager fragmentManager;
     Button btn_update_status;
     //LinearLayout layout_details;
-    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions fragmentActions) {
+    public ActionsAdapter(List<IS_Action> callsArrayList, Context ctx, FragmentActions fragmentActions,android.support.v4.app.FragmentManager  fragmentManager) {
         this.c=ctx;
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
         this.filterList= (ArrayList<IS_Action>) callsArrayList;

@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.Activities.MainActivity;
+import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Helper;
 import com.model.Model;
@@ -38,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static com.Activities.MainActivity.ctx;
 
 /**
@@ -65,14 +68,16 @@ public class Alarm_Receiver extends BroadcastReceiver {
         //new AsynchCallSoap().execute(); subject,comment
         if (helper.isNetworkAvailable(context)){
            try{
-               Model.getInstance().init(_context);
+               //Model.getInstance().init(_context);
                Model.getInstance().AsyncReminder(getMacAddr(_context), new Model.ReminderListener() {
                    @Override
-                   public void onResult(String str, String str2, int size) {
+                   public void onResult(String str, String str2, int size,String msgID) {
                        if(size==1){
-                           pushNotification(str,str2);
+                           //str2 is content with url
+                           String url = helper.extractLinks(str2)[0];
+                           pushNotification(str,str2.replace(url,""),msgID);
                        }else{
-                           pushNotification("Wizenet",size+" new messages");
+                           pushNotification("Wizenet",size+" new messages",msgID);
                        }
                    }
                });
@@ -116,11 +121,45 @@ public class Alarm_Receiver extends BroadcastReceiver {
             Log.e("myTag",e.toString());
         }
     }
-    private void pushNotification(String title,String text){
-        //PendingIntent pendingIntent = PendingIntent.getActivity(_context, 0, new Intent(), 0);
-        PendingIntent contentIntent = PendingIntent.getActivity(_context, 0,
-                new Intent(_context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+    private void pushNotification(String title,String text,String msgID){
+        long[] vibrate = {400, 400, 200, 200, 200};
+        Model.getInstance().init(_context);
+        Intent notificationIntent = new Intent(_context, MenuActivity.class);
+// set intent so it does not start a new activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.addFlags(FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra("puId", String.valueOf(msgID));
+        PendingIntent intent = PendingIntent.getActivity(_context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager notificationManager = (NotificationManager) _context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder notification = new Notification.Builder(_context);
+        notification.setAutoCancel(true);
+        notification.setContentIntent(intent);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //builder.setTicker("this is ticker text");
+        notification.setContentTitle(title);
+        notification.setContentText(text);
+        notification.setSmallIcon(R.drawable.face);
+        notification.setSound(alarmSound);
+        notification.setOngoing(true);
+        notification.setVibrate(vibrate);
 
+
+        Notification notificationn = notification.getNotification();
+        notificationManager.notify(0, notificationn);
+    }
+    private void pushNotification1(String title,String text,String msgID){
+//        PendingIntent contentIntent = PendingIntent.getActivity(_context, 0,
+//                new Intent(_context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent aint = new Intent(_context, MenuActivity.class);
+        aint.putExtra("puId", String.valueOf(msgID));
+
+        PendingIntent contentIntent = PendingIntent.getBroadcast(
+                _context,
+                0,
+                aint,
+                // as stated in the comments, this flag is important!
+                PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(_context);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setAutoCancel(true);

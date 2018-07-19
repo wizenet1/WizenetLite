@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Pair;
+import android.util.Patterns;
 import android.widget.Toast;
 
 import com.Activities.R;
@@ -63,6 +64,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 
 import static com.Activities.MainActivity.ctx;
@@ -881,11 +883,27 @@ public class Helper {
             return device_id;
         }
     }
+    public  String[] extractLinks(String text) {
+        List<String> links = new ArrayList<String>();
+        try{
 
+            Matcher m = Patterns.WEB_URL.matcher(text);
+            while (m.find()) {
+                String url = m.group();
+                //Log.d("mytag", "URL extracted: " + url);
+                links.add(url);
+            }
+
+            return links.toArray(new String[links.size()]);
+        }catch(Exception e){
+            return new String[]{""};
+        }
+
+    }
         public static String getMacAddr(Context ctx1) {
             String device_id = "";
             try{
-                TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager tm = (TelephonyManager) ctx1.getSystemService(Context.TELEPHONY_SERVICE);
                 device_id = tm.getDeviceId();
                 if (!(device_id.trim() == "")){
                     return device_id;

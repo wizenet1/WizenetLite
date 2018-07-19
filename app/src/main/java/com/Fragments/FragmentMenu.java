@@ -754,7 +754,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         if (helper.isNetworkAvailable(context)) {
             //Log.e("mytag","isNetworkAvailable");
             try{
-                Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(context), new Model.User_Details_Listener() {
+                Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(getContext()), new Model.User_Details_Listener() {
                     @Override
                     public void onResult(String str) {
                         menu_bar_welcome_txt.setText(" שלום " + str);

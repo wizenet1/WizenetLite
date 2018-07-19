@@ -36,6 +36,7 @@ import com.Classes.IS_Task;
 import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
+import com.Json_;
 import com.model.Model;
 
 import org.json.JSONArray;
@@ -687,17 +688,13 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
     private List<Ctype> getCtypeList(){
         List<Ctype> list = new ArrayList<Ctype>() ;
         JSONArray jarray = null;
-        try {
-            String strJson = "";
-            File_ f = new File_();
-            strJson = f.readFromFileExternal(getContext(),"ctype.txt");
-            jarray =  new JSONArray(strJson);
-            ctype_map = new HashMap<String, Ctype>(jarray.length());
-        } catch (JSONException e) {
-            helper.LogPrintExStackTrace(e);
-            e.printStackTrace();
+        Json_ j = new Json_();
+        jarray = j.getJSONArrayFromFile("ctype.txt",getContext());
+        if (jarray==null){
             return list;
         }
+        ctype_map = new HashMap<String, Ctype>(jarray.length());
+
         for (int i = 0; i < jarray.length(); i++) {
             final JSONObject e;
             String name = "";
@@ -847,45 +844,7 @@ public class FragmentCreateAction extends android.support.v4.app.Fragment {
             }
             ret =DatabaseHelper.getInstance(getContext()).addISAction(action);
             Log.e("mytag",DatabaseHelper.getInstance(getContext()).getJsonResultsFromTable("IS_Actions_Offline").toString());
-            //action.setStatusID(e.getInt("statusID"));
-            //action.setDepID(e.getInt("depID"));
-            //action.setUserCtypeID(e.getInt("userCtypeID"));
-            //action.setOwnerCtypeID(e.getInt("ownerCtypeID"));
 
-//            if (e.getString("ParentActionID").contains("null")){
-//            }else{
-//                action.setParentActionID(Integer.valueOf(e.getString("ParentActionID")));
-//            }
-
-            //action.setWorkHours(e.getString("WorkHours"));
-
-            //action.setLastUpdate(e.getString("LastUpdate"));
-            //action.setActionLink(e.getString("actionLink"));
-
-            //action.setUserCfname(e.getString("userCfname"));
-            //action.setUserClname(e.getString("userClname"));
-            //action.setUserCemail(e.getString("userCemail"));
-
-            //action.setOwnerCfname(e.getString("ownerCfname"));
-            //action.setOwnerClname(e.getString("ownerClname"));
-            //action.setOwnerCemail(e.getString("ownerCemail"));
-
-            //action.setStatusName(e.getString("statusName"));
-            //action.setPriorityName(e.getString("PriorityName"));
-
-
-            //action.setWorkHoursM(e.getString("WorkHoursM"));
-            //action.setWorkEstHoursM(e.getString("WorkEstHoursM"));
-            //action.setActionPrice(e.getString("actionPrice"));
-            //action.setStatusColor(e.getString("statusColor"));
-            //action.setTaskSummery(e.getString("taskSummery"));
-            //action.setProjectSummery(e.getString("projectSummery"));
-            //action.setProjectType(e.getString("projectType"));
-            //action.setActionNum(e.getString("actionNum"));
-            //action.setActionFrom(e.getString("actionFrom"));
-            //action.setActionDays(e.getString("actionDays"));
-            //action.setExpr1(e.getString("Expr1"));
-            //action.setProjectDesc(e.getString("projectDesc"));
 
         } catch (Exception e1) {
             helper.LogPrintExStackTrace(e1);

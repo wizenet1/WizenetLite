@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.CallSoap;
 import com.DatabaseHelper;
+import com.File_;
 import com.Fragments.FragmentCustomer;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class CustomersActivity extends FragmentActivity {
 //###################################
 
     File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/wizenet/contacts.txt");
-
+    File_ f = new File_();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,8 @@ public class CustomersActivity extends FragmentActivity {
             new AsynchCallSoap2().execute();
         }else{//txt  exists
             Toast.makeText(this,"txt exists",Toast.LENGTH_LONG).show();
-            String txt = readTextFromFile();
+            String txt = f.readFromCurrentFileExternal(getBaseContext(),myFile);
+                    //readTextFromFile();
             goToCustomersFragment(txt);
         }
     }

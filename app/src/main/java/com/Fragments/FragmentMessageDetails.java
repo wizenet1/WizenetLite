@@ -1,6 +1,8 @@
 package com.Fragments;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.Activities.R;
 import com.Classes.Message;
 import com.DatabaseHelper;
+import com.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,19 +36,23 @@ import java.util.regex.Pattern;
 import static android.content.ContentValues.TAG;
 
 public class FragmentMessageDetails extends android.support.v4.app.Fragment {
-
-
+    TextView msgsubject;
+    TextView msgcomment;
+    TextView msgdate ;
+    TextView msgurl ;
+    String myurl = "";
+    Helper h;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.message_details_activity, null);
         setHasOptionsMenu(true);
 
         //db = DatabaseHelper.getInstance(getContext());
-
-        final TextView msgsubject = (TextView) v.findViewById(R.id.msgsubject);
-        final TextView msgcomment = (TextView) v.findViewById(R.id.msgcomment);
-        final TextView msgdate = (TextView) v.findViewById(R.id.msgdate);
-        final TextView msgurl = (TextView) v.findViewById(R.id.msgurl);
+        h = new Helper();
+        msgsubject = (TextView) v.findViewById(R.id.msgsubject);
+        msgcomment = (TextView) v.findViewById(R.id.msgcomment);
+        msgdate = (TextView) v.findViewById(R.id.msgdate);
+        msgurl = (TextView) v.findViewById(R.id.msgurl);
 
         String id  = getArguments().getString("puId");
         Log.e("myTag","id arrived: " +id);
@@ -57,27 +64,35 @@ public class FragmentMessageDetails extends android.support.v4.app.Fragment {
         //msgdate.setText(msg.getMsgDate());
         msgdate.setText("");
         //msgurl.setText(msg.getMsgUrl());
-        String url = extractLinks(msg.getMsgComment())[0];
-        msgcomment.setText(msg.getMsgComment().replace(url,""));
-        Log.d("mytag","url++: " +url);
-        msgurl.setText("לחץ כאן");
-        extractLinks(msg.getMsgComment());
-        Linkify.addLinks(msgurl, Linkify.WEB_URLS);
-        //msgurl.setMovementMethod(LinkMovementMethod.getInstance());
+        try{
+            myurl  = h.extractLinks(msg.getMsgComment())[0];
+            if (myurl.trim() != "")
+                msgurl.setText("לחץ כאן");
+                msgurl.setTextColor(Color.parseColor("#0000FF"));
+                msgurl.setPaintFlags(msgurl.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }catch(Exception e){
+            msgurl.setText("");
+        }
+
+        msgcomment.setText(msg.getMsgComment().replace(myurl,""));
+        //Log.d("mytag","url++: " +myurl);
+
+        if (myurl != ""){
+            msgurl.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    String url = myurl;
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        }
 
         return v;
     }
-    public  String[] extractLinks(String text) {
-        List<String> links = new ArrayList<String>();
-        Matcher m = Patterns.WEB_URL.matcher(text);
-        while (m.find()) {
-            String url = m.group();
-            Log.d("mytag", "URL extracted: " + url);
-            links.add(url);
-        }
 
-        return links.toArray(new String[links.size()]);
-    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -91,6 +106,7 @@ public class FragmentMessageDetails extends android.support.v4.app.Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 }
+
 //    msgSubject;
 //    msgComment;
 //    msgUrl;

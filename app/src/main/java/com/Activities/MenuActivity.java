@@ -53,6 +53,7 @@ import com.Fragments.FragmentCustomer;
 import com.Fragments.FragmentMenu;
 import com.Fragments.FragmentMenuOffline;
 import com.Fragments.FragmentMessage;
+import com.Fragments.FragmentMessageDetails;
 import com.Fragments.FragmentMidCalls;
 import com.Fragments.FragmentOrders;
 import com.GPSTracker;
@@ -150,13 +151,44 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         sideNavigationListView.setAdapter(sideNavMenuAdapter);
 
         initilize();
-        goToMenuFragment();
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (intent.getExtras() != null){
+            Log.e("mytag","extras != null");
+            if (extras.containsKey("puId")){
+                String j = "";
+                try{
+                    j =(String) extras.get("puId");
+                    if (j != "") {
+                        String id = intent.getStringExtra("puId");
+                        goToMessageDetails(id);
+                    }else{
+                        goToMenuFragment();
+                    }}catch(Exception e){goToMenuFragment();}
+            }
+        }else{
+            goToMenuFragment();
+        }
+
+
         this.initImageButtons();
 
         View action_bar = (View) findViewById(R.id.top_action_bar);
         action_bar.setVisibility(View.GONE);
     }
-
+    private void goToMessageDetails(String id){
+        FragmentMessageDetails fr = new FragmentMessageDetails();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        Bundle bundle = new Bundle();
+        //bundle.putString("receiver", dataName);
+        bundle.putString("puId", id);
+        fr.setArguments(bundle);
+        ft.replace(R.id.container, fr, "FragmentMessageDetails");
+        ft.addToBackStack("FragmentMessageDetails");
+        ft.commit();
+    }
     protected void initImageButtons() {
 
 
