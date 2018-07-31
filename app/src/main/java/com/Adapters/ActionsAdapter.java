@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,13 @@ import com.Classes.IS_ActionTime;
 import com.Classes.IS_Status;
 import com.DatabaseHelper;
 import com.File_;
+import com.Fragments.FragmentActionAddCommentAlertDialog;
 import com.Fragments.FragmentActions;
 
+import com.Fragments.FragmentOpportunityAlertDialog;
 import com.Helper;
 import com.Icon_Manager;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +56,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
     private WebView URL1;
     TextView myccell,mycphone;
     Context c;
-    TextView edit;
+    TextView edit,edit_add_comment;
     Helper helper;
     ArrayList<IS_Action> callsArrayList;
     CustomFilter filter;
@@ -71,6 +75,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         this.callsArrayList= (ArrayList<IS_Action>) callsArrayList;
         this.filterList= (ArrayList<IS_Action>) callsArrayList;
         this.fragment = fragmentActions;
+        this.fragmentManager =fragmentManager;
     }
     @Override
     public int getCount() {
@@ -115,6 +120,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         TextView is_actiontxt = (TextView) convertView.findViewById(R.id.is_actionid);
         //TextView is_comments = (TextView) convertView.findViewById(R.id.is_comments);
         edit = (TextView) convertView.findViewById(R.id.edit);
+        edit_add_comment = (TextView) convertView.findViewById(R.id.edit_add_comment);
+
         btn_play = (TextView) convertView.findViewById(R.id.btn_play);
         btn_stop = (TextView) convertView.findViewById(R.id.btn_stop);
        // btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
@@ -133,6 +140,8 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
             //is_comments.setText(Html.fromHtml(String.valueOf(string) ));
         } catch (UnsupportedEncodingException e) {helper.LogPrintExStackTrace(e);}
         setEdit(result);
+        //set_edit_add_comment();
+        setAddComment(String.valueOf(callsArrayList.get(pos).getActionID()),callsArrayList.get(pos).getStatusName());
         try{
             txt_destination.setText(callsArrayList.get(pos).getActionDate().substring(0,10));
             txt_assignment.setText(callsArrayList.get(pos).getActionSdate().substring(0,10));
@@ -184,7 +193,7 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
         });
     }
 
-    private List<IS_Status> getISStatusList(){
+    public List<IS_Status> getISStatusList(){
         List<IS_Status> list = new ArrayList<IS_Status>() ;
         JSONArray jarray = null;
         try {
@@ -236,8 +245,25 @@ public class ActionsAdapter extends BaseAdapter implements Filterable {
                 alert.show();
             }
         });
+    }
+    private void setAddComment(final String actionID,final String statusName){
+        edit_add_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
 
+                //bundle.putInt("actionID", actionID);
+                bundle.putString("HeaderId", statusName);
+                bundle.putString("actionID", actionID);//Ocomment);
+                //List<String> TitlesOnly = getOnlyFirstStrings();
+                //String headersInJson = new Gson().toJson(TitlesOnly);
+                //bundle.putString("HeadersInJson", headersInJson);
 
+                FragmentActionAddCommentAlertDialog alertDialog = new FragmentActionAddCommentAlertDialog();
+                alertDialog.setArguments(bundle);
+                alertDialog.show(fragmentManager, "opportunity");
+            }
+        });
     }
 
     private void set_play(final int actionID){

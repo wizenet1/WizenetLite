@@ -69,6 +69,7 @@ public class CallSoap {
     public  final String Wz_getOstatusList = "Wz_getOstatusList";
     public  final String Wz_getLeadsList = "Wz_getLeadsList";
     public  final String Wz_Update_Lead_Field = "Wz_Update_Lead_Field";
+    public  final String Wz_getUsersOptions = "Wz_getUsersOptions";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -118,6 +119,9 @@ public class CallSoap {
     public  final String Wz_getOstatusList_SOAP_ACTION = "http://tempuri.org/Wz_getOstatusList";
     public  final String Wz_getLeadsList_SOAP_ACTION = "http://tempuri.org/Wz_getLeadsList";
     public  final String Wz_Update_Lead_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Lead_Field";
+    public  final String Wz_getUsersOptions_SOAP_ACTION = "http://tempuri.org/Wz_getUsersOptions";
+
+
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
     public String URL;
     Helper h = new Helper();
@@ -1189,4 +1193,30 @@ public String Wz_Update_Lead_Field(String mac_address,String oid,String field,St
     return response.toString();
 }
 //endregion
+// region Wz_Update_Lead_Field
+public String Wz_getUsersOptions(String mac_address,String typing)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_getUsersOptions);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    request.addProperty("typing",typing);
+
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_getUsersOptions_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
+
+
 }

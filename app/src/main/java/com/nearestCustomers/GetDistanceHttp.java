@@ -42,25 +42,25 @@ public class GetDistanceHttp extends AsyncTask<String , Void ,String> {
 
         URL url;
         HttpURLConnection urlConnection = null;
-
+        serverResponse =strings[0];
         //Perform an HTTP request.
-        try {
-            url = new URL(strings[0]);
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            int responseCode = urlConnection.getResponseCode();
-
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                serverResponse = readStream(urlConnection.getInputStream());
-            }
-            else{
-                Log.e("myTag", "Http error, status code" + responseCode);
-                serverResponse = null;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    url = new URL(strings[0]);
+        //    urlConnection = (HttpURLConnection) url.openConnection();
+//
+        //    int responseCode = urlConnection.getResponseCode();
+//
+        //    if (responseCode == HttpURLConnection.HTTP_OK) {
+        //        serverResponse = readStream(urlConnection.getInputStream());
+        //    }
+        //    else{
+        //        Log.e("myTag", "Http error, status code" + responseCode);
+        //        serverResponse = null;
+        //    }
+//
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
 
         return null;
     }
@@ -91,26 +91,27 @@ public class GetDistanceHttp extends AsyncTask<String , Void ,String> {
 
         //Extract data from returned Json.
         try{
-            JSONObject jsonObject = new JSONObject(serverResponse.toString());
-            JSONArray array = jsonObject.getJSONArray("routes");
-            JSONObject routes = array.getJSONObject(0);
-            JSONArray legs = routes.getJSONArray("legs");
-            JSONObject steps = legs.getJSONObject(0);
-            distanceJson = steps.getJSONObject("distance");
+            //JSONObject jsonObject = new JSONObject(serverResponse.toString());
+            //JSONArray array = jsonObject.getJSONArray("routes");
+            //JSONObject routes = array.getJSONObject(0);
+            //JSONArray legs = routes.getJSONArray("legs");
+            //JSONObject steps = legs.getJSONObject(0);
+            //distanceJson = steps.getJSONObject("distance");
 
             //Distance in a readable form(m, km)
-            String distanceText = distanceJson.getString("text");
+            String distanceText = serverResponse;//"hello";//distanceJson.getString("text");
 
             //Distance in meters.
-            double distanceValue = Double.parseDouble(distanceJson.getString("value"));
+            double distanceValue = Double.parseDouble(serverResponse);//Double.parseDouble(distanceJson.getString("value"));
 
             //Create the bundle which will contain the result.
             Bundle bundle = new Bundle();
             bundle.putString("Text", distanceText);
             bundle.putDouble("Value", distanceValue);
+            Log.e("myTag", "distanceText:" + distanceText + "  distanceValue: "+distanceValue);
             message.setData(bundle);
         }
-        catch(NullPointerException | JSONException e){
+        catch(Exception e){
 
             e.printStackTrace();
 

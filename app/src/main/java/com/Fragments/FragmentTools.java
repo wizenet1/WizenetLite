@@ -108,9 +108,9 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
             public void onClick(View v) {
                 android.support.v4.app.FragmentManager fm = getFragmentManager();
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentNearestCustomers frag = new FragmentNearestCustomers();
-                ft.replace(R.id.container, frag, "FragmentNearestCustomers");
-                ft.addToBackStack("FragmentNearestCustomers");
+                FragmentNearestCustomersNew frag = new FragmentNearestCustomersNew();
+                ft.replace(R.id.container, frag, "FragmentNearestCustomersNew");
+                ft.addToBackStack("FragmentNearestCustomersNew");
                 ft.commit();
                 //Intent intent = new Intent(getContext(), ScannerActivity.class);
                 //startActivity(intent);

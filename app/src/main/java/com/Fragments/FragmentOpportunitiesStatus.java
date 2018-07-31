@@ -59,6 +59,10 @@ public class FragmentOpportunitiesStatus extends Fragment {
         //Turn all the action bar icons off to their original color.
         ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
 
+
+
+
+
         this.expandableListView = (ExpandableListView) view.findViewById(R.id.opportunities_status_expandableListView);
         initData();
         updatedInitData();

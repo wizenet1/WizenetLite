@@ -10,6 +10,7 @@ import com.CallSoap;
 import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
+import com.Json_;
 
 
 import org.json.JSONArray;
@@ -940,7 +941,7 @@ public interface get_mgnet_client_items_Listener{
                     myResponse = myResponse.replaceAll("Wz_Call_StatusesResult=", "Wz_Call_Statuses:");
                     myResponse = myResponse.replaceAll(";", "");
                     myResponse = myResponse.replaceAll("\\<[^>]*>","");
-                    Log.e("mytag","callstatuses: " + myResponse);//myResponse
+                    //Log.e("mytag","callstatuses: " + myResponse);//myResponse
                     File_ f = new File_();
                     boolean flag = false;
                     if (helper.isJSONValid(myResponse)){
@@ -1623,8 +1624,13 @@ public interface get_mgnet_client_items_Listener{
 
                     boolean flag = false;
                     File_ f = new File_();
-                   f.writeTextToFileExternal(context,"wzClients.txt",myResponse);
-                    return myResponse.toString();
+                    f.writeTextToFileExternal(context,"wzClients.txt",myResponse);
+                    Json_ j = new Json_();
+                    boolean isSuccess;
+                    isSuccess = j.addCcustomerToDBfromFile(context);
+                    String ret  = ((isSuccess == true) ? "success to add ccustomers" : "fail to add ccustomers");
+
+                    return ret;//myResponse.toString();
                 }catch(Exception e){
                     helper.LogPrintExStackTrace(e);
                     return "error";
@@ -1949,7 +1955,7 @@ public interface get_mgnet_client_items_Listener{
                         //myResponse = myResponse.replace(myResponse.substring(myResponse.length()-1), "");
                         myResponse = myResponse.replaceAll(";", "");
                         File_ f= new File_();
-                        Log.e("mytag","response:" +response);
+                        //Log.e("mytag","response:" +response);
 
                         f.writeTextToFileExternal(context,"ostatus.txt",myResponse);
                         //boolean flag = helper.writeCtypeIDandSons(context,myResponse);
@@ -2071,6 +2077,58 @@ public interface get_mgnet_client_items_Listener{
 
     }
     //endregion
+
+    //Wz_getLeadsList
+    public interface Wz_getUsersOptions_Listener{
+        public List<Ccustomer> onResult(String str);
+    }
+    public void Async_Wz_getUsersOptions(final String macAddress,final String typing, final Wz_getUsersOptions_Listener listener) {
+        try{
+            AsyncTask<String,String,String> task = new AsyncTask<String, String, String >() {
+
+                //###################################
+                //extract the data and return it
+                //###################################
+                @Override
+                protected String doInBackground(String... params) {
+                    try{
+                        CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
+                        //String response = cs.Call(mac_address, memail, mpass);
+
+                        String response = cs.Wz_getUsersOptions(macAddress,typing);
+                        String myResponse = response;
+                        myResponse = myResponse.replaceAll("Wz_getUsersOptionsResponse", "");
+                        myResponse = myResponse.replaceAll("Wz_getUsersOptionsResult=", "Wz_getUsersOptions:");
+                        myResponse = myResponse.replaceAll(";", "");
+                        //File_ f= new File_();
+                        Log.e("mytag","response:" +response);
+
+                        return myResponse;// myResponse.toString();
+                    }catch(Exception e){
+                        helper.LogPrintExStackTrace(e);
+                        return "error";
+                    }
+                }
+                //###################################
+                //active the fragment with json result by bundle
+                //###################################
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    listener.onResult(result);
+                }
+            };
+            task.execute();
+        }catch(Exception e){
+            helper.LogPrintExStackTrace(e);
+        }
+
+    }
+    //endregion
+
+
+
+
     private void addActions(){
         String strJson = "";
         File_ f = new File_();

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
+    static Constants constants ;
     public static DatabaseHelper mInstance;
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static private Context mCtx;
 
     public static DatabaseHelper getInstance(Context ctx) {
-
+        constants = new Constants();
         if (mInstance == null) {
             mInstance = new DatabaseHelper(ctx.getApplicationContext());
             mCtx = ctx;
@@ -76,243 +76,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mCtx = context;
     }
-    //region unusble
-    String CREATE_mgnet_calls =
-            "CREATE TABLE " + mgnet_calls + "("
-                    + "CallID" +  " INTEGER, "
-                    + "AID" + " INTEGER, "
-                    + "createDate" + " TEXT, "
-                    + "subject" + " TEXT, "
-                    + "CallType" + " TEXT, "
-                    + "TechnicianID" + " INTEGER, "
-                    + "CPhone" + " TEXT, "
-                    + "ProblemID" + " INTEGER, "
-                    + "InternalSN" + " TEXT, "
-                    + "Pname" + " TEXT, "
-                    + "OriginID" + " INTEGER, "
-                    + "contractID" + " INTEGER, "
-                    + "cntrctDate" + " TEXT, "
-                    + "CallStatus" + " INTEGER "
-                    + "resolution" + " TEXT, "
-                    + "CallTypeID" + " INTEGER "
-                    + "priorityID" + " TEXT, "
-                    + "contctCode" + " INTEGER "
-                    + "CallRefID" + " TEXT "
-                    + ")";
-    //endregion   cal
-    // callid=46707, CallStatsName = 3
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_Leads = "CREATE TABLE " + "Leads" + "("
-        +"OID" +  " TEXT, "
-        +"CID" +  " TEXT, "
-        +"Odate" +  " TEXT, "
-        +"ccName" +  " TEXT, "
-        +"ccID" +  " TEXT, "
-        +"ccType" +  " TEXT, "
-        +"ccNum" +  " TEXT, "
-        +"ccExp" +  " TEXT, "
-        +"CCpayment" +  " TEXT, "
-        +"Oshipping" +  " TEXT, "
-        +"Osum" +  " TEXT, "
-        +"Sfname" +  " TEXT, "
-        +"Slname" +  " TEXT, "
-        +"Saddress" +  " TEXT, "
-        +"Scity" +  " TEXT, "
-        +"Scountry" +  " TEXT, "
-        +"Sstate" +  " TEXT, "
-        +"Szip" +  " TEXT, "
-        +"Sphone" +  " TEXT, "
-        +"Scell" +  " TEXT, "
-        +"Semail" +  " TEXT, "
-        +"Scomment" +  " TEXT, "
-        +"Oprint" +  " TEXT, "
-        +"Ofile" +  " TEXT, "
-        +"PStypeID" +  " TEXT, "
-        +"PSaleID" +  " TEXT, "
-        +"Ostatus" +  " TEXT, "
-        +"OBstatus" +  " TEXT, "
-        +"OpaymentType" +  " TEXT, "
-        +"LNG" +  " TEXT, "
-        +"PsupplierID" +  " TEXT, "
-        +"Ocard" +  " TEXT, "
-        +"Oinvoice" +  " TEXT, "
-        +"OnotHome" +  " TEXT, "
-        +"OtimeShipping" +  " TEXT, "
-        +"OdateShipping" +  " TEXT, "
-        +"Orate" +  " TEXT, "
-        +"Ocoin" +  " TEXT, "
-        +"Expr1" +  " TEXT, "
-        +"OstatusName" +  " TEXT, "
-        +"CparentName" +  " TEXT, "
-        +"CParentID" +  " TEXT, "
-        +"CparentUsername" +  " TEXT, "
-        +"Ocomment" +  " TEXT, "
-        +"Otax" +  " TEXT, "
-        +"Sfax" +  " TEXT, "
-        +"Omakats" +  " TEXT, "
-        +"Cfax" +  " TEXT, "
-        +"OwnerID" +  " TEXT, "
-        +"Ofname" +  " TEXT, "
-        +"Olname" +  " TEXT, "
-        +"Ccompany" +  " TEXT, "
-        +"ProdSum" +  " TEXT, "
-        +"CJoinerID" +  " TEXT, "
-        +"PsupplierNAME" +  " TEXT, "
-        +"SUsername" +  " TEXT, "
-        +"PsupplierLOGO" +  " TEXT, "
-        +"SPassword" +  " TEXT, "
-        +"Cusername" +  " TEXT, "
-        +"Oemail" +  " TEXT, "
-        +"OUdate" +  " TEXT, "
-        +"OTdate" +  " TEXT, "
-        +"CTypeID" +  " TEXT, "
-        +"CTypeName" +  " TEXT, "
-        +"OcommentID" +  " TEXT, "
-        +"SID" +  " TEXT, "
-        +"Oref" +  " TEXT, "
-        +"Cusername2" +  " TEXT "
-        + ")";
+
+        String CREATE_Leads = constants.retLeadsBuilder();
+        String CREATE_IS_Actions = constants.retISActionsBuilder();
+        String CREATE_mgnet_calls= constants.retMgnetCallsBuilder();
+        String CREATE_Ccustomers = constants.retCcustomersBuilder();
+        String CREATE_CP_TABLE = constants.retCPBuilder();
+        String CREATE_call_offline= constants.retCall_OfflineBuilder();
+
+        String CREATE_call_time = constants.retCallTimeBuilder();
 
 
-        String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
-       + "actionID" + " INTEGER,"
-        +"taskID"+ " INTEGER,"
-        +"actionDate" + " TEXT,"
-        +"actionStartDate" + " TEXT,"
-        +"actionDue" + " TEXT,"
-        +"actionDesc" + " TEXT,"
-        +"comments" + " TEXT,"
-        +"priorityID"+ " INTEGER,"
-        +"statusID"+ " INTEGER,"
-        +"reminderID" + " TEXT,"
-        +"ownerID"+ " INTEGER,"
-        +"userID"+ " INTEGER,"
-        +"WorkHours"+ " TEXT,"
-        +"WorkEstHours"+ " TEXT,"
-        +"[Create]"+ " TEXT,"
-        +"LastUpdate"+ " TEXT,"
-        +"actionLink"+ " TEXT,"
-        +"depID"+ " INTEGER,"
-        +"actionRef"+ " TEXT,"
-        +"userCfname"+ " TEXT,"
-        +"userClname"+ " TEXT,"
-        +"userCemail"+ " TEXT,"
-        +"userCtypeID"+ " INTEGER,"
-        +"ownerCfname"+ " TEXT,"
-        +"ownerClname"+ " TEXT,"
-        +"ownerCemail"+ " TEXT,"
-        +"ownerCtypeID"+ " INTEGER,"
-        +"projectID"+ " INTEGER,"
-        +"statusName"+ " TEXT,"
-        +"PriorityName"+ " TEXT,"
-        +"actionType"+ " TEXT,"
-        +"actionSdate"+ " TEXT,"
-        +"actionEdate"+ " TEXT,"
-        +"WorkHoursM"+ " TEXT,"
-        +"WorkEstHoursM"+ " TEXT,"
-        +"actionPrice"+ " TEXT,"
-        +"statusColor"+ " TEXT,"
-        +"taskSummery"+ " TEXT,"
-        +"projectSummery"+ " TEXT,"
-        +"projectType"+ " TEXT,"
-        +"actionNum"+ " TEXT,"
-        +"actionFrom"+ " TEXT,"
-        +"actionDays"+ " TEXT,"
-        +"ParentActionID"+ " INTEGER,"
-        +"remindertime"+ " TEXT,"
-        +"Expr1"+ " TEXT,"
-        +"projectDesc" + " TEXT"
-        + ")";
-        String CREATE_call_time =
-                "CREATE TABLE " + "Calltime" + "("
-                        + "CTID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        + "CallID" +  " INTEGER, "
-                        + "CallStartTime" +  " TEXT, "
-                        + "Minute" + " TEXT, "
-                        + "CTcomment" + " TEXT, "
-                        + "ctq" + " TEXT "
-                        + ")";
-
-        String CREATE_call_offline=
-                "CREATE TABLE " + "call_offline" + "("
-                        + "CallID" +  " INTEGER, "
-                        + "statusID"+  " INTEGER, "
-                        + "internalSN"+ " TEXT, "
-                        + "techAnswer"+ " TEXT "
-                        + ")";
-        String CREATE_IS_ActionsTime=
-                "CREATE TABLE " + "IS_ActionsTime" + "("
-                        + "ID" +  " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        + "CID"+  " TEXT, "
-                        + "ActionID"+ " TEXT, "
-                        + "ActionStart"+ " TEXT, "
-                        + "ActionEnd"+ " TEXT "
-                        + ")";
+        String CREATE_IS_ActionsTime= constants.retISActionsTimeBuilder();
 
 
-        String CREATE_mgnet_calls=
-                "CREATE TABLE " + mgnet_calls + "("
-                        + "CallID" +  " INTEGER, "
-                        + "AID"+  " INTEGER, "
-                        + "CID"+  " INTEGER, "
-                        + "CreateDate"+ " TEXT, "
-                        + "EndDate"+ " TEXT, "
-                        + "CallEmail"+ " TEXT, "
-                        + "statusID"+  " INTEGER, "
-                        + "CallPriority"+ " TEXT, "
-                        + "subject"+ " TEXT, "
-                        + "comments"+ " TEXT, "
-                        + "IsClose"+  " INTEGER, "
-                        + "IsRead"+  " INTEGER, "
-                        + "CallType"+ " TEXT, "
-                        + "CallReminderDate"+ " TEXT, "
-                        + "CallUpdate"+ " TEXT, "
-                        + "resolution"+ " TEXT, "
-                        + "cntrctDate"+ " TEXT, "
-                        + "TechnicianID"+  " INTEGER, "
-                        + "statusName"+ " TEXT, "
-                        + "PcatID"+  " INTEGER, "
-                        + "internalSN"+ " TEXT, "
-                        + "Pmakat"+ " TEXT, "
-                        + "Pname"+ " TEXT, "
-                        + "contractID"+ " TEXT, "
-                        + "Cphone"+ " TEXT, "
-                        + "OriginID"+  " INTEGER, "
-                        + "ProblemTypeID"+  " INTEGER, "
-                        + "CallTypeID"+  " INTEGER, "
-                        + "priorityID"+  " TEXT, "
-                        + "OriginName"+ " TEXT, "
-                        + "problemTypeName"+ " TEXT, "
-                        + "CallTypeName"+ " TEXT, "
-                        + "Cname"+ " TEXT, "
-                        + "Cemail"+ " TEXT, "
-                        + "contctCode"+  " INTEGER, "
-                        + "callStartTime"+ " TEXT, "
-                        + "callEndTime"+ " TEXT, "
-                        + "Ccompany"+ " TEXT, "
-                        + "Clocation"+ " TEXT, "
-                        + "callOrder"+  " INTEGER, "
-                        + "Caddress"+ " TEXT, "
-                        + "Ccity"+ " TEXT, "
-                        + "Ccomments"+ " TEXT, "
-                        + "Cfname"+ " TEXT, "
-                        + "Clname"+ " TEXT, "
-                        + "techName"+ " TEXT, "
-                        + "Aname"+ " TEXT, "
-                        + "ContctName"+ " TEXT, "
-                        + "ContctAddress"+ " TEXT, "
-                        + "ContctCity"+ " TEXT, "
-                        + "ContctCell"+ " TEXT, "
-                        + "ContctPhone"+ " TEXT, "
-                        + "Ccell"+ " TEXT, "
-                        + "techColor"+ " TEXT, "
-                        + "ContctCemail"+ " TEXT, "
-                        + "CallParentID"+ " TEXT, "
-                        + "state"+ " TEXT, "
-                        + "sla"+ " TEXT "
-                        + ")";
+
+
+
         String CREATE_mgnet_items =
                 "CREATE TABLE " + "mgnet_items" + "("
 //                        + "id" +  " TEXT PRIMARY KEY AUTOINCREMENT,"
@@ -336,12 +119,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "Pprice" + " TEXT, "
                         + "Poprice" + " TEXT "
                         + ")";
-        String CREATE_CP_TABLE =
-                "CREATE TABLE " + TABLE_CONTROL_PANEL + "("
-                        + KEY +  " TEXT PRIMARY KEY,"
-                        + VALUE + " TEXT, "
-                        + DESCRIPTION + " TEXT "
-                        + ")";
+
+
+
 
         String CREATE_MESSAGES_TABLE =
                 "CREATE TABLE " + TABLE_MESSAGES + "("
@@ -365,6 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_mgnet_calls);
         db.execSQL(CREATE_call_offline);
         db.execSQL(CREATE_call_time);
+        db.execSQL(CREATE_Ccustomers);
         //db.execSQL("DROP TABLE "+TABLE_CONTROL_PANEL+" ");
     }
     @Override
@@ -494,6 +275,77 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public boolean createColumnTo(String tablename,String column){
+        Boolean isTableEsixts = DatabaseHelper.getInstance(mCtx).isTableExists(tablename) ? true : false;
+
+        //if only to create
+        if (column == "" && isTableEsixts == true){
+            return false;
+        }
+
+        String generalTable = tablename;
+        boolean flag = false;
+        Helper h = new Helper();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            String CREATE_table = "";
+            switch (tablename){
+                case "Ccustomers": CREATE_table = constants.retCcustomersBuilder();
+                    break;
+                case "call_offline": CREATE_table = constants.retCall_OfflineBuilder();
+                    break;
+                case "mgnet_calls":  CREATE_table = constants.retMgnetCallsBuilder();
+                    break;
+                case "ControlPanel": CREATE_table = constants.retCPBuilder();
+                    break;
+                case "Calltime":  CREATE_table = constants.retCallTimeBuilder();
+                    break;
+                case "IS_Actions":  CREATE_table = constants.retISActionsBuilder();
+                    break;
+                case "IS_ActionsTime":  CREATE_table = constants.retISActionsTimeBuilder();
+                    break;
+                case "Leads":  CREATE_table =  constants.retLeadsBuilder();
+                    break;
+                default: CREATE_table = "";
+                    return false;
+                    //break;
+            }
+
+
+            if (isTableEsixts == true){
+                db.execSQL("DROP TABLE IF EXISTS '" + generalTable + "_old" + "'");
+                db.execSQL("ALTER TABLE " + generalTable + " RENAME TO " + generalTable + "_old;");
+            }
+            try{
+                db.execSQL(CREATE_table);
+            }catch (Exception e){
+                Log.e("mytag","exception create exe: " + e.getMessage());
+                //String bla = CREATE_mgnet_calls.replace("CREATE TABLE","ALTER TABLE");
+                //db.execSQL(bla);
+            }
+            if (isTableEsixts == true){
+                db.execSQL("DROP TABLE " + generalTable + "_old;");
+            }
+            if (!columnExistsInTable(generalTable,column)){
+                try{
+                    db.execSQL("ALTER TABLE " + generalTable + " ADD COLUMN " + column + " TEXT;");
+                }catch (Exception e){
+                    h.LogPrintExStackTrace(e);
+                }
+            }
+
+            flag = true;
+        }catch (Exception e){
+
+            Log.e("mytag",e.getMessage());
+            h.LogPrintExStackTrace(e);
+        }
+        return flag;
+    }
+
+
     public boolean createColumnToLeads(String column,boolean isTableExist){
         //getTableColumns();
         String IS_ActionsTime = "Leads";
@@ -502,76 +354,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            String CREATE_Leads = "CREATE TABLE " + "Leads" + "("
-                    +"OID" +  " TEXT, "
-                    +"CID" +  " TEXT, "
-                    +"Odate" +  " TEXT, "
-                    +"ccName" +  " TEXT, "
-                    +"ccID" +  " TEXT, "
-                    +"ccType" +  " TEXT, "
-                    +"ccNum" +  " TEXT, "
-                    +"ccExp" +  " TEXT, "
-                    +"CCpayment" +  " TEXT, "
-                    +"Oshipping" +  " TEXT, "
-                    +"Osum" +  " TEXT, "
-                    +"Sfname" +  " TEXT, "
-                    +"Slname" +  " TEXT, "
-                    +"Saddress" +  " TEXT, "
-                    +"Scity" +  " TEXT, "
-                    +"Scountry" +  " TEXT, "
-                    +"Sstate" +  " TEXT, "
-                    +"Szip" +  " TEXT, "
-                    +"Sphone" +  " TEXT, "
-                    +"Scell" +  " TEXT, "
-                    +"Semail" +  " TEXT, "
-                    +"Scomment" +  " TEXT, "
-                    +"Oprint" +  " TEXT, "
-                    +"Ofile" +  " TEXT, "
-                    +"PStypeID" +  " TEXT, "
-                    +"PSaleID" +  " TEXT, "
-                    +"Ostatus" +  " TEXT, "
-                    +"OBstatus" +  " TEXT, "
-                    +"OpaymentType" +  " TEXT, "
-                    +"LNG" +  " TEXT, "
-                    +"PsupplierID" +  " TEXT, "
-                    +"Ocard" +  " TEXT, "
-                    +"Oinvoice" +  " TEXT, "
-                    +"OnotHome" +  " TEXT, "
-                    +"OtimeShipping" +  " TEXT, "
-                    +"OdateShipping" +  " TEXT, "
-                    +"Orate" +  " TEXT, "
-                    +"Ocoin" +  " TEXT, "
-                    +"Expr1" +  " TEXT, "
-                    +"OstatusName" +  " TEXT, "
-                    +"CparentName" +  " TEXT, "
-                    +"CParentID" +  " TEXT, "
-                    +"CparentUsername" +  " TEXT, "
-                    +"Ocomment" +  " TEXT, "
-                    +"Otax" +  " TEXT, "
-                    +"Sfax" +  " TEXT, "
-                    +"Omakats" +  " TEXT, "
-                    +"Cfax" +  " TEXT, "
-                    +"OwnerID" +  " TEXT, "
-                    +"Ofname" +  " TEXT, "
-                    +"Olname" +  " TEXT, "
-                    +"Ccompany" +  " TEXT, "
-                    +"ProdSum" +  " TEXT, "
-                    +"CJoinerID" +  " TEXT, "
-                    +"PsupplierNAME" +  " TEXT, "
-                    +"SUsername" +  " TEXT, "
-                    +"PsupplierLOGO" +  " TEXT, "
-                    +"SPassword" +  " TEXT, "
-                    +"Cusername" +  " TEXT, "
-                    +"Oemail" +  " TEXT, "
-                    +"OUdate" +  " TEXT, "
-                    +"OTdate" +  " TEXT, "
-                    +"CTypeID" +  " TEXT, "
-                    +"CTypeName" +  " TEXT, "
-                    +"OcommentID" +  " TEXT, "
-                    +"SID" +  " TEXT, "
-                    +"Oref" +  " TEXT, "
-                    +"Cusername2" +  " TEXT "
-                    + ")";
+            String CREATE_Leads = constants.retLeadsBuilder();
+
             if (isTableExist){
                 db.execSQL("DROP TABLE IF EXISTS '" + IS_ActionsTime + "_old" + "'");
                 db.execSQL("ALTER TABLE " + IS_ActionsTime + " RENAME TO " + IS_ActionsTime + "_old;");
@@ -672,55 +456,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            String CREATE_IS_Actions = "CREATE TABLE " + "IS_Actions" + "("
-                    + "actionID" + " INTEGER,"
-                    +"taskID" + " INTEGER,"
-                    +"actionDate" + " TEXT,"
-                    +"actionStartDate" + " TEXT,"
-                    +"actionDue" + " TEXT,"
-                    +"actionDesc" + " TEXT,"
-                    +"comments" + " TEXT,"
-                    +"priorityID"+ " INTEGER,"
-                    +"statusID"+ " INTEGER,"
-                    +"reminderID" + " TEXT,"
-                    +"ownerID"+ " INTEGER,"
-                    +"userID"+ " INTEGER,"
-                    +"WorkHours"+ " TEXT,"
-                    +"WorkEstHours"+ " TEXT,"
-                    +"[Create]"+ " TEXT,"
-                    +"LastUpdate"+ " TEXT,"
-                    +"actionLink"+ " TEXT,"
-                    +"depID"+ " INTEGER,"
-                    +"actionRef"+ " TEXT,"
-                    +"userCfname"+ " TEXT,"
-                    +"userClname"+ " TEXT,"
-                    +"userCemail"+ " TEXT,"
-                    +"userCtypeID"+ " INTEGER,"
-                    +"ownerCfname"+ " TEXT,"
-                    +"ownerClname"+ " TEXT,"
-                    +"ownerCemail"+ " TEXT,"
-                    +"ownerCtypeID"+ " INTEGER,"
-                    +"projectID"+ " INTEGER,"
-                    +"statusName"+ " TEXT,"
-                    +"PriorityName"+ " TEXT,"
-                    +"actionType"+ " TEXT,"
-                    +"actionSdate"+ " TEXT,"
-                    +"actionEdate"+ " TEXT,"
-                    +"WorkHoursM"+ " TEXT,"
-                    +"WorkEstHoursM"+ " TEXT,"
-                    +"actionPrice"+ " TEXT,"
-                    +"statusColor"+ " TEXT,"
-                    +"taskSummery"+ " TEXT,"
-                    +"projectSummery"+ " TEXT,"
-                    +"projectType"+ " TEXT,"
-                    +"actionNum"+ " TEXT,"
-                    +"actionFrom"+ " TEXT,"
-                    +"actionDays"+ " TEXT,"
-                    +"ParentActionID"+ " INTEGER,"
-                    +"remindertime"+ " TEXT,"
-                    +"Expr1"+ " TEXT,"
-                    +"projectDesc" + " TEXT"
-                    + ")";
+            String CREATE_IS_Actions = constants.retISActionsBuilder();
+
             if (isTableExist){
                 db.execSQL("DROP TABLE IF EXISTS '" + IS_Actions + "_old" + "'");
                 db.execSQL("ALTER TABLE " + IS_Actions + " RENAME TO " + IS_Actions + "_old;");
@@ -766,67 +503,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            String CREATE_mgnet_calls=
-                    "CREATE TABLE " + mgnet_calls + "("
-                            + "CallID" +  " INTEGER, "
-                            + "AID"+  " INTEGER, "
-                            + "CID"+  " INTEGER, "
-                            + "CreateDate"+ " TEXT, "
-                            + "EndDate"+ " TEXT, "
-                            + "CallEmail"+ " TEXT, "
-                            + "statusID"+  " INTEGER, "
-                            + "CallPriority"+ " TEXT, "
-                            + "subject"+ " TEXT, "
-                            + "comments"+ " TEXT, "
-                            + "IsClose"+  " INTEGER, "
-                            + "IsRead"+  " INTEGER, "
-                            + "CallType"+ " TEXT, "
-                            + "CallReminderDate"+ " TEXT, "
-                            + "CallUpdate"+ " TEXT, "
-                            + "resolution"+ " TEXT, "
-                            + "cntrctDate"+ " TEXT, "
-                            + "TechnicianID"+  " INTEGER, "
-                            + "statusName"+ " TEXT, "
-                            + "PcatID"+  " INTEGER, "
-                            + "internalSN"+ " TEXT, "
-                            + "Pmakat"+ " TEXT, "
-                            + "Pname"+ " TEXT, "
-                            + "contractID"+ " TEXT, "
-                            + "Cphone"+ " TEXT, "
-                            + "OriginID"+  " INTEGER, "
-                            + "ProblemTypeID"+  " INTEGER, "
-                            + "CallTypeID"+  " INTEGER, "
-                            + "priorityID"+  " TEXT, "
-                            + "OriginName"+ " TEXT, "
-                            + "problemTypeName"+ " TEXT, "
-                            + "CallTypeName"+ " TEXT, "
-                            + "Cname"+ " TEXT, "
-                            + "Cemail"+ " TEXT, "
-                            + "contctCode"+  " INTEGER, "
-                            + "callStartTime"+ " TEXT, "
-                            + "callEndTime"+ " TEXT, "
-                            + "Ccompany"+ " TEXT, "
-                            + "Clocation"+ " TEXT, "
-                            + "callOrder"+  " INTEGER, "
-                            + "Caddress"+ " TEXT, "
-                            + "Ccity"+ " TEXT, "
-                            + "Ccomments"+ " TEXT, "
-                            + "Cfname"+ " TEXT, "
-                            + "Clname"+ " TEXT, "
-                            + "techName"+ " TEXT, "
-                            + "Aname"+ " TEXT, "
-                            + "ContctName"+ " TEXT, "
-                            + "ContctAddress"+ " TEXT, "
-                            + "ContctCity"+ " TEXT, "
-                            + "ContctCell"+ " TEXT, "
-                            + "ContctPhone"+ " TEXT, "
-                            + "Ccell"+ " TEXT, "
-                            + "techColor"+ " TEXT, "
-                            + "ContctCemail"+ " TEXT, "
-                            + "CallParentID"+ " TEXT, "
-                            + "state"+ " TEXT "
-                            + "sla"+ " TEXT "
-                            + ")";
+            String CREATE_mgnet_calls= constants.retMgnetCallsBuilder();
+
             if (isTableExist){
                 db.execSQL("DROP TABLE IF EXISTS '" + mgnet_calls + "_old" + "'");
                 db.execSQL("ALTER TABLE " + mgnet_calls + " RENAME TO " + mgnet_calls + "_old;");
@@ -1269,6 +947,97 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //db.close();
         return callList;
     }
+
+    public List<Ccustomer> getCcustomers(String cond) {
+        List<Ccustomer> ccustomerList = new ArrayList<Ccustomer>();
+
+        String selectQuery ="";
+        selectQuery = "SELECT * FROM Ccustomers order by Distance" ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Ccustomer c= new Ccustomer();
+                //c.setCID(cursor.getString(cursor.getColumnIndex("internalSN")));
+                c.setCID(cursor.getString(cursor.getColumnIndex("CID")));
+                c.setCParentID(cursor.getString(cursor.getColumnIndex("CParentID")));
+                c.setTargetWeight(cursor.getString(cursor.getColumnIndex("TargetWeight")));
+                c.setCusername(cursor.getString(cursor.getColumnIndex("Cusername")));
+                c.setCpassword(cursor.getString(cursor.getColumnIndex("Cpassword")));
+                c.setCfname(cursor.getString(cursor.getColumnIndex("Cfname")));
+                c.setClname(cursor.getString(cursor.getColumnIndex("Clname")));
+                c.setCemail(cursor.getString(cursor.getColumnIndex("Cemail")));
+                c.setCaddress(cursor.getString(cursor.getColumnIndex("Caddress")));
+                c.setCcity(cursor.getString(cursor.getColumnIndex("Ccity")));
+                c.setCArea(cursor.getString(cursor.getColumnIndex("CArea")));
+                c.setCcountry(cursor.getString(cursor.getColumnIndex("Ccountry")));
+                c.setCstate(cursor.getString(cursor.getColumnIndex("Cstate")));
+                c.setCzip(  cursor.getString(cursor.getColumnIndex("Czip")));
+                c.setCphone(cursor.getString(cursor.getColumnIndex("Cphone")));
+                c.setCcell( cursor.getString(cursor.getColumnIndex("Ccell")));
+                c.setCfax(  cursor.getString(cursor.getColumnIndex("Cfax")));
+                c.setCdate( cursor.getString(cursor.getColumnIndex("Cdate")));
+                c.setCBirthDate(   cursor.getString(cursor.getColumnIndex("CBirthDate")));
+                c.setCStartDate(   cursor.getString(cursor.getColumnIndex("CStartDate")));
+                c.setCEndDate(     cursor.getString(cursor.getColumnIndex("CEndDate")));
+                c.setCFemilyStatus(cursor.getString(cursor.getColumnIndex("CFemilyStatus")));
+                c.setCBuySum(      cursor.getString(cursor.getColumnIndex("CBuySum")));
+                c.setCcompany(     cursor.getString(cursor.getColumnIndex("Ccompany")));
+                c.setCprofession(  cursor.getString(cursor.getColumnIndex("Cprofession")));
+                c.setLNG(          cursor.getString(cursor.getColumnIndex("LNG")));
+                c.setCTypeID(      cursor.getString(cursor.getColumnIndex("CTypeID")));
+                c.setCCodeID(  cursor.getString(cursor.getColumnIndex("CCodeID")));
+                c.setCConfirm( cursor.getString(cursor.getColumnIndex("CConfirm")));
+                c.setCInterest(cursor.getString(cursor.getColumnIndex("CInterest")));
+                c.setCduty(    cursor.getString(cursor.getColumnIndex("Cduty")));
+                c.setCPoints(  cursor.getString(cursor.getColumnIndex("CPoints")));
+                c.setSendEmail(cursor.getString(cursor.getColumnIndex("SendEmail")));
+                c.setCcName(   cursor.getString(cursor.getColumnIndex("ccName")));
+                c.setCcID(  cursor.getString(cursor.getColumnIndex("ccID")));
+                c.setCcType(cursor.getString(cursor.getColumnIndex("ccType")));
+                c.setCcNo(  cursor.getString(cursor.getColumnIndex("ccNo")));
+                c.setCcExp( cursor.getString(cursor.getColumnIndex("ccExp")));
+                c.setCcpayment(cursor.getString(cursor.getColumnIndex("ccpayment")));
+                c.setCStatus(  cursor.getString(cursor.getColumnIndex("CStatus")));
+                c.setCstatusName(cursor.getString(cursor.getColumnIndex("CstatusName")));
+                c.setCage("");//e.getString("Cage"));
+                c.setCIMG(cursor.getString(cursor.getColumnIndex("CIMG")));
+                c.setCSex(cursor.getString(cursor.getColumnIndex("CSex")));
+                c.setCcomments(cursor.getString(cursor.getColumnIndex("Ccomments")));
+                c.setCJoinerID(cursor.getString(cursor.getColumnIndex("CJoinerID")));
+                c.setCweb(cursor.getString(cursor.getColumnIndex("Cweb")));
+                c.setCstatusID(cursor.getString(cursor.getColumnIndex("CstatusID")));
+                c.setCstatusDate(cursor.getString(cursor.getColumnIndex("CstatusDate")));
+                c.setCstatusID2(cursor.getString(cursor.getColumnIndex("CstatusID2")));
+                c.setCstatusDate2(cursor.getString(cursor.getColumnIndex("CstatusDate2")));
+                c.setIsActive(cursor.getString(cursor.getColumnIndex("IsActive")));
+                c.setHerb_ID(cursor.getString(cursor.getColumnIndex("Herb_ID")));
+                c.setAge(cursor.getString(cursor.getColumnIndex("Age")));
+                c.setWeight(cursor.getString(cursor.getColumnIndex("Weight")));
+                c.setLooseWeight(cursor.getString(cursor.getColumnIndex("LooseWeight")));
+                c.setHeight( cursor.getString(cursor.getColumnIndex("Height")));
+                c.setAgentID(cursor.getString(cursor.getColumnIndex("AgentID")));
+                c.setLastLogin(cursor.getString(cursor.getColumnIndex("LastLogin")));
+                c.setSlpCode(cursor.getString(cursor.getColumnIndex("SlpCode")));
+                c.setLastPassword(cursor.getString(cursor.getColumnIndex("LastPassword")));
+                c.setCTypeName(cursor.getString(cursor.getColumnIndex("CTypeName")));
+                c.setLongtitude(cursor.getString(cursor.getColumnIndex("Longtitude")));
+                c.setLatitude(cursor.getString(cursor.getColumnIndex("Latitude")));
+                c.setLink(cursor.getString(cursor.getColumnIndex("Link")));
+                c.setDistance(cursor.getString(cursor.getColumnIndex("Distance")));
+// Adding contact to list
+                ccustomerList.add(c);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        //db.close();
+        return ccustomerList;
+    }
+
+
+
+
+
     public boolean deleteAllCall_offline() {
         boolean flag = true;
         try{
@@ -1305,7 +1074,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 public void updateSpecificValueInTable2(String table,String primarykey,String primaryval,String fieldName,String fieldValue) {
     try{
         SQLiteDatabase db = this.getWritableDatabase();
-        String strSQL = "UPDATE " + table + " SET " + fieldName + " = " + fieldValue + " WHERE " + primarykey + " = "+ primaryval + "";
+        String strSQL = "UPDATE " + table + " SET " + fieldName + " = " + fieldValue + " WHERE " + primarykey + " like "+ primaryval.trim() + "";
         Log.e("mytag",strSQL);
         db.execSQL(strSQL);
         Log.e("mytag","success to update value2");
@@ -1692,7 +1461,7 @@ public boolean getCallsCount() {
         }
         return flag;
     }
-public void addNewCall(Call call) {
+    public void addNewCall(Call call) {
     try{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -1770,6 +1539,120 @@ public void addNewCall(Call call) {
     }
 
 }
+    private boolean isCustomerExist(String CID){
+        boolean ret;
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            String sql ="select count(*) as mycount from Ccustomers WHERE CID like '" + CID +"'";
+            Cursor cursor= db.rawQuery(sql,null);
+            ret = Integer.valueOf(cursor.getColumnIndex("mycount")) >0 ? true : false;
+            Log.e("mytag",sql + "  " + String.valueOf(ret));
+            cursor.close();
+            return ret;
+        }catch(Exception e){
+            return true;
+        }
+    }
+    public boolean deleteAllCcustomers() {
+        boolean flag = true;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            db.delete("Ccustomers", null, null);
+            //db.close();
+
+        }catch (Exception e){
+            flag = false;
+            e.printStackTrace();
+            Log.e("MYTAG",e.getMessage());
+        }
+        return flag;
+    }
+    public void addNewCcustomer(Ccustomer c) {
+        try{
+
+            //if (isCustomerExist(c.getCID().trim()) == true){
+            //    return;
+            //}
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CID" , c.getCID());
+            values.put("CParentID" , c.getCParentID());
+            values.put("TargetWeight" , c.getTargetWeight());
+            values.put("Cusername" , c.getCusername());
+            values.put("Cpassword" , c.getCpassword());
+            values.put("Cfname" , c.getCfname());
+            values.put("Clname" , c.getClname());
+            values.put("Cemail" , c.getCemail());
+            values.put("Caddress" , c.getCaddress());
+            values.put("Ccity" , c.getCcity());
+            values.put("CArea" , c.getCArea());
+            values.put("Ccountry" , c.getCcountry());
+            values.put("Cstate" , c.getCstate());
+            values.put("Czip" , c.getCzip());
+            values.put("Cphone" , c.getCphone());
+            values.put("Ccell" , c.getCcell());
+            values.put("Cfax" , c.getCfax());
+            values.put("Cdate" , c.getCdate());
+            values.put("CBirthDate" , c.getCBirthDate());
+            values.put("CStartDate" , c.getCStartDate());
+            values.put("CEndDate" , c.getCEndDate());
+            values.put("CFemilyStatus" , c.getCFemilyStatus());
+            values.put("CBuySum" , c.getCBuySum());
+            values.put("Ccompany" , c.getCcompany());
+            values.put("Cprofession" , c.getCprofession());
+            values.put("LNG" , c.getLNG());
+            values.put("CTypeID" , c.getCTypeID());
+            values.put("CCodeID" , c.getCCodeID());
+            values.put("CConfirm" , c.getCConfirm());
+            values.put("CInterest" , c.getCInterest());
+            values.put("Cduty" , c.getCduty());
+            values.put("CPoints" , c.getCPoints());
+            values.put("SendEmail" , c.getSendEmail());
+            values.put("ccName" , c.getCcName());
+            values.put("ccID" , c.getCcID());
+            values.put("ccType" , c.getCcType());
+            values.put("ccNo" , c.getCcNo());
+            values.put("ccExp" , c.getCcExp());
+            values.put("ccpayment" , c.getCcpayment());
+            values.put("CStatus" , c.getCStatus());
+            values.put("CstatusName" , c.getCstatusName());
+            values.put("Cage" , c.getCage());
+            values.put("CIMG" , c.getCIMG());
+            values.put("CSex" , c.getCSex());
+            values.put("Ccomments" , c.getCcomments());
+            values.put("CJoinerID" , c.getCJoinerID());
+            values.put("Cweb" , c.getCweb());
+            values.put("CstatusID" , c.getCstatusID());
+            values.put("CstatusDate" , c.getCstatusDate());
+            values.put("CstatusID2" , c.getCstatusID2());
+            values.put("CstatusDate2" , c.getCstatusDate2());
+            values.put("IsActive" , c.getIsActive());
+            values.put("Herb_ID" , c.getHerb_ID());
+            values.put("Age" , c.getAge());
+            values.put("Weight" , c.getWeight());
+            values.put("LooseWeight" , c.getLooseWeight());
+            values.put("Height" , c.getHeight());
+            values.put("AgentID" , c.getAgentID());
+            values.put("LastLogin" , c.getLastLogin());
+            values.put("SlpCode" , c.getSlpCode());
+            values.put("LastPassword" , c.getLastPassword());
+            values.put("CTypeName" , c.getCTypeName());
+            values.put("Longtitude" , c.getLongtitude());
+            values.put("Latitude" , c.getLatitude());
+            values.put("Link" , c.getLink());
+            values.put("Distance" , c.getDistance());
+            // Inserting Row
+            db.insert("Ccustomers", null, values);
+            // Closing database connection
+            //db.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("MYTAG"," db error1: " +e.getMessage());
+        }
+
+    }
     public boolean deleteAllCalls() {
         boolean flag = true;
         try{

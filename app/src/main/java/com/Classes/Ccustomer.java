@@ -503,7 +503,10 @@ public class Ccustomer {
         this.CTypeName = CTypeName;
     }
 
-    String CstatusName;
+
+
+
+     String CstatusName;
      String Cage;
      String CID;
      String CParentID;
@@ -565,6 +568,27 @@ public class Ccustomer {
      String SlpCode;
      String LastPassword;
      String CTypeName;
+     String Longtitude;
+     String Latitude;
+     String Link;
+     String Distance;
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
+
+    public String getDistance() {
+        return Distance;
+    }
+
+    public void setDistance(String distance) {
+        Distance = distance;
+    }
+
+
     public Ccustomer(){}
     public Ccustomer(
             String CstatusName,
@@ -732,6 +756,22 @@ public class Ccustomer {
         this.CParentID = cparentid;
     }
 
+    public String getLongtitude() {
+        return Longtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        Longtitude = longtitude;
+    }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
     public Ccustomer(String cfname, String clname, String cemail, String cphone, String ccell, String ccompany, String address, String image, String cid){
         this.Cfname = cfname;
         this.Clname = clname;
@@ -741,14 +781,24 @@ public class Ccustomer {
         this.Ccompany = ccompany;
         this.CID = cid;
         this.Caddress = address;
+
         this.CIMG = image;
 
+    }
+    public Ccustomer(int CID,String Ccompany,String Longtitude,String Latitude,String Caddress,String Ccity){
+        this.CID = String.valueOf(CID);
+        this.Ccompany = Ccompany;
+        this.Longtitude = Longtitude;
+        this.Latitude = Latitude;
+        this.Caddress = Caddress;
+        this.Ccity = Ccity;
     }
 
     @Override
     public String toString() {
-        return "\n[cfname:" + this.getCID() + "\nclname:" + this.getCfname()+ "\n,cemail:" + this.getCemail()+ "\n,cphone:" +
-                this.getCphone() + "\n,ccell:" + this.getCcell()+ "\n,ccompany:" + this.getCcompany()+"\n,CTypeID:" + this.getCTypeID()+ "]";
+        return "\n[cfname:" + this.getCID() + "\nclname:" + this.getCfname()+ "\n,cemail:" + this.getCemail()+
+                "\n,cphone:" + this.getCphone() + "\n,ccell:" + this.getCcell()+ "\n,ccompany:" + this.getCcompany()+"\n,CTypeID:" + this.getCTypeID() +
+                "\n,longtitude:" + this.getLongtitude() +"\n,latitude:" + this.getLatitude()+"\n,Distance:" + this.getDistance()+ "]";
     }
 
 

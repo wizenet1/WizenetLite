@@ -1174,6 +1174,48 @@ public class Helper {
         }
         return customersList;
     }
+    public Ccustomer[] getWizenetClientsFromJsonForLocations(Context ctx){
+
+        File_ f = new File_();
+        String myString = "";
+        myString = f.readFromFileExternal(ctx, "wzClients.txt");
+        Json_ _j = new Json_();
+        if (_j.isJSONValid(myString)){
+            Toast.makeText(ctx,"string is valid", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(ctx,"string is not valid", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        Ccustomer[] customersList = new Ccustomer[0];
+        JSONObject j = null;
+        try {
+            j = new JSONObject(myString);
+            //get the array [...] in json
+            JSONArray jarray = j.getJSONArray("Wz_ret_ClientsAddressesByActions");
+            Log.e("mytag","jarray :" +jarray.toString());
+            customersList = new Ccustomer[jarray.length()];
+            //customersList = new Ccustomer[jarray.length()];
+
+            for (int i = 0; i < jarray.length(); i++) {
+                //JSONObject object = jarray.getJSONObject(i);
+                //Ccustomer c = new Ccustomer(
+                //        jarray.getJSONObject(i).getString("Ccompany"),
+                //        jarray.getJSONObject(i).getString("Longtitude"),
+                //        jarray.getJSONObject(i).getString("Latitude"),
+                //        jarray.getJSONObject(i).getString("Caddress"),
+                //        jarray.getJSONObject(i).getString("Ccity")
+                //        );
+//
+//              //  //TODO add image to the constructor
+//              //  Ccustomer c = new Ccustomer(fname,lname,email,phone,cell,ccompany, address, "",cid);
+                //customersList[i] = c;
+            }
+        } catch (JSONException e1) {
+            LogPrintExStackTrace(e1);
+            e1.printStackTrace();
+        }
+        return customersList;
+    }
 
     //endregion
 

@@ -37,6 +37,7 @@ import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Classes.Call_offline;
 import com.Classes.Calltime;
+import com.Classes.Ccustomer;
 import com.Classes.ControlPanel;
 import com.Classes.Ctype;
 import com.Classes.Favorite;
@@ -78,7 +79,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     Helper helper;
     EditText table;
     TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders,btn_notification;
-    Button btn_delete_table,btn_delete_rows;
+    Button btn_delete_table,btn_delete_rows,btn_show_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
     @Override
@@ -101,6 +102,9 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         btn_actions = (TextView) v.findViewById(R.id.btn_actions) ;
         btn_action_time = (TextView) v.findViewById(R.id.btn_action_time) ;
         btn_delete_rows =(Button) v.findViewById(R.id.btn_delete_rows) ;
+
+        btn_show_rows =(Button) v.findViewById(R.id.btn_show_rows) ;
+
         btn_reminders = (TextView) v.findViewById(R.id.btn_reminders) ;
         btn_notification = (TextView) v.findViewById(R.id.btn_notification) ;
         btn_action_time.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
@@ -251,31 +255,43 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 drawMessagesReminders();
             }
         });
+
+
+        setShowRowsButton();
+
         return v;
+    }
+    private void setShowRowsButton(){
+        btn_show_rows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (table.getText().toString()){
+                    case "Calltime":
+                        drawCallTimes();
+                        break;
+                    case "IS_Actions":
+                        drawActions();
+                        break;
+                    case "IS_ActionsTime":
+                        drawActionsTimes();
+                        break;
+                    case "Messages":
+                        drawMessagesReminders();
+                        break;
+                    case "Ccustomers":
+                        Toast.makeText(getContext(), "Ccustomers", Toast.LENGTH_LONG).show();
+
+                        drawCcustomers();
+                        break;
+                }
+            }
+        });
     }
     private void setBtnCalltime(){
         btn_offline_calls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.removeAllViewsInLayout();
-                List<Calltime> calltimeList = new ArrayList<Calltime>();
-                calltimeList = DatabaseHelper.getInstance(getContext()).getCalltimes("");
-                for (final Calltime f : calltimeList) {
-                    //Log.e("mytag",f.toString());
-                    final TextView rowTextView = new TextView(getContext());
-                    rowTextView.setText(f.toString());
-                    rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                    rowTextView.setTextSize(20);
-                    //rowTextView.setHeight(30);
-                    // add the textview to the linearlayout
-                    layout.addView(rowTextView);
-                    rowTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
-                }
+                drawCallTimes();
             }
         });
     }
@@ -334,11 +350,56 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
+    private void drawCcustomers(){
+        String txt1 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(*) FROM Ccustomers ");
+        Toast.makeText(getContext(), "customers count ->" + txt1, Toast.LENGTH_LONG).show();
+
+        layout.removeAllViewsInLayout();
+        List<Ccustomer> ccustomerList = new ArrayList<Ccustomer>();
+        ccustomerList = DatabaseHelper.getInstance(getContext()).getCcustomers("");
+        for (final Ccustomer f : ccustomerList) {
+            //Log.e("mytag",f.toString());
+            final TextView rowTextView = new TextView(getContext());
+            rowTextView.setText(f.toString());
+            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            rowTextView.setTextSize(20);
+            //rowTextView.setHeight(30);
+            // add the textview to the linearlayout
+            layout.addView(rowTextView);
+            rowTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+    }
     private void drawActionsTimes(){
         layout.removeAllViewsInLayout();
         List<IS_ActionTime> actionsTime = new ArrayList<IS_ActionTime>();
         actionsTime = DatabaseHelper.getInstance(getContext()).getISActionsTime("");
         for (final IS_ActionTime f : actionsTime) {
+            //Log.e("mytag",f.toString());
+            final TextView rowTextView = new TextView(getContext());
+            rowTextView.setText(f.toString());
+            rowTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            rowTextView.setTextSize(20);
+            //rowTextView.setHeight(30);
+            // add the textview to the linearlayout
+            layout.addView(rowTextView);
+            rowTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+    }
+    private void drawCallTimes(){
+        layout.removeAllViewsInLayout();
+        List<Calltime> calltimeList = new ArrayList<Calltime>();
+        calltimeList = DatabaseHelper.getInstance(getContext()).getCalltimes("");
+        for (final Calltime f : calltimeList) {
             //Log.e("mytag",f.toString());
             final TextView rowTextView = new TextView(getContext());
             rowTextView.setText(f.toString());

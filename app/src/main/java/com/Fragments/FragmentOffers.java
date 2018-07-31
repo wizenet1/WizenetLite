@@ -10,22 +10,38 @@ import android.widget.Button;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Classes.Ccustomer;
+import com.Helper;
+import com.Json_;
+import com.model.Model;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The fragment represents the user's offers.
  */
 public class FragmentOffers extends Fragment {
 
-
+    Json_ j_ = null;
     public FragmentOffers() {
         // Required empty public constructor
     }
+    public String oCcompanyName;
+    public String oEmail;
+    public String oCphone;
+    public String oCcell;
+    public String oCcity;
+    public String oCaddress;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        j_ = new Json_();
         View view =  inflater.inflate(R.layout.fragment_offers, container, false);
 
         // Load the action bar.
@@ -62,5 +78,6 @@ public class FragmentOffers extends Fragment {
 
         return view;
     }
+
 
 }

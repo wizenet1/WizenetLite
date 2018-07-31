@@ -11,26 +11,27 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.Activities.R;
+import com.Classes.Ccustomer;
 
 import java.util.ArrayList;
 
 /**
  * Adapter for the nearest customer listView.
  */
-public class DistancesListAdapter extends BaseAdapter implements Filterable {
+public class DistancesListAdapterNew extends BaseAdapter implements Filterable {
 
     private Context context;
     private LayoutInflater layoutInflater;
 
     //Customers list.
-    private ArrayList<CustomerTmp> customers;
+    private ArrayList<Ccustomer> customers;
 
     /**
      * Constructor.
      * @param context context
      * @param customers customers list
      */
-    public DistancesListAdapter(Context context, ArrayList<CustomerTmp> customers) {
+    public DistancesListAdapterNew(Context context, ArrayList<Ccustomer> customers) {
         try{
             this.layoutInflater = LayoutInflater.from(context);
         }catch (Exception e){
@@ -44,7 +45,7 @@ public class DistancesListAdapter extends BaseAdapter implements Filterable {
      * Customers list setter.
      * @param customers customers list
      */
-    public void setCustomers(ArrayList<CustomerTmp> customers){
+    public void setCustomers(ArrayList<Ccustomer> customers){
 
         this.customers = customers;
     }
@@ -79,13 +80,13 @@ public class DistancesListAdapter extends BaseAdapter implements Filterable {
         TextView address = (TextView) view.findViewById(R.id.customers_distances_row_address);
 
         //Get current customer.
-        CustomerTmp currentCustomer = this.customers.get(i);
+        Ccustomer currentCustomer = this.customers.get(i);
 
         //Set customer values into the row.
-        customerName.setText(currentCustomer.getName());
-        city.setText(currentCustomer.getCity());
-        address.setText(currentCustomer.getAddress());
-        distance.setText(currentCustomer.getDistanceToUserText());
+        customerName.setText(currentCustomer.getCcompany());
+        city.setText(currentCustomer.getCcity());
+        address.setText(currentCustomer.getCaddress());
+        distance.setText(currentCustomer.getDistance());
 
         return view;
     }
@@ -97,35 +98,42 @@ public class DistancesListAdapter extends BaseAdapter implements Filterable {
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results.values != null){
-                    customers = (ArrayList<CustomerTmp>) results.values;
+                //if (results.values != null){
+                    customers = (ArrayList<Ccustomer>) results.values;
                     notifyDataSetChanged();
-                }
+                //}
 
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
+
+
+
                 FilterResults results = new FilterResults();
-                ArrayList<CustomerTmp> FilteredArrayNames = new ArrayList<>();
+                ArrayList<Ccustomer> FilteredArrayNames = new ArrayList<>();
+                results.values = customers;
+                results.count = customers.size();
+
 
 
                 //Convert given distance in km to meters.
-                double maxDistance = Double.parseDouble(constraint.toString()) * 1000;
+                double maxDistance = Double.parseDouble(constraint.toString()) ;//* 1000;
 
                 //Filter the customers with distance higher than the maximum.
                 for (int i = 0; i < customers.size(); i++) {
-                    CustomerTmp customer = customers.get(i);
-                    Log.e("myTag", "Filter results: " + results.values.toString());
-                    if (customer.getDistanceToUserValue() <= maxDistance)  {
+                    Ccustomer customer = customers.get(i);
+                    //Log.e("myTag", "Filter results: " + results.values.toString());
+                    //Log.e("myTag", "Filter results: " + "distance: "+(Double.valueOf(customer.getDistance())) + " max distance: "+ (maxDistance));
+                    if (Double.valueOf(customer.getDistance()) <= maxDistance)  {
                         FilteredArrayNames.add(customer);
                     }
                 }
 
                 results.count = FilteredArrayNames.size();
                 results.values = FilteredArrayNames;
-                Log.i("myTag", "Filter results: " + results.values.toString());
+                //Log.i("myTag", "Filter results: " + results.values.toString());
 
                 return results;
             }

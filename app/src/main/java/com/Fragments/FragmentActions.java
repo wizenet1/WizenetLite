@@ -149,6 +149,10 @@ public class FragmentActions extends android.support.v4.app.Fragment {
             }
         });
     }
+    public void updatedInitData(){
+
+    }
+
     public void refresh(String param){
         chkIfOfflineActionsAndSendItToWizenet(); // send offline actions
         helper.sendAsyncActionsTime(getContext()); // send offline actionsTimes
@@ -176,7 +180,7 @@ public class FragmentActions extends android.support.v4.app.Fragment {
         actionsAdapter.notifyDataSetChanged();
         retNewActions();
     }
-    private void retNewActions(){
+    public void retNewActions(){
         if (helper.isNetworkAvailable(getContext())){
             try{
                 Model.getInstance().Async_Wz_ACTIONS_retList_Listener(helper.getMacAddr(getContext()), new Model.Wz_ACTIONS_retList_Listener() {

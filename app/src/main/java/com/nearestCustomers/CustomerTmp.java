@@ -9,6 +9,8 @@ public class CustomerTmp {
     private String name;
     private String city;
     private String address;
+    private String Longtitude;
+    private String Latitude;
 
     //Distance string representation in a readable form.
     private String distanceToUserText;
@@ -16,21 +18,49 @@ public class CustomerTmp {
     //Distance double representation, used for calculations.
     private double distanceToUserValue;
 
+    public String getLongtitude() {
+        return Longtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        Longtitude = longtitude;
+    }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
     /**
      * Constructor.
      *
      * @param name    customer name
+
      * @param city    customer city
      * @param address customer address
      */
+
     public CustomerTmp(String name, String city, String address) {
         this.name = name;
         this.city = city;
         this.address = address;
         this.distanceToUserText = null;
         this.distanceToUserValue = 0.0;
+        //this.Longtitude = Longtitude;
+        //this.Latitude = Latitude;
     }
-
+    public CustomerTmp(String name, String city, String address,String longtitude,String latitude) {
+        this.name = name;
+        this.city = city;
+        this.address = address;
+        this.distanceToUserText = null;
+        this.distanceToUserValue = 0.0;
+        this.Longtitude = longtitude;
+        this.Latitude = latitude;
+    }
     /**
      * Name getter.
      *

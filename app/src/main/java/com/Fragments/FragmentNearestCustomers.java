@@ -1,6 +1,7 @@
 package com.Fragments;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import com.Classes.Ccustomer;
 import com.File_;
 import com.GPSTracker;
 import com.Helper;
+import com.Json_;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.Activities.R;
@@ -41,6 +43,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Pattern;
+
+import static java.lang.Math.acos;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * The fragment of the nearest customers page.
@@ -104,11 +111,16 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
         this.seekBar.setProgress(INITIAL_PROGRESS);
 
         //Initializes the customers list.
+
         initializeCustomers();
 
         //TODO The location values of the user, should be supplied from outside.
         gps = new GPSTracker(getContext());
         origin = new LatLng(gps.getLatitude(),gps.getLongitude());
+        if (origin.longitude == 0.0){
+            Toast.makeText(getContext(),"true", Toast.LENGTH_SHORT).show();
+            origin = new LatLng(32.091412, 34.895811);
+        }
         Toast.makeText(getContext(),"lat:"+gps.getLatitude()+" long:"+gps.getLongitude(), Toast.LENGTH_SHORT).show();
         //LatLng origin = new LatLng(32.091412, 34.895811);
 
@@ -128,14 +140,56 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
         btnImport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().Async_Wz_ret_ClientsAddressesByActions_Listener(h.getMacAddr(), "", new Model.Wz_ret_ClientsAddressesByActions_Listener() {
+                Model.getInstance().Async_Wz_ret_ClientsAddressesByActions_Listener(h.getMacAddr(getContext()), "", new Model.Wz_ret_ClientsAddressesByActions_Listener() {
                     @Override
                     public void onResult(String str) {
+                        Toast.makeText(getContext(),str, Toast.LENGTH_LONG).show();
                         Toast.makeText(getContext(),"יובא בהצלחה", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+
+
+            adapter = new DistancesListAdapter(getContext(), customers);
+            distancesListView.setAdapter(adapter);
+
+            //Set the current filtered distance textView.
+            this.distanceText.setText(this.seekBar.getProgress() + " km");
+
+            //Perform filtering.
+
+
+            adapter.getFilter().filter(Integer.toString(INITIAL_PROGRESS));
+            adapter.setCustomers(customers);
+            //Seek bar changes listener.
+            this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                int progressValue;
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                    progressValue = i;
+                    distanceText.setText(progressValue + " km");
+                    adapter.getFilter().filter(Integer.toString(progressValue));
+                    adapter.setCustomers(customers);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    distanceText.setText(progressValue + " km");
+                    // adapter.getFilter().filter(Integer.toString(progressValue));
+                }
+            });
+
+
         return view;
     }
 
@@ -148,28 +202,73 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
 
         for (CustomerTmp customer : this.customers) {
 
-            String destination = customer.getAddress() + customer.getCity();
+            //String destination = "long:"+customer.getLatitude()+"|lat:"+customer.getCity();
+            //origin
 
             try {
-                String encodedDestination = URLEncoder.encode(destination, "UTF-8");
-
+                //String encodedDestination = URLEncoder.encode(destination, "UTF-8");
+                // //(float lat_a, float lng_a, float lat_b, float lng_b )
+                float a=distance(
+                        Float.valueOf(String.valueOf(origin.latitude)),
+                        Float.valueOf(String.valueOf(origin.longitude)),
+                        Float.valueOf(String.valueOf(customer.getLatitude())),
+                        Float.valueOf(String.valueOf(customer.getLongtitude())));
+                //float a = distanceFrom_in_Km(String.valueOf(origin.latitude),customer.getLatitude(),String.valueOf(origin.longitude),customer.getLongtitude(),"1");
                 //The url to the Google Maps server with the user's and customer's locations.
-                String strUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-                        origin.latitude + "," + origin.longitude +
-                        "&destination=" + encodedDestination +
-                        "&sensor=false&units=metric&mode=driving&key=" + API_KEY;
-
+                //String strUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
+                //        origin.latitude + "," + origin.longitude +
+                //        "&destination=" + encodedDestination +
+                //        "&sensor=false&units=metric&mode=driving&key=" + API_KEY;
+                customer.setDistanceToUserValue(round(Double.valueOf(a)/1000, 2));
                 //Perform distance calculation in a separate thread.
-                new GetDistanceHttp(new GeocoderHandler(this, customer)).execute(strUrl);
+                Log.e("mytag","-----------------------------");
+                Log.e("mytag","customer: " + customer.getName()+ "-- address:"+ customer.getAddress()+ " " + customer.getCity());
+                Log.e("mytag","origin:" + String.valueOf(origin.latitude) +":"+String.valueOf(origin.longitude));
+                Log.e("mytag","dest:" + customer.getLatitude() +":"+customer.getLongtitude());
+                Log.e("mytag","in metric:" + String.valueOf(a)+ " in kilmoeters:" + (round(Double.valueOf(a)/1000, 2)));
+                //new GetDistanceHttp(new GeocoderHandler(this, customer)).execute(String.valueOf((round(Double.valueOf(a)/1000, 2))));
 
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Helper h = new Helper();
+                h.LogPrintExStackTrace(e);//e.printStackTrace();
 
                 return false;
             }
         }
 
         return true;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
+
+
+    public float distance (float lat_a, float lng_a, float lat_b, float lng_b )
+    {
+        double earthRadius = 3958.75;
+        double latDiff = Math.toRadians(lat_b-lat_a);
+        double lngDiff = Math.toRadians(lng_b-lng_a);
+        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+                Math.cos(Math.toRadians(lat_a)) * Math.cos(Math.toRadians(lat_b)) *
+                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double distance = earthRadius * c;
+
+        int meterConversion = 1609;
+
+        return new Float(distance * meterConversion).floatValue();
+    }
+
+    public boolean isDouble(String num){
+        String decimalPattern = "([0-9]*)\\.([0-9]*)";
+        String number=num;
+        return Pattern.matches(decimalPattern, number);
     }
 
     /**
@@ -178,9 +277,9 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     private void initializeCustomers() {
 
         this.customers = new ArrayList<>();
-        //this.customers = getCustomerList();
+        //this.customers = getCustomerList();String name, String city, String address,String longtitude,String latitude
         for (Ccustomer c:getCustomerList()) {
-            this.customers.add(new CustomerTmp(c.getCcompany(), c.getCcity(),c.getCaddress()));
+            this.customers.add(new CustomerTmp(c.getCcompany(), c.getCcity(),c.getCaddress(),c.getLongtitude(),c.getLatitude()));
         }
         //this.customers.add(new CustomerTmp("לקוח 4", "אילת", "התמרים 1"));
         //this.customers.add(new CustomerTmp("משה כהן", "פתח תקווה", "חיים עוזר 1"));
@@ -195,69 +294,78 @@ public class FragmentNearestCustomers extends Fragment implements IObserver {
     }
     private Ccustomer[] getCustomerList() {
         Helper helper = new Helper();
+        Json_ j_ = new Json_();
+
         File_ f = new File_();
-        String myString = "";
-        myString = f.readFromFileExternal(getContext(), "wzClients.txt");
-        //Log.e("mytag", myString);
-        JSONObject j = null;
-        int length = 0;
-        Ccustomer[] ccustomers;//= new Ccustomer[5];
-        try {
-            j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Wz_ret_ClientsAddressesByActions");
-            length = jarray.length();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(getContext(),"length:" + length, Toast.LENGTH_SHORT).show();
-        ccustomers = new Ccustomer[length];
-        ccustomers = helper.getWizenetClientsFromJson(myString);
+        Ccustomer[] ccustomers = new Ccustomer[1];
+        //try{
+        //    Object o = helper.getWizenetClientsFromJsonForLocations(getContext());
+        //    if (o != null){
+        //        Ccustomer[] c = (Ccustomer[]) o;
+        //        return c;
+        //    }
+//
+        //}catch(Exception e){
+        //    Ccustomer c = new Ccustomer("","","","","");
+        //    ccustomers =new Ccustomer[] {c};
+        //}
+
         return ccustomers;
     }
 
     @Override
     public void update() {
+        try{
+            //Sort the customers by distance.
+            Collections.sort(this.customers, new DistanceComparator());
 
-        //Sort the customers by distance.
-        Collections.sort(this.customers, new DistanceComparator());
+            //Setting the listView adapter.
+            adapter = new DistancesListAdapter(getContext(), customers);
+            distancesListView.setAdapter(adapter);
 
-        //Setting the listView adapter.
-        adapter = new DistancesListAdapter(getContext(), customers);
-        distancesListView.setAdapter(adapter);
 
-        //Set the current filtered distance textView.
-        this.distanceText.setText(this.seekBar.getProgress() + " km");
 
-        //Perform filtering.
-        adapter.getFilter().filter(Integer.toString(INITIAL_PROGRESS));
-        adapter.setCustomers(customers);
+            //Set the current filtered distance textView.
+            this.distanceText.setText(this.seekBar.getProgress() + " km");
 
-        //Seek bar changes listener.
-        this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            int progressValue;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-                progressValue = i;
-                distanceText.setText(progressValue + " km");
-                adapter.getFilter().filter(Integer.toString(progressValue));
-                adapter.setCustomers(customers);
+            //Perform filtering.
+            if (customers != null){
+                adapter.getFilter().filter(Integer.toString(INITIAL_PROGRESS));
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
 
-            }
+            adapter.setCustomers(customers);
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            //Seek bar changes listener.
+            this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-                distanceText.setText(progressValue + " km");
-                // adapter.getFilter().filter(Integer.toString(progressValue));
-            }
-        });
+                int progressValue;
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                    progressValue = i;
+                    distanceText.setText(progressValue + " km");
+                    adapter.getFilter().filter(Integer.toString(progressValue));
+                    adapter.setCustomers(customers);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    distanceText.setText(progressValue + " km");
+                    // adapter.getFilter().filter(Integer.toString(progressValue));
+                }
+            });
+        }catch(Exception e){
+            h.LogPrintExStackTrace(e);
+        }
+
 
     }
 
