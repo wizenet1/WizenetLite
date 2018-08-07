@@ -129,7 +129,7 @@
                 <ListView
 
                     android:id="@+id/calls_list"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:choiceMode="singleChoice"
                     android:dividerHeight="15dp"

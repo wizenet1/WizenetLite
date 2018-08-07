@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class FragmentOfferStageThree extends Fragment {
 
     private Spinner commentsSpinner;
     private ArrayList<String> commentTopcis;
-
+    EditText offer_stage_three_comments;
     public FragmentOfferStageThree() {
         // Required empty public constructor
     }
@@ -77,7 +78,7 @@ public class FragmentOfferStageThree extends Fragment {
         TextView saveIcon = (TextView) view.findViewById(R.id.offer_stage_three_save_icon);
         saveIcon.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", context));
         saveIcon.setTextSize(30);
-
+        offer_stage_three_comments = (EditText) view.findViewById(R.id.offer_stage_three_comments);
         //Next stage onClickListener.
         ConstraintLayout nextStageButton = (ConstraintLayout) view.findViewById(R.id.offer_stage_three_constraintLayout_save);
         nextStageButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,9 @@ public class FragmentOfferStageThree extends Fragment {
         });
 
         return view;
+    }
+    public String getComment(){
+        return offer_stage_three_comments.getText().toString();
     }
 
     /**

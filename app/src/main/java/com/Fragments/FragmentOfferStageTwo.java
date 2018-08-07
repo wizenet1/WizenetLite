@@ -21,9 +21,19 @@ import android.widget.Toast;
 import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.AddProductsAdapter;
+import com.Classes.Ccustomer;
+import com.Classes.Product;
+import com.DatabaseHelper;
+import com.File_;
+import com.Helper;
 import com.Icon_Manager;
+import com.Json_;
+import com.ProgressTaskAll;
+import com.model.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +54,8 @@ public class FragmentOfferStageTwo extends Fragment {
     private TextView totalPrice;
     private TextView totalQuantity;
     private boolean isEditable;
-
+    String PID,Pmakat;
+    File_ f = new File_();
     public FragmentOfferStageTwo() {
         // Required empty public constructor
     }
@@ -74,6 +85,16 @@ public class FragmentOfferStageTwo extends Fragment {
 
         //Initialize the products autocomplete feature.
         this.setProductAutoComplete();
+        Helper h = new Helper();
+
+        if (h.isNetworkAvailable(getContext()) && (!f.isFileExist("products.txt")==true)){
+            Model.getInstance().Async_Wz_retProducts(h.getMacAddr(context), new Model.Wz_retProducts_Listener() {
+                @Override
+                public void onResult(String str) {
+                    Toast.makeText(getContext(),str, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         //Setting products list.
         this.addProductsListView = (ListView) view.findViewById(R.id.offer_stage_two_add_products_list);
@@ -131,15 +152,18 @@ public class FragmentOfferStageTwo extends Fragment {
      *
      * @param product product
      */
-    public void updateProduct(String product[]) {
+    public void updateProduct(Product product) {
         //TODO extract all the product data and fill all the input fields
-        String name = product[0];
-        String quantity = product[1];
-        String price = product[2];
+        String name = product.getPname();
+        String quantity = product.getPstock();
+        String price = product.getPprice();
 
         this.productAutoComplete.setText(name);
         this.quantity.setText(quantity);
         this.price.setText(price);
+    }
+    public ArrayList<Product> getProductsList(){
+        return this.addProductsAdapter.getProductsList();
     }
 
     /**
@@ -162,24 +186,25 @@ public class FragmentOfferStageTwo extends Fragment {
     private void addProductButtonClick() {
         //TODO create an actual product object
         String product[] = new String[3];
+        Product p = new Product();
+        p.setPname(productAutoComplete.getText().toString());
+        p.setPstock(quantity.getText().toString());
+        p.setPprice(price.getText().toString());
+        p.setPID(PID);
+        p.setPmakat(Pmakat);
 
         //Get product name.
-        product[0] = this.productAutoComplete.getText().toString();
-
+        //product[0] = this.productAutoComplete.getText().toString();
         //Get products amount.
-        product[1] = this.quantity.getText().toString();
-
+        //product[1] = this.quantity.getText().toString();
         //Get product price.
-        product[2] = this.price.getText().toString();
+        //product[2] = this.price.getText().toString();
 
-        //TODO before adding a new product, check if it already exists
 
         //Add the product to the listView.
-        this.addProductsAdapter.addProduct(product);
-
+        this.addProductsAdapter.addProduct(p);
         //Clean all the input fields.
         this.cleanDataFields();
-
         //Update total price.
         this.updateTotalPurchase();
     }
@@ -203,13 +228,18 @@ public class FragmentOfferStageTwo extends Fragment {
      *
      * @return customers hashMap
      */
-    private Map<String, String[]> getProductsDictionary() {
-        //TODO get a real products list.
-        Map<String, String[]> products = new HashMap<>();
-        products.put("fff", new String[]{"aaa", "111"});
-        products.put("fgg", new String[]{"bbb", "222"});
+    private Map<String, Product> getProductsDictionary() {
+        Json_ j = new Json_();
+        Map<String, Product> customers = new HashMap<>();
 
-        return products;
+        List<Product> productslist = new ArrayList<Product>();
+        productslist =  j.getProductsByFile(getContext());//DatabaseHelper.getInstance(getContext()).getCcustomers("");
+        for(Product prod : productslist){
+            String fullName = prod.getPname();
+            customers.put(fullName, prod);
+        }
+
+        return customers;
     }
 
     /**
@@ -217,8 +247,10 @@ public class FragmentOfferStageTwo extends Fragment {
      */
     private void setProductAutoComplete() {
         //Get users's products.
-        final Map<String, String[]> products = getProductsDictionary();
-
+        final Map<String, Product> products = getProductsDictionary();
+        //customers = getCustomersDictionary();
+        //customers = getCustomersDictionary();
+        //final String names[] = customers.keySet().toArray(new String[customers.keySet().size()]);
         //Extract the names of the products for the autocomplete.
         final String names[] = products.keySet().toArray(new String[products.keySet().size()]);
 
@@ -233,9 +265,14 @@ public class FragmentOfferStageTwo extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //When a product is selected from the list, fill all the data fields with it's values.
                 //TODO get all the values from a real product object
-                String serialNumberText = products.get(productAutoComplete.getText().toString())[1];
-                serialNumber.setText(serialNumberText);
-
+                Product p = products.get(productAutoComplete.getText().toString());
+                Toast.makeText(getContext(), p.toString(), Toast.LENGTH_SHORT).show();
+                serialNumber.setText(p.getPmakat());
+                description.setText(p.getPname());
+                quantity.setText(p.getPstock());
+                price.setText(p.getPprice());
+                PID = p.getPID();
+                Pmakat = p.getPmakat();
                 //Disable editing the data fields.
                 setFieldsIsEditable(false);
                 isEditable = false;

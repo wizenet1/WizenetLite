@@ -67,31 +67,19 @@ public class FragmentTools extends android.support.v4.app.Fragment  {
 
         icon_manager = new Icon_Manager();
         helper = new Helper();
-        //iddeleteproducts = (TextView) v.findViewById(R.id.iddeleteproducts);
-        //lbldivuah = (TextView) v.findViewById(R.id.id3);
+
         id1 = (TextView) v.findViewById(R.id.id1);
         id2 = (TextView) v.findViewById(R.id.id2);
         id3 = (TextView) v.findViewById(R.id.id3);
         id4 = (TextView) v.findViewById(R.id.id4);
         btn_reminders= (TextView) v.findViewById(R.id.btn_reminders);
-        //id5 = (TextView) v.findViewById(R.id.id5);
-        //btn_order= (TextView) v.findViewById(R.id.btn_order);
-        //idsyncproducts = (TextView) v.findViewById(R.id.idsyncproducts);
-        //iddeleteclientproducts = (TextView) v.findViewById(R.id.iddeleteclientproducts);
-        //idsyncclientproducts = (TextView) v.findViewById(R.id.idsyncclientproducts);
-
-
 
 
         id1.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         id2.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
         btn_reminders.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        //id.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-//        iddeleteproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        //id4.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        //btn_order.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
-        //idsyncproducts.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",getContext()));
+
 
         id1.setTextSize(60);
         id2.setTextSize(60);

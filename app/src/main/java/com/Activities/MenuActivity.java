@@ -548,7 +548,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             mHandler.postDelayed(mHandlerTask, 60000);
         }
     };
-
+    //load the fragment from the activity
     public void goToMenuFragment() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();

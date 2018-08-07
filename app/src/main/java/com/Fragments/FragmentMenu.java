@@ -97,9 +97,7 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         helper = new Helper();
         TextView menu_bar_profile = (TextView) v.findViewById(R.id.menu_bar_profile);
         menu_bar_profile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", getContext()));
-        //menu_bar_profile.setTextSize(40);
-        //The drawer layout which covers the entire fragment.
-        //this.drawerLayout = (DrawerLayout)v.findViewById(R.id.menu_drawer_layout);
+
         helper.writeCtypeIDandSons(getContext());
         helper.writeIS_Statuses(getContext());
         this.initializeBadgeDictionary(v);
@@ -112,29 +110,11 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
                 setNumber(this.getCallsListLength());
 
 
-//        //THe list of items which are displayed in the side navigation menu.
-//        this.sideNavigationListView = (ListView) v.findViewById(R.id.side_nav_list);
-//
-//        //Add the side navigation menu adapter.
-//        SideNavigationMenuAdapter sideNavMenuAdapter = new SideNavigationMenuAdapter(getContext());
-//        sideNavigationListView.setAdapter(sideNavMenuAdapter);
 
         //Top menu bar options image.
         ImageView menuBarOptionsImg = (ImageView) v.findViewById(R.id.menu_bar_options);
         menu_bar_welcome_txt = (TextView) v.findViewById(R.id.menu_bar_welcome_txt);
-        //menu_bar_welcome_txt.setText(((MenuActivity)getActivity()).setName());
-//        if (helper.isNetworkAvailable(context)){
-//            Log.e("mytag","isNetworkAvailable");
-//            Model.getInstance().Async_User_Details_Listener(helper.getMacAddr(), new Model.User_Details_Listener() {
-//                @Override
-//                public void onResult(String str) {
-//                    menu_bar_welcome_txt.setText( " שלום " +str);
-//                }
-//            });
-//        }else{
-//            Log.e("mytag","is not NetworkAvailable");
-//            menu_bar_welcome_txt.setText(DatabaseHelper.getInstance(context).getValueByKey("Cfname"));
-//        }
+
 
 
         //Side navigation menu options image.
@@ -152,11 +132,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
         final ImageView id_masofon = (ImageView) v.findViewById(R.id.id_masofon);
         final ImageView id_reports = (ImageView) v.findViewById(R.id.id_reports);
 
-        //db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-
-        //helper = new Helper();
-
-        //final int onTouchColor = 0xFFFFA64D;
 
         //Animation applied to menu icons to create click effect.
         final Animation clickAnimation = AnimationUtils.loadAnimation(context, R.anim.view_click_alpha);
@@ -170,12 +145,6 @@ public class FragmentMenu extends android.support.v4.app.Fragment {
             }
         });
 
-//        sideNavHeaderOptionsImg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onSideNavOptionsClick(view);
-//            }
-//        });
 
         id_customers.setOnClickListener(new View.OnClickListener() {
             @Override

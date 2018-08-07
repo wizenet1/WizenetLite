@@ -115,7 +115,7 @@ public class FragmentOpportunityAlertDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (h.isNetworkAvailable(getContext())){
-                    Model.getInstance().Async_Wz_Update_Lead_Field(h.getMacAddr(), OID, "Ostatus", oStatusSelected, new Model.Wz_Update_Lead_Field_Listener() {
+                    Model.getInstance().Async_Wz_Update_Lead_Field(h.getMacAddr(getContext()), OID, "Ostatus", oStatusSelected, new Model.Wz_Update_Lead_Field_Listener() {
                         @Override
                         public void onResult(String str) {
                             counter++;
@@ -124,7 +124,7 @@ public class FragmentOpportunityAlertDialog extends DialogFragment {
                             chkIfBothAsynchTasksFinieshed();
                         }
                     });
-                    Model.getInstance().Async_Wz_Update_Lead_Field(h.getMacAddr(), OID, "ocomment", comments.getText().toString(), new Model.Wz_Update_Lead_Field_Listener() {
+                    Model.getInstance().Async_Wz_Update_Lead_Field(h.getMacAddr(getContext()), OID, "ocomment", comments.getText().toString(), new Model.Wz_Update_Lead_Field_Listener() {
                         @Override
                         public void onResult(String str) {
                             counter++;

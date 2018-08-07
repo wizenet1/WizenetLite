@@ -59,6 +59,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
     Context c;
     TextView edit,mobile,sign,location,telephone,parts, goToSms,goToCustomers,lblcalltype,lblpriority,lblsla;
     Helper helper;
+    //binding the class calls, from outside in constructor.
     ArrayList<Call> callsArrayList;
     CustomFilter filter;
     ArrayList<Call> filterList;
@@ -115,12 +116,6 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         lblcalltype = (TextView)   convertView.findViewById(R.id.lblcalltype);
         lblsla = (TextView)   convertView.findViewById(R.id.lblsla);
 
-        //Log.e("mytag",callsArrayList.get(pos).getState().toString());
-//        mobile.setBackgroundResource(R.drawable.btn_circle2);
-//        telephone.setBackgroundResource(R.drawable.btn_circle2);
-//        sign.setBackgroundResource(R.drawable.btn_circle2);
-       // asterisk.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
-        //asterisk.setTextSize(30);
          telephone.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
         telephone.setTextSize(30);
         mobile.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf",c));
@@ -261,7 +256,7 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
         txtcallid.setText("קריאה: " +String.valueOf(callsArrayList.get(pos).getCallID()));
         txtstatusname.setText(callsArrayList.get(pos).getStatusName());
         txtCcompany.setText(callsArrayList.get(pos).getCcompany());
-        txtCcity.setText(callsArrayList.get(pos).getCcity()+ " " + callsArrayList.get(pos).getCaddress());
+        txtCcity.setText(substrNew(callsArrayList.get(pos).getCcity()+ " " + callsArrayList.get(pos).getCaddress()));
 
 
         String type = callsArrayList.get(pos).getState().toString().trim();
@@ -304,7 +299,12 @@ public class CallsAdapter extends BaseAdapter implements Filterable {
 
         return convertView;
     }
-    private void goToWaze(int pos){
+    public String substrNew(String str){
+        if (str.length() > 23)
+            return str.substring(0, 23)+"...";
+        return str;
+    }
+    public void goToWaze(int pos){
         try
         {
             // Launch Waze to look for Hawaii:

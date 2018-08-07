@@ -70,22 +70,28 @@ TextView lblcount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Log.e("mytag","fdgsaghgh");
         super.onCreate(savedInstanceState);
-
+        //connect between behind and front
         setContentView(R.layout.activity_call);
 
         ctx = this;
+
+        //call DB class
         db = DatabaseHelper.getInstance(getApplicationContext());
+        //this class for general
         helper= new Helper();
+
+        //varibles defenitions
         lblopencall = (TextView)   findViewById(R.id.lblopencall);
         chk_calls_today = (CheckBox) findViewById(R.id.chk_calls_today);
         chk_calls_work = (CheckBox) findViewById(R.id.chk_calls_work);
-
         mSearchEdt = (EditText) findViewById(R.id.mSearchEdt);
         lblcount = (TextView) findViewById(R.id.lblcount);
         TextView lblcallhistory = (TextView) findViewById(R.id.lblcallhistory);
+        //this class to translate to fonts.
         icon_manager = new Icon_Manager();
+
+        //delay to wait the async task 2.5 secs
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -93,7 +99,7 @@ TextView lblcount;
             }
         }, 2500);
         //-------------------------------------
-        //final Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
+        //spinner = dropdown
         final Spinner spinner =(Spinner) findViewById(R.id.spinner);
         String[] items = {"מס' קריאה ↑","מס' קריאה ↓" ,"פתיחת קריאה ↑","פתיחת קריאה ↓","עדיפות ↑","עדיפות ↓","עיר ↑","עיר ↓","חברה ↑","חברה ↓","מס סריאלי ↑","מס סריאלי ↓","שיבוץ ↑","שיבוץ ↓"};
         spinner.setAdapter(new SpinnerAdapter(this, R.layout.simple_spinner_item, items));
@@ -141,9 +147,10 @@ TextView lblcount;
 
 
 
-
+        //setTypeFace - set the icon for label.
         lblcallhistory.setTypeface(icon_manager.get_Icons("fonts/ionicons.ttf", this));
         lblcallhistory.setTextSize(30);
+        //move to webView frame send parameters to
         lblcallhistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,13 +165,6 @@ TextView lblcount;
                 startActivity(intent);
             }
         });
-
-
-
-        Helper helper = new Helper();
-        String mac = helper.getMacAddr(getApplicationContext());
-
-
 
 
         mSearchTw=new TextWatcher() {
@@ -235,8 +235,8 @@ TextView lblcount;
             data2.add(c);
         }
         lblcount.setText(" נמצאו " + String.valueOf(data2.size()) + " קריאות ");
-        myList = (ListView) findViewById(R.id.calls_list);
 
+        myList = (ListView) findViewById(R.id.calls_list);
         callsAdapter=new CallsAdapter(data2,getBaseContext());
         myList.setAdapter(callsAdapter);
     }
@@ -277,9 +277,7 @@ TextView lblcount;
     @Override
     protected void onRestart() {
         super.onRestart();
-        //Toast.makeText(getBaseContext(),"onRestart", Toast.LENGTH_SHORT).show();
-        //Log.e("mytag","onRestart");
-        //change();
+
     }
 
     @Override
@@ -300,9 +298,9 @@ TextView lblcount;
         if (ss.contains("total")){
             condition = "  order by ";
         }else if(ss.contains("open")){
-            condition = " and sla='0' order by ";
+            condition = " and CAST(sla AS INTEGER) >= 0  order by callid";
         }else if(ss.contains("sla")){
-            condition = " and sla='1' order by ";
+            condition = " and CAST(sla AS INTEGER) < 0 order by callid";
         }else{
             condition = " order by  " ;
         }
@@ -312,26 +310,29 @@ TextView lblcount;
 
         ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
         arr_Call_offline = initOnline();
+        //first init the list from db! - always
         init();
+        //check if there's any calls_offline and send them to wizenet if network works.
+        //
         sendCallsOffline(ctx,arr_Call_offline);
 
     }
     private void sendCallsOffline(final Context ctx1,ArrayList<Call_offline> arr_Call_offline){
-        if (helper.isNetworkAvailable(ctx)){
-            Log.e("mytag","size: " + arr_Call_offline.size());
-            if (arr_Call_offline.size()>0){
-                Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(getApplicationContext()), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
-                    @Override
-                    public void onResult(String str) {
-                        if (str.contains("0")){
-                            DatabaseHelper.getInstance(ctx1).deleteAllCall_offline();
-                            //change();
-                        }
-                        Log.e("mytag","return:" +str);
-                    }
-                });
-            }else{
-                change();
+                    if (helper.isNetworkAvailable(ctx)){
+                        Log.e("mytag","size: " + arr_Call_offline.size());
+                        if (arr_Call_offline.size()>0){
+                            Model.getInstance().Async_Wz_Send_Call_Offline_Listener(helper.getMacAddr(getApplicationContext()), DatabaseHelper.getInstance(ctx).getJsonResults().toString(), new Model.Wz_Send_Call_Offline_Listener() {
+                                @Override
+                                public void onResult(String str) {
+                                    if (str.contains("0")){
+                                        DatabaseHelper.getInstance(ctx1).deleteAllCall_offline();
+                                        //change();
+                                    }
+                                    Log.e("mytag","return:" +str);
+                                }
+                            });
+                        }else{
+                            change();
             }
         }
     }
@@ -353,13 +354,14 @@ TextView lblcount;
         return arr_Call_offline;
     }
     public  void change(){
-
+        //first check if internet avilable.
         if (helper.isNetworkAvailable(ctx)){
+            //
             Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(getApplicationContext()), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
                     //f
-                    Log.e("mytag","ss="+ ss);
+                    Log.e("mytag","ret calls from ws:"+ str);
 
                     ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(setCondition(ss)));
                     data2.clear();
@@ -380,9 +382,9 @@ TextView lblcount;
         if (ss.contains("total")){
             ret = "  order by callid";
         }else if(ss.contains("open")){
-            ret = " and sla='0' order by callid";
+            ret = " and CAST(sla AS INTEGER) >=0 order by callid";
         }else if(ss.contains("sla")){
-            ret = " and sla='1' order by callid";
+            ret = " and  CAST(sla AS INTEGER) < 0  order by callid";
         }else{
             ret = "   " ;
         }
@@ -430,9 +432,9 @@ TextView lblcount;
                 calls = DatabaseHelper.getInstance(getApplicationContext()).getCalls("and callid in (" + callsInWork + ")");
             }else{
                 calls= DatabaseHelper.getInstance(getApplicationContext()).getCalls(sortby);
-
             }
             length = calls.size();
+            Log.e("mytag","calls.size: " +length);
         } catch (Exception e) {
             Log.e("mytag","sdf " +e.getMessage());
             e.printStackTrace();

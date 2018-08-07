@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -65,6 +66,7 @@ public class FragmentOfferStageOne extends Fragment {
     private TextView customerNumber;
     private TextView erpNumber;
     String strNameAutoComplete = "";
+    String cid = "";
     Map<String, Ccustomer> customers;
     Helper h ;
 
@@ -93,10 +95,8 @@ public class FragmentOfferStageOne extends Fragment {
 
         //Assign all the data fields.
         this.assignDataFields();
-
         //Initialize the customers autocomplete feature.
         this.setNameAutoComplete();
-
         //Initialize the additional contacts listView.
         this.addContactsListView = (ListView) view.findViewById(R.id.offer_stage_one_additional_contacts_list);
         this.addContactsAdapter = new AddContactsAdapter(context, this.addContactsListView);
@@ -206,7 +206,41 @@ public class FragmentOfferStageOne extends Fragment {
 
         return bundle;
     }
+    public Ccustomer getClientDetails() {
+        Ccustomer c = new Ccustomer();
+        if (cid.length() > 0){
+            if(isNumeric(cid) == true){c.setCID(cid);}else{c.setCID("-1");}
 
+        }else{
+            c.setCID("-1");
+        }
+
+
+        c.setCcompany(company.getText().toString());
+        c.setCemail(email.getText().toString());
+        c.setCphone(landline.getText().toString());
+        c.setCcell(cell.getText().toString());
+        c.setCcity(city.getText().toString());
+        c.setCaddress(address.getText().toString());
+        c.setCcID(customerNumber.getText().toString());
+        c.setCusername(erpNumber.getText().toString());
+
+
+        return c;
+    }
+    public boolean isNumeric(String s) {
+        int len = s.length();
+        for (int i = 0; i < len; ++i) {
+            if (!isNumeric1(String.valueOf(s.charAt(i)))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public boolean isNumeric1(String s) {
+        return s.matches("[-+]?\\d*\\.?\\d+");
+    }
     /**
      * Assigns all the data fields to class members for future usage.
      */
@@ -257,8 +291,10 @@ public class FragmentOfferStageOne extends Fragment {
     private Map<String, Ccustomer> getCustomersDictionary() {
         Map<String, Ccustomer> customers = new HashMap<>();
 
-        for(Ccustomer ccustomer : getCustomerList()){
-            String fullName = ccustomer.getCfname() + " " + ccustomer.getClname();
+        List<Ccustomer> ccustomerList = new ArrayList<Ccustomer>();
+        ccustomerList = DatabaseHelper.getInstance(getContext()).getCcustomers("");
+        for(Ccustomer ccustomer : ccustomerList){
+            String fullName = ccustomer.getCcompany();
             customers.put(fullName, ccustomer);
         }
 
@@ -272,19 +308,32 @@ public class FragmentOfferStageOne extends Fragment {
 
         //Get users's customers in a dictionary.
          customers = getCustomersDictionary();
-
-        //Extract the names of the customers for the autocomplete.
         final String names[] = customers.keySet().toArray(new String[customers.keySet().size()]);
-
-        //Initialize the textViewAutoComplete adapter.
         this.nameAutoComplete.setAdapter(new ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, names));
 
+
+
+
+
+
+
+
+        this.nameAutoComplete.setThreshold(1);
+        //Setting adapter
+        this.nameAutoComplete.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                nameAutoComplete.setSelectAllOnFocus(true);
+                return false;
+            }
+        });
         //Set an onItemClick listener.
         this.nameAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //When a customer is selected from the list, fill all the data fields with it's values.
                 Ccustomer ccustomer = customers.get(nameAutoComplete.getText().toString());
+                cid =ccustomer.getCID();
                 company.setText(ccustomer.getCcompany());
                 email.setText(ccustomer.getCemail());
                 landline.setText(ccustomer.getCphone());
@@ -293,7 +342,10 @@ public class FragmentOfferStageOne extends Fragment {
                 address.setText(ccustomer.getCaddress());
                 customerNumber.setText(ccustomer.getCcID());
                 erpNumber.setText(ccustomer.getCusername());
-                registerInBackground();
+                //hide keyboard
+                final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                //nameAutoComplete.setText("");
             }
         });
 
@@ -309,25 +361,8 @@ public class FragmentOfferStageOne extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 strNameAutoComplete = nameAutoComplete.getText().toString();
-//                String output  = new getURLData()
-//                                .execute("http://www.example.com/call.php?locationSearched=" )
-//                                .get();
+
                 String[] response = null;
-                try {
-                    response = new MyClass().execute().get();
-                    ArrayAdapter a = new ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,names);
-                    nameAutoComplete.setAdapter(a);
-                    a.notifyDataSetChanged();
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(getContext(), "response = " + response, Toast.LENGTH_LONG).show();
-
-                //nameAutoComplete.
-                //addContactsListView.setAdapter(addContactsAdapter);
 
             }
 
@@ -399,180 +434,8 @@ public class FragmentOfferStageOne extends Fragment {
         saveIcon.setTextSize(30);
     }
     //-----------the solution--------------
-    public class MyClass extends AsyncTask<Void, Void, String[]> {
-        @Override
-        protected String[] doInBackground(Void... arg0) {
-            String names[] = null;
-            String myResponse= "";
-            try{
-                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
-                //String response = cs.Call(mac_address, memail, mpass);
 
-                String response = cs.Wz_getUsersOptions(h.getMacAddr(),strNameAutoComplete);
-                myResponse = response;
-                myResponse = myResponse.replaceAll("Wz_getUsersOptionsResponse", "");
-                myResponse = myResponse.replaceAll("Wz_getUsersOptionsResult=", "Wz_getUsersOptions:");
-                myResponse = myResponse.replaceAll(";", "");
-                //File_ f= new File_();
-                Log.e("mytag","response:" +response);
-                Json_ j_ = new Json_();
-                if (j_.isJSONValid(myResponse) == true) {
-                    JSONArray j = new JSONArray();
-                    j = j_.getJSONArrayByName(myResponse, "Wz_getUsersOptions");
-                    List<Ccustomer> clients = new ArrayList<Ccustomer>();
-                    clients = j_.getClientsListByJSONarray(j, getContext());
-                    customers.clear();
-                    for(Ccustomer ccustomer : clients){
-                        String fullName = ccustomer.getCfname() + " " + ccustomer.getClname();
-                        customers.put(fullName, ccustomer);
-                    }
-                    names = customers.keySet().toArray(new String[customers.keySet().size()]);
 
-                    //Initialize the textViewAutoComplete adapter.
-                    //
-                }
-
-            }catch(Exception e){
-                //h.LogPrintExStackTrace(e);
-                return null;
-            }
-            return names; // the one you got from somewhere
-        }
-    }
-
-    public interface AsyncResponse {
-        void processFinish(String output);
-    }
-    public class MyAsyncTask extends AsyncTask<Void, Void, String> {
-        public AsyncResponse delegate = null;
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            delegate.processFinish(result);
-        }
-    }
-
-    private void registerInBackground() {
-        final Helper h = new Helper();
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try{
-                    CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
-                    //String response = cs.Call(mac_address, memail, mpass);
-
-                    String response = cs.Wz_getUsersOptions(h.getMacAddr(),strNameAutoComplete);
-                    String myResponse = response;
-                    myResponse = myResponse.replaceAll("Wz_getUsersOptionsResponse", "");
-                    myResponse = myResponse.replaceAll("Wz_getUsersOptionsResult=", "Wz_getUsersOptions:");
-                    myResponse = myResponse.replaceAll(";", "");
-                    //File_ f= new File_();
-                    Log.e("mytag","response:" +response);
-
-                    return  response;
-                }catch(Exception e){
-                    //h.LogPrintExStackTrace(e);
-                    return null;
-                }
-                //return null;
-            }
-            @Override
-            protected void onPostExecute(String msg) {
-                Json_ j_ = new Json_();
-                if (j_.isJSONValid(msg) == true) {
-                    JSONArray j = new JSONArray();
-                    j = j_.getJSONArrayByName(msg, "Wz_getUsersOptions");
-                    List<Ccustomer> clients = new ArrayList<Ccustomer>();
-                    clients = j_.getClientsListByJSONarray(j, getContext());
-                    customers.clear();
-                    for(Ccustomer ccustomer : clients){
-                        String fullName = ccustomer.getCfname() + " " + ccustomer.getClname();
-                        customers.put(fullName, ccustomer);
-                    }
-                    final String names[] = customers.keySet().toArray(new String[customers.keySet().size()]);
-
-                    //Initialize the textViewAutoComplete adapter.
-                    nameAutoComplete.setAdapter(new ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, names));
-                }
-                //do stuff
-            }
-        }.execute(null, null, null);
-    }
-    private class LongOperation extends AsyncTask<String, Void, List<Ccustomer>> {
-        Helper h = new Helper();
-        Json_ j_ = new Json_();
-        @Override
-        protected List<Ccustomer> doInBackground(String... params) {
-            try{
-                CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));//db.getControlPanel(1).getUrl());
-                //String response = cs.Call(mac_address, memail, mpass);
-
-                String response = cs.Wz_getUsersOptions(h.getMacAddr(),strNameAutoComplete);
-                String myResponse = response;
-                myResponse = myResponse.replaceAll("Wz_getUsersOptionsResponse", "");
-                myResponse = myResponse.replaceAll("Wz_getUsersOptionsResult=", "Wz_getUsersOptions:");
-                myResponse = myResponse.replaceAll(";", "");
-                //File_ f= new File_();
-                Log.e("mytag","response:" +response);
-
-                if (j_.isJSONValid(response) == true) {
-                    JSONArray j = new JSONArray();
-                    j = j_.getJSONArrayByName(response, "Wz_getUsersOptions");
-                    List<Ccustomer> clients = new ArrayList<Ccustomer>();
-                    clients = j_.getClientsListByJSONarray(j, getContext());
-                    return clients;
-                    //FragmentManager fm = getFragmentManager();
-                    //FragmentOfferStageOne frag = (FragmentOfferStageOne)fm.findFragmentByTag("FragmentOfferStageOne");
-                    //frag.<specific_function_name>();
-                }
-            }catch(Exception e){
-                h.LogPrintExStackTrace(e);
-                return null;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Ccustomer> result) {
-            customers.clear();
-            for(Ccustomer ccustomer : result){
-                String fullName = ccustomer.getCfname() + " " + ccustomer.getClname();
-                customers.put(fullName, ccustomer);
-            }
-            final String names[] = customers.keySet().toArray(new String[customers.keySet().size()]);
-            //Initialize the textViewAutoComplete adapter.
-            nameAutoComplete.setAdapter(new ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, names));
-            nameAutoComplete.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    //Clean the fields when the user is typing.
-                    cleanFields();
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    strNameAutoComplete = nameAutoComplete.getText().toString();
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-    }
 }
 
 

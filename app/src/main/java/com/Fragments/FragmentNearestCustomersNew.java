@@ -2,8 +2,6 @@ package com.Fragments;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -19,18 +17,11 @@ import android.widget.Toast;
 import com.Activities.R;
 import com.Classes.Ccustomer;
 import com.DatabaseHelper;
-import com.File_;
 import com.GPSTracker;
 import com.Helper;
-import com.Json_;
 import com.google.android.gms.maps.model.LatLng;
 import com.model.Model;
-import com.nearestCustomers.CustomerTmp;
-import com.nearestCustomers.DistanceComparator;
-import com.nearestCustomers.DistancesListAdapter;
-import com.nearestCustomers.DistancesListAdapterNew;
-import com.nearestCustomers.IObservable;
-import com.nearestCustomers.IObserver;
+import com.Adapters.DistancesListAdapterNew;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,9 +53,6 @@ public class FragmentNearestCustomersNew extends Fragment {
     //Initial seek bar cursor value.
     private final int INITIAL_PROGRESS = 10;
 
-    //API key used to address the Google Maps server.
-    //doron key
-    private final String API_KEY = "AIzaSyDpObMzkQazFmlpvv_YvSUUOW9PiQMsWFA";
 
     public FragmentNearestCustomersNew() {
         // Required empty public constructor
@@ -108,7 +96,7 @@ public class FragmentNearestCustomersNew extends Fragment {
         origin = new LatLng(gps.getLatitude(), gps.getLongitude());
         if (origin.longitude == 0.0) {
             Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-            origin = new LatLng(32.091412, 34.895811);
+            //origin = new LatLng(32.091412, 34.895811);
         }
         Toast.makeText(getContext(), "lat:" + gps.getLatitude() + " long:" + gps.getLongitude(), Toast.LENGTH_SHORT).show();
         //LatLng origin = new LatLng(32.091412, 34.895811);
@@ -282,28 +270,6 @@ public class FragmentNearestCustomersNew extends Fragment {
         distancesCalculatedCounter = this.customers.size();
     }
 
-    //private Ccustomer[] getCustomerList() {
-    //    Helper helper = new Helper();
-    //    Json_ j_ = new Json_();
-//
-    //    File_ f = new File_();
-    //    Ccustomer[] ccustomers = new Ccustomer[1];
-    //    try {
-    //        List<Ccustomer> ccustomerList = new ArrayList<Ccustomer>();
-    //        ccustomerList = DatabaseHelper.getInstance(getContext()).getCcustomers(""); //helper.getWizenetClientsFromJsonForLocations(getContext());
-    //        if (o != null) {
-    //            Ccustomer[] c = (Ccustomer[]) o;
-    //            return c;
-    //        }
-//
-    //    } catch (Exception e) {
-    //        h.LogPrintExStackTrace(e);
-    //        Ccustomer c = new Ccustomer("", "", "", "", "");
-    //        ccustomers = new Ccustomer[]{c};
-    //    }
-//
-    //    return ccustomers;
-    //}
 
 
 

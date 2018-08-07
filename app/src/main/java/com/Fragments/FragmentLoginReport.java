@@ -76,7 +76,7 @@ public class FragmentLoginReport extends android.support.v4.app.Fragment {
         userhistory.setPaintFlags(userhistory.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         btn = (Button) v.findViewById(R.id.push_button);
         btn.setVisibility(View.INVISIBLE);
-        Model.getInstance().Async_Wz_getState_Listener(h.getMacAddr().toString(), new Model.Wz_getState_Listener() {
+        Model.getInstance().Async_Wz_getState_Listener(h.getMacAddr(getContext()).toString(), new Model.Wz_getState_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag", str);
@@ -97,9 +97,9 @@ public class FragmentLoginReport extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 if (btn.getText().equals("יציאה")) {
-                    setInOut(h.getMacAddr(), "out", s_latitude, s_longtitude);
+                    setInOut(h.getMacAddr(getContext()), "out", s_latitude, s_longtitude);
                 } else {
-                    setInOut(h.getMacAddr(), "in", s_latitude, s_longtitude);
+                    setInOut(h.getMacAddr(getContext()), "in", s_latitude, s_longtitude);
                 }
 
 

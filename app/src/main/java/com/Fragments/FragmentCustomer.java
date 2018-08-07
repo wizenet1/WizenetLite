@@ -28,6 +28,7 @@ import com.Activities.MenuActivity;
 import com.Activities.R;
 import com.Adapters.CustomersAdapter;
 import com.Classes.Ccustomer;
+import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
 import com.Icon_Manager;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //import com.google.android.gms.maps.model.LatLng;
 
@@ -90,19 +92,16 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
 //            }
 //        });
         data2.clear();
-        for (Ccustomer c : getCustomerList()) {
+
+        List<Ccustomer> ccustomerList = new ArrayList<Ccustomer>();
+        ccustomerList = DatabaseHelper.getInstance(getContext()).getCcustomers("");
+        for (Ccustomer c : ccustomerList) {
             data2.add(c);
-            //data2.add(c.getCfname()+" "+c.getClname()+" "+c.getCcell());
         }
-       // ((MenuActivity) getActivity()).initialIcons();
         myList = (ListView) v.findViewById(R.id.customer_list);
-
-
         customersAdapter = new CustomersAdapter(data2, getContext());
         myList.setAdapter(customersAdapter);
-
         mSearchTw = new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -112,12 +111,10 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
 
             }
         };
@@ -180,26 +177,26 @@ public class FragmentCustomer extends android.support.v4.app.Fragment {
         ((MenuActivity) getActivity()).turnActionBarClientsIconsOn();
     }
 
-    private Ccustomer[] getCustomerList() {
-        Helper helper = new Helper();
-        File_ f = new File_();
-        //myString = f.readFromFileInternal(getContext(),"customers.txt");
-        myString = f.readFromFileExternal(getContext(), "customers.txt");
-        //Log.e("mytag", myString);
-        JSONObject j = null;
-        int length = 0;
-        Ccustomer[] ccustomers;//= new Ccustomer[5];
-        try {
-            j = new JSONObject(myString);
-            JSONArray jarray = j.getJSONArray("Wz_Clients_List");
-            length = jarray.length();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ccustomers = new Ccustomer[length];
-        ccustomers = helper.getCustomersFromJson2(myString);
-        return ccustomers;
-    }
+    //private Ccustomer[] getCustomerList() {
+    //    Helper helper = new Helper();
+    //    File_ f = new File_();
+    //    //myString = f.readFromFileInternal(getContext(),"customers.txt");
+    //    myString = f.readFromFileExternal(getContext(), "customers.txt");
+    //    //Log.e("mytag", myString);
+    //    JSONObject j = null;
+    //    int length = 0;
+    //    Ccustomer[] ccustomers;//= new Ccustomer[5];
+    //    try {
+    //        j = new JSONObject(myString);
+    //        JSONArray jarray = j.getJSONArray("Wz_Clients_List");
+    //        length = jarray.length();
+    //    } catch (JSONException e) {
+    //        e.printStackTrace();
+    //    }
+    //    ccustomers = new Ccustomer[length];
+    //    ccustomers = helper.getCustomersFromJson2(myString);
+    //    return ccustomers;
+    //}
 
     class CustomAdapter extends BaseAdapter {
         @Override

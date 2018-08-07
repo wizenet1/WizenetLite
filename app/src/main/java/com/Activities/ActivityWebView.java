@@ -126,7 +126,7 @@ public class ActivityWebView extends FragmentActivity {
             case "dynamic":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="+ specialurl.replace(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL"),"")
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 //Toast.makeText(activity, url, Toast.LENGTH_SHORT).show();
                 Log.e("mytag","url: " + url);
                 break;
@@ -135,49 +135,49 @@ public class ActivityWebView extends FragmentActivity {
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=modulesServices/reportcalltimebytech_details&OdateFrom=" + getCurrentTimeStamp() + "&OdateTo=" + getCurrentTimeStamp() + "&techListDashboard=" + technicianid + "&CID=-1&strstatus=-999"
                         //+ "/iframe.aspx?control=modulesServices/dashboard_report&action=totalCloseCallsToday&techctypeid=&calltypeidnot=&calltype=&ClientCtypeID=&techid=" + technicianid + ""
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "dashboard":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=modulesServices/dashboard_report&action=totalCloseCallsToday&techctypeid=&calltypeidnot=&calltype=&ClientCtypeID=&techid=" + technicianid + ""
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "calltime":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=/modulesServices/CallRepHistory&CallID=" + String.valueOf(callid) + "&class=tdCallRepHistory&mobile=True"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "callparts":
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=modulesServices%2fCallParts&CallID=" + String.valueOf(callid) + "&type=customer&val=" + String.valueOf(cid) + ""
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "mycalls" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/mobile/control.aspx?control=modulesService/myCalls"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "callfiles" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(callid) + "&class=CallsFiles_appCell&mobile=True"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "history" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=/modulesservices/callhistoryAll&CallID=" + String.valueOf(callid) + "&CID=" + String.valueOf(cid) + "&class=AppCelltable&mobile=True"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "customercase" :
@@ -185,7 +185,7 @@ public class ActivityWebView extends FragmentActivity {
                         +"/IN.aspx?url="
                         +"/iframe.aspx?control=modules/tableextrafields&table=calls&pk=callid&pkvalue=" + String.valueOf(callid) + ""
                         //+ "/iframe.aspx?control=modules/TableExtraFields&table=clients&pk=cid&pkvalue=" + String.valueOf(cid) + "&mobile=True"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "goToUserHistory" :
@@ -193,14 +193,14 @@ public class ActivityWebView extends FragmentActivity {
                         +"/IN.aspx?url="
                         + "/iframe.aspx?control=/modulesProjects/UsersTimeReport"
                         //+ "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
             case "masofon" :
                 url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                         +"/IN.aspx?url="
                         + "/AppMasofon/masofon?1=1"
-                        +"&MACAddress=" + helper.getMacAddr();
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
 

@@ -119,7 +119,7 @@ public class FragmentActionAddCommentAlertDialog extends DialogFragment {
                         if (!(add_comment_alert_dialog_comments.getText().toString().trim() == "")){
                             updateString =  "cast(comments as nvarchar(max)) +'<br>'+'" + add_comment_alert_dialog_comments.getText().toString() + "'";
                         }
-                        Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(), actionID, "comments",updateString, new Model.Wz_Update_Action_Field_Listener() {
+                        Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(getContext()), actionID, "comments",updateString, new Model.Wz_Update_Action_Field_Listener() {
                             @Override
                             public void onResult(String str) {
                                 counter++;
@@ -128,7 +128,7 @@ public class FragmentActionAddCommentAlertDialog extends DialogFragment {
                                 chkIfBothAsynchTasksFinieshed();
                                 }
                         });
-                        Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(), actionID, "statusID",oStatusSelected , new Model.Wz_Update_Action_Field_Listener() {
+                        Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(getContext()), actionID, "statusID",oStatusSelected , new Model.Wz_Update_Action_Field_Listener() {
                             @Override
                             public void onResult(String str) {
                                 counter++;
@@ -146,7 +146,7 @@ public class FragmentActionAddCommentAlertDialog extends DialogFragment {
 
 
 
-                    Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(), actionID, "comments", "cast(comments as nvarchar(max)) +'<br>'+'" + add_comment_alert_dialog_comments.getText().toString() + "'", new Model.Wz_Update_Action_Field_Listener() {
+                    Model.getInstance().Async_Wz_Update_Action_Field_Listener(h.getMacAddr(getContext()), actionID, "comments", "cast(comments as nvarchar(max)) +'<br>'+'" + add_comment_alert_dialog_comments.getText().toString() + "'", new Model.Wz_Update_Action_Field_Listener() {
                         @Override
                         public void onResult(String str) {
                             counter++;

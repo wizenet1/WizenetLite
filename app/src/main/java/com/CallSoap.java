@@ -70,6 +70,8 @@ public class CallSoap {
     public  final String Wz_getLeadsList = "Wz_getLeadsList";
     public  final String Wz_Update_Lead_Field = "Wz_Update_Lead_Field";
     public  final String Wz_getUsersOptions = "Wz_getUsersOptions";
+    public  final String Wz_retProducts = "Wz_retProducts";
+    public  final String Wz_Json = "Wz_Json";
 
     //#############name space######################
     public  final String NAMESPACE = "http://tempuri.org/";
@@ -120,6 +122,8 @@ public class CallSoap {
     public  final String Wz_getLeadsList_SOAP_ACTION = "http://tempuri.org/Wz_getLeadsList";
     public  final String Wz_Update_Lead_Field_SOAP_ACTION = "http://tempuri.org/Wz_Update_Lead_Field";
     public  final String Wz_getUsersOptions_SOAP_ACTION = "http://tempuri.org/Wz_getUsersOptions";
+    public  final String Wz_retProducts_SOAP_ACTION = "http://tempuri.org/Wz_retProducts";
+    public  final String Wz_Json_SOAP_ACTION = "http://tempuri.org/Wz_Json";
 
 
     //public  final String URL = "http://main.wizenet.co.il/webservices/freelance.asmx";
@@ -1217,6 +1221,50 @@ public String Wz_getUsersOptions(String mac_address,String typing)
     return response.toString();
 }
 //endregion
-
-
+// region Wz_retProducts
+public String Wz_retProducts(String mac_address)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_retProducts);//namespace , operation
+    request.addProperty("MACaddress",mac_address);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_retProducts_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
+// region Wz_Json
+public String Wz_Json(String mac_address,String jsonString,String action)
+{
+    SoapObject request = new SoapObject(NAMESPACE, Wz_Json);
+    request.addProperty("MACaddress",mac_address);
+    request.addProperty("jsonString",jsonString);
+    request.addProperty("action",action);
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.dotNet = true;
+    envelope.setOutputSoapObject(request);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    Object response=null;
+    try
+    {
+        httpTransport.call(Wz_Json_SOAP_ACTION, envelope);
+        response = envelope.bodyIn;
+    }
+    catch (Exception exception)
+    {
+        response=exception.toString();
+    }
+    return response.toString();
+}
+//endregion
 }

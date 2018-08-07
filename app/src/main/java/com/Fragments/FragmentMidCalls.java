@@ -284,8 +284,8 @@ public class FragmentMidCalls extends android.support.v4.app.Fragment{
         String txt2 = "";
         String txt3 = "";
         txt1 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where statusid <> -1");
-        txt2 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '0' and  statusid <> -1");
-        txt3 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where sla like '1' and  statusid <> -1");
+        txt2 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where CAST(sla AS INTEGER) >=0  and  statusid <> -1");
+        txt3 = DatabaseHelper.getInstance(getContext()).getScalarByCountQuery("SELECT count(CallID) FROM mgnet_calls where CAST(sla AS INTEGER) < 0  and  statusid <> -1");
 
         t1.setText(txt1);
         t2.setText(txt2);

@@ -715,7 +715,7 @@ public class ActivityCallDetails extends FragmentActivity {
             url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
                     +"/IN.aspx?url="
                     + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID())
-                    +"&MACAddress=" + helper.getMacAddr();
+                    +"&MACAddress=" + helper.getMacAddr(getBaseContext());
             Log.e("mytag",url);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(browserIntent);

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.Classes.Call;
 import com.Classes.Ccustomer;
 import com.Classes.Ctype;
 import com.Classes.IS_Action;
 import com.Classes.IS_Status;
+import com.Classes.Product;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -25,7 +27,21 @@ import java.util.List;
 
 public class Json_ {
     Helper helper = new Helper();
+    File_ f = new File_();
+    public JSONArray retJsonArrayFromResponse(String response,String name){
+        String myResponse = response;
+        myResponse = myResponse.replaceAll(name+"Response", "");
+        myResponse = myResponse.replaceAll(name+"Result=", "'a':");
+        myResponse = myResponse.replaceAll(";", "");
 
+        try {
+            JSONArray j = getJSONArrayByName(myResponse,"a");
+            return j;
+        } catch (Exception e) {
+            helper.LogPrintExStackTrace(e);
+            return null;
+        }
+    }
     public boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
@@ -69,7 +85,7 @@ public class Json_ {
             j = new JSONObject(strJson);
             jarray = j.getJSONArray(funcName);
         } catch (JSONException e) {
-            e.printStackTrace();
+            helper.LogPrintExStackTrace(e);
         }
         return jarray;
     }
@@ -277,4 +293,236 @@ public class Json_ {
         return ret;
     }
 
+    public List<Product> getProductsByFile(Context c) {
+        String strJson = "";
+        List<Product> a = new ArrayList<Product>();
+
+        strJson = f.readFromFileExternal(c,"products.txt");
+        JSONArray jArray = new JSONArray();
+        jArray = getJsonArrayFromString(strJson);
+        if (jArray == null){
+            return a;
+        }
+        for (int i=0;i<jArray.length();i++){
+            try {
+                a.add(new Product(
+                        jArray.getJSONObject(i).getString("PID"),
+                        jArray.getJSONObject(i).getString("Pname"),
+                        jArray.getJSONObject(i).getString("Pmakat"),
+                        "",
+                        jArray.getJSONObject(i).getString("Pprice"),
+                        jArray.getJSONObject(i).getString("Pstock")));//jArray.getJSONObject(i).getString("Pserial")
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //{"PID":11306,"Pmakat":"NB-509","Pmodel":null,"Pname":"LENOVO 59385926 TABLET 7\u0027\u0027 ANDROID 4.2 1Y","PdescS":"","PdescL":null,"Pprice":1.0000,"POprice":1.0000,"PSprice":null,"PCprice":null,"PMprice":1.0000,"Pcomment":"","Ptime":null,"Pguarantee":null,"Pshipping":null,"Ppayment":"","PimageS":null,"PimageB":null,"PcompanyID":null,"PsupplierID":null,"PcatID":null,"PStypeID":1,"Pspecial":false,"Ponline":true,"Psite":0,"Plight":false,"PsaleSpecial":false,"Porder":null,"Pstock":0,"PtypeID":null,"LNG":"HE","PimageR":null,"Pdisk":null,"Pmemory":null,"Pscreen":null,"U_nocat_7055524":null},
+        return a;
+    }
+    public JSONArray getJsonArrayFromString(String strJson){
+        JSONArray j;
+        try {
+            j= new JSONArray(strJson);
+        } catch (JSONException e) {
+            j=null;
+            helper.LogPrintExStackTrace(e);
+        }
+        return j;
+    }
+    public void addActions(Context context){
+        String strJson = "";
+        File_ f = new File_();
+        strJson = f.readFromFileExternal(context,"is_actions.txt");
+        JSONObject j = null;
+        JSONArray jarray = null;
+        try {
+            j = new JSONObject(strJson);
+            jarray= j.getJSONArray("Wz_ACTIONS_retList");
+            DatabaseHelper.getInstance(context).delete_IS_Actions_Rows("");
+            Log.e("MYTAG","jarray length is:" + jarray.length());
+            if (jarray.length() == 0){
+                Log.e("MYTAG"," jarray is 0");
+                return;
+            }
+        } catch (JSONException e) {
+            helper.LogPrintExStackTrace(e);
+            Log.e("MYTAG"," Wz_ACTIONS_retList "+e.getMessage().toString());
+        }
+        for (int i = 0; i < jarray.length(); i++) {
+            final JSONObject e;
+
+            try {
+                e = jarray.getJSONObject(i);
+                IS_Action action= new IS_Action();//Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("AID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CID"))), cursor.getString(cursor.getColumnIndex("CreateDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))), cursor.getString(cursor.getColumnIndex("CallPriority")), cursor.getString(cursor.getColumnIndex("subject")), cursor.getString(cursor.getColumnIndex("comments")), cursor.getString(cursor.getColumnIndex("CallUpdate")), cursor.getString(cursor.getColumnIndex("cntrctDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("TechnicianID"))), cursor.getString(cursor.getColumnIndex("statusName")), cursor.getString(cursor.getColumnIndex("internalSN")), cursor.getString(cursor.getColumnIndex("Pmakat")), cursor.getString(cursor.getColumnIndex("Pname")), cursor.getString(cursor.getColumnIndex("contractID")), cursor.getString(cursor.getColumnIndex("Cphone")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("OriginID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("ProblemTypeID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallTypeID"))), cursor.getString(cursor.getColumnIndex("priorityID")), cursor.getString(cursor.getColumnIndex("OriginName")), cursor.getString(cursor.getColumnIndex("problemTypeName")), cursor.getString(cursor.getColumnIndex("CallTypeName")), cursor.getString(cursor.getColumnIndex("Cname")), cursor.getString(cursor.getColumnIndex("Cemail")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("contctCode"))), cursor.getString(cursor.getColumnIndex("callStartTime")), cursor.getString(cursor.getColumnIndex("callEndTime")), cursor.getString(cursor.getColumnIndex("Ccompany")), cursor.getString(cursor.getColumnIndex("Clocation")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("callOrder"))), cursor.getString(cursor.getColumnIndex("Caddress")), cursor.getString(cursor.getColumnIndex("Ccity")), cursor.getString(cursor.getColumnIndex("Ccomments")), cursor.getString(cursor.getColumnIndex("Cfname")), cursor.getString(cursor.getColumnIndex("Clname")), cursor.getString(cursor.getColumnIndex("techName")), cursor.getString(cursor.getColumnIndex("Aname")), cursor.getString(cursor.getColumnIndex("ContctName")), cursor.getString(cursor.getColumnIndex("ContctAddress")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("ContctCell")), cursor.getString(cursor.getColumnIndex("ContctPhone")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("Ccell")), cursor.getString(cursor.getColumnIndex("techColor")), cursor.getString(cursor.getColumnIndex("ContctCemail")), cursor.getString(cursor.getColumnIndex("CallParentID")));
+                action.setActionID(e.getInt("actionID"));
+                action.setTaskID(e.getInt("taskID"));
+                action.setStatusID(e.getInt("statusID"));
+                action.setOwnerID(e.getInt("ownerID"));
+                action.setUserID(e.getInt("userID"));
+                action.setDepID(e.getInt("depID"));
+                action.setUserCtypeID(e.getInt("userCtypeID"));
+                action.setOwnerCtypeID(e.getInt("ownerCtypeID"));
+                action.setProjectID(e.getInt("projectID"));
+                if (e.getString("ParentActionID").contains("null")){
+                }else{
+                    action.setParentActionID(Integer.valueOf(e.getString("ParentActionID")));
+                }
+                action.setActionDate(e.getString("actionDate"));
+                action.setActionStartDate(e.getString("actionStartDate"));
+                action.setActionDue(e.getString("actionDue"));
+                action.setActionDesc(e.getString("actionDesc"));
+                String result=e.getString("comments");
+                try {
+                    String string = e.getString("comments");
+                    byte[] utf8 = string.getBytes("UTF-8");
+                    string = new String(utf8, "UTF-8");
+                    result= String.valueOf(string);
+                } catch (UnsupportedEncodingException ee) {
+                    helper.LogPrintExStackTrace(ee);
+                }
+                action.setComments(result);
+                action.setPriorityID(e.getString("priorityID"));
+
+                action.setReminderID(e.getString("reminderID"));
+
+                action.setWorkHours(e.getString("WorkHours"));
+                action.setWorkEstHours(e.getString("WorkEstHours"));
+                action.setCreate(e.getString("Create"));
+                action.setLastUpdate(e.getString("LastUpdate"));
+                action.setActionLink(e.getString("actionLink"));
+
+                action.setActionRef(e.getString("actionRef"));
+                action.setUserCfname(e.getString("userCfname"));
+                action.setUserClname(e.getString("userClname"));
+                action.setUserCemail(e.getString("userCemail"));
+
+                action.setOwnerCfname(e.getString("ownerCfname"));
+                action.setOwnerClname(e.getString("ownerClname"));
+                action.setOwnerCemail(e.getString("ownerCemail"));
+
+                action.setStatusName(e.getString("statusName"));
+                action.setPriorityName(e.getString("PriorityName"));
+                action.setActionType(e.getString("actionType"));
+                action.setActionSdate(e.getString("actionSdate"));
+                action.setActionEdate(e.getString("actionEdate"));
+                action.setWorkHoursM(e.getString("WorkHoursM"));
+                action.setWorkEstHoursM(e.getString("WorkEstHoursM"));
+                action.setActionPrice(e.getString("actionPrice"));
+                action.setStatusColor(e.getString("statusColor"));
+                action.setTaskSummery(e.getString("taskSummery"));
+                action.setProjectSummery(e.getString("projectSummery"));
+                action.setProjectType(e.getString("projectType"));
+                action.setActionNum(e.getString("actionNum"));
+                action.setActionFrom(e.getString("actionFrom"));
+                action.setActionDays(e.getString("actionDays"));
+                action.setRemindertime(e.getString("remindertime"));
+                action.setExpr1(e.getString("Expr1"));
+                action.setProjectDesc(e.getString("projectDesc"));
+                DatabaseHelper.getInstance(context).addISAction(action);
+            } catch (JSONException e1) {
+                helper.LogPrintExStackTrace(e1);
+
+            }
+        }
+
+        DatabaseHelper.getInstance(context).getISActions("");
+    }
+    public String addCalls(Context context){
+        String ret = "";
+        String strJson = "";
+        strJson=f.readFromFileExternal(context,"calls.txt");
+
+        JSONObject j = null;
+        JSONArray jarray = null;
+        try {
+            j = new JSONObject(strJson);
+            jarray= j.getJSONArray("Calls");
+            DatabaseHelper.getInstance(context).deleteAllCalls();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("MYTAG","_Wz_Calls_List "+ e.getMessage() + "  dd");
+            return "";
+        }
+
+        for (int i = 0; i < jarray.length(); i++) {
+            final JSONObject e;
+
+            try {
+
+                e = jarray.getJSONObject(i);
+                boolean isExist =DatabaseHelper.getInstance(context).IsExistCallID(e.getInt("CallID"));
+                if (isExist == true)
+                {
+                    continue;
+                }
+                Call call= new Call();//Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("AID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CID"))), cursor.getString(cursor.getColumnIndex("CreateDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("statusID"))), cursor.getString(cursor.getColumnIndex("CallPriority")), cursor.getString(cursor.getColumnIndex("subject")), cursor.getString(cursor.getColumnIndex("comments")), cursor.getString(cursor.getColumnIndex("CallUpdate")), cursor.getString(cursor.getColumnIndex("cntrctDate")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("TechnicianID"))), cursor.getString(cursor.getColumnIndex("statusName")), cursor.getString(cursor.getColumnIndex("internalSN")), cursor.getString(cursor.getColumnIndex("Pmakat")), cursor.getString(cursor.getColumnIndex("Pname")), cursor.getString(cursor.getColumnIndex("contractID")), cursor.getString(cursor.getColumnIndex("Cphone")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("OriginID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("ProblemTypeID"))), Integer.valueOf(cursor.getString(cursor.getColumnIndex("CallTypeID"))), cursor.getString(cursor.getColumnIndex("priorityID")), cursor.getString(cursor.getColumnIndex("OriginName")), cursor.getString(cursor.getColumnIndex("problemTypeName")), cursor.getString(cursor.getColumnIndex("CallTypeName")), cursor.getString(cursor.getColumnIndex("Cname")), cursor.getString(cursor.getColumnIndex("Cemail")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("contctCode"))), cursor.getString(cursor.getColumnIndex("callStartTime")), cursor.getString(cursor.getColumnIndex("callEndTime")), cursor.getString(cursor.getColumnIndex("Ccompany")), cursor.getString(cursor.getColumnIndex("Clocation")), Integer.valueOf(cursor.getString(cursor.getColumnIndex("callOrder"))), cursor.getString(cursor.getColumnIndex("Caddress")), cursor.getString(cursor.getColumnIndex("Ccity")), cursor.getString(cursor.getColumnIndex("Ccomments")), cursor.getString(cursor.getColumnIndex("Cfname")), cursor.getString(cursor.getColumnIndex("Clname")), cursor.getString(cursor.getColumnIndex("techName")), cursor.getString(cursor.getColumnIndex("Aname")), cursor.getString(cursor.getColumnIndex("ContctName")), cursor.getString(cursor.getColumnIndex("ContctAddress")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("ContctCell")), cursor.getString(cursor.getColumnIndex("ContctPhone")), cursor.getString(cursor.getColumnIndex("ContctCity")), cursor.getString(cursor.getColumnIndex("Ccell")), cursor.getString(cursor.getColumnIndex("techColor")), cursor.getString(cursor.getColumnIndex("ContctCemail")), cursor.getString(cursor.getColumnIndex("CallParentID")));
+                call.setCallID(e.getInt("CallID"));
+                call.setAID(e.getInt("AID"));
+                call.setCID(e.getInt("CID"));
+                call.setCreateDate(e.getString("createdate"));
+                call.setStatusID(e.getInt("statusID"));
+                call.setCallPriority(e.getString("CallPriority"));
+                call.setSubject(e.getString("subject"));
+                call.setComments(e.getString("comments"));
+                call.setCallUpdate(e.getString("CallUpdate"));
+                call.setCntrctDate(e.getString("cntrctDate"));
+                call.setTechnicianID(e.getInt("TechnicianID"));
+                call.setStatusName(e.getString("statusName"));
+                call.setInternalSN(e.getString("internalSN"));
+                call.setPmakat(e.getString("Pmakat"));
+                call.setPname(e.getString("Pname"));
+                call.setContractID(e.getString("contractID"));
+                call.setCphone(e.getString("Cphone"));
+                // take care for erp cases where fields are null
+                call.setOriginID(!e.getString("OriginID").contains("null") ? e.getInt("OriginID") : -1);
+                call.setProblemTypeID(!e.getString("ProblemTypeID").contains("null") ? e.getInt("ProblemTypeID") : -1);
+                call.setCallTypeID(!e.getString("CallTypeID").contains("null") ? e.getInt("CallTypeID") : -1);
+
+
+                call.setPriorityID(e.getString("priorityID"));
+                call.setPriorityID(e.getString("priorityID"));
+                call.setOriginName(e.getString("OriginName"));
+                call.setProblemTypeName(e.getString("problemTypeName"));
+                call.setCallTypeName(e.getString("CallTypeName"));
+                call.setCname(e.getString("Cname"));
+                call.setCemail(e.getString("Cemail"));
+                call.setContctCode(e.getInt("contctCode"));
+                call.setCallStartTime(e.getString("callStartTime"));
+                call.setCallEndTime(e.getString("callEndTime"));
+                call.setCcompany(e.getString("Ccompany"));
+                call.setClocation(e.getString("Clocation"));
+                call.setCallOrder(e.getInt("callOrder"));
+                call.setCaddress(e.getString("Caddress"));
+                call.setCcity(e.getString("Ccity"));
+                call.setCcomments(e.getString("comments"));
+                //Log.e("mytag","e.getString(Ccomments): " +e.getString("comments").toString());
+                call.setCfname(e.getString("Cfname"));
+                call.setClname(e.getString("Clname"));
+                call.setTechName(e.getString("techName"));
+                call.setAname(e.getString("Aname"));
+                call.setContctName(e.getString("ContctName"));
+                call.setContctAddress(e.getString("ContctAddress"));
+                call.setContctCity(e.getString("ContctCity"));
+                call.setContctCell(e.getString("ContctCell"));
+                call.setContctPhone(e.getString("ContctPhone"));
+                call.setCcell(e.getString("Ccell"));
+                call.setTechColor(e.getString("techColor"));
+                call.setContctCemail(e.getString("ContctCemail"));
+                call.setCallParentID(e.getString("CallParentID"));
+                call.setState(e.getString("state"));
+                call.setSla(e.getString("sla"));
+                Log.e("MYTAG","test doron");
+
+                DatabaseHelper.getInstance(context).addNewCall(call);
+            } catch (JSONException e1) {
+                Log.e("MYTAG","model add call: " +e1.getMessage());
+                return "1";
+            }
+            //ADD TO DATABASE
+            //ret.add(name);
+        }
+        return "0";
+    }
 }
+

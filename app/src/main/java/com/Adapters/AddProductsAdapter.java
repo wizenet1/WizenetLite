@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.Activities.R;
+import com.Classes.Product;
 import com.Fragments.FragmentOfferStageOne;
 import com.Fragments.FragmentOfferStageTwo;
 import com.Icon_Manager;
@@ -27,7 +28,7 @@ public class AddProductsAdapter extends BaseAdapter {
     private FragmentOfferStageTwo fragment;
     private LayoutInflater layoutInflater;
     //TODO need to change the list from string to Product object.
-    private ArrayList<String[]> productsList;
+    private ArrayList<Product> productsList;
     private Icon_Manager iconManager;
 
     public AddProductsAdapter(Context context, ListView listView, FragmentOfferStageTwo fragment){
@@ -77,11 +78,13 @@ public class AddProductsAdapter extends BaseAdapter {
 
         //Set name.
         TextView name = (TextView) view.findViewById(R.id.add_products_row_name);
-        name.setText(this.productsList.get(i)[0]);
+        name.setText(productsList.get(i).getPname());
+        //name.setText(this.productsList.get(i)[0]);
 
         //Set amount.
         TextView amount = (TextView) view.findViewById(R.id.add_products_row_amount);
-        amount.setText(this.productsList.get(i)[1]);
+        amount.setText(productsList.get(i).getPstock());
+        //amount.setText(this.productsList.get(i)[1]);
 
         //Set update product button onClick listener.
         ConstraintLayout updateButton = (ConstraintLayout)view.findViewById(R.id.add_products_row_ConstraintLayout_update);
@@ -95,7 +98,7 @@ public class AddProductsAdapter extends BaseAdapter {
         return view;
     }
 
-    public void addProduct(String product[]){
+    public void addProduct(Product product){
         this.productsList.add(product);
         this.notifyDataSetChanged();
         this.setListViewHeightBasedOnChildren(this.listView);
@@ -104,9 +107,9 @@ public class AddProductsAdapter extends BaseAdapter {
     public double getTotalProductsPrice(){
         double sum = 0.0;
 
-        for (String product[] : this.productsList){
-            int quantity = Integer.parseInt(product[1]);
-            double price = Double.parseDouble(product[2]);
+        for (Product product : this.productsList){
+            int quantity = Integer.parseInt(product.getPstock());
+            double price = Double.parseDouble(product.getPprice());
 
             sum += price * quantity;
         }
@@ -118,8 +121,8 @@ public class AddProductsAdapter extends BaseAdapter {
 
         int sum = 0;
 
-        for (String product[] : this.productsList){
-            sum += Integer.parseInt(product[1]);
+        for (Product p : this.productsList){
+            sum += Integer.parseInt(p.getPprice());
         }
 
         return sum;
@@ -146,5 +149,9 @@ public class AddProductsAdapter extends BaseAdapter {
         listView.requestLayout();
 
         this.fragment.updateTotalPurchase();
+    }
+
+    public ArrayList<Product> getProductsList() {
+        return productsList;
     }
 }

@@ -90,7 +90,7 @@ public class Helper {
         DatabaseHelper.getInstance(ctx).addControlPanel("GPS","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("URL","");// url.getText().toString());
         DatabaseHelper.getInstance(ctx).addControlPanel("CLIENT_SYNC_PRODUCTS","0");
-        DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","0");
+        DatabaseHelper.getInstance(ctx).addControlPanel("APPS_CALLS_SUMMARY","1");
         DatabaseHelper.getInstance(ctx).addControlPanel("IS_BUSY","0");
         DatabaseHelper.getInstance(ctx).addControlPanel("BUSY_MESSAGE","ללא");
 
@@ -137,7 +137,7 @@ public class Helper {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    Model.getInstance().Async_Wz_createISActionTime(getMacAddr(), jsonTimes, new Model.Wz_createISActionTime_Listener() {
+                    Model.getInstance().Async_Wz_createISActionTime(getMacAddr(context), jsonTimes, new Model.Wz_createISActionTime_Listener() {
                         @Override
                         public void onResult(String str) {
                             if (str.contains("0")){
@@ -158,7 +158,7 @@ public class Helper {
     }
     public boolean writeCtypeIDandSons(final Context ctx){
         try{
-            Model.getInstance().Async_Wz_getCtypeIDandSons_Listener(getMacAddr(), new Model.Wz_getCtypeIDandSons_Listener() {
+            Model.getInstance().Async_Wz_getCtypeIDandSons_Listener(getMacAddr(ctx), new Model.Wz_getCtypeIDandSons_Listener() {
                 @Override
                 public void onResult(String str) {
                     String ctypeids = "";
@@ -188,7 +188,7 @@ public class Helper {
     public boolean writeIS_Statuses(final Context ctx){
         if (isNetworkAvailable(ctx)){
             try{
-                Model.getInstance().Async_Wz_getIS_StatusList(getMacAddr(), new Model.Wz_getIS_StatusList_Listener() {
+                Model.getInstance().Async_Wz_getIS_StatusList(getMacAddr(ctx), new Model.Wz_getIS_StatusList_Listener() {
                     @Override
                     public void onResult(String str) {
                         File_ f = new File_();
@@ -248,7 +248,7 @@ public class Helper {
                     jsonString = String.valueOf(DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
                     Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
                     try{
-                        Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
+                        Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(ctx), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
                             @Override
                             public void onResult(String str) {
                                 // Toast.makeText(ctx,"response:"+ str, Toast.LENGTH_LONG).show();
@@ -330,7 +330,7 @@ public class Helper {
         if (isNetworkAvailable(ctx)) {
             final File_ f = new File_();
 
-            Model.getInstance().Async_Get_mgnet_items_Listener(getMacAddr(), new Model.get_mgnet_items_Listener() {
+            Model.getInstance().Async_Get_mgnet_items_Listener(getMacAddr(ctx), new Model.get_mgnet_items_Listener() {
                 @Override
                 public void onResult(String str) {
 
@@ -453,7 +453,7 @@ public class Helper {
 
         if (isNetworkAvailable(ctx)) {
             final File_ f = new File_();
-            Model.getInstance().Async_Get_mgnet_client_items_Listener(getMacAddr(),cid, new Model.get_mgnet_client_items_Listener() {
+            Model.getInstance().Async_Get_mgnet_client_items_Listener(getMacAddr(ctx),cid, new Model.get_mgnet_client_items_Listener() {
                 @Override
                 public void onResult(String str) {
 
@@ -666,7 +666,7 @@ public class Helper {
                     String fileContect = "";
                     //fileContect = readTextFromFile(file);
                     fileContect = f.readFromCurrentFileExternal(ctx,file);
-                    Model.getInstance().Async_CREATE_OFFLINE_Listener(getMacAddr().toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
+                    Model.getInstance().Async_CREATE_OFFLINE_Listener(getMacAddr(ctx).toString(), fileContect, new Model.CREATE_OFFLINE_Listener() {
                         @Override
                         public void onResult(String str) {
                             Toast.makeText(ctx, str + " Order has been created", Toast.LENGTH_LONG).show();
@@ -864,25 +864,25 @@ public class Helper {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    public static String getMacAddr() {
-        String device_id = "";
-        try{
-            TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-             device_id = tm.getDeviceId();
-            if (!(device_id.trim() == "")){
-                return device_id;
-            }else{
-                device_id = getGUID();
-                return device_id;
-            }
-        }catch(Exception e){
-            Helper h = new Helper();
-            h.LogPrintExStackTrace(e);
-            device_id = getGUID();
-            return device_id;
-        }
-    }
+    //@RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+    //public static String getMacAddr() {
+    //    String device_id = "";
+    //    try{
+    //        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+    //         device_id = tm.getDeviceId();
+    //        if (!(device_id.trim() == "")){
+    //            return device_id;
+    //        }else{
+    //            device_id = getGUID();
+    //            return device_id;
+    //        }
+    //    }catch(Exception e){
+    //        Helper h = new Helper();
+    //        h.LogPrintExStackTrace(e);
+    //        device_id = getGUID();
+    //        return device_id;
+    //    }
+    //}
     public  String[] extractLinks(String text) {
         List<String> links = new ArrayList<String>();
         try{
@@ -1216,6 +1216,7 @@ public class Helper {
         }
         return customersList;
     }
+
 
     //endregion
 
