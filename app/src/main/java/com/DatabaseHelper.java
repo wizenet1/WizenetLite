@@ -1454,15 +1454,19 @@ public boolean getCallsCount() {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
             flag = (cursor.getCount() > 0) ? true : false;
-            //db.close ();
         }catch(Exception e){
             flag = false;
             Log.e("MYTAG","db + "+e.getMessage());
         }
         return flag;
     }
+
     public void addNewCall(Call call) {
-    try{
+        //boolean isExist =IsExistCallID(call.getCallID());
+        //if (isExist == true) {return;}
+        try{
+
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("CallID" , call.getCallID());
@@ -1530,6 +1534,7 @@ public boolean getCallsCount() {
                 values.put("sla",  call.getSla().toString());
         // Inserting Row
         db.insert("mgnet_calls", null, values);
+            Log.e("mytag","added successfully: " +call.getCallID());
         // Closing database connection
         //db.close();
 

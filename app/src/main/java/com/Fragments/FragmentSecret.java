@@ -35,6 +35,7 @@ import com.Activities.ActivityWebView;
 import com.Activities.MainActivity;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Classes.Call;
 import com.Classes.Call_offline;
 import com.Classes.Calltime;
 import com.Classes.Ccustomer;
@@ -48,6 +49,8 @@ import com.DatabaseHelper;
 import com.File_;
 import com.Helper;
 import com.Icon_Manager;
+import com.Json_;
+import com.Notification_;
 import com.model.Model;
 
 import org.json.JSONArray;
@@ -78,7 +81,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
     LinearLayout layout;
     Helper helper;
     EditText table;
-    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders,btn_notification;
+    TextView id1,id2,btn_offline_calls,id4,btn_action_time,btn_actions,btn_reminders,btn_notification,tv_chk_ws;
     Button btn_delete_table,btn_delete_rows,btn_show_rows;
     Boolean flag = false;
     Spinner dynamicSpinner;
@@ -94,6 +97,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         dynamicSpinner = (Spinner) v.findViewById(R.id.spinner);
         //Turn all the action bar icons off to their original color.
         ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
+        tv_chk_ws= (TextView) v.findViewById(R.id.tv_chk_ws) ;
         table = (EditText)   v.findViewById(R.id.table);
         id1 = (TextView) v.findViewById(R.id.id1) ;
         id2 = (TextView) v.findViewById(R.id.id2) ;
@@ -113,6 +117,14 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         id1.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         btn_offline_calls.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
         btn_notification.setTypeface(iconManager.get_Icons("fonts/ionicons.ttf", getContext()));
+
+        tv_chk_ws.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callWSnewCalls();
+            }
+        });
+
         btn_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,6 +272,46 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         setShowRowsButton();
 
         return v;
+    }
+    private void callWSnewCalls(){
+        String callsString = "";
+        List<Call> callList = new ArrayList<Call>();
+        callList = DatabaseHelper.getInstance(ctx).getCalls("");
+        for (Call c:callList) {
+            callsString += c.getCallID() + ",";
+        }
+        callsString = callsString.substring(0, callsString.lastIndexOf(","));
+        helper = new Helper();
+        Model.getInstance().Async_Wz_Json(helper.getMacAddr(ctx), callsString, "newCalls", new Model.Wz_Json_Listener() {
+            @Override
+            public void onResult(String str) {
+                Log.e("mytag","newCalls: "+str);
+                Notification_ n = new Notification_();
+                Json_ j_ = new Json_();
+                JSONArray jarray = new JSONArray();
+                try{
+
+                    jarray = j_.getJSONArrayFromString(str,ctx);
+
+                }catch(Exception e){
+                    helper.LogPrintExStackTrace(e);
+                    jarray = null;
+                }
+
+                if (jarray != null){
+
+                    if (jarray.length() > 1){ //-------------bigger than 1
+                        n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                    }else{ //---------------------------------equals 1
+                        n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                    }
+                    //j_.addCallsFromJSONArray(jarray,ctx);
+                }
+
+
+                Toast.makeText(ctx, "success", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void setShowRowsButton(){
         btn_show_rows.setOnClickListener(new View.OnClickListener() {

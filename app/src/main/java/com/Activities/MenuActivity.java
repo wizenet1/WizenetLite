@@ -101,45 +101,17 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     ImageView missions;
     ImageView calls;
 
-    private void popFragment(String fTag) {
-        FragmentManager fm = getSupportFragmentManager();
-        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-        for (int i = 0; i < backStackCount; i++) {
-            // Get the back stack fragment id.
-            int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
-            String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
-            Log.e("mytag", "fragName:" + tag);
-            if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1) {
-            } else {
-                fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }
 
-        }
-        Log.e("mytag", "fragName compare:" + fTag);
-        Log.e("mytag", "fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("mytag", "arrived to here");
 
         setContentView(R.layout.top_bar);
 
-        // Initialize all the badges.
-        //this.initializeBadgeDictionary();
-
-        // Set the alert of homepage to 1.
-        //this.alertBadgeDictionary.get(AlertBadgeEnum.badge_homepage).setNumber(this.homepageCount);
-        //getCallStatuses();
-
-        //setHasOptionsMenu(false);
-
         db = DatabaseHelper.getInstance(getApplicationContext());
         manager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
-
         this.drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
 
         //THe list of items which are displayed in the side navigation menu.
@@ -153,9 +125,19 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         initilize();
 
         Intent intent = getIntent();
+        intentTreathment(intent);
+
+
+        this.initImageButtons();
+
+        View action_bar = (View) findViewById(R.id.top_action_bar);
+        action_bar.setVisibility(View.GONE);
+    }
+
+    private void intentTreathment(Intent intent) {
         Bundle extras = intent.getExtras();
         if (intent.getExtras() != null){
-            Log.e("mytag","extras != null");
+
             if (extras.containsKey("puId")){
                 String j = "";
                 try{
@@ -170,13 +152,8 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         }else{
             goToMenuFragment();
         }
-
-
-        this.initImageButtons();
-
-        View action_bar = (View) findViewById(R.id.top_action_bar);
-        action_bar.setVisibility(View.GONE);
     }
+
     private void goToMessageDetails(String id){
         FragmentMessageDetails fr = new FragmentMessageDetails();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -231,62 +208,14 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             }
         });
 
-        homepage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                popFragment("");
-                //findViewById(R.id.top_action_bar).setVisibility(View.GONE); TODO remove if not needed, I transferred it to onResume
-            }
-        });
+        setHomePage();
+        setClients();
+        setOrders();
+        setMission();
+        setCalls();
+    }
 
-
-        clients.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //fragmentManager.popBackStack();
-                //fragmentManager.popBackStack ("f2", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                popFragment("f2");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentCustomer fragCustomer = new FragmentCustomer();
-                ft.replace(R.id.container, fragCustomer, "f2");
-                ft.addToBackStack("f2");
-
-                ft.commit();
-                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
-
-
-            }
-        });
-
-
-        orders.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                //fragmentManager.popBackStack ("f3", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                popFragment("f3");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentMenuOffline fragOrders = new FragmentMenuOffline();
-                ft.replace(R.id.container, fragOrders, "f3");
-                ft.addToBackStack("f3");
-                ft.commit();
-            }
-        });
-
-        missions.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                popFragment("f4");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                FragmentActions fragMessage = new FragmentActions();
-                ft.replace(R.id.container, fragMessage, "f4");
-                ft.addToBackStack("f4");
-                ft.commit();
-                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
-
-            }
-        });
-
-
+    private void setCalls() {
         calls.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -307,7 +236,66 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 }
             }
         });
+    }
 
+    private void setMission() {
+        missions.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                popFragment("f4");
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentActions fragMessage = new FragmentActions();
+                ft.replace(R.id.container, fragMessage, "f4");
+                ft.addToBackStack("f4");
+                ft.commit();
+                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
+
+            }
+        });
+    }
+
+    private void setOrders() {
+        orders.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                //fragmentManager.popBackStack ("f3", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f3");
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentMenuOffline fragOrders = new FragmentMenuOffline();
+                ft.replace(R.id.container, fragOrders, "f3");
+                ft.addToBackStack("f3");
+                ft.commit();
+            }
+        });
+    }
+
+    private void setClients(){
+        clients.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //fragmentManager.popBackStack();
+                //fragmentManager.popBackStack ("f2", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                popFragment("f2");
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                FragmentCustomer fragCustomer = new FragmentCustomer();
+                ft.replace(R.id.container, fragCustomer, "f2");
+                ft.addToBackStack("f2");
+
+                ft.commit();
+                //Log.e("mytag","fragmentManager.getBackStackEntryCount():" + fragmentManager.getBackStackEntryCount());
+
+
+            }
+        });
+    }
+    private void setHomePage(){
+        homepage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                popFragment("");
+                //findViewById(R.id.top_action_bar).setVisibility(View.GONE); TODO remove if not needed, I transferred it to onResume
+            }
+        });
     }
 
     /**
@@ -443,36 +431,37 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
 
         this.drawerLayout.closeDrawer(Gravity.START);
     }
+    private void runBackgroundTask(){
 
-    private void initilize() {
         try {
-            try {
-                if (db.getValueByKey("BACKGROUND").equals("1")) {
-                    Intent alarm = new Intent(MenuActivity.this, Alarm_Receiver.class);
-                    boolean alarmRunning = (PendingIntent.getBroadcast(MenuActivity.this, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-                    if (alarmRunning == false) {
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
-                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        // TODO: 05/09/2016  just note the time is every 5 minutes
-                        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
-                    }
+            if (db.getValueByKey("BACKGROUND").equals("1")) {
+                Intent alarm = new Intent(MenuActivity.this, Alarm_Receiver.class);
+                boolean alarmRunning = (PendingIntent.getBroadcast(MenuActivity.this, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+                if (alarmRunning == false) {
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarm, 0);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    // TODO: 05/09/2016  just note the time is every 5 minutes
+                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 240000, pendingIntent);
                 }
-            } catch (Exception ex) {
-                helper.LogPrintExStackTrace(ex);
             }
-
-
-            //################################
-            // FILE_TEXT
-            //################################
+        } catch (Exception ex) {
+            helper.LogPrintExStackTrace(ex);
+        }
+    }
+    private void runFileTextTask(){
+        try {
             if (db.getValueByKey("BACKGROUND").equals("1")) {
                 startService_text();
                 Log.e("MYTAG", "thread started");
             } else {
                 stopService_text();
             }
-
-
+        } catch (Exception ex) {
+            helper.LogPrintExStackTrace(ex);
+        }
+    }
+    private void runGPSTask(){
+        try {
             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && (db.getValueByKey("GPS").equals("1"))) {
                 startRepeatingTask();
             } else if ((!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) && (db.getValueByKey("GPS").equals("1"))) {
@@ -481,22 +470,15 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 db.updateValue("GPS", "0");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             helper.LogPrintExStackTrace(ex);
-            Log.e("mytag", ex.getMessage());
         }
     }
-
-    public void myFunc() {
-        // CLEAR BACK STACK.
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        while (fragmentManager.getBackStackEntryCount() == 1) {
-            fragmentManager.popBackStackImmediate();
-
-        }
-        //getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        //((YourActivityClassName)getActivity()).yourPublicMethod();
+    private void initilize() {
+            runBackgroundTask();
+            runFileTextTask();
+            runGPSTask();
     }
+
 
     private void stopService_text() {
         Intent intent = new Intent(getApplicationContext(), Alarm_Receiver_Text_File.class);
@@ -534,10 +516,9 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Model.getInstance().AsyncStatus(helper.getMacAddr(getApplicationContext()), s_longtitude, s_latitude, new Model.StatusListener() {
                 @Override
                 public void onResult(String str) {
-                    //Log.e("myTag","return from asyncStatus: " +str);
                     if (str.equals("1")) {
                         Log.e("myTag", "AsyncStatus: " + s_latitude + ":" + s_longtitude);
-                        writeTextToFileGPS(s_latitude + ":" + s_longtitude);
+                        //writeTextToFileGPS(s_latitude + ":" + s_longtitude);
                         //Toast.makeText(getApplicationContext(), s_latitude + ":" + s_longtitude, Toast.LENGTH_LONG).show();
                     } else {
                         Log.e("myTag", ":");
@@ -554,7 +535,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         FragmentMenu frag = new FragmentMenu();
         ft.replace(R.id.container, frag, "FragmentMenu");
-
         ft.addToBackStack("FragmentMenu");
         ft.commit();
     }
@@ -563,37 +543,23 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
     @Override
     public void onBackPressed() {
 
-        //final FragmentClientReports ReportFragment = (FragmentClientReports) getSupportFragmentManager().findFragmentByTag("FragmentClientReports");
-        //ReportFragment.onBackPressed();
-
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(R.id.container);
         Log.e("Mytag", String.valueOf(fm.getBackStackEntryCount()));
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         Fragment topFragment = fragmentManager.findFragmentById(R.id.container);
-
         if (fm.getBackStackEntryCount() == 2) {
-            //if(!topFragment.getTag().equals("xyz")){
-            //findViewById(R.id.top_action_bar).setVisibility(View.GONE);
             Log.e("mytag", "fm.getBackStackEntryCount())==2: " + String.valueOf(fm.getBackStackEntryCount()));
-            //fm.popBackStack();
             popFragment("");
             //TODO remove line below if not needed
             findViewById(R.id.top_action_bar).setVisibility(View.GONE);
-            //goToMenuFragment();
-            //}else{
-            //    finish();
-            //}
-            //fm.popBackStack();
+
         } else if (fm.getBackStackEntryCount() == 1) {
             Log.e("mytag", "fm.getBackStackEntryCount())==1:" + String.valueOf(fm.getBackStackEntryCount()));
-            //findViewById(R.id.top_action_bar).setVisibility(View.GONE);
 
             finish();
-            //AlertDialoLogOut();
-            //alertDialogExit();
+
         } else {
             Log.e("mytag", "fm.getBackStackEntryCount()else:" + String.valueOf(fm.getBackStackEntryCount()));
             fm.popBackStack();
@@ -603,11 +569,6 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
                 int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
                 String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
                 Log.e("mytag", "fragName:" + tag);
-//                if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1){
-//                }else{
-//                    fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                }
-
             }
         }
     }
@@ -629,13 +590,7 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
         //Toast.makeText(getBaseContext(),"fm.getBackStackEntryCount:"+fm.getBackStackEntryCount(), Toast.LENGTH_SHORT).show();
         View action_bar = (View) findViewById(R.id.top_action_bar);
         initImageButtons();
-//        FragmentManager fm = getSupportFragmentManager();
-//        Fragment f = fm.findFragmentById(R.id.container);
-//        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
-//        if (fm.getBackStackEntryCount() == 1) {
-//            goToLinkFragment("bla");
-        //}
-        //Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
+
         Log.e("mytag", "onResume MenuActivity");
         FragmentMidCalls myFragment = (FragmentMidCalls) getSupportFragmentManager().findFragmentByTag("FragmentMidCalls");
         if (myFragment != null && myFragment.isVisible()) {
@@ -647,28 +602,11 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             } else {
                 myFragment.setTexts();
             }
-
         }
-//        if (getFragmentManager().getBackStackEntryCount() >= 2) {
-//            //action_bar.setVisibility(View.VISIBLE);
-//            //findViewById(R.id.top_action_bar).setVisibility(View.VISIBLE);
-//        } else {
-//            //action_bar.setVisibility(View.GONE);
-//            findViewById(R.id.top_action_bar).setVisibility(View.GONE);
-//        }
     }
     @Override
     protected void onRestart() {
         super.onRestart();
-
-//        FragmentManager fm = getSupportFragmentManager();
-//        Fragment f = fm.findFragmentById(R.id.container);
-//        Log.e("MyLog", String.valueOf(fm.getBackStackEntryCount()));
-//        if (fm.getBackStackEntryCount() == 1) {
-//            goToLinkFragment("bla");
-//        }
-
-        // 'Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
     }
 
 
@@ -912,30 +850,25 @@ public class MenuActivity extends FragmentActivity implements LocationListener {
             Log.e("myTag", e.toString());
         }
     }
+    private void popFragment(String fTag) {
+        FragmentManager fm = getSupportFragmentManager();
+        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+        for (int i = 0; i < backStackCount; i++) {
+            // Get the back stack fragment id.
+            int backStackId = getSupportFragmentManager().getBackStackEntryAt(i).getId();
+            String tag = getSupportFragmentManager().getBackStackEntryAt(i).getName();
+            Log.e("mytag", "fragName:" + tag);
+            if (tag.equals("FragmentMenu") || tag.indexOf("f2,f3,f4,f5") > -1) {
+            } else {
+                fm.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }
+        //Log.e("mytag", "fragName compare:" + fTag);
+        //Log.e("mytag", "fragmentManager.getBackStackEntryCount():" + fm.getBackStackEntryCount());
 
-//    public void initialIcons() {
-//        final RelativeLayout outer = (RelativeLayout) findViewById(R.id.nav_bar);
-//        // Init the homepage button.
-//        final ImageView homepage = (ImageView) outer.findViewById(R.id.homepage);
-//        // Init the clients button.
-//        final ImageView clients = (ImageView) outer.findViewById(R.id.clients);
-//        // Init the message.
-//        final ImageView orders = (ImageView) outer.findViewById(R.id.messages);
-//        // Init the missions.
-//        final ImageView missions = (ImageView) outer.findViewById(R.id.arrows);
-//        // Init the calls.
-//        final ImageView calls = (ImageView) outer.findViewById(R.id.help);
-//        // Init the arrows.
-//        final ImageView arrows = (ImageView) outer.findViewById(R.id.arrows);
-//        // Init side menu image.
-//        final ImageView sideMenu = (ImageView) outer.findViewById(R.id.action_image);
-//
-//        homepage.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-//        clients.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-//        orders.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-//        calls.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-//        arrows.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-//    }
+    }
+
+
 
 
 }

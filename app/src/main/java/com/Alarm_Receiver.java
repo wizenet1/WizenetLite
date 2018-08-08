@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.Activities.MainActivity;
 import com.Activities.MenuActivity;
 import com.Activities.R;
+import com.Classes.Call;
 import com.Helper;
 import com.model.Model;
 
@@ -37,8 +38,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static com.Activities.MainActivity.ctx;
@@ -48,6 +51,7 @@ import static com.Activities.MainActivity.ctx;
  */
 
 public class Alarm_Receiver extends BroadcastReceiver {
+    Notification_ n = new Notification_();
     NotificationManager nm;
     Notification myNotication;
 
@@ -68,19 +72,9 @@ public class Alarm_Receiver extends BroadcastReceiver {
         //new AsynchCallSoap().execute(); subject,comment
         if (helper.isNetworkAvailable(context)){
            try{
-               //Model.getInstance().init(_context);
-               Model.getInstance().AsyncReminder(getMacAddr(_context), new Model.ReminderListener() {
-                   @Override
-                   public void onResult(String str, String str2, int size,String msgID) {
-                       if(size==1){
-                           //str2 is content with url
-                           String url = helper.extractLinks(str2)[0];
-                           pushNotification(str,str2.replace(url,""),msgID);
-                       }else{
-                           pushNotification("Wizenet",size+" new messages",msgID);
-                       }
-                   }
-               });
+               callWSreminders();
+               callWSnewCalls();
+
            }catch (Exception e){
                helper.LogPrintExStackTrace(e);
            }
@@ -88,6 +82,53 @@ public class Alarm_Receiver extends BroadcastReceiver {
         }
 
     }
+    private void callWSreminders(){
+        Model.getInstance().AsyncReminder(getMacAddr(_context), new Model.ReminderListener() {
+            @Override
+            public void onResult(String str, String str2, int size,String msgID) {
+                if(size==1){
+                    //str2 is content with url
+                    String url = helper.extractLinks(str2)[0];
+                    n.pushNotification(str,str2.replace(url,""),msgID,_context);
+                }else{
+                    n.pushNotification("Wizenet",size+" new messages",msgID,_context);
+                }
+            }
+        });
+    }
+    private void callWSnewCalls(){
+        String callsString = "";
+        List<Call> callList = new ArrayList<Call>();
+        callList = DatabaseHelper.getInstance(_context).getCalls("");
+        for (Call c:callList) {
+            callsString += c.getCallID() + ",";
+        }
+        callsString = callsString.substring(0, callsString.lastIndexOf(","));
+        Model.getInstance().Async_Wz_Json(getMacAddr(_context), callsString, "newCalls", new Model.Wz_Json_Listener() {
+            @Override
+            public void onResult(String str) {
+                Log.e("mytag","newCalls: "+str);
+
+                Json_ j_ = new Json_();
+                JSONArray jarray = new JSONArray();
+                jarray = j_.getJSONArrayFromString(str,ctx);
+                if (jarray != null){
+                    j_.addCallsFromJSONArray(jarray,ctx);
+                    //j_.add
+                    if (jarray.length() > 1){ //-------------bigger than 1
+                       // n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                    }else{ //---------------------------------equals 1
+                       // n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                    }
+
+                }
+
+
+                Toast.makeText(_context, "success", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public  String getMacAddr(Context ctx) {
         try{
@@ -121,63 +162,7 @@ public class Alarm_Receiver extends BroadcastReceiver {
             Log.e("myTag",e.toString());
         }
     }
-    private void pushNotification(String title,String text,String msgID){
-        long[] vibrate = {400, 400, 200, 200, 200};
-        Model.getInstance().init(_context);
-        Intent notificationIntent = new Intent(_context, MenuActivity.class);
-// set intent so it does not start a new activity
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        notificationIntent.addFlags(FLAG_UPDATE_CURRENT);
-        notificationIntent.putExtra("puId", String.valueOf(msgID));
-        PendingIntent intent = PendingIntent.getActivity(_context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationManager notificationManager = (NotificationManager) _context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder notification = new Notification.Builder(_context);
-        notification.setAutoCancel(true);
-        notification.setContentIntent(intent);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //builder.setTicker("this is ticker text");
-        notification.setContentTitle(title);
-        notification.setContentText(text);
-        notification.setSmallIcon(R.drawable.face);
-        notification.setSound(alarmSound);
-        notification.setOngoing(true);
-        notification.setVibrate(vibrate);
 
 
-        Notification notificationn = notification.getNotification();
-        notificationManager.notify(0, notificationn);
-    }
-    private void pushNotification1(String title,String text,String msgID){
-//        PendingIntent contentIntent = PendingIntent.getActivity(_context, 0,
-//                new Intent(_context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent aint = new Intent(_context, MenuActivity.class);
-        aint.putExtra("puId", String.valueOf(msgID));
-
-        PendingIntent contentIntent = PendingIntent.getBroadcast(
-                _context,
-                0,
-                aint,
-                // as stated in the comments, this flag is important!
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification.Builder builder = new Notification.Builder(_context);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setAutoCancel(true);
-        //builder.setTicker("this is ticker text");
-        builder.setContentTitle(title);
-        builder.setContentText(text);
-        builder.setSmallIcon(R.drawable.face);
-        builder.setContentIntent(contentIntent);
-        builder.setSound(alarmSound);
-        builder.setOngoing(true);
-        builder.setVibrate(vibrate);
-
-        //mBuilder.setContentIntent(contentIntent);
-        //builder.setSubText("This is subtext...");   //API level 16
-        myNotication = builder.build();
-
-        nm = (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(11, myNotication);
-    }
 }
 

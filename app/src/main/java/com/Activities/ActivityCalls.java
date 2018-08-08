@@ -289,21 +289,28 @@ TextView lblcount;
             if (extras != null) {
                 ss = extras.getString("choose");
                 // and get whatever type user account id is
+            }else{
+                ss = "";
             }
             //ss= extras.getStringExtra("choose").toString();
             Log.e("mytag"," myss :" + ss.toString());
         }catch(Exception ex){
+           // Log.e("mytag"," asdasd :" + ex.getMessage());
+        }
+        try{
+            if (ss.contains("total")){
+                condition = "  order by ";
+            }else if(ss.contains("open")){
+                condition = " and CAST(sla AS INTEGER) >= 0  order by callid";
+            }else if(ss.contains("sla")){
+                condition = " and CAST(sla AS INTEGER) < 0 order by callid";
+            }else{
+                condition = " order by  " ;
+            }
+        }catch(Exception ex){
             Log.e("mytag"," asdasd :" + ex.getMessage());
         }
-        if (ss.contains("total")){
-            condition = "  order by ";
-        }else if(ss.contains("open")){
-            condition = " and CAST(sla AS INTEGER) >= 0  order by callid";
-        }else if(ss.contains("sla")){
-            condition = " and CAST(sla AS INTEGER) < 0 order by callid";
-        }else{
-            condition = " order by  " ;
-        }
+
         Log.e("mytag","condition: " + condition);
 
         Log.e("mytag","onResume");
