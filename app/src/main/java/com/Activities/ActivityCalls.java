@@ -283,16 +283,9 @@ TextView lblcount;
     @Override
     protected void onResume() {
         super.onResume();
-        ///helper.transferJsonCallTime(getApplicationContext());
         Bundle extras = getIntent().getExtras();
         try{
-            if (extras != null) {
-                ss = extras.getString("choose");
-                // and get whatever type user account id is
-            }else{
-                ss = "";
-            }
-            //ss= extras.getStringExtra("choose").toString();
+            ss = (extras != null)? extras.getString("choose") : "";
             Log.e("mytag"," myss :" + ss.toString());
         }catch(Exception ex){
            // Log.e("mytag"," asdasd :" + ex.getMessage());
@@ -310,11 +303,7 @@ TextView lblcount;
         }catch(Exception ex){
             Log.e("mytag"," asdasd :" + ex.getMessage());
         }
-
-        Log.e("mytag","condition: " + condition);
-
-        Log.e("mytag","onResume");
-
+        //Log.e("mytag","condition: " + condition);
         ArrayList<Call_offline> arr_Call_offline = new ArrayList<>();
         arr_Call_offline = initOnline();
         //first init the list from db! - always
@@ -367,10 +356,8 @@ TextView lblcount;
             Model.getInstance().Async_Wz_Calls_List_Listener(getApplicationContext(),helper.getMacAddr(getApplicationContext()), -2, new Model.Wz_Calls_List_Listener() {
                 @Override
                 public void onResult(String str) {
-                    //f
                     Log.e("mytag","ret calls from ws:"+ str);
-
-                    ArrayList<Call> arrlistofOptions = new ArrayList<Call>(getCallsList(setCondition(ss)));
+                    ArrayList<Call> arrlistofOptions = (ss != null)? new ArrayList<Call>(getCallsList(setCondition(ss))): new ArrayList<Call>(getCallsList(""));
                     data2.clear();
                     data2.addAll(arrlistofOptions);
                     callsAdapter=new CallsAdapter(data2,getBaseContext());
@@ -384,13 +371,13 @@ TextView lblcount;
             Toast.makeText(getBaseContext(),"אינטרנט לא זמין", Toast.LENGTH_SHORT).show();
         }
     }
-    private  String setCondition(String ss){
+    private  String setCondition(String ss1){
         String ret = "";
-        if (ss.contains("total")){
+        if (ss1.contains("total")){
             ret = "  order by callid";
-        }else if(ss.contains("open")){
+        }else if(ss1.contains("open")){
             ret = " and CAST(sla AS INTEGER) >=0 order by callid";
-        }else if(ss.contains("sla")){
+        }else if(ss1.contains("sla")){
             ret = " and  CAST(sla AS INTEGER) < 0  order by callid";
         }else{
             ret = "   " ;

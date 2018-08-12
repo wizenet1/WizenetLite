@@ -277,10 +277,12 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
         String callsString = "";
         List<Call> callList = new ArrayList<Call>();
         callList = DatabaseHelper.getInstance(ctx).getCalls("");
-        for (Call c:callList) {
-            callsString += c.getCallID() + ",";
+        if (callList.size() > 0){
+            for (Call c:callList) {
+                callsString += c.getCallID() + ",";
+            }
+            callsString = callsString.substring(0, callsString.lastIndexOf(","));
         }
-        callsString = callsString.substring(0, callsString.lastIndexOf(","));
         helper = new Helper();
         Model.getInstance().Async_Wz_Json(helper.getMacAddr(ctx), callsString, "newCalls", new Model.Wz_Json_Listener() {
             @Override
@@ -289,24 +291,23 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                 Notification_ n = new Notification_();
                 Json_ j_ = new Json_();
                 JSONArray jarray = new JSONArray();
-                try{
-
-                    jarray = j_.getJSONArrayFromString(str,ctx);
-
-                }catch(Exception e){
-                    helper.LogPrintExStackTrace(e);
-                    jarray = null;
-                }
+                jarray = j_.getJSONArrayFromString(str,ctx);
 
                 if (jarray != null){
-
-                    if (jarray.length() > 1){ //-------------bigger than 1
-                        n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
-                    }else{ //---------------------------------equals 1
-                        n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                    boolean isSuccess = false;
+                    if (j_.addCallsFromJSONArray(jarray,ctx) == true){
+                        if (jarray.length() > 1){ //-------------bigger than 1
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                        }else{ //---------------------------------equals 1
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                        }
                     }
-                    //j_.addCallsFromJSONArray(jarray,ctx);
+
+
+
                 }
+
+
 
 
                 Toast.makeText(ctx, "success", Toast.LENGTH_SHORT).show();

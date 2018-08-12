@@ -110,16 +110,20 @@ public class Alarm_Receiver extends BroadcastReceiver {
                 Log.e("mytag","newCalls: "+str);
 
                 Json_ j_ = new Json_();
-                JSONArray jarray = new JSONArray();
+                JSONArray jarray ;
                 jarray = j_.getJSONArrayFromString(str,ctx);
+
                 if (jarray != null){
-                    j_.addCallsFromJSONArray(jarray,ctx);
-                    //j_.add
-                    if (jarray.length() > 1){ //-------------bigger than 1
-                       // n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
-                    }else{ //---------------------------------equals 1
-                       // n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                    boolean isSuccess = false;
+                    if (j_.addCallsFromJSONArray(jarray,ctx) == true){
+                        if (jarray.length() > 1){ //-------------bigger than 1
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                        }else{ //---------------------------------equals 1
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                        }
                     }
+
+
 
                 }
 

@@ -554,21 +554,29 @@ public class Json_ {
 
     }
 
-    public void addCallsFromJSONArray(JSONArray jarray,Context c) {
-        if (jarray.length() > 0){
-            for (int i = 0; i < jarray.length(); i++) {
-                try {
-                    JSONObject e = jarray.getJSONObject(i);
-                    addCallByJSONObject(e,c);
+    public boolean addCallsFromJSONArray(JSONArray jarray,Context c) {
+        try{
+            if (jarray.length() > 0){
+                for (int i = 0; i < jarray.length(); i++) {
+                    try {
+                        JSONObject e = jarray.getJSONObject(i);
+                        addCallByJSONObject(e,c);
 
-                } catch (JSONException e1) {
-                    Log.e("mytag","addCallsFromJSONArray:" );
-                    helper.LogPrintExStackTrace(e1);
-                    e1.printStackTrace();
+                    } catch (JSONException e1) {
+                        Log.e("mytag","addCallsFromJSONArray:" );
+                        helper.LogPrintExStackTrace(e1);
+                        e1.printStackTrace();
+                        return false;
+                    }
                 }
-            }
+                return true;
 
-        }
+            }
+        }catch(Exception e){
+
+        }return false;
+
+
 
     }
 
