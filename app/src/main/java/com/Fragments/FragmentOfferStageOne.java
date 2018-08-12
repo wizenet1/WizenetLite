@@ -63,6 +63,7 @@ public class FragmentOfferStageOne extends Fragment {
     private EditText cell;
     private EditText city;
     private EditText address;
+    private EditText cfname,clname;
     private TextView customerNumber;
     private TextView erpNumber;
     String strNameAutoComplete = "";
@@ -255,6 +256,9 @@ public class FragmentOfferStageOne extends Fragment {
         this.address = (EditText) view.findViewById(R.id.offer_stage_one_address_editText);
         this.customerNumber = (TextView) view.findViewById(R.id.offer_stage_one_customer_number_text);
         this.erpNumber = (TextView) view.findViewById(R.id.offer_stage_one_erp_number_text);
+        this.cfname = (EditText) view.findViewById(R.id.offer_stage_one_fname);
+        this.clname = (EditText) view.findViewById(R.id.offer_stage_one_lname);
+
     }
 
     /**
@@ -342,6 +346,8 @@ public class FragmentOfferStageOne extends Fragment {
                 address.setText(ccustomer.getCaddress());
                 customerNumber.setText(ccustomer.getCcID());
                 erpNumber.setText(ccustomer.getCusername());
+                cfname.setText(ccustomer.getCfname());
+                clname.setText(ccustomer.getClname());
                 //hide keyboard
                 final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);

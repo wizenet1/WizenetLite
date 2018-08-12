@@ -104,6 +104,7 @@ public class FragmentNearestCustomersNew extends Fragment {
         //Calculate distances from the user to the customers.
         initializeCustomers();
         boolean hasSucceeded = calculateDistancesToUser(origin);
+
         Collections.sort(customers, new CcustomerComparator());
 
         if (!hasSucceeded) {
@@ -198,10 +199,10 @@ public class FragmentNearestCustomersNew extends Fragment {
                 DatabaseHelper.getInstance(getContext()).updateSpecificValueInTable2("Ccustomers","CID","'"+customer.getCID()+"'","Distance","'"+ dist +"'");
                 customer.setDistance(dist);
                 //Perform distance calculation in a separate thread.
-                Log.e("mytag", "-----------------------------");
-                Log.e("mytag", "customer: " + customer.getCcompany() + "-- address:" + customer.getCaddress() + " " + customer.getCcity());
-                Log.e("mytag", "origin:" + String.valueOf(origin.latitude) + ":" + String.valueOf(origin.longitude));
-                Log.e("mytag", "dest:" + customer.getLatitude() + ":" + customer.getLongtitude());
+                //Log.e("mytag", "-----------------------------");
+                //Log.e("mytag", "customer: " + customer.getCcompany() + "-- address:" + customer.getCaddress() + " " + customer.getCcity());
+                //Log.e("mytag", "origin:" + String.valueOf(origin.latitude) + ":" + String.valueOf(origin.longitude));
+                //Log.e("mytag", "dest:" + customer.getLatitude() + ":" + customer.getLongtitude());
                 //Log.e("mytag", "in metric:" + String.valueOf(a) + " in kilmoeters:" + (dist);
 
             } catch (Exception e) {
@@ -213,6 +214,12 @@ public class FragmentNearestCustomersNew extends Fragment {
         }
 
         return true;
+    }
+    public boolean isNumericOrDouble(String input){
+        String regexStr = "^[0-9]*$";
+        String decimalPattern = "([0-9]*)\\.([0-9]*)";
+        boolean ret = input.trim().matches(regexStr)==true || input.trim().matches(decimalPattern)==true ? true : false;
+        return ret;
     }
 
     public static double round(double value, int places) {
@@ -256,6 +263,7 @@ public class FragmentNearestCustomersNew extends Fragment {
         ccustomerList = DatabaseHelper.getInstance(getContext()).getCcustomers("");
 
         for (Ccustomer c : ccustomerList) { //String Ccompany,String Longtitude,String Latitude,String Caddress,String Ccity
+            if (isNumericOrDouble(c.getLongtitude()))
             this.customers.add(new Ccustomer(Integer.valueOf(c.getCID()),c.getCcompany(), c.getLongtitude(), c.getLatitude(), c.getCaddress(), c.getCcity()));
         }
         //this.customers.add(new CustomerTmp("לקוח 4", "אילת", "התמרים 1"));

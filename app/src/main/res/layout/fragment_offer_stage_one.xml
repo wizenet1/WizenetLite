@@ -97,7 +97,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout_name"
@@ -141,7 +143,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/offer_stage_one_image"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
                     <AutoCompleteTextView
                         android:id="@+id/offer_stage_one_name_autoCompleteTextView"
@@ -242,11 +246,12 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="81dp"
                 android:background="@drawable/customers_list_round_rectangle_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_company">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_company"
+                app:layout_constraintHorizontal_bias="0.482">
 
                 <EditText
                     android:id="@+id/offer_stage_one_email_editText"
@@ -502,7 +507,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout_address">
@@ -511,8 +515,6 @@
                     android:id="@+id/offer_stage_one_customer_number_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
@@ -529,9 +531,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="-1"
                     android:gravity="center"
@@ -546,10 +546,8 @@
                 android:id="@+id/constraintLayout_erp_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout_customer_number">
@@ -558,8 +556,6 @@
                     android:id="@+id/offer_stage_one_erp_number_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
@@ -576,9 +572,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="-1"
                     android:gravity="center"
@@ -598,16 +592,16 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounded_button_background_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_erp_number">
+
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_erp_number"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <TextView
                     android:id="@+id/offer_stage_one_add_contacts_txt"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="הוסף אנשי קשר"
@@ -638,6 +632,83 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
+
+            <!--asd-->
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_lname"
+                android:layout_width="152dp"
+                android:layout_height="57dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_company"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout_email"
+                app:layout_constraintHorizontal_bias="0.38"
+                app:layout_constraintLeft_toRightOf="@+id/constraintLayout_fname">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_fname"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="שם פרטי"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.473" />
+
+            </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_fname"
+                android:layout_width="163dp"
+                android:layout_height="54dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/customers_list_round_rectangle_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_company"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout_email"
+                app:layout_constraintVertical_bias="0.363">
+
+                <EditText
+                    android:id="@+id/offer_stage_one_lname"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:hint="שם משפחה"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.47" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!--asd-->
 
             <ListView
                 android:id="@+id/offer_stage_one_additional_contacts_list"
@@ -690,7 +761,6 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/list_icon_circle_white"
                     android:gravity="center"
@@ -701,6 +771,8 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
+
+
 
         </android.support.constraint.ConstraintLayout>
 

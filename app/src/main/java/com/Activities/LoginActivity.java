@@ -159,7 +159,8 @@ public class LoginActivity extends FragmentActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Set logo image.
+                setTopLogoImage();
                 memail = email.getText().toString();
                 mpass = pass.getText().toString();
                 //
@@ -201,8 +202,7 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
-        //Set logo image.
-        setTopLogoImage();
+
     }
 
     /**

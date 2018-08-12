@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.Activities.MenuActivity;
 import com.Activities.R;
@@ -24,7 +25,7 @@ import java.util.List;
  * The fragment represents the user's offers.
  */
 public class FragmentOffers extends Fragment {
-
+    Helper h;
     Json_ j_ = null;
     public FragmentOffers() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class FragmentOffers extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         j_ = new Json_();
+        h = new Helper();
         View view =  inflater.inflate(R.layout.fragment_offers, container, false);
 
         // Load the action bar.
@@ -49,7 +51,7 @@ public class FragmentOffers extends Fragment {
 
         //Turn all the action bar icons off to their original color.
         ((MenuActivity) getActivity()).turnAllActionBarIconsOff();
-
+        addCustomersAndProducts();
         Button newOfferButton = (Button) view.findViewById(R.id.offers_new_offer_button);
         newOfferButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +79,23 @@ public class FragmentOffers extends Fragment {
         });
 
         return view;
+    }
+    private void addCustomersAndProducts(){
+        if (h.isNetworkAvailable(getContext()) == true){
+            Model.getInstance().Async_Wz_ret_ClientsAddressesByActions_Listener(h.getMacAddr(getContext()), "", new Model.Wz_ret_ClientsAddressesByActions_Listener() {
+                @Override
+                public void onResult(String str) {
+                    //Toast.makeText(getContext(), str, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "יובא בהצלחה", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Model.getInstance().Async_Wz_retProducts(h.getMacAddr(getContext()), new Model.Wz_retProducts_Listener() {
+                @Override
+                public void onResult(String str) {
+                    //Toast.makeText(getContext(),str, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 

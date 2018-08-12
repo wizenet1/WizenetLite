@@ -100,10 +100,12 @@ public class Alarm_Receiver extends BroadcastReceiver {
         String callsString = "";
         List<Call> callList = new ArrayList<Call>();
         callList = DatabaseHelper.getInstance(_context).getCalls("");
+        Log.e("mytag", "callList.size():" +callList.size());
         for (Call c:callList) {
             callsString += c.getCallID() + ",";
         }
-        callsString = callsString.substring(0, callsString.lastIndexOf(","));
+        if (callsString.length()>0)
+            callsString = callsString.substring(0, callsString.lastIndexOf(","));
         Model.getInstance().Async_Wz_Json(getMacAddr(_context), callsString, "newCalls", new Model.Wz_Json_Listener() {
             @Override
             public void onResult(String str) {

@@ -8,6 +8,7 @@ public class Product {
     String Pserial;
     String Pprice;
     String Pstock;
+    String Pcomment;
     //String actionEnd;
 
 
