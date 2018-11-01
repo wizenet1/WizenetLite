@@ -269,6 +269,7 @@ public class ActivityWebView extends FragmentActivity {
                         + "/iframe.aspx?control=/modulesProjects/UsersTimeReport"
                         //+ "/mobile/control.aspx?control=/modulesProjects/UsersTimeReport"
                         +"&MACAddress=" + helper.getMacAddr(ctx);
+
                 Log.e("mytag","url: " + url);
                 break;
             case "masofon" :
