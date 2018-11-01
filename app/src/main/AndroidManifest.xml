@@ -43,6 +43,17 @@
                 <action android:name="${applicationId}.NOTIFICATIONPRESSED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"></action>
+
+            <category android:name="android.intent.category.DEFAULT"></category>
+            <category android:name="android.intent.category.BROWSABLE"></category>
+
+            <data
+                android:host="www.my.app.com"
+                android:path="launch"
+                android:scheme="http"></data>
+        </intent-filter>
         <activity
             android:name=".CustomersActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -68,7 +79,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
 
-        <receiver android:name="com.Alarm_Receiver" />
+        <receiver android:name="com.Alarm_Receiver" >
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>
         <receiver android:name="com.Alarm_Receiver_Text_File" />
         <receiver android:name="com.Alarm_Receiver_sync_client_products" />
 

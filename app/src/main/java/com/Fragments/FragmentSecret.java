@@ -284,6 +284,7 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
             callsString = callsString.substring(0, callsString.lastIndexOf(","));
         }
         helper = new Helper();
+        final String callsStringFinal = callsString;
         Model.getInstance().Async_Wz_Json(helper.getMacAddr(ctx), callsString, "newCalls", new Model.Wz_Json_Listener() {
             @Override
             public void onResult(String str) {
@@ -297,9 +298,9 @@ public class FragmentSecret extends android.support.v4.app.Fragment {
                     boolean isSuccess = false;
                     if (j_.addCallsFromJSONArray(jarray,ctx) == true){
                         if (jarray.length() > 1){ //-------------bigger than 1
-                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),callsStringFinal,ctx);
                         }else{ //---------------------------------equals 1
-                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),ctx);
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),callsStringFinal,ctx);
                         }
                     }
 

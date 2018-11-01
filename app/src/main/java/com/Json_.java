@@ -509,7 +509,7 @@ public class Json_ {
             call.setOriginID(!e.getString("OriginID").contains("null") ? e.getInt("OriginID") : -1);
             call.setProblemTypeID(!e.getString("ProblemTypeID").contains("null") ? e.getInt("ProblemTypeID") : -1);
             call.setCallTypeID(!e.getString("CallTypeID").contains("null") ? e.getInt("CallTypeID") : -1);
-
+            call.setCallTypeID(!e.getString("contctCode").contains("null") ? e.getInt("contctCode") : -1);
 
             call.setPriorityID(e.getString("priorityID"));
             call.setPriorityID(e.getString("priorityID"));
@@ -518,7 +518,7 @@ public class Json_ {
             call.setCallTypeName(e.getString("CallTypeName"));
             call.setCname(e.getString("Cname"));
             call.setCemail(e.getString("Cemail"));
-            call.setContctCode(e.getInt("contctCode"));
+
             call.setCallStartTime(e.getString("callStartTime"));
             call.setCallEndTime(e.getString("callEndTime"));
             call.setCcompany(e.getString("Ccompany"));

@@ -67,15 +67,18 @@ public class Alarm_Receiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("mytag_onReceive","onReceiveStart");
         this._context=context;
         helper = new Helper();
         //new AsynchCallSoap().execute(); subject,comment
+
         if (helper.isNetworkAvailable(context)){
            try{
                callWSreminders();
-               callWSnewCalls();
+               callWSnewCalls(context);
 
            }catch (Exception e){
+               //Log.e("mytag_onReceive",e.getMessage());
                helper.LogPrintExStackTrace(e);
            }
 
@@ -96,32 +99,36 @@ public class Alarm_Receiver extends BroadcastReceiver {
             }
         });
     }
-    private void callWSnewCalls(){
-        String callsString = "";
+    private void callWSnewCalls(Context context){
+          String callsString = "";
         List<Call> callList = new ArrayList<Call>();
-        callList = DatabaseHelper.getInstance(_context).getCalls("");
+        callList = DatabaseHelper.getInstance(context).getCalls("");
         Log.e("mytag", "callList.size():" +callList.size());
+        final Context context_ = context;
         for (Call c:callList) {
             callsString += c.getCallID() + ",";
         }
         if (callsString.length()>0)
             callsString = callsString.substring(0, callsString.lastIndexOf(","));
-        Model.getInstance().Async_Wz_Json(getMacAddr(_context), callsString, "newCalls", new Model.Wz_Json_Listener() {
+
+        final String callsStringFinal = callsString;
+        Model.getInstance().Async_Wz_Json(getMacAddr(context), callsString, "newCalls", new Model.Wz_Json_Listener() {
             @Override
             public void onResult(String str) {
                 Log.e("mytag","newCalls: "+str);
 
                 Json_ j_ = new Json_();
                 JSONArray jarray ;
-                jarray = j_.getJSONArrayFromString(str,ctx);
+                jarray = j_.getJSONArrayFromString(str,context_);
 
                 if (jarray != null){
                     boolean isSuccess = false;
-                    if (j_.addCallsFromJSONArray(jarray,ctx) == true){
+                    if (j_.addCallsFromJSONArray(jarray,context_) == true){
+                        Log.e("mytag","CallID: " + j_.getElementValueInJarray(jarray,"CallID"));
                         if (jarray.length() > 1){ //-------------bigger than 1
-                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),callsStringFinal,context_);
                         }else{ //---------------------------------equals 1
-                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),_context);
+                             n.pushNotificationNewCalls("Wizenet",String.valueOf(jarray.length()),j_.getElementValueInJarray(jarray,"subject"),j_.getElementValueInJarray(jarray,"CallID"),callsStringFinal,context_);
                         }
                     }
 
@@ -130,7 +137,7 @@ public class Alarm_Receiver extends BroadcastReceiver {
                 }
 
 
-                Toast.makeText(_context, "success", Toast.LENGTH_SHORT).show();
+                Log.e("mytag", "success");
             }
         });
     }
@@ -147,6 +154,7 @@ public class Alarm_Receiver extends BroadcastReceiver {
             return "";
         }
     }
+
 
 
     //###################################

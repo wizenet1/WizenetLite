@@ -1,56 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:descendantFocusability="blocksDescendants"
-    android:layoutDirection="ltr"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_marginBottom="20dp"
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="רשימת דוחות"
-            android:gravity="center"
-            android:id="@+id/customer_name"
-            android:textSize="30sp"/>
-        <ImageButton
-            android:layout_width="20px"
-            android:layout_height="20px"
-            android:src="@drawable/info"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="40dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="בקרוב"
-            android:gravity="center"
-
-            android:textSize="30sp"/>
-        <ImageButton
-            android:layout_width="20px"
-            android:layout_height="20px"
-            android:src="@drawable/info"/>
-    </LinearLayout>
-
+        android:text="רשימת דוחות"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:id="@+id/customer_name"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
     <LinearLayout
 
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/placeHolderFragment"
         android:orientation="vertical"
-        android:textAlignment="center">
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/customer_name"
+        app:layout_constraintRight_toRightOf="parent">
 
     </LinearLayout>
     <!--<ListView-->
@@ -62,4 +43,4 @@
     <!--android:choiceMode="singleChoice">-->
     <!--</ListView>-->
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

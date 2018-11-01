@@ -28,20 +28,27 @@ import java.util.List;
 public class Model {
     private final static Model instance = new Model();
     Context context;
+
     Helper helper = new Helper();
     CallSoap cs = new CallSoap(DatabaseHelper.getInstance(context).getValueByKey("URL"));
     Json_ j_ = new Json_();
     File_ f = new File_();
 
     private Model() {
+        init(context);
     }
 
     public static Model getInstance() {
         return instance;
     }
 
-    public void init(Context context) {
-        this.context = context;
+     public void init(Context context) {
+        try{
+            this.context = context;
+        }catch (Exception e){
+            Log.e("mytag_init",e.getMessage());
+        }
+
         //model.init(context);
     }
 

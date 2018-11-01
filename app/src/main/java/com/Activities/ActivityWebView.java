@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -34,6 +37,7 @@ import com.model.Model;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +56,23 @@ public class ActivityWebView extends FragmentActivity {
     CallsAdapter callsAdapter; //to refresh the list
     ArrayList<Call> data2 = new ArrayList<Call>() ;
     private TextWatcher mSearchTw;
+    private ValueCallback<Uri> mUploadMessage;
+    private ValueCallback<Uri[]> mUploadMessageandroid5;
+    private final static int FILECHOOSER_RESULTCODE=1;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        if(requestCode==FILECHOOSER_RESULTCODE)
+        {
+            if (null == mUploadMessage) return;
+            Uri result = intent == null || resultCode != RESULT_OK ? null
+                    : intent.getData();
+            mUploadMessage.onReceiveValue(result);
+            mUploadMessage = null;
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +126,6 @@ public class ActivityWebView extends FragmentActivity {
         final WebView  mWebview  = new WebView(this);
         final Activity activity = this;
         mWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
-        mWebview.setWebChromeClient(new WebChromeClient());
-
 
         mWebview.setWebViewClient(new WebViewClient() {
             @SuppressWarnings("deprecation")
@@ -120,7 +139,63 @@ public class ActivityWebView extends FragmentActivity {
                 // Redirect to deprecated method, so you can use it in all SDK versions
                 onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
             }
+
+
+
+
         });
+
+        try{
+
+
+            mWebview.setWebChromeClient(new WebChromeClient() {
+                //The undocumented magic method override
+                //Eclipse will swear at you if you try to put @Override here
+
+
+                public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                    ActivityWebView.this.showAttachmentDialog(uploadMsg);
+                    Log.e("mytag",uploadMsg.toString());
+                }
+
+                // For Android > 3.x
+                public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+                    ActivityWebView.this.showAttachmentDialog(uploadMsg);
+                    Log.e("mytag",uploadMsg.toString());
+                }
+
+                // For Android > 4.1
+                public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                    ActivityWebView.this.showAttachmentDialog(uploadMsg);
+                    Log.e("mytag",uploadMsg.toString());
+                }
+
+                public boolean onShowFileChooser (WebView webView,
+                                                  ValueCallback<Uri[]> filePathCallback,
+                                                  WebChromeClient.FileChooserParams fileChooserParams){
+                    ///ActivityWebView.this.showAttachmentDialog(filePathCallback.onReceiveValue());
+                    //openFileChooserImplForAndroid5(filePathCallback);
+
+                  // ActivityWebView.this.mUploadMessageandroid5 = filePathCallback;
+
+                  // Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                  // i.addCategory(Intent.CATEGORY_OPENABLE);
+                  // i.setType("*/*");
+
+                  //Intent fileIntent= fileChooserParams.createIntent();
+                  // fileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                  // fileIntent.setType("*/*");
+                  // ActivityWebView.this.startActivityForResult(fileIntent,FILECHOOSER_RESULTCODE);
+                    //ActivityWebView.this.startActivityForResult(Intent.createChooser(fileintent, "Choose type of attachment"), FILECHOOSER_RESULTCODE);
+                   Log.e("mytag","step4");
+                   return true;
+                }
+            });
+
+        }catch (Exception e){
+            Log.e("mytag",e.getMessage() + " " + e.getStackTrace().toString());
+        }
+
         String url = "";
         switch(action) {
             case "dynamic":
@@ -203,7 +278,23 @@ public class ActivityWebView extends FragmentActivity {
                         +"&MACAddress=" + helper.getMacAddr(ctx);
                 Log.e("mytag","url: " + url);
                 break;
+            case "callsign" :
 
+               // String url = "";//DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
+//            url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                    +"/IN.aspx?url="
+//                    + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID())
+//                    +"&MACAddress=" + helper.getMacAddr(getBaseContext());
+//            Log.e("mytag",url);
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            startActivity(browserIntent);
+
+                url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+                   +"/IN.aspx?url="
+                    + "/modulesSign/sign.aspx?callID=" + String.valueOf(callid)
+                        +"&MACAddress=" + helper.getMacAddr(ctx);
+                Log.e("mytag","url: " + url);
+                break;
             default:
                 //setContentView(R.layout.default);
         }
@@ -214,10 +305,21 @@ public class ActivityWebView extends FragmentActivity {
         CookieManager.getInstance().setCookie(url, cookieString);
         CookieManager.getInstance().setCookie(url, cookieString2);
 
+
         mWebview .loadUrl(url);//"http://www.google.com");
+
         setContentView(mWebview );
 
+    }
 
+    private void showAttachmentDialog(ValueCallback<Uri> uploadMsg) {
+        this.mUploadMessage = uploadMsg;
+
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+
+        this.startActivityForResult(Intent.createChooser(i, "Choose type of attachment"), FILECHOOSER_RESULTCODE);
     }
     public String getCurrentTimeStamp() {
         return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
@@ -262,6 +364,7 @@ public class ActivityWebView extends FragmentActivity {
         }
         return (super.onOptionsItemSelected(item));
     }
+
     private List<Call> getCallsList(){
         JSONObject j = null;
         int length = 0;

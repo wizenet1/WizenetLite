@@ -68,6 +68,8 @@ TextView lblcount;
     Bundle extras;
     String condition = "";
 
+    boolean first = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -291,13 +293,29 @@ TextView lblcount;
            // Log.e("mytag"," asdasd :" + ex.getMessage());
         }
         try{
+            Log.e("mytag","1");
             if (ss.contains("total")){
                 condition = "  order by ";
             }else if(ss.contains("open")){
                 condition = " and CAST(sla AS INTEGER) >= 0  order by callid";
             }else if(ss.contains("sla")){
                 condition = " and CAST(sla AS INTEGER) < 0 order by callid";
-            }else{
+            }
+           // else if(ss.contains("status")){
+           //     //condition =  "and statusid = 2 order by  " ;
+//
+           //     String callidsExsist = "";
+           //     callidsExsist=(extras != null)? extras.getString("callidsExsist") : "";
+           //     if (callidsExsist != "")
+           //     {
+           //         condition = " and callid not in (" + callidsExsist + ") order by  ";
+           //     }else
+           //     {
+           //         condition = " order by  " ;
+           //     }
+//
+           // }
+            else{
                 condition = " order by  " ;
             }
         }catch(Exception ex){
@@ -373,12 +391,39 @@ TextView lblcount;
     }
     private  String setCondition(String ss1){
         String ret = "";
+        Log.e("mytag","2");
+        Log.e("mytag"," myss1 :" + ss1.toString());
         if (ss1.contains("total")){
             ret = "  order by callid";
         }else if(ss1.contains("open")){
             ret = " and CAST(sla AS INTEGER) >=0 order by callid";
         }else if(ss1.contains("sla")){
             ret = " and  CAST(sla AS INTEGER) < 0  order by callid";
+        }else if(ss1.contains("status") && first  ){
+            //ret = " and statusid = 2 order by callid";
+            Log.e("mytag","3");
+try{
+    Bundle extras1 = getIntent().getExtras();
+    String callidsExsist = "";
+    callidsExsist=(extras1 != null)? extras1.getString("callidsExsist") : "";
+    Log.e("mytag"," callidsExsist :" + callidsExsist);
+    if (callidsExsist != "")
+    {
+        ret = " and callid not in (" + callidsExsist + ") order by callid ";
+    }else
+    {
+        ret = " order by  callid" ;
+    }
+    Log.e("mytag"," ret :" + ret);
+
+    first=false ;
+}catch (Exception e){
+    Log.e("mytag","ss1.contains(status) " +e.getMessage());
+    e.printStackTrace();
+    helper.LogPrintExStackTrace(e);
+}
+
+
         }else{
             ret = "   " ;
         }

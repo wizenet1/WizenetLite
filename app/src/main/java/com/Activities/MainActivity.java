@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("mytag", "MainActivity onCreate");
         setContentView(R.layout.activity_main);
         this.context = this;
         ctx = this;
@@ -200,12 +201,18 @@ public class MainActivity extends Activity {
         if (!dir1.exists()) {
             dir1.mkdir();
         }
-        if(!DatabaseHelper.getInstance(getApplicationContext()).verification("URL")) {
-            helper.addInitialfirst(this.context );
-        }else{
+        try{
+            if(!DatabaseHelper.getInstance(getApplicationContext()).verification("URL")) {
+                helper.addInitialfirst(this.context );
+            }else{
+                url.setText(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").replace("https://","").replace("http://",""));
+                //Toast.makeText(getBaseContext(),"url is exists", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
             url.setText(DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL").replace("https://","").replace("http://",""));
-            //Toast.makeText(getBaseContext(),"url is exists", Toast.LENGTH_SHORT).show();
+            Log.e("mytag",e.getMessage());
         }
+
         //if file does not exist
 
 

@@ -49,21 +49,24 @@ public class Notification_ {
         Notification notificationn = notification.getNotification();
         notificationManager.notify(0, notificationn);
     }
-    public void pushNotificationNewCalls(String title,String count,String firstSubject,String callid,Context _context){
+    public void pushNotificationNewCalls(String title,String count,String firstSubject,String callid,String callidsExsist,Context _context){
         long[] vibrate = {400, 400, 200, 200, 200};
         Model.getInstance().init(_context);
         //here we targeting the
         Intent notificationIntent ;
-        if (count.equals("1")){
+       /* if (count.equals("1")){
             notificationIntent= new Intent(_context, ActivityCallDetails.class);
-        }else{
+        }else{*/
             notificationIntent= new Intent(_context, ActivityCalls.class);
-        }
+        notificationIntent.putExtra("choose", "status");
+        notificationIntent.putExtra("callidsExsist", callidsExsist);
+
+       // }
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         notificationIntent.addFlags(FLAG_UPDATE_CURRENT);
         Log.e("mytag","count: "+ String.valueOf(count) + " callid:"+ String.valueOf(callid));
-        notificationIntent.putExtra("EXTRA_SESSION_ID", callid);
+       // notificationIntent.putExtra("EXTRA_SESSION_ID", callid);
         //notificationIntent.putExtra("callid", String.valueOf(callid));
 
         PendingIntent intent = PendingIntent.getActivity(_context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -52,6 +52,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.NetworkInterface;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -246,7 +248,7 @@ public class Helper {
                 if(rowCount > 0 && unclosed==0){
                     String jsonString = "";
                     jsonString = String.valueOf(DatabaseHelper.getInstance(ctx).getJsonResultsFromTable("Calltime"));
-                    Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ctx, "משדר", Toast.LENGTH_LONG).show();
                     try{
                         Model.getInstance().Async_Wz_Call_setTime_Offline_Listener(getMacAddr(ctx), jsonString, new Model.Wz_Call_setTime_Offline_Listener() {
                             @Override
@@ -266,7 +268,7 @@ public class Helper {
                         h.LogPrintExStackTrace(e);
                     }
                 }else{
-                    Toast.makeText(ctx, "rowCount:" + rowCount + " countUnClosed:"+countUnClosed, Toast.LENGTH_LONG).show();
+                    Log.e("mytag", "rowCount:" + rowCount + " countUnClosed:"+countUnClosed);
                 }
             }else{
                 Toast.makeText(ctx, "internet invalid, cannot send calltime rows.", Toast.LENGTH_LONG).show();
@@ -1389,7 +1391,10 @@ public class Helper {
     }
     public void LogPrintExStackTrace(Exception e){
         Log.e("mytag",e.getMessage());
-        Log.e("mytag",toString(e.getStackTrace()));
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        String stacktrace = sw.toString();
+        Log.e("mytag",stacktrace);
     }
     public  String toString(StackTraceElement[] stackTraceElements) {
         if (stackTraceElements == null)

@@ -654,18 +654,18 @@ public class ActivityCallDetails extends FragmentActivity {
           startActivity(intent);
       }
     private void goToCallFiles(){
-//        Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
-//        Bundle b = new Bundle();
-//        b.putInt("callid", call.getCallID());
-//        b.putInt("cid", call.getCID());
-//        b.putInt("technicianid", call.getTechnicianID());
-//        b.putString("action","callfiles");
-//        intent.putExtras(b);
-//        startActivity(intent);
-          String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                  + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(call.getCallID()) + "&class=CallsFiles_appCell&mobile=True";
-          Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-          startActivity(browserIntent);
+       Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+       Bundle b = new Bundle();
+       b.putInt("callid", call.getCallID());
+       b.putInt("cid", call.getCID());
+       b.putInt("technicianid", call.getTechnicianID());
+       b.putString("action","callfiles");
+       intent.putExtras(b);
+       startActivity(intent);
+         // String url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+         //         + "/iframe.aspx?control=/modulesServices/CallsFiles&CallID=" + String.valueOf(call.getCallID()) + "&class=CallsFiles_appCell&mobile=True";
+         // Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+         // startActivity(browserIntent);
       }
     private void goToCalltime(){
         Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
@@ -695,6 +695,7 @@ public class ActivityCallDetails extends FragmentActivity {
     private void goToParts(){
         try
         {
+
             Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
             Bundle b = new Bundle();
             b.putInt("callid", call.getCallID());
@@ -712,14 +713,22 @@ public class ActivityCallDetails extends FragmentActivity {
     private void goToSign(){
         try
         {
-            String url = "";//DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
-            url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
-                    +"/IN.aspx?url="
-                    + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID())
-                    +"&MACAddress=" + helper.getMacAddr(getBaseContext());
-            Log.e("mytag",url);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
+            Intent intent = new Intent(getApplicationContext(), ActivityWebView.class);
+            Bundle b = new Bundle();
+            b.putInt("callid", call.getCallID());
+            b.putInt("cid", call.getCID());
+            b.putInt("technicianid", call.getTechnicianID());
+            b.putString("action","callsign");
+            intent.putExtras(b);
+            startActivity(intent);
+//            String url = "";//DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL") + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID());
+//            url = DatabaseHelper.getInstance(getApplicationContext()).getValueByKey("URL")
+//                    +"/IN.aspx?url="
+//                    + "/modulesSign/sign.aspx?callID=" + String.valueOf(call.getCallID())
+//                    +"&MACAddress=" + helper.getMacAddr(getBaseContext());
+//            Log.e("mytag",url);
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            startActivity(browserIntent);
             //AlertDialogWeb(String.valueOf(callsArrayList.get(pos).getCallID()));
         }
         catch ( ActivityNotFoundException ex  )

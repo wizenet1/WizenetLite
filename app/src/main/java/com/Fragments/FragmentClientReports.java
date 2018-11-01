@@ -53,7 +53,7 @@ public class FragmentClientReports extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
          helper = new Helper();
-        View v = inflater.inflate(R.layout.client_reports_fragment, null);
+        View v = inflater.inflate(R.layout.client_reports_fragment,container, false);
         setHasOptionsMenu(true);
 
         // Load the action bar.
